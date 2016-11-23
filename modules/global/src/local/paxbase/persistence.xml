@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
-    <persistence-unit name="paxBase" transaction-type="RESOURCE_LOCAL">
-
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             version="2.0">
+    <persistence-unit name="paxBase"
+                      transaction-type="RESOURCE_LOCAL">
+        <class>local.paxbase.entity.NewEntity</class>
+        <class>local.paxbase.entity.StandardClientEntity</class>
+        <class>local.paxbase.entity.OffshoreUser</class>
+        <class>local.paxbase.entity.AppUser</class>
+        <class>local.paxbase.entity.Company</class>
+        <class>local.paxbase.entity.Transfer</class>
+        <class>local.paxbase.entity.CrewChange</class>
+        <class>local.paxbase.entity.Site</class>
+        <class>local.paxbase.entity.Waypoint</class>
+        <class>local.paxbase.entity.CraftTypes</class>
     </persistence-unit>
 </persistence>

@@ -1,4 +1,3 @@
--- begin PAXBASE_NEW_ENTITY
 create table PAXBASE_NEW_ENTITY (
     ID varchar(36) not null,
     VERSION integer not null,
@@ -10,5 +9,4 @@ create table PAXBASE_NEW_ENTITY (
     DELETED_BY varchar(50),
     --
     primary key (ID)
-)^
--- end PAXBASE_NEW_ENTITY
+);
