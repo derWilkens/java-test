@@ -23,8 +23,8 @@ import com.haulmont.chile.core.annotations.NamePattern;
  * @author christian
  */
 @NamePattern("%s|id")
-@Table(name = "SAAS_TRANSFER")
-@Entity(name = "saas$Transfer")
+@Table(name = "PAXBASE_TRANSFER")
+@Entity(name = "paxbase$Transfer")
 public class Transfer extends StandardClientEntity {
     private static final long serialVersionUID = -5709533341256299692L;
 

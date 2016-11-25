@@ -3,7 +3,6 @@
              version="2.0">
     <persistence-unit name="paxBase"
                       transaction-type="RESOURCE_LOCAL">
-        <class>local.paxbase.entity.NewEntity</class>
         <class>local.paxbase.entity.StandardClientEntity</class>
         <class>local.paxbase.entity.OffshoreUser</class>
         <class>local.paxbase.entity.AppUser</class>
@@ -13,5 +12,6 @@
         <class>local.paxbase.entity.Site</class>
         <class>local.paxbase.entity.Waypoint</class>
         <class>local.paxbase.entity.CraftTypes</class>
+        <class>local.paxbase.entity.Payload</class>
     </persistence-unit>
 </persistence>

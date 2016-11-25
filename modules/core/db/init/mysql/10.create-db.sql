@@ -1,6 +1,25 @@
--- begin SAAS_APP_USER
-create table SAAS_APP_USER (
-    ID varchar(36),
+-- begin PAXBASE_OFFSHORE_USER
+create table PAXBASE_OFFSHORE_USER (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    CLIENT integer not null,
+    --
+    WEIGHT integer,
+    WEIGHT_CHANGE_DATE date,
+    USER_ID varchar(32),
+    --
+    primary key (ID)
+)^
+-- end PAXBASE_OFFSHORE_USER
+-- begin PAXBASE_APP_USER
+create table PAXBASE_APP_USER (
+    ID varchar(32),
     VERSION integer not null,
     CREATE_TS datetime(3),
     CREATED_BY varchar(50),
@@ -12,10 +31,10 @@ create table SAAS_APP_USER (
     --
     primary key (ID)
 )^
--- end SAAS_APP_USER
--- begin SAAS_COMPANY
-create table SAAS_COMPANY (
-    ID varchar(36),
+-- end PAXBASE_APP_USER
+-- begin PAXBASE_COMPANY
+create table PAXBASE_COMPANY (
+    ID varchar(32),
     VERSION integer not null,
     CREATE_TS datetime(3),
     CREATED_BY varchar(50),
@@ -31,10 +50,10 @@ create table SAAS_COMPANY (
     --
     primary key (ID)
 )^
--- end SAAS_COMPANY
--- begin SAAS_TRANSFER
-create table SAAS_TRANSFER (
-    ID varchar(36),
+-- end PAXBASE_COMPANY
+-- begin PAXBASE_TRANSFER
+create table PAXBASE_TRANSFER (
+    ID varchar(32),
     VERSION integer not null,
     CREATE_TS datetime(3),
     CREATED_BY varchar(50),
@@ -47,14 +66,14 @@ create table SAAS_TRANSFER (
     SAP_ORDER_NO varchar(50),
     CREW_CHANGE_ID varchar(32) not null,
     MODE_OF_TRANSPORT integer not null,
-    OPERATED_BY_ID varchar(36),
+    OPERATED_BY_ID varchar(32),
     --
     primary key (ID)
 )^
--- end SAAS_TRANSFER
--- begin SAAS_CREW_CHANGE
-create table SAAS_CREW_CHANGE (
-    ID varchar(36),
+-- end PAXBASE_TRANSFER
+-- begin PAXBASE_CREW_CHANGE
+create table PAXBASE_CREW_CHANGE (
+    ID varchar(32),
     VERSION integer not null,
     CREATE_TS datetime(3),
     CREATED_BY varchar(50),
@@ -68,10 +87,10 @@ create table SAAS_CREW_CHANGE (
     --
     primary key (ID)
 )^
--- end SAAS_CREW_CHANGE
--- begin SAAS_SITE
-create table SAAS_SITE (
-    ID varchar(36),
+-- end PAXBASE_CREW_CHANGE
+-- begin PAXBASE_SITE
+create table PAXBASE_SITE (
+    ID varchar(32),
     VERSION integer not null,
     CREATE_TS datetime(3),
     CREATED_BY varchar(50),
@@ -84,14 +103,14 @@ create table SAAS_SITE (
     NAME varchar(50) not null,
     SAP_DESIGNATION varchar(4),
     SITE_TYPE varchar(50) not null,
-    PARENT_SITE_ID varchar(36),
+    PARENT_SITE_ID varchar(32),
     --
     primary key (ID)
 )^
--- end SAAS_SITE
--- begin SAAS_WAYPOINT
-create table SAAS_WAYPOINT (
-    ID varchar(36),
+-- end PAXBASE_SITE
+-- begin PAXBASE_WAYPOINT
+create table PAXBASE_WAYPOINT (
+    ID varchar(32),
     VERSION integer not null,
     CREATE_TS datetime(3),
     CREATED_BY varchar(50),
@@ -103,32 +122,17 @@ create table SAAS_WAYPOINT (
     --
     TAKE_OFF datetime(3) not null,
     TRANSFER_DURATION integer,
-    PREV_WAYPOINT_ID varchar(36),
-    NEXT_WAYPOINT_ID varchar(36),
-    TRANSFER_ID varchar(36),
-    SITE_ID varchar(36),
+    PREV_WAYPOINT_ID varchar(32),
+    NEXT_WAYPOINT_ID varchar(32),
+    TRANSFER_ID varchar(32),
+    SITE_ID varchar(32),
     --
     primary key (ID)
 )^
--- end SAAS_WAYPOINT
--- begin SAAS_CRAFT_TYPES
-create table SAAS_CRAFT_TYPES (
-    ID varchar(36),
-    VERSION integer not null,
-    CREATE_TS datetime(3),
-    CREATED_BY varchar(50),
-    UPDATE_TS datetime(3),
-    UPDATED_BY varchar(50),
-    DELETE_TS datetime(3),
-    DELETED_BY varchar(50),
-    --
-    primary key (ID)
-)^
--- end SAAS_CRAFT_TYPES
-
--- begin SAAS_OFFSHORE_USER
-create table SAAS_OFFSHORE_USER (
-    ID varchar(36),
+-- end PAXBASE_WAYPOINT
+-- begin PAXBASE_CRAFT_TYPES
+create table PAXBASE_CRAFT_TYPES (
+    ID varchar(32),
     VERSION integer not null,
     CREATE_TS datetime(3),
     CREATED_BY varchar(50),
@@ -138,10 +142,28 @@ create table SAAS_OFFSHORE_USER (
     DELETED_BY varchar(50),
     CLIENT integer not null,
     --
-    WEIGHT integer,
-    WEIGHT_CHANGE_DATE date,
-    USER_ID varchar(36),
+    NAME varchar(50) not null,
+    SEATS integer not null,
     --
     primary key (ID)
 )^
--- end SAAS_OFFSHORE_USER
+-- end PAXBASE_CRAFT_TYPES
+-- begin PAXBASE_PAYLOAD
+create table PAXBASE_PAYLOAD (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    --
+    CRAFT_TYPE_ID varchar(32) not null,
+    SITE_A_ID varchar(32) not null,
+    SITE_B_ID varchar(32) not null,
+    PAYLOAD integer not null,
+    --
+    primary key (ID)
+)^
+-- end PAXBASE_PAYLOAD

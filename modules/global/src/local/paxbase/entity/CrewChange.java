@@ -13,8 +13,8 @@ import javax.persistence.TemporalType;
 /**
  * @author christian
  */
-@Table(name = "SAAS_CREW_CHANGE")
-@Entity(name = "saas$CrewChange")
+@Table(name = "PAXBASE_CREW_CHANGE")
+@Entity(name = "paxbase$CrewChange")
 public class CrewChange extends StandardClientEntity {
     private static final long serialVersionUID = 3072080113502808893L;
 

@@ -12,8 +12,8 @@ import javax.persistence.Table;
  * @author christian
  */
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@Table(name = "SAAS_APP_USER")
-@Entity(name = "saas$AppUser")
+@Table(name = "PAXBASE_APP_USER")
+@Entity(name = "paxbase$AppUser")
 public class AppUser extends StandardClientEntity {
     private static final long serialVersionUID = 6123712345961441544L;
 

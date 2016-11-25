@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://caption"
+        class="local.paxbase.web.screens.Crewchangecreate"
+        messagesPack="local.paxbase.web.crewChangeCreate">
+    <actions>
+        <action id="save"
+                caption="Crew Change erstellen"
+                description="Erstellt einen Crew Change mit dem ersten Flug"
+                icon="msg://caption"
+                invoke="createCrewChange"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout>
+        <vbox spacing="true">
+            <dateField id="flightDate"
+                       caption="Datum"/>
+            <timeField id="takeOff"
+                       caption="Take Off"
+                       height="33px"
+                       icon="font-icon:PLANE"/>
+            <lookupField id="cbxWaypoint1"
+                         caption="Start"
+                         inputPrompt="Start"
+                         nullOptionVisible="false"
+                         required="true"
+                         width="100%"/>
+            <twinColumn id="twinColumn"
+                        addAllBtnEnabled="true"
+                        width="354px"/>
+            <lookupField id="cbxLastWaypoint"
+                         caption="Ziel"
+                         inputPrompt="Ziel"
+                         required="true"
+                         width="100%"/>
+        </vbox>
+        <button action="save"
+                caption="Fertig"/>
+    </layout>
+</window>

@@ -1,4 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <views xmlns="http://schemas.haulmont.com/cuba/view.xsd">
-
+    <view class="local.paxbase.entity.Transfer"
+          extends="_local"
+          name="transfer-browser-view"/>
+    <view class="local.paxbase.entity.Transfer"
+          extends="_local"
+          name="transfer-edit-view">
+        <property name="waypointList"
+                  view="_minimal">
+            <property name="takeOff"/>
+        </property>
+    </view>
+    <view class="local.paxbase.entity.Site"
+          extends="_local"
+          name="site-edit-view">
+        <property name="parentSite"
+                  view="_minimal"/>
+    </view>
+    <view class="local.paxbase.entity.Site"
+          extends="_local"
+          name="site-view">
+        <property name="parentSite"
+                  view="_minimal"/>
+    </view>
 </views>

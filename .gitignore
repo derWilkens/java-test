@@ -8,3 +8,5 @@ modules/*/build/*
 out
 test-run
 /build/
+/.classpath
+/.project

@@ -31,10 +31,10 @@ import javax.persistence.Transient;
 /**
  * @author christian
  */
-@Listeners("saas_OffshorUserEntityListener")
-@Table(name = "SAAS_OFFSHORE_USER")
+@Listeners("PAXBASE_OffshorUserEntityListener")
+@Table(name = "PAXBASE_OFFSHORE_USER")
 @NamePattern(" |")
-@Entity(name = "saas$OffshoreUser")
+@Entity(name = "paxbase$OffshoreUser")
 public class OffshoreUser extends StandardClientEntity {
     private static final long serialVersionUID = 6555877070622366614L;
 

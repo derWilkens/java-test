@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://browseCaption"
+        class="local.paxbase.web.site.SiteBrowse"
+        focusComponent="sitesTable"
+        lookupComponent="sitesTable"
+        messagesPack="local.paxbase.web.site">
+    <dsContext>
+        <collectionDatasource id="sitesDs"
+                              class="local.paxbase.entity.Site"
+                              view="_local">
+            <query>
+                <![CDATA[select e from paxbase$Site e]]>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="sitesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="sitesTable"
+                datasource="sitesDs">
+            <properties include=".*"/>
+        </filter>
+        <table id="sitesTable"
+               width="100%">
+            <actions>
+                <action id="create"/>
+                <action id="edit"/>
+                <action id="remove"/>
+            </actions>
+            <columns>
+                <column id="client"/>
+                <column id="name"/>
+                <column id="itemDesignation"/>
+                <column id="siteType"/>
+                <column id="shortItemDesignation"/>
+            </columns>
+            <rows datasource="sitesDs"/>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn"
+                        action="sitesTable.create"/>
+                <button id="editBtn"
+                        action="sitesTable.edit"/>
+                <button id="removeBtn"
+                        action="sitesTable.remove"/>
+            </buttonsPanel>
+        </table>
+    </layout>
+</window>

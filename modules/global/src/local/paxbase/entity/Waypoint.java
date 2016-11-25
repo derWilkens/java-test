@@ -22,8 +22,8 @@ import com.haulmont.chile.core.annotations.NamePattern;
  * @author christian
  */
 @NamePattern("%s|site")
-@Table(name = "SAAS_WAYPOINT")
-@Entity(name = "saas$Waypoint")
+@Table(name = "PAXBASE_WAYPOINT")
+@Entity(name = "paxbase$Waypoint")
 public class Waypoint extends StandardClientEntity {
     private static final long serialVersionUID = -4973545925621830772L;
 

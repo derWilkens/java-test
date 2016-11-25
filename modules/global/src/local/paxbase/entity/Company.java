@@ -10,8 +10,8 @@ import javax.persistence.Column;
 /**
  * @author christian
  */
-@Table(name = "SAAS_COMPANY")
-@Entity(name = "saas$Company")
+@Table(name = "PAXBASE_COMPANY")
+@Entity(name = "paxbase$Company")
 public class Company extends StandardClientEntity {
     private static final long serialVersionUID = -1802880052825458111L;
 
