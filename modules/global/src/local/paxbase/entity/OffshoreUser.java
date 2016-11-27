@@ -27,13 +27,14 @@ import com.haulmont.cuba.core.entity.annotation.Extends;
 import com.haulmont.cuba.core.entity.annotation.Listeners;
 import com.haulmont.chile.core.annotations.MetaProperty;
 import javax.persistence.Transient;
+import com.haulmont.cuba.core.entity.Category;
 
 /**
  * @author christian
  */
-@Listeners("PAXBASE_OffshorUserEntityListener")
+
 @Table(name = "PAXBASE_OFFSHORE_USER")
-@NamePattern(" |")
+@NamePattern(" %s|user")
 @Entity(name = "paxbase$OffshoreUser")
 public class OffshoreUser extends StandardClientEntity {
     private static final long serialVersionUID = 6555877070622366614L;
@@ -63,6 +64,22 @@ public class OffshoreUser extends StandardClientEntity {
     @Transient
     @MetaProperty
     protected String osEmail;
+
+    @OnDeleteInverse(DeletePolicy.CASCADE)
+    @OnDelete(DeletePolicy.UNLINK)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "COMPANY_ID")
+    protected Company company;
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+
 
     public void setOsFirstname(String osFirstname) {
         this.osFirstname = osFirstname;

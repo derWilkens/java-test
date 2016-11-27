@@ -28,8 +28,8 @@ import com.haulmont.chile.core.annotations.NamePattern;
 public class Transfer extends StandardClientEntity {
     private static final long serialVersionUID = -5709533341256299692L;
 
-    @Column(name = "SAP_ORDER_NO", length = 50)
-    protected String sapOrderNo;
+    @Column(name = "TRANSFER_ORDER_NO", length = 50)
+    protected String transferOrderNo;
 
     @OnDeleteInverse(DeletePolicy.CASCADE)
     @OnDelete(DeletePolicy.UNLINK)
@@ -50,6 +50,15 @@ public class Transfer extends StandardClientEntity {
     @OnDelete(DeletePolicy.CASCADE)
     @OneToMany(mappedBy = "transfer")
     protected Set<Waypoint> waypointList;
+
+    public void setTransferOrderNo(String transferOrderNo) {
+        this.transferOrderNo = transferOrderNo;
+    }
+
+    public String getTransferOrderNo() {
+        return transferOrderNo;
+    }
+
 
     public void setWaypointList(Set<Waypoint> waypointList) {
         this.waypointList = waypointList;
@@ -86,14 +95,6 @@ public class Transfer extends StandardClientEntity {
         return crewChange;
     }
 
-
-    public void setSapOrderNo(String sapOrderNo) {
-        this.sapOrderNo = sapOrderNo;
-    }
-
-    public String getSapOrderNo() {
-        return sapOrderNo;
-    }
 
 
 

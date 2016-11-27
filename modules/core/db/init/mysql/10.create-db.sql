@@ -13,6 +13,7 @@ create table PAXBASE_OFFSHORE_USER (
     WEIGHT integer,
     WEIGHT_CHANGE_DATE date,
     USER_ID varchar(32),
+    COMPANY_ID varchar(32),
     --
     primary key (ID)
 )^
@@ -63,7 +64,7 @@ create table PAXBASE_TRANSFER (
     DELETED_BY varchar(50),
     CLIENT integer not null,
     --
-    SAP_ORDER_NO varchar(50),
+    TRANSFER_ORDER_NO varchar(50),
     CREW_CHANGE_ID varchar(32) not null,
     MODE_OF_TRANSPORT integer not null,
     OPERATED_BY_ID varchar(32),
@@ -101,9 +102,10 @@ create table PAXBASE_SITE (
     CLIENT integer not null,
     --
     NAME varchar(50) not null,
-    SAP_DESIGNATION varchar(4),
+    ITEM_DESIGNATION varchar(4),
     SITE_TYPE varchar(50) not null,
     PARENT_SITE_ID varchar(32),
+    SHORT_ITEM_DESIGNATION varchar(4),
     --
     primary key (ID)
 )^
@@ -130,24 +132,7 @@ create table PAXBASE_WAYPOINT (
     primary key (ID)
 )^
 -- end PAXBASE_WAYPOINT
--- begin PAXBASE_CRAFT_TYPES
-create table PAXBASE_CRAFT_TYPES (
-    ID varchar(32),
-    VERSION integer not null,
-    CREATE_TS datetime(3),
-    CREATED_BY varchar(50),
-    UPDATE_TS datetime(3),
-    UPDATED_BY varchar(50),
-    DELETE_TS datetime(3),
-    DELETED_BY varchar(50),
-    CLIENT integer not null,
-    --
-    NAME varchar(50) not null,
-    SEATS integer not null,
-    --
-    primary key (ID)
-)^
--- end PAXBASE_CRAFT_TYPES
+
 -- begin PAXBASE_PAYLOAD
 create table PAXBASE_PAYLOAD (
     ID varchar(32),
@@ -167,3 +152,43 @@ create table PAXBASE_PAYLOAD (
     primary key (ID)
 )^
 -- end PAXBASE_PAYLOAD
+-- begin PAXBASE_DUTY_PERIOD
+create table PAXBASE_DUTY_PERIOD (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    CLIENT integer not null,
+    --
+    BEGIN_DATE date not null,
+    END_DATE date,
+    USER_ID varchar(32) not null,
+    SITE_ID varchar(32),
+    OUTBOUND_TRANSFER_ID varchar(32),
+    INBOUND_TRANSFER_ID varchar(32),
+    --
+    primary key (ID)
+)^
+-- end PAXBASE_DUTY_PERIOD
+-- begin PAXBASE_CRAFT_TYPE
+create table PAXBASE_CRAFT_TYPE (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    CLIENT integer not null,
+    --
+    NAME varchar(50) not null,
+    SEATS integer not null,
+    --
+    primary key (ID)
+)^
+-- end PAXBASE_CRAFT_TYPE

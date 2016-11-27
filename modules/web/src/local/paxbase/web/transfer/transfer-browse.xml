@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
         caption="msg://browseCaption"
-        class="local.paxbase.web.site.SiteBrowse"
-        focusComponent="sitesTable"
-        lookupComponent="sitesTable"
-        messagesPack="local.paxbase.web.site">
+        class="local.paxbase.web.transfer.TransferBrowse"
+        focusComponent="transfersTable"
+        lookupComponent="transfersTable"
+        messagesPack="local.paxbase.web.transfer">
     <dsContext>
-        <collectionDatasource id="sitesDs"
-                              class="local.paxbase.entity.Site"
-                              view="site-browser-view">
+        <collectionDatasource id="transfersDs"
+                              class="local.paxbase.entity.Transfer"
+                              view="_local">
             <query>
-                <![CDATA[select e from paxbase$Site e]]>
+                <![CDATA[select e from paxbase$Transfer e]]>
             </query>
         </collectionDatasource>
     </dsContext>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="sitesTable"
+    <layout expand="transfersTable"
             spacing="true">
         <filter id="filter"
-                applyTo="sitesTable"
-                datasource="sitesDs">
+                applyTo="transfersTable"
+                datasource="transfersDs">
             <properties include=".*"/>
         </filter>
-        <table id="sitesTable"
+        <table id="transfersTable"
                width="100%">
             <actions>
                 <action id="create"/>
@@ -32,22 +32,19 @@
             </actions>
             <columns>
                 <column id="client"/>
-                <column id="name"/>
-                <column id="itemDesignation"/>
-                <column id="siteType"/>
-                <column id="parentSite"/>
-                <column id="shortItemDesignation"/>
+                <column id="transferOrderNo"/>
+                <column id="modeOfTransport"/>
             </columns>
-            <rows datasource="sitesDs"/>
+            <rows datasource="transfersDs"/>
             <rowsCount/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
                 <button id="createBtn"
-                        action="sitesTable.create"/>
+                        action="transfersTable.create"/>
                 <button id="editBtn"
-                        action="sitesTable.edit"/>
+                        action="transfersTable.edit"/>
                 <button id="removeBtn"
-                        action="sitesTable.remove"/>
+                        action="transfersTable.remove"/>
             </buttonsPanel>
         </table>
     </layout>

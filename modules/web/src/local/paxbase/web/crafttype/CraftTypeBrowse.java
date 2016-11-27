@@ -1,6 +1,6 @@
-package local.paxbase.web.crafttypes;
+package local.paxbase.web.crafttype;
 
-import local.paxbase.entity.CraftTypes;
+import local.paxbase.entity.CraftType;
 import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.components.actions.CreateAction;
@@ -15,16 +15,16 @@ import javax.inject.Named;
 import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
-public class CraftTypesBrowse extends AbstractLookup {
+public class CraftTypeBrowse extends AbstractLookup {
 
     @Inject
-    private CollectionDatasource<CraftTypes, UUID> craftTypesesDs;
+    private CollectionDatasource<CraftType, UUID> craftTypesDs;
 
     @Inject
-    private Datasource<CraftTypes> craftTypesDs;
+    private Datasource<CraftType> craftTypeDs;
 
     @Inject
-    private Table<CraftTypes> craftTypesesTable;
+    private Table<CraftType> craftTypesTable;
 
     @Inject
     private BoxLayout lookupBox;
@@ -35,8 +35,8 @@ public class CraftTypesBrowse extends AbstractLookup {
     @Inject
     private FieldGroup fieldGroup;
     
-    @Named("craftTypesesTable.remove")
-    private RemoveAction craftTypesesTableRemove;
+    @Named("craftTypesTable.remove")
+    private RemoveAction craftTypesTableRemove;
     
     @Inject
     private DataSupplier dataSupplier;
@@ -45,32 +45,32 @@ public class CraftTypesBrowse extends AbstractLookup {
 
     @Override
     public void init(Map<String, Object> params) {
-        craftTypesesDs.addItemChangeListener(e -> {
+        craftTypesDs.addItemChangeListener(e -> {
             if (e.getItem() != null) {
-                CraftTypes reloadedItem = dataSupplier.reload(e.getDs().getItem(), craftTypesDs.getView());
-                craftTypesDs.setItem(reloadedItem);
+                CraftType reloadedItem = dataSupplier.reload(e.getDs().getItem(), craftTypeDs.getView());
+                craftTypeDs.setItem(reloadedItem);
             }
         });
         
-        craftTypesesTable.addAction(new CreateAction(craftTypesesTable) {
+        craftTypesTable.addAction(new CreateAction(craftTypesTable) {
             @Override
             protected void internalOpenEditor(CollectionDatasource datasource, Entity newItem, Datasource parentDs, Map<String, Object> params) {
-                craftTypesesTable.setSelected(Collections.emptyList());
-                craftTypesDs.setItem((CraftTypes) newItem);
+                craftTypesTable.setSelected(Collections.emptyList());
+                craftTypeDs.setItem((CraftType) newItem);
                 enableEditControls(true);
             }
         });
 
-        craftTypesesTable.addAction(new EditAction(craftTypesesTable) {
+        craftTypesTable.addAction(new EditAction(craftTypesTable) {
             @Override
             protected void internalOpenEditor(CollectionDatasource datasource, Entity existingItem, Datasource parentDs, Map<String, Object> params) {
-                if (craftTypesesTable.getSelected().size() == 1) {
+                if (craftTypesTable.getSelected().size() == 1) {
                     enableEditControls(false);
                 }
             }
         });
         
-        craftTypesesTableRemove.setAfterRemoveHandler(removedItems -> craftTypesDs.setItem(null));
+        craftTypesTableRemove.setAfterRemoveHandler(removedItems -> craftTypeDs.setItem(null));
         
         disableEditControls();
     }
@@ -78,24 +78,24 @@ public class CraftTypesBrowse extends AbstractLookup {
     public void save() {
         getDsContext().commit();
 
-        CraftTypes editedItem = craftTypesDs.getItem();
+        CraftType editedItem = craftTypeDs.getItem();
         if (creating) {
-            craftTypesesDs.includeItem(editedItem);
+            craftTypesDs.includeItem(editedItem);
         } else {
-            craftTypesesDs.updateItem(editedItem);
+            craftTypesDs.updateItem(editedItem);
         }
-        craftTypesesTable.setSelected(editedItem);
+        craftTypesTable.setSelected(editedItem);
 
         disableEditControls();
     }
 
     public void cancel() {
-        CraftTypes selectedItem = craftTypesesDs.getItem();
+        CraftType selectedItem = craftTypesDs.getItem();
         if (selectedItem != null) {
-            CraftTypes reloadedItem = dataSupplier.reload(selectedItem, craftTypesDs.getView());
-            craftTypesesDs.setItem(reloadedItem);
+            CraftType reloadedItem = dataSupplier.reload(selectedItem, craftTypeDs.getView());
+            craftTypesDs.setItem(reloadedItem);
         } else {
-            craftTypesDs.setItem(null);
+            craftTypeDs.setItem(null);
         }
 
         disableEditControls();
@@ -109,7 +109,7 @@ public class CraftTypesBrowse extends AbstractLookup {
 
     private void disableEditControls() {
         initEditComponents(false);
-        craftTypesesTable.requestFocus();
+        craftTypesTable.requestFocus();
     }
 
     private void initEditComponents(boolean enabled) {

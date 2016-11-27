@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://browseCaption"
+        class="local.paxbase.web.offshoreuser.OffshoreUserBrowse"
+        focusComponent="offshoreUsersTable"
+        lookupComponent="offshoreUsersTable"
+        messagesPack="local.paxbase.web.offshoreuser">
+    <dsContext>
+        <collectionDatasource id="offshoreUsersDs"
+                              class="local.paxbase.entity.OffshoreUser"
+                              view="offshoreUser-browser-view">
+            <query>
+                <![CDATA[select e from paxbase$OffshoreUser e]]>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="offshoreUsersTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="offshoreUsersTable"
+                datasource="offshoreUsersDs">
+            <properties include=".*"/>
+        </filter>
+        <table id="offshoreUsersTable"
+               width="100%">
+            <actions>
+                <action id="create"/>
+                <action id="edit"/>
+                <action id="remove"/>
+            </actions>
+            <columns>
+                <column id="user"/>
+            </columns>
+            <rows datasource="offshoreUsersDs"/>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn"
+                        action="offshoreUsersTable.create"/>
+                <button id="editBtn"
+                        action="offshoreUsersTable.edit"/>
+                <button id="removeBtn"
+                        action="offshoreUsersTable.remove"/>
+            </buttonsPanel>
+        </table>
+    </layout>
+</window>

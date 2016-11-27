@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://editCaption"
+        class="local.paxbase.web.transfer.TransferEdit"
+        datasource="transferDs"
+        focusComponent="fieldGroup"
+        messagesPack="local.paxbase.web.transfer">
+    <dsContext>
+        <datasource id="transferDs"
+                    class="local.paxbase.entity.Transfer"
+                    view="transfer-edit-view">
+            <collectionDatasource id="waypointDs"
+                                  property="waypointList"/>
+        </datasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="windowActions"
+            spacing="true">
+        <fieldGroup id="fieldGroup"
+                    datasource="transferDs">
+            <column width="250px">
+                <field id="client"/>
+                <field id="transferOrderNo"/>
+                <field id="crewChange"/>
+                <field id="modeOfTransport"/>
+            </column>
+        </fieldGroup>
+        <table height="100px"
+               width="438px">
+            <columns>
+                <column id="client"/>
+                <column id="takeOff"/>
+                <column id="transferDuration"/>
+            </columns>
+            <rows datasource="waypointDs"/>
+        </table>
+        <frame id="windowActions"
+               screen="editWindowActions"/>
+    </layout>
+</window>

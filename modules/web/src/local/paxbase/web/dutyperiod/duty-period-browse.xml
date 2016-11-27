@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
         caption="msg://browseCaption"
-        class="local.paxbase.web.site.SiteBrowse"
-        focusComponent="sitesTable"
-        lookupComponent="sitesTable"
-        messagesPack="local.paxbase.web.site">
+        class="local.paxbase.web.dutyperiod.DutyPeriodBrowse"
+        focusComponent="dutyPeriodsTable"
+        lookupComponent="dutyPeriodsTable"
+        messagesPack="local.paxbase.web.dutyperiod">
     <dsContext>
-        <collectionDatasource id="sitesDs"
-                              class="local.paxbase.entity.Site"
-                              view="site-browser-view">
+        <collectionDatasource id="dutyPeriodsDs"
+                              class="local.paxbase.entity.DutyPeriod"
+                              view="_local">
             <query>
-                <![CDATA[select e from paxbase$Site e]]>
+                <![CDATA[select e from paxbase$DutyPeriod e]]>
             </query>
         </collectionDatasource>
     </dsContext>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="sitesTable"
+    <layout expand="dutyPeriodsTable"
             spacing="true">
         <filter id="filter"
-                applyTo="sitesTable"
-                datasource="sitesDs">
+                applyTo="dutyPeriodsTable"
+                datasource="dutyPeriodsDs">
             <properties include=".*"/>
         </filter>
-        <table id="sitesTable"
+        <table id="dutyPeriodsTable"
                width="100%">
             <actions>
                 <action id="create"/>
@@ -32,22 +32,19 @@
             </actions>
             <columns>
                 <column id="client"/>
-                <column id="name"/>
-                <column id="itemDesignation"/>
-                <column id="siteType"/>
-                <column id="parentSite"/>
-                <column id="shortItemDesignation"/>
+                <column id="beginDate"/>
+                <column id="endDate"/>
             </columns>
-            <rows datasource="sitesDs"/>
+            <rows datasource="dutyPeriodsDs"/>
             <rowsCount/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
                 <button id="createBtn"
-                        action="sitesTable.create"/>
+                        action="dutyPeriodsTable.create"/>
                 <button id="editBtn"
-                        action="sitesTable.edit"/>
+                        action="dutyPeriodsTable.edit"/>
                 <button id="removeBtn"
-                        action="sitesTable.remove"/>
+                        action="dutyPeriodsTable.remove"/>
             </buttonsPanel>
         </table>
     </layout>

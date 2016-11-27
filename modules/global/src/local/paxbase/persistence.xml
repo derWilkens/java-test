@@ -11,7 +11,8 @@
         <class>local.paxbase.entity.CrewChange</class>
         <class>local.paxbase.entity.Site</class>
         <class>local.paxbase.entity.Waypoint</class>
-        <class>local.paxbase.entity.CraftTypes</class>
+        <class>local.paxbase.entity.CraftType</class>
         <class>local.paxbase.entity.Payload</class>
+        <class>local.paxbase.entity.DutyPeriod</class>
     </persistence-unit>
 </persistence>

@@ -20,7 +20,7 @@ public class Payload extends StandardEntity {
     @OnDelete(DeletePolicy.UNLINK)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "CRAFT_TYPE_ID")
-    protected CraftTypes craftType;
+    protected CraftType craftType;
 
     @OnDeleteInverse(DeletePolicy.CASCADE)
     @OnDelete(DeletePolicy.UNLINK)
@@ -37,13 +37,14 @@ public class Payload extends StandardEntity {
     @Column(name = "PAYLOAD", nullable = false)
     protected Integer payload;
 
-    public void setCraftType(CraftTypes craftType) {
+    public CraftType getCraftType() {
+        return craftType;
+    }
+
+    public void setCraftType(CraftType craftType) {
         this.craftType = craftType;
     }
 
-    public CraftTypes getCraftType() {
-        return craftType;
-    }
 
     public void setSiteA(Site siteA) {
         this.siteA = siteA;

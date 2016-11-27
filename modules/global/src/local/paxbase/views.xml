@@ -8,19 +8,58 @@
           name="transfer-edit-view">
         <property name="waypointList"
                   view="_minimal">
-            <property name="takeOff"/>
+            <property name="site">
+                <property name="client"/>
+                <property name="name"/>
+            </property>
+            <property name="client"/>
+        </property>
+        <property name="crewChange"
+                  view="_minimal">
+            <property name="flightDate"/>
+            <property name="client"/>
         </property>
     </view>
     <view class="local.paxbase.entity.Site"
           extends="_local"
-          name="site-edit-view">
+          name="site-browser-view">
         <property name="parentSite"
                   view="_minimal"/>
     </view>
-    <view class="local.paxbase.entity.Site"
+    <view class="local.paxbase.entity.DutyPeriod"
           extends="_local"
-          name="site-view">
-        <property name="parentSite"
+          name="dutyPeriod-edit-view">
+        <property name="user"
+                  view="_minimal">
+            <property name="osFirstname"/>
+            <property name="osLastname"/>
+        </property>
+        <property name="site"
                   view="_minimal"/>
+        <property name="outboundTransfer"
+                  view="_minimal"/>
+        <property name="inboundTransfer"
+                  view="_minimal"/>
+    </view>
+    <view class="local.paxbase.entity.OffshoreUser"
+          name="offshoreUser-browser-view">
+        <property name="user">
+            <property name="name"/>
+            <property name="login"/>
+        </property>
+    </view>
+    <view class="local.paxbase.entity.OffshoreUser"
+          name="offshoreUser-edit-view">
+        <property name="user">
+            <property name="name"/>
+            <property name="firstName"/>
+            <property name="lastName"/>
+            <property name="position"/>
+            <property name="email"/>
+        </property>
+        <property name="company"
+                  view="_minimal">
+            <property name="companyName"/>
+        </property>
     </view>
 </views>

@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
         caption="msg://browseCaption"
-        class="local.paxbase.web.site.SiteBrowse"
-        focusComponent="sitesTable"
-        lookupComponent="sitesTable"
-        messagesPack="local.paxbase.web.site">
+        class="local.paxbase.web.company.CompanyBrowse"
+        focusComponent="companiesTable"
+        lookupComponent="companiesTable"
+        messagesPack="local.paxbase.web.company">
     <dsContext>
-        <collectionDatasource id="sitesDs"
-                              class="local.paxbase.entity.Site"
-                              view="site-browser-view">
+        <collectionDatasource id="companiesDs"
+                              class="local.paxbase.entity.Company"
+                              view="_local">
             <query>
-                <![CDATA[select e from paxbase$Site e]]>
+                <![CDATA[select e from paxbase$Company e]]>
             </query>
         </collectionDatasource>
     </dsContext>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="sitesTable"
+    <layout expand="companiesTable"
             spacing="true">
         <filter id="filter"
-                applyTo="sitesTable"
-                datasource="sitesDs">
+                applyTo="companiesTable"
+                datasource="companiesDs">
             <properties include=".*"/>
         </filter>
-        <table id="sitesTable"
+        <table id="companiesTable"
                width="100%">
             <actions>
                 <action id="create"/>
@@ -32,22 +32,20 @@
             </actions>
             <columns>
                 <column id="client"/>
-                <column id="name"/>
-                <column id="itemDesignation"/>
-                <column id="siteType"/>
-                <column id="parentSite"/>
-                <column id="shortItemDesignation"/>
+                <column id="companyName"/>
+                <column id="contactPerson"/>
+                <column id="email"/>
             </columns>
-            <rows datasource="sitesDs"/>
+            <rows datasource="companiesDs"/>
             <rowsCount/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
                 <button id="createBtn"
-                        action="sitesTable.create"/>
+                        action="companiesTable.create"/>
                 <button id="editBtn"
-                        action="sitesTable.edit"/>
+                        action="companiesTable.edit"/>
                 <button id="removeBtn"
-                        action="sitesTable.remove"/>
+                        action="companiesTable.remove"/>
             </buttonsPanel>
         </table>
     </layout>

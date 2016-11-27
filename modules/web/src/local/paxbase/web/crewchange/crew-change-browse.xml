@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
         caption="msg://browseCaption"
-        class="local.paxbase.web.site.SiteBrowse"
-        focusComponent="sitesTable"
-        lookupComponent="sitesTable"
-        messagesPack="local.paxbase.web.site">
+        class="local.paxbase.web.crewchange.CrewChangeBrowse"
+        focusComponent="crewChangesTable"
+        lookupComponent="crewChangesTable"
+        messagesPack="local.paxbase.web.crewchange">
     <dsContext>
-        <collectionDatasource id="sitesDs"
-                              class="local.paxbase.entity.Site"
-                              view="site-browser-view">
+        <collectionDatasource id="crewChangesDs"
+                              class="local.paxbase.entity.CrewChange"
+                              view="_local">
             <query>
-                <![CDATA[select e from paxbase$Site e]]>
+                <![CDATA[select e from paxbase$CrewChange e]]>
             </query>
         </collectionDatasource>
     </dsContext>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="sitesTable"
+    <layout expand="crewChangesTable"
             spacing="true">
         <filter id="filter"
-                applyTo="sitesTable"
-                datasource="sitesDs">
+                applyTo="crewChangesTable"
+                datasource="crewChangesDs">
             <properties include=".*"/>
         </filter>
-        <table id="sitesTable"
+        <table id="crewChangesTable"
                width="100%">
             <actions>
                 <action id="create"/>
@@ -32,22 +32,18 @@
             </actions>
             <columns>
                 <column id="client"/>
-                <column id="name"/>
-                <column id="itemDesignation"/>
-                <column id="siteType"/>
-                <column id="parentSite"/>
-                <column id="shortItemDesignation"/>
+                <column id="flightDate"/>
             </columns>
-            <rows datasource="sitesDs"/>
+            <rows datasource="crewChangesDs"/>
             <rowsCount/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
                 <button id="createBtn"
-                        action="sitesTable.create"/>
+                        action="crewChangesTable.create"/>
                 <button id="editBtn"
-                        action="sitesTable.edit"/>
+                        action="crewChangesTable.edit"/>
                 <button id="removeBtn"
-                        action="sitesTable.remove"/>
+                        action="crewChangesTable.remove"/>
             </buttonsPanel>
         </table>
     </layout>

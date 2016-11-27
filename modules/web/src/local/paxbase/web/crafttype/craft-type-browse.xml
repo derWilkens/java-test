@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
         caption="msg://browseCaption"
-        class="local.paxbase.web.crafttypes.CraftTypesBrowse"
-        focusComponent="craftTypesesTable"
-        lookupComponent="craftTypesesTable"
-        messagesPack="local.paxbase.web.crafttypes">
+        class="local.paxbase.web.crafttype.CraftTypeBrowse"
+        focusComponent="craftTypesTable"
+        lookupComponent="craftTypesTable"
+        messagesPack="local.paxbase.web.crafttype">
     <dsContext>
-        <datasource id="craftTypesDs"
-                    class="local.paxbase.entity.CraftTypes"
+        <datasource id="craftTypeDs"
+                    class="local.paxbase.entity.CraftType"
                     view="_local"/>
-        <collectionDatasource id="craftTypesesDs"
-                              class="local.paxbase.entity.CraftTypes"
+        <collectionDatasource id="craftTypesDs"
+                              class="local.paxbase.entity.CraftType"
                               view="_local">
             <query>
-                <![CDATA[select e from paxbase$CraftTypes e]]>
+                <![CDATA[select e from paxbase$CraftType e]]>
             </query>
         </collectionDatasource>
     </dsContext>
@@ -37,16 +37,16 @@
                reversePosition="true"
                width="100%">
             <vbox id="lookupBox"
-                  expand="craftTypesesTable"
+                  expand="craftTypesTable"
                   height="100%"
                   margin="false,true,false,false"
                   spacing="true">
                 <filter id="filter"
-                        applyTo="craftTypesesTable"
-                        datasource="craftTypesesDs">
+                        applyTo="craftTypesTable"
+                        datasource="craftTypesDs">
                     <properties include=".*"/>
                 </filter>
-                <table id="craftTypesesTable"
+                <table id="craftTypesTable"
                        width="100%">
                     <actions>
                         <action id="create"/>
@@ -54,19 +54,20 @@
                         <action id="remove"/>
                     </actions>
                     <columns>
+                        <column id="client"/>
                         <column id="name"/>
                         <column id="seats"/>
                     </columns>
-                    <rows datasource="craftTypesesDs"/>
+                    <rows datasource="craftTypesDs"/>
                     <rowsCount/>
                     <buttonsPanel id="buttonsPanel"
                                   alwaysVisible="true">
                         <button id="createBtn"
-                                action="craftTypesesTable.create"/>
+                                action="craftTypesTable.create"/>
                         <button id="editBtn"
-                                action="craftTypesesTable.edit"/>
+                                action="craftTypesTable.edit"/>
                         <button id="removeBtn"
-                                action="craftTypesesTable.remove"/>
+                                action="craftTypesTable.remove"/>
                     </buttonsPanel>
                 </table>
             </vbox>
@@ -77,8 +78,9 @@
                   spacing="true">
                 <vbox id="fieldGroupBox">
                     <fieldGroup id="fieldGroup"
-                                datasource="craftTypesDs">
+                                datasource="craftTypeDs">
                         <column width="250px">
+                            <field id="client"/>
                             <field id="name"/>
                             <field id="seats"/>
                         </column>

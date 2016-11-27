@@ -21,7 +21,7 @@ import com.haulmont.chile.core.annotations.NamePattern;
 /**
  * @author christian
  */
-@NamePattern("%s|site")
+@NamePattern("%s %s|site,takeOff")
 @Table(name = "PAXBASE_WAYPOINT")
 @Entity(name = "paxbase$Waypoint")
 public class Waypoint extends StandardClientEntity {
