@@ -29,4 +29,8 @@
             template="local/paxbase/web/crewchange/crew-change-edit.xml"/>
     <screen id="paxbase$CrewChange.browse"
             template="local/paxbase/web/crewchange/crew-change-browse.xml"/>
+    <screen id="paxbase$Waypoint.edit"
+            template="local/paxbase/web/waypoint/waypoint-edit.xml"/>
+    <screen id="paxbase$Waypoint.browse"
+            template="local/paxbase/web/waypoint/waypoint-browse.xml"/>
 </screen-config>

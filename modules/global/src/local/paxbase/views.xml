@@ -62,4 +62,10 @@
             <property name="companyName"/>
         </property>
     </view>
+    <view class="local.paxbase.entity.Waypoint"
+          extends="_local"
+          name="waypoint-browser-view">
+        <property name="site"
+                  view="_minimal"/>
+    </view>
 </views>

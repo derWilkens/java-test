@@ -122,16 +122,15 @@ create table PAXBASE_WAYPOINT (
     DELETED_BY varchar(50),
     CLIENT integer not null,
     --
-    TAKE_OFF datetime(3) not null,
-    TRANSFER_DURATION integer,
+    TAKE_OFF time(3) not null,
+    TRANSFER_DURATION time(3),
     PREV_WAYPOINT_ID varchar(32),
     NEXT_WAYPOINT_ID varchar(32),
     TRANSFER_ID varchar(32),
     SITE_ID varchar(32),
     --
     primary key (ID)
-)^
--- end PAXBASE_WAYPOINT
+)^-- end PAXBASE_WAYPOINT
 
 -- begin PAXBASE_PAYLOAD
 create table PAXBASE_PAYLOAD (

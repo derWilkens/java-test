@@ -12,10 +12,13 @@
             <collectionDatasource id="waypointDs"
                                   property="waypointList"/>
         </datasource>
+        <datasource id="siteDs"
+                    class="local.paxbase.entity.Site"
+                    view="_minimal"/>
     </dsContext>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="windowActions"
+    <layout expand="tblWaypoints"
             spacing="true">
         <fieldGroup id="fieldGroup"
                     datasource="transferDs">
@@ -26,14 +29,23 @@
                 <field id="modeOfTransport"/>
             </column>
         </fieldGroup>
-        <table height="100px"
-               width="438px">
+        <table id="tblWaypoints"
+               width="400px">
+            <actions>
+                <action id="add"/>
+                <action id="remove"/>
+            </actions>
             <columns>
                 <column id="client"/>
+                <column id="site.name"/>
                 <column id="takeOff"/>
                 <column id="transferDuration"/>
             </columns>
             <rows datasource="waypointDs"/>
+            <buttonsPanel>
+                <button action="tblWaypoints.add"/>
+                <button action="tblWaypoints.remove"/>
+            </buttonsPanel>
         </table>
         <frame id="windowActions"
                screen="editWindowActions"/>

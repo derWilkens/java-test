@@ -21,18 +21,19 @@ import com.haulmont.chile.core.annotations.NamePattern;
 /**
  * @author christian
  */
-@NamePattern("%s %s|site,takeOff")
+@NamePattern("%s %s %s|site,takeOff,transferDuration")
 @Table(name = "PAXBASE_WAYPOINT")
 @Entity(name = "paxbase$Waypoint")
 public class Waypoint extends StandardClientEntity {
     private static final long serialVersionUID = -4973545925621830772L;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIME)
     @Column(name = "TAKE_OFF", nullable = false)
     protected Date takeOff;
 
+    @Temporal(TemporalType.TIME)
     @Column(name = "TRANSFER_DURATION")
-    protected Integer transferDuration;
+    protected Date transferDuration;
 
     @OnDeleteInverse(DeletePolicy.UNLINK)
     @OnDelete(DeletePolicy.UNLINK)
@@ -57,6 +58,15 @@ public class Waypoint extends StandardClientEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SITE_ID")
     protected Site site;
+
+    public Date getTransferDuration() {
+        return transferDuration;
+    }
+
+    public void setTransferDuration(Date transferDuration) {
+        this.transferDuration = transferDuration;
+    }
+
 
     public void setSite(Site site) {
         this.site = site;
@@ -101,14 +111,6 @@ public class Waypoint extends StandardClientEntity {
 
     public Date getTakeOff() {
         return takeOff;
-    }
-
-    public void setTransferDuration(Integer transferDuration) {
-        this.transferDuration = transferDuration;
-    }
-
-    public Integer getTransferDuration() {
-        return transferDuration;
     }
 
 
