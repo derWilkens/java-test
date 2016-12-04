@@ -31,7 +31,10 @@
                 <action id="remove"/>
             </actions>
             <columns>
-                <column id="user"/>
+                <column id="firstName"/>
+                <column id="lastName"/>
+                <column id="position"/>
+                <column id="company"/>
             </columns>
             <rows datasource="offshoreUsersDs"/>
             <rowsCount/>

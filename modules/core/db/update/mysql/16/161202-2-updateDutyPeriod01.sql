@@ -1,0 +1,2 @@
+alter table PAXBASE_DUTY_PERIOD add constraint FK_PAXBASE_DUTY_PERIOD_USER foreign key (USER_ID) references SEC_USER(ID);
+create index IDX_PAXBASE_DUTY_PERIOD_USER on PAXBASE_DUTY_PERIOD (USER_ID);

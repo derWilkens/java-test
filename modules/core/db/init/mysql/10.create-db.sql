@@ -1,38 +1,3 @@
--- begin PAXBASE_OFFSHORE_USER
-create table PAXBASE_OFFSHORE_USER (
-    ID varchar(32),
-    VERSION integer not null,
-    CREATE_TS datetime(3),
-    CREATED_BY varchar(50),
-    UPDATE_TS datetime(3),
-    UPDATED_BY varchar(50),
-    DELETE_TS datetime(3),
-    DELETED_BY varchar(50),
-    CLIENT integer not null,
-    --
-    WEIGHT integer,
-    WEIGHT_CHANGE_DATE date,
-    USER_ID varchar(32),
-    COMPANY_ID varchar(32),
-    --
-    primary key (ID)
-)^
--- end PAXBASE_OFFSHORE_USER
--- begin PAXBASE_APP_USER
-create table PAXBASE_APP_USER (
-    ID varchar(32),
-    VERSION integer not null,
-    CREATE_TS datetime(3),
-    CREATED_BY varchar(50),
-    UPDATE_TS datetime(3),
-    UPDATED_BY varchar(50),
-    DELETE_TS datetime(3),
-    DELETED_BY varchar(50),
-    CLIENT integer not null,
-    --
-    primary key (ID)
-)^
--- end PAXBASE_APP_USER
 -- begin PAXBASE_COMPANY
 create table PAXBASE_COMPANY (
     ID varchar(32),
@@ -165,7 +130,7 @@ create table PAXBASE_DUTY_PERIOD (
     --
     BEGIN_DATE date not null,
     END_DATE date,
-    USER_ID varchar(32) not null,
+    USER_ID varchar(32),
     SITE_ID varchar(32),
     OUTBOUND_TRANSFER_ID varchar(32),
     INBOUND_TRANSFER_ID varchar(32),
@@ -191,3 +156,14 @@ create table PAXBASE_CRAFT_TYPE (
     primary key (ID)
 )^
 -- end PAXBASE_CRAFT_TYPE
+-- begin SEC_USER
+alter table SEC_USER add column WEIGHT integer ^
+alter table SEC_USER add column WEIGHT_CHANGE_DATE date ^
+alter table SEC_USER add column COMPANY_ID varchar(32) ^
+alter table SEC_USER add column CLIENT integer ^
+alter table SEC_USER add column WEIGHT integer ^
+alter table SEC_USER add column WEIGHT_CHANGE_DATE date ^
+alter table SEC_USER add column COMPANY_ID varchar(32) ^
+alter table SEC_USER add column DTYPE varchar(100) ^
+update SEC_USER set DTYPE = 'sec$User' where DTYPE is null ^
+-- end SEC_USER

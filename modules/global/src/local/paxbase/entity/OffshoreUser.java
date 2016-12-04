@@ -33,10 +33,10 @@ import com.haulmont.cuba.core.entity.Category;
  * @author christian
  */
 
-@Table(name = "PAXBASE_OFFSHORE_USER")
-@NamePattern(" %s|user")
+@Listeners("paxbase_OffshoreUserEntityListener")
+@NamePattern(" %s, %s|lastName,firstName")
 @Entity(name = "paxbase$OffshoreUser")
-public class OffshoreUser extends StandardClientEntity {
+public class OffshoreUser extends AppUser {
     private static final long serialVersionUID = 6555877070622366614L;
 
     @Column(name = "WEIGHT")
@@ -46,24 +46,6 @@ public class OffshoreUser extends StandardClientEntity {
     @Column(name = "WEIGHT_CHANGE_DATE")
     protected Date weightChangeDate;
 
-
-    @OnDeleteInverse(DeletePolicy.CASCADE)
-    @OnDelete(DeletePolicy.CASCADE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
-    protected User user;
-
-    @Transient
-    @MetaProperty
-    protected String osFirstname;
-
-    @Transient
-    @MetaProperty
-    protected String osLastname;
-
-    @Transient
-    @MetaProperty
-    protected String osEmail;
 
     @OnDeleteInverse(DeletePolicy.CASCADE)
     @OnDelete(DeletePolicy.UNLINK)
@@ -81,38 +63,6 @@ public class OffshoreUser extends StandardClientEntity {
 
 
 
-    public void setOsFirstname(String osFirstname) {
-        this.osFirstname = osFirstname;
-    }
-
-    public String getOsFirstname() {
-        return osFirstname;
-    }
-
-    public void setOsLastname(String osLastname) {
-        this.osLastname = osLastname;
-    }
-
-    public String getOsLastname() {
-        return osLastname;
-    }
-
-    public void setOsEmail(String osEmail) {
-        this.osEmail = osEmail;
-    }
-
-    public String getOsEmail() {
-        return osEmail;
-    }
-
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public User getUser() {
-        return user;
-    }
 
 
     public void setWeight(Integer weight) {

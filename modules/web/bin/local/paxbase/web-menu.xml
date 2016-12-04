@@ -9,5 +9,6 @@
         <item id="paxbase$CraftType.browse"/>
         <item id="paxbase$Transfer.browse"/>
         <item id="paxbase$CrewChange.browse"/>
+        <item id="paxbase$Waypoint.browse"/>
     </menu>
 </menu-config>

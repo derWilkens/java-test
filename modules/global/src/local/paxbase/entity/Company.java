@@ -6,10 +6,12 @@ package local.paxbase.entity;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Column;
+import com.haulmont.chile.core.annotations.NamePattern;
 
 /**
  * @author christian
  */
+@NamePattern("%s|companyName")
 @Table(name = "PAXBASE_COMPANY")
 @Entity(name = "paxbase$Company")
 public class Company extends StandardClientEntity {

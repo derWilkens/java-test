@@ -31,8 +31,6 @@
           name="dutyPeriod-edit-view">
         <property name="user"
                   view="_minimal">
-            <property name="osFirstname"/>
-            <property name="osLastname"/>
         </property>
         <property name="site"
                   view="_minimal"/>
@@ -43,24 +41,31 @@
     </view>
     <view class="local.paxbase.entity.OffshoreUser"
           name="offshoreUser-browser-view">
-        <property name="user">
-            <property name="name"/>
-            <property name="login"/>
+        <property name="company"
+                  view="_minimal">
         </property>
+        <property name="position"/>
+        <property name="firstName"/>
+        <property name="lastName"/>
     </view>
     <view class="local.paxbase.entity.OffshoreUser"
           name="offshoreUser-edit-view">
-        <property name="user">
-            <property name="name"/>
-            <property name="firstName"/>
-            <property name="lastName"/>
-            <property name="position"/>
-            <property name="email"/>
-        </property>
         <property name="company"
                   view="_minimal">
             <property name="companyName"/>
         </property>
+        <property name="login"/>
+        <property name="password"/>
+        <property name="firstName"/>
+        <property name="lastName"/>
+        <property name="position"/>
+        <property name="email"/>
+        <property name="language"/>
+        <property name="active"/>
+        <property name="changePasswordAtNextLogon"/>
+        <property name="group"
+                  view="_minimal"/>
+        <property name="client"/>
     </view>
     <view class="local.paxbase.entity.Waypoint"
           extends="_local"
