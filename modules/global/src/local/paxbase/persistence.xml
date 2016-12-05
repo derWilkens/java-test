@@ -3,16 +3,18 @@
              version="2.0">
     <persistence-unit name="paxBase"
                       transaction-type="RESOURCE_LOCAL">
-        <class>local.paxbase.entity.StandardClientEntity</class>
+        <class>local.paxbase.entity.coredata.StandardClientEntity</class>
         <class>local.paxbase.entity.OffshoreUser</class>
-        <class>local.paxbase.entity.AppUser</class>
-        <class>local.paxbase.entity.Company</class>
+        <class>local.paxbase.entity.coredata.AppUser</class>
+        <class>local.paxbase.entity.coredata.Company</class>
         <class>local.paxbase.entity.Transfer</class>
         <class>local.paxbase.entity.CrewChange</class>
-        <class>local.paxbase.entity.Site</class>
+        <class>local.paxbase.entity.coredata.Site</class>
         <class>local.paxbase.entity.Waypoint</class>
-        <class>local.paxbase.entity.CraftType</class>
-        <class>local.paxbase.entity.Payload</class>
+        <class>local.paxbase.entity.coredata.CraftType</class>
+        <class>local.paxbase.entity.coredata.Payload</class>
         <class>local.paxbase.entity.DutyPeriod</class>
+        <class>local.paxbase.entity.coredata.ModeOfTransfer</class>
+        <class>local.paxbase.entity.coredata.SiteType</class>
     </persistence-unit>
 </persistence>

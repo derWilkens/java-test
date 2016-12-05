@@ -22,6 +22,9 @@
                 <field id="endDate"/>
                 <field id="user"/>
                 <field id="site"/>
+                <field id="outboundTransfer"/>
+                <field id="inboundTransfer"/>
+                <field id="contractor"/>
             </column>
         </fieldGroup>
         <frame id="windowActions"

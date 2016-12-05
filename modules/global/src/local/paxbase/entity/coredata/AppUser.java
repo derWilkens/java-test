@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2016 saas
  */
-package local.paxbase.entity;
+package local.paxbase.entity.coredata;
 
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;

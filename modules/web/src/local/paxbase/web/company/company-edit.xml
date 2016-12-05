@@ -7,7 +7,7 @@
         messagesPack="local.paxbase.web.company">
     <dsContext>
         <datasource id="companyDs"
-                    class="local.paxbase.entity.Company"
+                    class="local.paxbase.entity.coredata.Company"
                     view="_local"/>
     </dsContext>
     <dialogMode height="600"

@@ -3,12 +3,12 @@
     <menu id="application"
           insertBefore="administration">
         <item id="paxbase$Site.browse"/>
-        <item id="paxbase$DutyPeriod.browse"/>
         <item id="paxbase$Company.browse"/>
         <item id="paxbase$OffshoreUser.browse"/>
         <item id="paxbase$CraftType.browse"/>
         <item id="paxbase$Transfer.browse"/>
         <item id="paxbase$CrewChange.browse"/>
         <item id="paxbase$Waypoint.browse"/>
+        <item id="paxbase$DutyPeriod.browse"/>
     </menu>
 </menu-config>

@@ -134,6 +134,7 @@ create table PAXBASE_DUTY_PERIOD (
     SITE_ID varchar(32),
     OUTBOUND_TRANSFER_ID varchar(32),
     INBOUND_TRANSFER_ID varchar(32),
+    CONTRACTOR_ID varchar(32),
     --
     primary key (ID)
 )^

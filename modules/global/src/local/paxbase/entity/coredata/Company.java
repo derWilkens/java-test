@@ -1,12 +1,13 @@
 /*
  * Copyright (c) 2016 saas
  */
-package local.paxbase.entity;
+package local.paxbase.entity.coredata;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Column;
 import com.haulmont.chile.core.annotations.NamePattern;
+
 
 /**
  * @author christian

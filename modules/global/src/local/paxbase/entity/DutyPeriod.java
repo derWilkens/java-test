@@ -1,18 +1,22 @@
 package local.paxbase.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import com.haulmont.cuba.core.entity.annotation.OnDelete;
-import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
-import com.haulmont.cuba.core.global.DeletePolicy;
 import java.util.Date;
+
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 import com.haulmont.chile.core.annotations.NamePattern;
+import com.haulmont.cuba.core.entity.annotation.OnDelete;
+import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
+import com.haulmont.cuba.core.global.DeletePolicy;
+
+import local.paxbase.entity.coredata.StandardClientEntity;
 
 @NamePattern("%s - %s, %s|beginDate,endDate,site")
 @Table(name = "PAXBASE_DUTY_PERIOD")
@@ -38,7 +42,7 @@ public class DutyPeriod extends StandardClientEntity {
     @OnDelete(DeletePolicy.UNLINK)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SITE_ID")
-    protected Site site;
+    protected local.paxbase.entity.coredata.Site site;
 
 
     @OnDeleteInverse(DeletePolicy.UNLINK)
@@ -52,6 +56,31 @@ public class DutyPeriod extends StandardClientEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "INBOUND_TRANSFER_ID")
     protected Transfer inboundTransfer;
+
+    @OnDeleteInverse(DeletePolicy.UNLINK)
+    @OnDelete(DeletePolicy.UNLINK)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CONTRACTOR_ID")
+    protected local.paxbase.entity.coredata.Company contractor;
+
+    public local.paxbase.entity.coredata.Site getSite() {
+        return site;
+    }
+
+    public void setSite(local.paxbase.entity.coredata.Site site) {
+        this.site = site;
+    }
+
+
+    public local.paxbase.entity.coredata.Company getContractor() {
+        return contractor;
+    }
+
+    public void setContractor(local.paxbase.entity.coredata.Company contractor) {
+        this.contractor = contractor;
+    }
+
+
 
     public void setOutboundTransfer(Transfer outboundTransfer) {
         this.outboundTransfer = outboundTransfer;
@@ -92,14 +121,6 @@ public class DutyPeriod extends StandardClientEntity {
 
     public OffshoreUser getUser() {
         return user;
-    }
-
-    public void setSite(Site site) {
-        this.site = site;
-    }
-
-    public Site getSite() {
-        return site;
     }
 
 

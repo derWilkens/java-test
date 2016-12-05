@@ -7,7 +7,7 @@
         messagesPack="local.paxbase.web.site">
     <dsContext>
         <datasource id="siteDs"
-                    class="local.paxbase.entity.Site"
+                    class="local.paxbase.entity.coredata.Site"
                     view="site-browser-view"/>
     </dsContext>
     <dialogMode height="600"
@@ -20,9 +20,9 @@
                 <field id="client"/>
                 <field id="name"/>
                 <field id="itemDesignation"/>
-                <field id="siteType"/>
                 <field id="parentSite"/>
                 <field id="shortItemDesignation"/>
+                <field id="siteType"/>
             </column>
         </fieldGroup>
         <frame id="windowActions"

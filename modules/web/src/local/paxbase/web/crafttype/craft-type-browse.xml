@@ -7,10 +7,10 @@
         messagesPack="local.paxbase.web.crafttype">
     <dsContext>
         <datasource id="craftTypeDs"
-                    class="local.paxbase.entity.CraftType"
+                    class="local.paxbase.entity.coredata.CraftType"
                     view="_local"/>
         <collectionDatasource id="craftTypesDs"
-                              class="local.paxbase.entity.CraftType"
+                              class="local.paxbase.entity.coredata.CraftType"
                               view="_local">
             <query>
                 <![CDATA[select e from paxbase$CraftType e]]>

@@ -6,28 +6,20 @@ package local.paxbase.entity;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.haulmont.chile.core.annotations.NamePattern;
-import com.haulmont.cuba.security.entity.User;
-import javax.persistence.Table;
-import javax.persistence.InheritanceType;
-import javax.persistence.Inheritance;
+import com.haulmont.cuba.core.entity.annotation.Listeners;
 import com.haulmont.cuba.core.entity.annotation.OnDelete;
 import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
 import com.haulmont.cuba.core.global.DeletePolicy;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import com.haulmont.cuba.core.entity.annotation.Extends;
-import com.haulmont.cuba.core.entity.annotation.Listeners;
-import com.haulmont.chile.core.annotations.MetaProperty;
-import javax.persistence.Transient;
-import com.haulmont.cuba.core.entity.Category;
+
+import local.paxbase.entity.coredata.AppUser;
 
 /**
  * @author christian
@@ -51,15 +43,16 @@ public class OffshoreUser extends AppUser {
     @OnDelete(DeletePolicy.UNLINK)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "COMPANY_ID")
-    protected Company company;
+    protected local.paxbase.entity.coredata.Company company;
 
-    public Company getCompany() {
+    public local.paxbase.entity.coredata.Company getCompany() {
         return company;
     }
 
-    public void setCompany(Company company) {
+    public void setCompany(local.paxbase.entity.coredata.Company company) {
         this.company = company;
     }
+
 
 
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package local.paxbase.entity;
+package local.paxbase.entity.coredata;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.MappedSuperclass;

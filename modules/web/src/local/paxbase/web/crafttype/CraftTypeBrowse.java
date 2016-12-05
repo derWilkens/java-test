@@ -1,8 +1,17 @@
 package local.paxbase.web.crafttype;
 
-import local.paxbase.entity.CraftType;
+import java.util.Collections;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import com.haulmont.cuba.core.entity.Entity;
-import com.haulmont.cuba.gui.components.*;
+import com.haulmont.cuba.gui.components.AbstractLookup;
+import com.haulmont.cuba.gui.components.BoxLayout;
+import com.haulmont.cuba.gui.components.FieldGroup;
+import com.haulmont.cuba.gui.components.Table;
 import com.haulmont.cuba.gui.components.actions.CreateAction;
 import com.haulmont.cuba.gui.components.actions.EditAction;
 import com.haulmont.cuba.gui.components.actions.RemoveAction;
@@ -10,11 +19,7 @@ import com.haulmont.cuba.gui.data.CollectionDatasource;
 import com.haulmont.cuba.gui.data.DataSupplier;
 import com.haulmont.cuba.gui.data.Datasource;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import java.util.Collections;
-import java.util.Map;
-import java.util.UUID;
+import local.paxbase.entity.coredata.CraftType;
 public class CraftTypeBrowse extends AbstractLookup {
 
     @Inject

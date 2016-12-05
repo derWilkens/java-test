@@ -7,10 +7,6 @@
             template="local/paxbase/web/site/site-edit.xml"/>
     <screen id="paxbase$Site.browse"
             template="local/paxbase/web/site/site-browse.xml"/>
-    <screen id="paxbase$DutyPeriod.edit"
-            template="local/paxbase/web/dutyperiod/duty-period-edit.xml"/>
-    <screen id="paxbase$DutyPeriod.browse"
-            template="local/paxbase/web/dutyperiod/duty-period-browse.xml"/>
     <screen id="paxbase$Company.browse"
             template="local/paxbase/web/company/company-browse.xml"/>
     <screen id="paxbase$Company.edit"
@@ -33,4 +29,8 @@
             template="local/paxbase/web/waypoint/waypoint-edit.xml"/>
     <screen id="paxbase$Waypoint.browse"
             template="local/paxbase/web/waypoint/waypoint-browse.xml"/>
+    <screen id="paxbase$DutyPeriod.edit"
+            template="local/paxbase/web/dutyperiod/duty-period-edit.xml"/>
+    <screen id="paxbase$DutyPeriod.browse"
+            template="local/paxbase/web/dutyperiod/duty-period-browse.xml"/>
 </screen-config>

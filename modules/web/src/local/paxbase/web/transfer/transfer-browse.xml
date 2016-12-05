@@ -33,7 +33,7 @@
             <columns>
                 <column id="client"/>
                 <column id="transferOrderNo"/>
-                <column id="modeOfTransport"/>
+                <column id="modeOfTransfer"/>
             </columns>
             <rows datasource="transfersDs"/>
             <rowsCount/>

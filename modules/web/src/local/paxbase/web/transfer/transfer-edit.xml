@@ -13,8 +13,15 @@
                                   property="waypointList"/>
         </datasource>
         <datasource id="siteDs"
-                    class="local.paxbase.entity.Site"
+                    class="local.paxbase.entity.coredata.Site"
                     view="_minimal"/>
+        <collectionDatasource id="operatedBiesDs"
+                              class="local.paxbase.entity.coredata.Company"
+                              view="_minimal">
+            <query>
+                <![CDATA[select e from paxbase$Company e]]>
+            </query>
+        </collectionDatasource>
     </dsContext>
     <dialogMode height="600"
                 width="800"/>
@@ -22,11 +29,16 @@
             spacing="true">
         <fieldGroup id="fieldGroup"
                     datasource="transferDs">
-            <column width="250px">
-                <field id="client"/>
-                <field id="transferOrderNo"/>
-                <field id="crewChange"/>
-                <field id="modeOfTransport"/>
+            <column>
+                <field id="client"
+                       width="250px"/>
+                <field id="transferOrderNo"
+                       width="250px"/>
+                <field id="crewChange"
+                       width="250px"/>
+                <field id="operatedBy"
+                       optionsDatasource="operatedBiesDs"/>
+                <field id="modeOfTransfer"/>
             </column>
         </fieldGroup>
         <table id="tblWaypoints"

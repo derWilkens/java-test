@@ -10,7 +10,7 @@
                     class="local.paxbase.entity.Waypoint"
                     view="waypoint-browser-view"/>
         <collectionDatasource id="sitesDs"
-                              class="local.paxbase.entity.Site"
+                              class="local.paxbase.entity.coredata.Site"
                               view="site-browser-view">
             <query>
                 <![CDATA[select e from paxbase$Site e]]>

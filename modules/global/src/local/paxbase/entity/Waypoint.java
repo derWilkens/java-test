@@ -17,6 +17,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.ManyToOne;
 import com.haulmont.chile.core.annotations.NamePattern;
+import java.util.Set;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import local.paxbase.entity.coredata.Site;
+import local.paxbase.entity.coredata.StandardClientEntity;
 
 /**
  * @author christian
@@ -59,6 +64,32 @@ public class Waypoint extends StandardClientEntity {
     @JoinColumn(name = "SITE_ID")
     protected Site site;
 
+    @JoinTable(name = "PAXBASE_TRANSFER_WAYPOINT_LINK",
+        joinColumns = @JoinColumn(name = "WAYPOINT_ID"),
+        inverseJoinColumns = @JoinColumn(name = "TRANSFER_ID"))
+    @OnDelete(DeletePolicy.UNLINK)
+    @ManyToMany
+    protected Set<Transfer> transfers;
+
+    public void setTransfers(Set<Transfer> transfers) {
+        this.transfers = transfers;
+    }
+
+    public Set<Transfer> getTransfers() {
+        return transfers;
+    }
+
+
+    public Site getSite() {
+        return site;
+    }
+
+    public void setSite(Site site) {
+        this.site = site;
+    }
+
+
+
     public Date getTransferDuration() {
         return transferDuration;
     }
@@ -67,14 +98,6 @@ public class Waypoint extends StandardClientEntity {
         this.transferDuration = transferDuration;
     }
 
-
-    public void setSite(Site site) {
-        this.site = site;
-    }
-
-    public Site getSite() {
-        return site;
-    }
 
 
     public Transfer getTransfer() {

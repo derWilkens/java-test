@@ -1,4 +1,4 @@
-package local.paxbase.entity;
+package local.paxbase.entity.coredata;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import com.haulmont.cuba.core.entity.StandardEntity;
+import local.paxbase.entity.coredata.CraftType;
 
 @Table(name = "PAXBASE_PAYLOAD")
 @Entity(name = "paxbase$Payload")
@@ -44,6 +45,8 @@ public class Payload extends StandardEntity {
     public void setCraftType(CraftType craftType) {
         this.craftType = craftType;
     }
+
+
 
 
     public void setSiteA(Site siteA) {

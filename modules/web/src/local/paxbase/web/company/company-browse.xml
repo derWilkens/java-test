@@ -7,7 +7,7 @@
         messagesPack="local.paxbase.web.company">
     <dsContext>
         <collectionDatasource id="companiesDs"
-                              class="local.paxbase.entity.Company"
+                              class="local.paxbase.entity.coredata.Company"
                               view="_local">
             <query>
                 <![CDATA[select e from paxbase$Company e]]>

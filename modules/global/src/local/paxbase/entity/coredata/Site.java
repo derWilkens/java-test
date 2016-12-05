@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2016 saas
  */
-package local.paxbase.entity;
+package local.paxbase.entity.coredata;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -31,9 +31,6 @@ public class Site extends StandardClientEntity {
     @Column(name = "ITEM_DESIGNATION", length = 4)
     protected String itemDesignation;
 
-    @Column(name = "SITE_TYPE", nullable = false)
-    protected String siteType;
-
     @OnDeleteInverse(DeletePolicy.UNLINK)
     @OnDelete(DeletePolicy.UNLINK)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -44,6 +41,21 @@ public class Site extends StandardClientEntity {
 
     @Column(name = "SHORT_ITEM_DESIGNATION", length = 4)
     protected String shortItemDesignation;
+
+    @OnDeleteInverse(DeletePolicy.UNLINK)
+    @OnDelete(DeletePolicy.UNLINK)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "SITE_TYPE_ID")
+    protected SiteType siteType;
+
+    public void setSiteType(SiteType siteType) {
+        this.siteType = siteType;
+    }
+
+    public SiteType getSiteType() {
+        return siteType;
+    }
+
 
     public void setShortItemDesignation(String shortItemDesignation) {
         this.shortItemDesignation = shortItemDesignation;
@@ -71,14 +83,6 @@ public class Site extends StandardClientEntity {
         return parentSite;
     }
 
-
-    public SiteTypeEnum getSiteType() {
-        return siteType == null ? null : SiteTypeEnum.fromId(siteType);
-    }
-
-    public void setSiteType(SiteTypeEnum siteType) {
-        this.siteType = siteType == null ? null : siteType.getId();
-    }
 
 
     public void setName(String name) {

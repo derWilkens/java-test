@@ -7,7 +7,7 @@
         messagesPack="local.paxbase.web.site">
     <dsContext>
         <collectionDatasource id="sitesDs"
-                              class="local.paxbase.entity.Site"
+                              class="local.paxbase.entity.coredata.Site"
                               view="site-browser-view">
             <query>
                 <![CDATA[select e from paxbase$Site e]]>
@@ -34,9 +34,9 @@
                 <column id="client"/>
                 <column id="name"/>
                 <column id="itemDesignation"/>
-                <column id="siteType"/>
                 <column id="parentSite"/>
                 <column id="shortItemDesignation"/>
+                <column id="siteType"/>
             </columns>
             <rows datasource="sitesDs"/>
             <rowsCount/>

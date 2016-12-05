@@ -17,13 +17,18 @@
         <property name="crewChange"
                   view="_minimal">
             <property name="flightDate"/>
-            <property name="client"/>
         </property>
+        <property name="operatedBy"
+                  view="_minimal"/>
+        <property name="modeOfTransfer"
+                  view="_minimal"/>
     </view>
-    <view class="local.paxbase.entity.Site"
+    <view class="local.paxbase.entity.coredata.Site"
           extends="_local"
           name="site-browser-view">
         <property name="parentSite"
+                  view="_minimal"/>
+        <property name="siteType"
                   view="_minimal"/>
     </view>
     <view class="local.paxbase.entity.DutyPeriod"
@@ -37,6 +42,8 @@
         <property name="outboundTransfer"
                   view="_minimal"/>
         <property name="inboundTransfer"
+                  view="_minimal"/>
+        <property name="contractor"
                   view="_minimal"/>
     </view>
     <view class="local.paxbase.entity.OffshoreUser"
