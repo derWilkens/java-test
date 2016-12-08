@@ -31,8 +31,8 @@ create table PAXBASE_TRANSFER (
     --
     TRANSFER_ORDER_NO varchar(50),
     CREW_CHANGE_ID varchar(32) not null,
-    MODE_OF_TRANSPORT integer not null,
     OPERATED_BY_ID varchar(32),
+    MODE_OF_TRANSFER_ID varchar(32),
     --
     primary key (ID)
 )^
@@ -68,9 +68,9 @@ create table PAXBASE_SITE (
     --
     NAME varchar(50) not null,
     ITEM_DESIGNATION varchar(4),
-    SITE_TYPE varchar(50) not null,
     PARENT_SITE_ID varchar(32),
     SHORT_ITEM_DESIGNATION varchar(4),
+    SITE_TYPE_ID varchar(32),
     --
     primary key (ID)
 )^
@@ -162,9 +162,45 @@ alter table SEC_USER add column WEIGHT integer ^
 alter table SEC_USER add column WEIGHT_CHANGE_DATE date ^
 alter table SEC_USER add column COMPANY_ID varchar(32) ^
 alter table SEC_USER add column CLIENT integer ^
-alter table SEC_USER add column WEIGHT integer ^
-alter table SEC_USER add column WEIGHT_CHANGE_DATE date ^
-alter table SEC_USER add column COMPANY_ID varchar(32) ^
 alter table SEC_USER add column DTYPE varchar(100) ^
 update SEC_USER set DTYPE = 'sec$User' where DTYPE is null ^
 -- end SEC_USER
+-- begin PAXBASE_MODE_OF_TRANSFER
+create table PAXBASE_MODE_OF_TRANSFER (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    --
+    MODE_ varchar(50),
+    --
+    primary key (ID)
+)^
+-- end PAXBASE_MODE_OF_TRANSFER
+-- begin PAXBASE_SITE_TYPE
+create table PAXBASE_SITE_TYPE (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    --
+    TYPE_ varchar(50),
+    --
+    primary key (ID)
+)^
+-- end PAXBASE_SITE_TYPE
+-- begin PAXBASE_TRANSFER_WAYPOINT_LINK
+create table PAXBASE_TRANSFER_WAYPOINT_LINK (
+    WAYPOINT_ID varchar(32),
+    TRANSFER_ID varchar(32),
+    primary key (WAYPOINT_ID, TRANSFER_ID)
+)^
+-- end PAXBASE_TRANSFER_WAYPOINT_LINK

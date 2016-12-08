@@ -44,13 +44,13 @@ cuba {
     }
 }
 
-def mysql = 'mysql:mysql-connector-java:5.1.38'
+def hsql = 'org.hsqldb:hsqldb:2.2.9'
 
 configure([globalModule, coreModule, guiModule, webModule]) {
     apply(plugin: 'java')
     apply(plugin: 'maven')
     apply(plugin: 'eclipse')
-apply(plugin: 'cuba')
+	apply(plugin: 'cuba')
 
     dependencies {
         testCompile('junit:junit:4.12')
@@ -68,8 +68,6 @@ apply(plugin: 'cuba')
 
 configure(globalModule) {
     task enhance(type: CubaEnhancing)
-    
-    
 }
 
 configure(coreModule) {
@@ -82,9 +80,9 @@ configure(coreModule) {
     dependencies {
         compile(globalModule)
         provided(servletApi)
-        jdbc(mysql)
-        testRuntime(mysql)
-
+        jdbc(hsql)
+		testRuntime(hsql)
+        jdbc('mysql:mysql-connector-java:5.1.38')
     }
 
     task cleanConf(description: 'Cleans up conf directory') << {
@@ -102,22 +100,34 @@ configure(coreModule) {
     }
 
     task createDb(dependsOn: assembleDbScripts, description: 'Creates local database', type: CubaDbCreation) {
-        connectionParams = '?useSSL=false&allowMultiQueries=true'
-        dbms = 'mysql'
+        dbms = 'hsql'
         host = 'localhost'
-        dbName = 'paxbase'
-        dbUser = 'ng2'
-        dbPassword = 'Wilkens:)'
+        dbName = 'paxbase_testx'
+        dbUser = 'sa'
+        dbPassword = ''
     }
 
     task updateDb(dependsOn: assembleDbScripts, description: 'Updates local database', type: CubaDbUpdate) {
-        connectionParams = '?useSSL=false&allowMultiQueries=true'
-        dbms = 'mysql'
+        dbms = 'hsql'
         host = 'localhost'
-        dbName = 'paxbase'
-        dbUser = 'ng2'
-        dbPassword = 'Wilkens:)'
+        dbName = 'paxbase_testx'
+        dbUser = 'sa'
+        dbPassword = ''
     }
+    
+    task startTestDb(type: CubaHsqlStart) {
+        dbPort = 9002 // should be different from the default port 9001 used by Studio HSQLDB server
+        dbName = 'crewBase_test'
+    }
+
+    task createTestDb(dependsOn: assemble, description: 'Creates local database for tests', type: CubaDbCreation) {
+        dbms = 'hsql'
+        host = 'localhost:9002'
+        dbName = 'crewBase_test'
+        dbUser = 'sa'
+        dbPassword = ''
+    }
+    
 }
 
 configure(guiModule) {

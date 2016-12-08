@@ -1,0 +1,2 @@
+alter table PAXBASE_SITE add constraint FK_PAXBASE_SITE_SITE_TYPE foreign key (SITE_TYPE_ID) references PAXBASE_SITE_TYPE(ID);
+create index IDX_PAXBASE_SITE_SITE_TYPE on PAXBASE_SITE (SITE_TYPE_ID);

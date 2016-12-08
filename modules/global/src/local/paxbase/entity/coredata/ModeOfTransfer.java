@@ -1,5 +1,6 @@
 package local.paxbase.entity.coredata;
 
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Column;
@@ -10,16 +11,17 @@ import com.haulmont.cuba.core.entity.StandardEntity;
 public class ModeOfTransfer extends StandardEntity {
     private static final long serialVersionUID = 7132601331111253754L;
 
-    @Column(name = "NAME", length = 50)
-    protected String name;
+    @Column(name = "MODE_", length = 50)
+    protected String mode;
 
-    public void setName(String name) {
-        this.name = name;
+    public void setMode(String mode) {
+        this.mode = mode;
     }
 
-    public String getName() {
-        return name;
+    public String getMode() {
+        return mode;
     }
+
 
 
 }

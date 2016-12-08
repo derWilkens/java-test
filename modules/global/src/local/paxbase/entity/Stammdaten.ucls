@@ -109,28 +109,24 @@
     <end type="TARGET" refId="8" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="18">    
-    <end type="SOURCE" refId="6"/>    
-    <end type="TARGET" refId="1"/>  
-  </generalization>  
-  <association id="19">    
+  <association id="18">    
     <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="20" name="parentSite">        
+      <attribute id="19" name="parentSite">        
         <position height="0" width="0" x="3" y="31"/>      
       </attribute>      
-      <multiplicity id="21" minimum="0" maximum="1">        
+      <multiplicity id="20" minimum="0" maximum="1">        
         <position height="0" width="0" x="3" y="31"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="22">    
+  <association id="21">    
     <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="23" name="siteB">        
+      <attribute id="22" name="siteB">        
         <position height="16" width="34" x="420" y="153"/>      
       </attribute>      
-      <multiplicity id="24" minimum="0" maximum="1">        
+      <multiplicity id="23" minimum="0" maximum="1">        
         <position height="14" width="23" x="487" y="143"/>      
       </multiplicity>    
     </end>    

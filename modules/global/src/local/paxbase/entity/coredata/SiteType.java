@@ -10,16 +10,17 @@ import javax.persistence.Column;
 public class SiteType extends StandardEntity {
     private static final long serialVersionUID = 593633394072817102L;
 
-    @Column(name = "NAME", length = 50)
-    protected String name;
+    @Column(name = "TYPE_", length = 50)
+    protected String type;
 
-    public void setName(String name) {
-        this.name = name;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getName() {
-        return name;
+    public String getType() {
+        return type;
     }
+
 
 
 }

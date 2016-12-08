@@ -40,7 +40,7 @@
   </class>  
   <association id="5">    
     <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="6" name="prevWaypoint">        
+      <attribute id="6" name="nextWaypoint">        
         <position height="0" width="0" x="-273" y="-2"/>      
       </attribute>      
       <multiplicity id="7" minimum="0" maximum="1">        
@@ -51,57 +51,53 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="8">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="9" name="outboundTransfer">        
-        <position height="16" width="97" x="77" y="115"/>      
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="9" name="prevWaypoint">        
+        <position height="0" width="0" x="-273" y="-2"/>      
       </attribute>      
       <multiplicity id="10" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-273" y="-2"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="11">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="12" name="transfers"/>      
+      <multiplicity id="13" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="14">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="15" name="outboundTransfer">        
+        <position height="16" width="97" x="77" y="115"/>      
+      </attribute>      
+      <multiplicity id="16" minimum="0" maximum="1">        
         <position height="0" width="0" x="-273" y="-2"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="11">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="12" name="crewChange">        
-        <position height="0" width="0" x="-273" y="-2"/>      
-      </attribute>      
-      <multiplicity id="13" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-273" y="-2"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="14">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="15" name="waypointList">        
-        <position height="0" width="0" x="-273" y="-2"/>      
-      </attribute>      
-      <multiplicity id="16" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="-273" y="-2"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
   <association id="17">    
     <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="18" name="nextWaypoint">        
+      <attribute id="18" name="transfer">        
         <position height="0" width="0" x="-273" y="-2"/>      
       </attribute>      
       <multiplicity id="19" minimum="0" maximum="1">        
         <position height="0" width="0" x="-273" y="-2"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
+    <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="20">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="21" name="transfer">        
-        <position height="0" width="0" x="-273" y="-2"/>      
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="21" name="inboundTransfer">        
+        <position height="16" width="90" x="146" y="95"/>      
       </attribute>      
       <multiplicity id="22" minimum="0" maximum="1">        
         <position height="0" width="0" x="-273" y="-2"/>      
@@ -111,15 +107,27 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="23">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="24" name="inboundTransfer">        
-        <position height="16" width="90" x="146" y="95"/>      
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="24" name="crewChange">        
+        <position height="0" width="0" x="-273" y="-2"/>      
       </attribute>      
       <multiplicity id="25" minimum="0" maximum="1">        
         <position height="0" width="0" x="-273" y="-2"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="26">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="27" name="waypointList">        
+        <position height="0" width="0" x="-273" y="-2"/>      
+      </attribute>      
+      <multiplicity id="28" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-273" y="-2"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
