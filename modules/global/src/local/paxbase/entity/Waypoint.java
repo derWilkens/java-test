@@ -54,7 +54,7 @@ public class Waypoint extends StandardClientEntity {
 
     @OnDeleteInverse(DeletePolicy.CASCADE)
     @OnDelete(DeletePolicy.UNLINK)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "TRANSFER_ID")
     protected Transfer transfer;
 
@@ -70,6 +70,18 @@ public class Waypoint extends StandardClientEntity {
     @OnDelete(DeletePolicy.UNLINK)
     @ManyToMany
     protected Set<Transfer> transfers;
+
+    @Column(name = "ORDER_NO", nullable = false)
+    protected Integer orderNo;
+
+    public void setOrderNo(Integer orderNo) {
+        this.orderNo = orderNo;
+    }
+
+    public Integer getOrderNo() {
+        return orderNo;
+    }
+
 
     public void setTransfers(Set<Transfer> transfers) {
         this.transfers = transfers;

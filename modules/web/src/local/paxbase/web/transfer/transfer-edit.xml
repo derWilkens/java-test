@@ -52,6 +52,7 @@
                 <column id="site.name"/>
                 <column id="takeOff"/>
                 <column id="transferDuration"/>
+                <column id="orderNo"/>
             </columns>
             <rows datasource="waypointDs"/>
             <buttonsPanel>

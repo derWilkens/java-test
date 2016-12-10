@@ -28,6 +28,7 @@
                 <field id="transferDuration"/>
                 <field id="site"
                        optionsDatasource="sitesDs"/>
+                <field id="orderNo"/>
             </column>
         </fieldGroup>
         <frame id="windowActions"
