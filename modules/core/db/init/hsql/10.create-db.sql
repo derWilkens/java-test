@@ -19,20 +19,20 @@ create table PAXBASE_COMPANY (
 -- end PAXBASE_COMPANY
 -- begin PAXBASE_TRANSFER
 create table PAXBASE_TRANSFER (
-    ID varchar(32),
+    ID varchar(36) not null,
     VERSION integer not null,
-    CREATE_TS datetime(3),
+    CREATE_TS timestamp,
     CREATED_BY varchar(50),
-    UPDATE_TS datetime(3),
+    UPDATE_TS timestamp,
     UPDATED_BY varchar(50),
-    DELETE_TS datetime(3),
+    DELETE_TS timestamp,
     DELETED_BY varchar(50),
     CLIENT integer not null,
     --
-    TRANSFER_ORDER_NO varchar(50),
-    CREW_CHANGE_ID varchar(32) not null,
-    OPERATED_BY_ID varchar(32),
-    MODE_OF_TRANSFER_ID varchar(32),
+    TRANSFER_ORDER_NO integer not null,
+    CREW_CHANGE_ID varchar(36) not null,
+    OPERATED_BY_ID varchar(36),
+    MODE_OF_TRANSFER_ID varchar(36),
     --
     primary key (ID)
 )^
@@ -77,22 +77,23 @@ create table PAXBASE_SITE (
 -- end PAXBASE_SITE
 -- begin PAXBASE_WAYPOINT
 create table PAXBASE_WAYPOINT (
-    ID varchar(32),
+    ID varchar(36) not null,
     VERSION integer not null,
-    CREATE_TS datetime(3),
+    CREATE_TS timestamp,
     CREATED_BY varchar(50),
-    UPDATE_TS datetime(3),
+    UPDATE_TS timestamp,
     UPDATED_BY varchar(50),
-    DELETE_TS datetime(3),
+    DELETE_TS timestamp,
     DELETED_BY varchar(50),
     CLIENT integer not null,
     --
-    TAKE_OFF time(3) not null,
-    TRANSFER_DURATION time(3),
-    PREV_WAYPOINT_ID varchar(32),
-    NEXT_WAYPOINT_ID varchar(32),
-    TRANSFER_ID varchar(32),
-    SITE_ID varchar(32),
+    TAKE_OFF time not null,
+    TRANSFER_DURATION time,
+    PREV_WAYPOINT_ID varchar(36),
+    NEXT_WAYPOINT_ID varchar(36),
+    TRANSFER_ID varchar(36) not null,
+    SITE_ID varchar(36),
+    ORDER_NO integer not null,
     --
     primary key (ID)
 )^-- end PAXBASE_WAYPOINT
@@ -167,8 +168,6 @@ update SEC_USER set DTYPE = 'sec$User' where DTYPE is null ^
 ALTER TABLE SEC_USER ALTER COLUMN LOGIN set NULL ^  
 ALTER TABLE SEC_USER ALTER COLUMN LOGIN_LC set NULL ^ 
 ALTER TABLE SEC_USER ALTER COLUMN GROUP_ID set NULL ^ 
-
-
 -- end SEC_USER
 -- begin PAXBASE_MODE_OF_TRANSFER
 create table PAXBASE_MODE_OF_TRANSFER (

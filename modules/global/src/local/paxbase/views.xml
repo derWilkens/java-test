@@ -2,7 +2,12 @@
 <views xmlns="http://schemas.haulmont.com/cuba/view.xsd">
     <view class="local.paxbase.entity.Transfer"
           extends="_local"
-          name="transfer-browser-view"/>
+          name="transfer-browser-view">
+        <property name="modeOfTransfer"
+                  view="_minimal">
+            <property name="mode"/>
+        </property>
+    </view>
     <view class="local.paxbase.entity.Transfer"
           extends="_local"
           name="transfer-edit-view">

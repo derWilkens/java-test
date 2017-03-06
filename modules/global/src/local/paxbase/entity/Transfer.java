@@ -25,6 +25,9 @@ import local.paxbase.entity.coredata.StandardClientEntity;
 import com.haulmont.chile.core.annotations.Composition;
 import java.util.List;
 import javax.persistence.OrderBy;
+import java.util.Set;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 /**
  * @author christian
@@ -62,6 +65,7 @@ public class Transfer extends StandardClientEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MODE_OF_TRANSFER_ID")
     protected ModeOfTransfer modeOfTransfer;
+
 
     public Integer getTransferOrderNo() {
         return transferOrderNo;
