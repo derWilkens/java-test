@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://caption"
+        class="local.paxbase.gui.screens.Treetablegantt"
+        messagesPack="local.paxbase.gui.screens"
+        xmlns:chart="http://schemas.haulmont.com/charts/charts.xsd">
+    <dsContext>
+        <hierarchicalDatasource id="sitesDs"
+                                class="local.paxbase.entity.coredata.Site"
+                                hierarchyProperty="parentSite"
+                                view="site-browser-view">
+            <query>
+                <![CDATA[select e from paxbase$Site e]]>
+            </query>
+        </hierarchicalDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout>
+        <split orientation="horizontal"
+               width="663px">
+            <treeTable id="treeTable"
+                       height="614px"
+                       width="695px">
+                <columns>
+                    <column id="siteName"/>
+                    <column id="itemDesignation"/>
+                    <column id="shortItemDesignation"/>
+                    <column id="client"/>
+                </columns>
+                <rows datasource="sitesDs"/>
+            </treeTable>
+            <chart:ganttChart/>
+        </split>
+    </layout>
+</window>

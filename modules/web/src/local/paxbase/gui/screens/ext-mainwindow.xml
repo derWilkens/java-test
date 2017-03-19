@@ -8,11 +8,11 @@
         caption="mainMsg://application.caption"
         class="local.paxbase.gui.screens.ExtAppMainWindow"
         xmlns:main="http://schemas.haulmont.com/cuba/mainwindow.xsd">
-    <layout expand="horizontalWrap"
-            responsive="true"
+    <layout responsive="true"
             stylename="c-sidemenu-responsive">
         <hbox id="horizontalWrap"
               expand="workArea"
+              height="100%"
               stylename="c-sidemenu-layout"
               width="100%">
             <cssLayout id="sideMenuPanel"
