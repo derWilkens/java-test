@@ -32,7 +32,7 @@
             </actions>
             <columns>
                 <column id="client"/>
-                <column id="name"/>
+                <column id="siteName"/>
                 <column id="itemDesignation"/>
                 <column id="parentSite"/>
                 <column id="shortItemDesignation"/>

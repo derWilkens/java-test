@@ -54,8 +54,7 @@ create table PAXBASE_CREW_CHANGE (
     primary key (ID)
 )^
 -- end PAXBASE_CREW_CHANGE
--- begin PAXBASE_SITE
-create table PAXBASE_SITE (
+-- begin PAXBASE_SITEcreate table PAXBASE_SITE (
     ID varchar(32),
     VERSION integer not null,
     CREATE_TS datetime(3),
@@ -66,8 +65,8 @@ create table PAXBASE_SITE (
     DELETED_BY varchar(50),
     CLIENT integer not null,
     --
-    NAME varchar(50) not null,
-    ITEM_DESIGNATION varchar(4),
+    SITE_NAME varchar(50) not null,
+    ITEM_DESIGNATION varchar(7),
     PARENT_SITE_ID varchar(32),
     SHORT_ITEM_DESIGNATION varchar(4),
     SITE_TYPE_ID varchar(32),

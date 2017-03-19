@@ -18,7 +18,7 @@
                     datasource="siteDs">
             <column width="250px">
                 <field id="client"/>
-                <field id="name"/>
+                <field id="siteName"/>
                 <field id="itemDesignation"/>
                 <field id="parentSite"/>
                 <field id="shortItemDesignation"/>

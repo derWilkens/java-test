@@ -10,7 +10,7 @@
                   view="_minimal">
             <property name="site">
                 <property name="client"/>
-                <property name="name"/>
+                <property name="siteName"/>
             </property>
             <property name="client"/>
         </property>

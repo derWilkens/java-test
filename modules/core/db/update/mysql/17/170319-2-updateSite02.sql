@@ -1,0 +1,1 @@
+create unique index IDX_PAXBASE_SITE_UNIQ_SITE_NAME on PAXBASE_SITE (SITE_NAME) ;

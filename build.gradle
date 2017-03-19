@@ -1,6 +1,6 @@
 
 buildscript {
-    ext.cubaVersion = '6.3.4'
+    ext.cubaVersion = '6.4.2'
     repositories {
         maven {
             url 'https://repo.cuba-platform.com/content/groups/work'
@@ -44,7 +44,7 @@ cuba {
     }
 }
 
-def hsql = 'org.hsqldb:hsqldb:2.2.9'
+def mysql = 'mysql:mysql-connector-java:5.1.38'
 
 configure([globalModule, coreModule, guiModule, webModule]) {
     apply(plugin: 'java')
@@ -80,9 +80,8 @@ configure(coreModule) {
     dependencies {
         compile(globalModule)
         provided(servletApi)
-        jdbc(hsql)
-		testRuntime(hsql)
-        jdbc('mysql:mysql-connector-java:5.1.38')
+        jdbc(mysql)
+		testRuntime(mysql)
     }
 
     task cleanConf(description: 'Cleans up conf directory') << {
@@ -100,19 +99,21 @@ configure(coreModule) {
     }
 
     task createDb(dependsOn: assembleDbScripts, description: 'Creates local database', type: CubaDbCreation) {
-        dbms = 'hsql'
+        connectionParams = '?useSSL=false&allowMultiQueries=true'
+        dbms = 'mysql'
         host = 'localhost'
-        dbName = 'paxbase_testx'
-        dbUser = 'sa'
-        dbPassword = ''
+        dbName = 'crewbase'
+        dbUser = 'crewbase'
+        dbPassword = '1234'
     }
 
     task updateDb(dependsOn: assembleDbScripts, description: 'Updates local database', type: CubaDbUpdate) {
-        dbms = 'hsql'
+        connectionParams = '?useSSL=false&allowMultiQueries=true'
+        dbms = 'mysql'
         host = 'localhost'
-        dbName = 'paxbase_testx'
-        dbUser = 'sa'
-        dbPassword = ''
+        dbName = 'crewbase'
+        dbUser = 'crewbase'
+        dbPassword = '1234'
     }
     
     task startTestDb(type: CubaHsqlStart) {
@@ -209,7 +210,7 @@ task restart(dependsOn: ['stop', ':app-core:deploy', ':app-web:deploy'], descrip
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.13'
+    gradleVersion = '3.1'
 }
 
 apply from: 'extra.gradle'

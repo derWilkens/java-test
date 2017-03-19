@@ -49,7 +49,7 @@
             </actions>
             <columns>
                 <column id="client"/>
-                <column id="site.name"/>
+                <column id="site.siteName"/>
                 <column id="takeOff"/>
                 <column id="transferDuration"/>
             </columns>

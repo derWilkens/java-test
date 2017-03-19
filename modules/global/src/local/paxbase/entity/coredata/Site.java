@@ -19,16 +19,17 @@ import com.haulmont.chile.core.annotations.NamePattern;
 /**
  * @author christian
  */
-@NamePattern("%s|name")
+@NamePattern("%s|siteName")
 @Table(name = "PAXBASE_SITE")
 @Entity(name = "paxbase$Site")
 public class Site extends StandardClientEntity {
     private static final long serialVersionUID = -1161554407313338235L;
 
-    @Column(name = "NAME", nullable = false, unique = true, length = 50)
-    protected String name;
 
-    @Column(name = "ITEM_DESIGNATION", length = 4)
+    @Column(name = "SITE_NAME", nullable = false, length = 50)
+    protected String siteName;
+
+    @Column(name = "ITEM_DESIGNATION", length = 7)
     protected String itemDesignation;
 
     @OnDeleteInverse(DeletePolicy.UNLINK)
@@ -47,6 +48,15 @@ public class Site extends StandardClientEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SITE_TYPE_ID")
     protected SiteType siteType;
+
+    public void setSiteName(String siteName) {
+        this.siteName = siteName;
+    }
+
+    public String getSiteName() {
+        return siteName;
+    }
+
 
     public void setSiteType(SiteType siteType) {
         this.siteType = siteType;
@@ -85,13 +95,7 @@ public class Site extends StandardClientEntity {
 
 
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    public String getName() {
-        return name;
-    }
 
 
 }
