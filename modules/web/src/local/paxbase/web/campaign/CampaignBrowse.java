@@ -1,20 +1,36 @@
 package local.paxbase.web.campaign;
 
-import local.paxbase.entity.Campaign;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import com.haulmont.cuba.core.entity.Entity;
-import com.haulmont.cuba.gui.components.*;
+import com.haulmont.cuba.gui.components.AbstractLookup;
+import com.haulmont.cuba.gui.components.BoxLayout;
+import com.haulmont.cuba.gui.components.Component;
+import com.haulmont.cuba.gui.components.FieldGroup;
+import com.haulmont.cuba.gui.components.LookupField;
+import com.haulmont.cuba.gui.components.SplitPanel;
+import com.haulmont.cuba.gui.components.Table;
 import com.haulmont.cuba.gui.components.actions.CreateAction;
 import com.haulmont.cuba.gui.components.actions.EditAction;
 import com.haulmont.cuba.gui.components.actions.RemoveAction;
 import com.haulmont.cuba.gui.data.CollectionDatasource;
 import com.haulmont.cuba.gui.data.DataSupplier;
 import com.haulmont.cuba.gui.data.Datasource;
+import com.haulmont.cuba.gui.data.GroupDatasource;
+import com.haulmont.cuba.gui.data.GroupInfo;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import java.util.Collections;
-import java.util.Map;
-import java.util.UUID;
+import local.paxbase.entity.Campaign;
+import local.paxbase.entity.Period;
+import local.paxbase.entity.dto.TimelineGroup;
+import local.paxbase.entity.dto.TimelineItem;
+import local.paxbase.web.toolkit.ui.timelinecomponent.TimelineComponent;
 
 public class CampaignBrowse extends AbstractLookup {
 
@@ -23,7 +39,7 @@ public class CampaignBrowse extends AbstractLookup {
      * to be displayed in {@link CampaignBrowse#campaignsTable} on the left
      */
     @Inject
-    private CollectionDatasource<Campaign, UUID> campaignsDs;
+    private GroupDatasource<Campaign, UUID> campaignsDs;
 
     /**
      * The {@link Datasource} instance that contains an instance of the selected entity
@@ -75,10 +91,50 @@ public class CampaignBrowse extends AbstractLookup {
      * {@link Boolean} value, indicating if a new instance of {@link Campaign} is being created
      */
     private boolean creating;
+    
+    private void initDTO(){
+    	Collection<GroupInfo> groupInfos = campaignsDs.rootGroups();
+    	TimelineComponent timeline = new TimelineComponent();
 
+    	ArrayList<TimelineGroup> periodList = new ArrayList<TimelineGroup>();
+    	for (GroupInfo groupId : groupInfos) {
+			
+    		TimelineGroup group = new TimelineGroup();
+    		String obi = groupId.getPropertyValue("site.siteName").toString();
+    		
+    		group.setContent(groupId.getPropertyValue("site.siteName").toString());
+    		periodList.add(new TimelineGroup());
+	
+	    	for (Entity entity: campaignsDs.getChildItems(groupId)){
+	    		Campaign campaign = (Campaign) entity;
+	    		group.getNestedGroups().add(new TimelineItem((Period)campaign, campaign.getCampaignNumber()));
+	    	}
+	    	periodList.add(group);
+    	
+    		
+//    		campaignsDs.getChildItems(groupInfo.
+//    		TimelineItem item = new TimelineItem(period, content)
+		}
+    }
     @Override
     public void init(Map<String, Object> params) {
 
+
+//    	campaignsDs.groupBy(new String[] {"siteName"});
+    	campaignsDs.refresh();
+    	
+    	
+    	campaignsDs.addCollectionChangeListener(e->{
+    		//e.getDs().getItemIds().size();
+    		if(e.getDs() != null){
+    			initDTO();
+    		}
+    	});
+    	campaignDs.addStateChangeListener(e->{
+    		if(e.getState()!=null){
+    			System.out.println(e.getState().toString());
+    		}
+    	});;
         /*
          * Adding {@link com.haulmont.cuba.gui.data.Datasource.ItemChangeListener} to {@link campaignsDs}
          * The listener reloads the selected record with the specified view and sets it to {@link campaignDs}
@@ -104,7 +160,8 @@ public class CampaignBrowse extends AbstractLookup {
                 enableEditControls(true);
             }
         });
-
+        
+        
         /*
          * Adding {@link EditAction} to {@link campaignsTable}
          * The listener enables controls for record editing

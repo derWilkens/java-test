@@ -8,10 +8,10 @@
     <dsContext>
         <datasource id="campaignDs"
                     class="local.paxbase.entity.Campaign"
-                    view="campaign-view"/>
+                    view="campaignOverview"/>
         <groupDatasource id="campaignsDs"
                          class="local.paxbase.entity.Campaign"
-                         view="campaign-view">
+                         view="campaignOverview">
             <query>
                 <![CDATA[select e from paxbase$Campaign e]]>
             </query>
@@ -61,9 +61,14 @@
                         <action id="remove"/>
                     </actions>
                     <columns>
+                        <group>
+                            <column id="site.siteName"/>
+                        </group>
                         <column id="campaignNumber"/>
-                        <column id="site"/>
-                        <column id="shutdown"/>
+                        <column id="start"/>
+                        <column id="end"/>
+                        <column id="shutdown"
+                                width="20"/>
                     </columns>
                     <rows datasource="campaignsDs"/>
                     <rowsCount/>
@@ -87,10 +92,12 @@
                     <fieldGroup id="fieldGroup"
                                 datasource="campaignDs">
                         <column width="250px">
+                            <field id="start"/>
+                            <field id="end"/>
                             <field id="campaignNumber"/>
+                            <field id="shutdown"/>
                             <field id="site"
                                    optionsDatasource="sitesDs"/>
-                            <field id="shutdown"/>
                         </column>
                     </fieldGroup>
                 </vbox>
@@ -104,5 +111,7 @@
                 </hbox>
             </vbox>
         </split>
+        <vbox id="timelineBox"
+              spacing="true"/>
     </layout>
 </window>

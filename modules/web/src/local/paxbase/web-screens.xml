@@ -37,8 +37,8 @@
             template="local/paxbase/web/sitetype/site-type-browse.xml"/>
     <screen id="mainWindow"
             template="local/paxbase/gui/screens/ext-mainwindow.xml"/>
+    <screen id="campaignTimeline"
+            template="local/paxbase/web/screens/campaignTimeline.xml"/>
     <screen id="paxbase$Campaign.browse"
             template="local/paxbase/web/campaign/campaign-browse.xml"/>
-    <screen id="campaingnGantt"
-            template="local/paxbase/web/campaign/campaingnGantt.xml"/>
 </screen-config>

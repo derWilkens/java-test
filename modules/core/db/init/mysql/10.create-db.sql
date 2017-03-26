@@ -213,10 +213,11 @@ create table PAXBASE_CAMPAIGN (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
+    START_ date,
+    END_ date,
     --
-    CAMPAIGN_NO varchar(10),
-    BEGIN_DATE date,
-    END_DATE date,
+    CAMPAIGN_NUMBER varchar(10),
+    SHUTDOWN_ boolean,
     SITE_ID varchar(32),
     --
     primary key (ID)

@@ -11,8 +11,7 @@
         <item id="paxbase$Waypoint.browse"/>
         <item id="paxbase$DutyPeriod.browse"/>
         <item id="paxbase$SiteType.browse"/>
+        <item id="campaignTimeline"/>
         <item id="paxbase$Campaign.browse"/>
-        <item id="campaingnGantt"
-              openType="NEW_TAB"/>
     </menu>
 </menu-config>
