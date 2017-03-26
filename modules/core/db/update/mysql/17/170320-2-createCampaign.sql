@@ -1,0 +1,2 @@
+alter table PAXBASE_CAMPAIGN add constraint FK_PAXBASE_CAMPAIGN_SITE foreign key (SITE_ID) references PAXBASE_SITE(ID);
+create index IDX_PAXBASE_CAMPAIGN_SITE on PAXBASE_CAMPAIGN (SITE_ID);

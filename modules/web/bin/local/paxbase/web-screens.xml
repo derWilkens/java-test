@@ -33,4 +33,12 @@
             template="local/paxbase/web/dutyperiod/duty-period-edit.xml"/>
     <screen id="paxbase$DutyPeriod.browse"
             template="local/paxbase/web/dutyperiod/duty-period-browse.xml"/>
+    <screen id="paxbase$SiteType.browse"
+            template="local/paxbase/web/sitetype/site-type-browse.xml"/>
+    <screen id="mainWindow"
+            template="local/paxbase/gui/screens/ext-mainwindow.xml"/>
+    <screen id="paxbase$Campaign.browse"
+            template="local/paxbase/web/campaign/campaign-browse.xml"/>
+    <screen id="campaingnGantt"
+            template="local/paxbase/web/campaign/campaingnGantt.xml"/>
 </screen-config>

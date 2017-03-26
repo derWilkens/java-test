@@ -13,5 +13,8 @@
         <item id="treeTableGantt"
               openType="NEW_TAB"/>
         <item id="paxbase$SiteType.browse"/>
+        <item id="paxbase$Campaign.browse"/>
+        <item id="campaingnGantt"
+              openType="NEW_TAB"/>
     </menu>
 </menu-config>

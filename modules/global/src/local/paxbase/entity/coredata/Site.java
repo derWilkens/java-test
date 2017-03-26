@@ -15,6 +15,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import com.haulmont.chile.core.annotations.NamePattern;
+import java.util.Set;
+import javax.persistence.OneToMany;
+import local.paxbase.entity.Campaign;
 
 /**
  * @author christian
@@ -48,6 +51,18 @@ public class Site extends StandardClientEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SITE_TYPE_ID")
     protected SiteType siteType;
+
+    @OneToMany(mappedBy = "site")
+    protected Set<Campaign> campaigns;
+
+    public void setCampaigns(Set<Campaign> campaigns) {
+        this.campaigns = campaigns;
+    }
+
+    public Set<Campaign> getCampaigns() {
+        return campaigns;
+    }
+
 
     public void setSiteName(String siteName) {
         this.siteName = siteName;

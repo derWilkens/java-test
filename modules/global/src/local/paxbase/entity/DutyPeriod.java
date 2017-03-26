@@ -17,6 +17,8 @@ import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
 import com.haulmont.cuba.core.global.DeletePolicy;
 
 import local.paxbase.entity.coredata.StandardClientEntity;
+import local.paxbase.entity.coredata.Company;
+import local.paxbase.entity.coredata.Site;
 
 @NamePattern("%s - %s, %s|beginDate,endDate,site")
 @Table(name = "PAXBASE_DUTY_PERIOD")
@@ -42,7 +44,7 @@ public class DutyPeriod extends StandardClientEntity {
     @OnDelete(DeletePolicy.UNLINK)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SITE_ID")
-    protected local.paxbase.entity.coredata.Site site;
+    protected Site site;
 
 
     @OnDeleteInverse(DeletePolicy.UNLINK)
@@ -61,24 +63,30 @@ public class DutyPeriod extends StandardClientEntity {
     @OnDelete(DeletePolicy.UNLINK)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CONTRACTOR_ID")
-    protected local.paxbase.entity.coredata.Company contractor;
+    protected Company contractor;
 
-    public local.paxbase.entity.coredata.Site getSite() {
+    public Site getSite() {
         return site;
     }
 
-    public void setSite(local.paxbase.entity.coredata.Site site) {
+    public void setSite(Site site) {
         this.site = site;
     }
 
-
-    public local.paxbase.entity.coredata.Company getContractor() {
+    public Company getContractor() {
         return contractor;
     }
 
-    public void setContractor(local.paxbase.entity.coredata.Company contractor) {
+    public void setContractor(Company contractor) {
         this.contractor = contractor;
     }
+
+
+
+
+
+
+
 
 
 
