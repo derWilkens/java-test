@@ -31,9 +31,7 @@
             <table height="100%"
                    width="100%">
                 <columns>
-                    <column id="campaignNo"/>
-                    <column id="beginDate"/>
-                    <column id="endDate"/>
+                    <column id="campaignNumber"/>
                 </columns>
                 <rows datasource="campaignsDs"/>
             </table>
@@ -76,6 +74,5 @@
                 <chart:export/>
             </chart:ganttChart>
         </split>
-        
     </layout>
 </window>

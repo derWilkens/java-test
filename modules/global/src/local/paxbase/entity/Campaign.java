@@ -15,51 +15,40 @@ import local.paxbase.entity.coredata.Site;
 import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.chile.core.annotations.NamePattern;
 
-@NamePattern("%s %s|campaignNo,site")
+@NamePattern("%s %s|campaignNumber,site")
 @Table(name = "PAXBASE_CAMPAIGN")
 @Entity(name = "paxbase$Campaign")
-public class Campaign extends StandardEntity {
+public class Campaign extends Period {
     private static final long serialVersionUID = 2133165937821283408L;
 
-    @Column(name = "CAMPAIGN_NO", length = 10)
-    protected String campaignNo;
+    @Column(name = "CAMPAIGN_NUMBER", length = 10)
+    protected String campaignNumber;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "BEGIN_DATE")
-    protected Date beginDate;
-
-    @Temporal(TemporalType.DATE)
-    @Column(name = "END_DATE")
-    protected Date endDate;
+    @Column(name = "SHUTDOWN_")
+    protected Boolean shutdown;
 
     @Lookup(type = LookupType.DROPDOWN)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SITE_ID")
     protected Site site;
 
-    public void setCampaignNo(String campaignNo) {
-        this.campaignNo = campaignNo;
+    public void setShutdown(Boolean shutdown) {
+        this.shutdown = shutdown;
     }
 
-    public String getCampaignNo() {
-        return campaignNo;
+    public Boolean getShutdown() {
+        return shutdown;
     }
 
-    public void setBeginDate(Date beginDate) {
-        this.beginDate = beginDate;
+
+    public void setCampaignNumber(String campaignNumber) {
+        this.campaignNumber = campaignNumber;
     }
 
-    public Date getBeginDate() {
-        return beginDate;
+    public String getCampaignNumber() {
+        return campaignNumber;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
 
     public void setSite(Site site) {
         this.site = site;
