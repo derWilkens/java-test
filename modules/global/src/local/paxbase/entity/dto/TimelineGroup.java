@@ -26,8 +26,20 @@ public class TimelineGroup {
     protected boolean showNestedGroups;
 
 	public TimelineGroup() {
-		// TODO Auto-generated constructor stub
+
 		nestedGroups = new ArrayList<TimelineItem>();
+		showNestedGroups = true;
+		visible = true;
+	}
+
+	public TimelineGroup(String id) {
+		this.id = id;
+	}
+
+	public TimelineGroup(String id, String content) {
+		this.id = id;
+		this.content = content;
+		visible = true;
 	}
 
 	public String getId() {

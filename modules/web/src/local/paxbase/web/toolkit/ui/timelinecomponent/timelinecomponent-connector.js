@@ -16,13 +16,18 @@ local_paxbase_web_toolkit_ui_timelinecomponent_TimelineComponent = function() {
 		var format = state.format;
 
 	}
-	
-	var items = new vis.DataSet(this.getState().durationList);
-	
+	var items = new vis.DataSet(this.getState().timelineItems);
+	var groups = new vis.DataSet(this.getState().timelineGroups);
 
 	// Configuration for the Timeline
 	var options = {start:this.getState().start,end:this.getState().end};
-
+	var options = {
+			    groupOrder: 'content'  // groupOrder can be a property name or a sorting function
+			  };
 	// Create a Timeline
-	var timeline = new vis.Timeline(container, items, options);
+	
+	  var timeline = new vis.Timeline(container);
+	  timeline.setOptions(options);
+	  timeline.setGroups(groups);
+	  timeline.setItems(items);
 }

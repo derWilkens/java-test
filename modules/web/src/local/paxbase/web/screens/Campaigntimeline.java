@@ -37,6 +37,11 @@ public class Campaigntimeline extends AbstractWindow {
     	campaignsDs.refresh();
     	
     	Collection<GroupInfo> groupInfos = campaignsDs.rootGroups();
+    	for(Entity<?> campaign: campaignsDs.getItems()){
+    		Campaign c = (Campaign)campaign;
+    		c.getSite().getSiteName();
+    	}
+    	
     	
     	for (GroupInfo groupId : groupInfos) {
 			
@@ -46,7 +51,7 @@ public class Campaigntimeline extends AbstractWindow {
 	
 	    	for (Entity entity: campaignsDs.getChildItems(groupId)){
 	    		Campaign campaign = (Campaign) entity;
-	    		group.getNestedGroups().add(new TimelineItem((Period)campaign, campaign.getCampaignNumber()));
+	    		//group.getNestedGroups().add(new TimelineItem((Period)campaign, campaign.getCampaignNumber()));
 	    	}
 	    	periodList.add(group);
     	

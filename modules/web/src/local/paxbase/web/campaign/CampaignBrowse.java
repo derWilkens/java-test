@@ -3,12 +3,16 @@ package local.paxbase.web.campaign;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.google.gson.JsonParser;
 import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.gui.components.AbstractLookup;
 import com.haulmont.cuba.gui.components.BoxLayout;
@@ -17,6 +21,7 @@ import com.haulmont.cuba.gui.components.FieldGroup;
 import com.haulmont.cuba.gui.components.LookupField;
 import com.haulmont.cuba.gui.components.SplitPanel;
 import com.haulmont.cuba.gui.components.Table;
+import com.haulmont.cuba.gui.components.VBoxLayout;
 import com.haulmont.cuba.gui.components.actions.CreateAction;
 import com.haulmont.cuba.gui.components.actions.EditAction;
 import com.haulmont.cuba.gui.components.actions.RemoveAction;
@@ -25,6 +30,8 @@ import com.haulmont.cuba.gui.data.DataSupplier;
 import com.haulmont.cuba.gui.data.Datasource;
 import com.haulmont.cuba.gui.data.GroupDatasource;
 import com.haulmont.cuba.gui.data.GroupInfo;
+import com.haulmont.cuba.web.gui.components.WebComponentsHelper;
+import com.vaadin.ui.Layout;
 
 import local.paxbase.entity.Campaign;
 import local.paxbase.entity.Period;
@@ -77,6 +84,9 @@ public class CampaignBrowse extends AbstractLookup {
      */
     @Inject
     private FieldGroup fieldGroup;
+    
+    @Inject
+    private VBoxLayout timelineBox;
 
     /**
      * The {@link RemoveAction} instance, related to {@link CampaignBrowse#campaignsTable}
@@ -86,6 +96,8 @@ public class CampaignBrowse extends AbstractLookup {
 
     @Inject
     private DataSupplier dataSupplier;
+    
+    private TimelineComponent timeline;
 
     /**
      * {@link Boolean} value, indicating if a new instance of {@link Campaign} is being created
@@ -93,37 +105,43 @@ public class CampaignBrowse extends AbstractLookup {
     private boolean creating;
     
     private void initDTO(){
-    	Collection<GroupInfo> groupInfos = campaignsDs.rootGroups();
-    	TimelineComponent timeline = new TimelineComponent();
-
-    	ArrayList<TimelineGroup> periodList = new ArrayList<TimelineGroup>();
-    	for (GroupInfo groupId : groupInfos) {
-			
-    		TimelineGroup group = new TimelineGroup();
-    		String obi = groupId.getPropertyValue("site.siteName").toString();
-    		
-    		group.setContent(groupId.getPropertyValue("site.siteName").toString());
-    		periodList.add(new TimelineGroup());
-	
-	    	for (Entity entity: campaignsDs.getChildItems(groupId)){
-	    		Campaign campaign = (Campaign) entity;
-	    		group.getNestedGroups().add(new TimelineItem((Period)campaign, campaign.getCampaignNumber()));
-	    	}
-	    	periodList.add(group);
     	
-    		
-//    		campaignsDs.getChildItems(groupInfo.
-//    		TimelineItem item = new TimelineItem(period, content)
+    	Collection<GroupInfo> groupInfos = campaignsDs.rootGroups();
+    	HashMap<String,String> groupKeys = new HashMap<String,String>();
+    	
+
+    	ArrayList<TimelineGroup> groupList = new ArrayList<TimelineGroup>();
+    	ArrayList<TimelineItem> timelineItemList = new ArrayList<TimelineItem>();
+    	int i = 0;
+
+
+    	for (Entity entity: campaignsDs.getItems()){
+    		Campaign campaign = (Campaign) entity;
+    		timelineItemList.add(new TimelineItem((Period)campaign, campaign.getCampaignNumber(), campaign.getSite().getId().toString()));
+    		groupKeys.put(campaign.getSite().getId().toString(),campaign.getSite().getSiteName());
+    	}
+    	
+    	for (Entry<String, String> groupKeyValue : groupKeys.entrySet()) {
+    		TimelineGroup timelineGroup = new TimelineGroup(groupKeyValue.getKey(),groupKeyValue.getValue());
+    		groupList.add(timelineGroup);
 		}
+    	
+    	timeline.setTimelineGroups(groupList);
+    	timeline.setTimelineItems(timelineItemList);
+
     }
     @Override
     public void init(Map<String, Object> params) {
-
-
-//    	campaignsDs.groupBy(new String[] {"siteName"});
-    	campaignsDs.refresh();
+    	timeline = new TimelineComponent();
     	
-    	
+        campaignsDs.refresh();  
+        initDTO();
+        
+    	com.vaadin.ui.Layout box = (Layout) WebComponentsHelper.unwrap(timelineBox);
+    	timeline.setStart("2017-03-01");
+    	timeline.setEnd("2017-05-01");
+        box.addComponent(timeline);
+
     	campaignsDs.addCollectionChangeListener(e->{
     		//e.getDs().getItemIds().size();
     		if(e.getDs() != null){
@@ -183,6 +201,8 @@ public class CampaignBrowse extends AbstractLookup {
         campaignsTableRemove.setAfterRemoveHandler(removedItems -> campaignDs.setItem(null));
 
         disableEditControls();
+        
+    	
     }
 
     private void refreshOptionsForLookupFields() {

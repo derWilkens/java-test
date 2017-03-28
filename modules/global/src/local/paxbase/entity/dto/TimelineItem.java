@@ -19,7 +19,7 @@ public class TimelineItem  {
     
     protected String group;
     
-    protected String subgroup;
+    //protected String subgroup;
     
     protected String type; //Can be 'box' (default), 'point', 'range', or 'background'. 
     
@@ -31,12 +31,14 @@ public class TimelineItem  {
     
     
 
-    public TimelineItem(Period period, String content) {
+    public TimelineItem(Period period, String content, String group) {
 		super();
 		this.content = content;
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		this.start = formatter.format(period.getStart());
 		this.end = formatter.format(period.getEnd());
+		this.group = group;
+		
 				
 	}
 
@@ -72,13 +74,13 @@ public class TimelineItem  {
 		this.group = group;
 	}
 
-	public String getSubgroup() {
-		return subgroup;
-	}
-
-	public void setSubgroup(String subgroup) {
-		this.subgroup = subgroup;
-	}
+//	public String getSubgroup() {
+//		return subgroup;
+//	}
+//
+//	public void setSubgroup(String subgroup) {
+//		this.subgroup = subgroup;
+//	}
 
 	public String getType() {
 		return type;
