@@ -41,4 +41,6 @@
             template="local/paxbase/web/screens/campaignTimeline.xml"/>
     <screen id="paxbase$Campaign.browse"
             template="local/paxbase/web/campaign/campaign-browse.xml"/>
+    <screen id="paxbase$UserPreference.browse"
+            template="local/paxbase/web/userpreference/user-preference-browse.xml"/>
 </screen-config>

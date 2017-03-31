@@ -23,6 +23,13 @@
                 <![CDATA[select e from paxbase$Site e]]>
             </query>
         </collectionDatasource>
+        <collectionDatasource id="userPreferencesDs"
+                              class="local.paxbase.entity.UserPreference"
+                              view="_local">
+            <query>
+                <![CDATA[select e from paxbase$UserPreference e]]>
+            </query>
+        </collectionDatasource>
     </dsContext>
     <actions>
         <action id="save"
@@ -113,5 +120,22 @@
         </split>
         <vbox id="timelineBox"
               spacing="true"/>
+        <table id="siteUserSettings"
+               height="100px"
+               settingsEnabled="false"
+               width="339px">
+            <columns>
+                <column id="client"
+                        visible="false"/>
+                <column id="siteName"/>
+                <column id="itemDesignation"
+                        visible="false"/>
+                <column id="shortItemDesignation"
+                        visible="false"/>
+                <column id="selected"
+                        generator="generateSelectedCell"/>
+            </columns>
+            <rows datasource="sitesDs"/>
+        </table>
     </layout>
 </window>

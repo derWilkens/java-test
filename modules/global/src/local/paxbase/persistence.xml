@@ -18,5 +18,6 @@
         <class>local.paxbase.entity.coredata.SiteType</class>
         <class>local.paxbase.entity.Campaign</class>
         <class>local.paxbase.entity.Period</class>
+        <class>local.paxbase.entity.UserPreference</class>
     </persistence-unit>
 </persistence>

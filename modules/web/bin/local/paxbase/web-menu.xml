@@ -13,5 +13,6 @@
         <item id="paxbase$SiteType.browse"/>
         <item id="campaignTimeline"/>
         <item id="paxbase$Campaign.browse"/>
+        <item id="paxbase$UserPreference.browse"/>
     </menu>
 </menu-config>
