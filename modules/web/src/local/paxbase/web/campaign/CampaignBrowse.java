@@ -63,7 +63,8 @@ public class CampaignBrowse extends AbstractLookup {
 	 */
 	@Inject
 	private Datasource<Campaign> campaignDs;
-
+	@Inject 
+	private GroupDatasource<Campaign,UUID> preferredCampaignsDS;
 	/**
 	 * The {@link Table} instance, containing a list of {@link Campaign}
 	 * records, loaded via {@link CampaignBrowse#campaignsDs}
@@ -114,39 +115,19 @@ public class CampaignBrowse extends AbstractLookup {
 	 */
 	private boolean creating;
 
-	private void initDTO() {
-
-		Collection<GroupInfo> groupInfos = campaignsDs.rootGroups();
-		HashMap<String, String> groupKeys = new HashMap<String, String>();
-
-		ArrayList<TimelineGroup> groupList = new ArrayList<TimelineGroup>();
-		ArrayList<TimelineItem> timelineItemList = new ArrayList<TimelineItem>();
-		int i = 0;
-
-		for (Entity entity : campaignsDs.getItems()) {
-			Campaign campaign = (Campaign) entity;
-			timelineItemList.add(new TimelineItem((Period) campaign, campaign.getCampaignNumber(),
-					campaign.getSite().getId().toString()));
-			groupKeys.put(campaign.getSite().getId().toString(), campaign.getSite().getSiteName());
-		}
-
-		for (Entry<String, String> groupKeyValue : groupKeys.entrySet()) {
-			TimelineGroup timelineGroup = new TimelineGroup(groupKeyValue.getKey(), groupKeyValue.getValue());
-			groupList.add(timelineGroup);
-		}
-
-		timeline.setTimelineGroups(groupList);
-		timeline.setTimelineItems(timelineItemList);
-
-	}
-
 	@Override
 	public void init(Map<String, Object> params) {
+		
 		initSiteUserSettings();
+		
 		timeline = new TimelineComponent();
 
 		campaignsDs.refresh();
-		initDTO();
+		CampaignDTO campaignDTO = new CampaignDTO(preferredCampaignsDS);
+		
+		timeline.setTimelineGroups(campaignDTO.getGroupList());
+		timeline.setTimelineItems(campaignDTO.getTimelineItemList());
+		//timeline.
 
 		com.vaadin.ui.Layout box = (Layout) WebComponentsHelper.unwrap(timelineBox);
 		timeline.setStart("2017-03-01");
@@ -156,7 +137,9 @@ public class CampaignBrowse extends AbstractLookup {
 		campaignsDs.addCollectionChangeListener(e -> {
 			// e.getDs().getItemIds().size();
 			if (e.getDs() != null) {
-				initDTO();
+				campaignDTO.refresh();
+				
+				
 			}
 		});
 		campaignDs.addStateChangeListener(e -> {

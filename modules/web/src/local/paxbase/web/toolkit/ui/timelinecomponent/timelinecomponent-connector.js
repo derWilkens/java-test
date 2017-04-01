@@ -9,15 +9,18 @@ local_paxbase_web_toolkit_ui_timelinecomponent_TimelineComponent = function() {
 	var container = document.getElementById('visualization');
 
 	this.onStateChange = function() {
+		
 		var state = connector.getState();
+		
 		var data = state.dataAttributes;
 		var start = state.start;
 		var end =state.end;
 		var format = state.format;
-
+		
+		timeline.setGroups(new vis.DataSet(this.getState().timelineGroups));
+		timeline.setItems(new vis.DataSet(this.getState().timelineItems));
 	}
-	var items = new vis.DataSet(this.getState().timelineItems);
-	var groups = new vis.DataSet(this.getState().timelineGroups);
+
 
 	// Configuration for the Timeline
 	var options = {start:this.getState().start,end:this.getState().end};
@@ -28,6 +31,6 @@ local_paxbase_web_toolkit_ui_timelinecomponent_TimelineComponent = function() {
 	
 	  var timeline = new vis.Timeline(container);
 	  timeline.setOptions(options);
-	  timeline.setGroups(groups);
-	  timeline.setItems(items);
+	  timeline.setGroups(new vis.DataSet(this.getState().timelineGroups));
+	  timeline.setItems(new vis.DataSet(this.getState().timelineItems));
 }

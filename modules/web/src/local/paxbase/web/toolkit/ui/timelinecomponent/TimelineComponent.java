@@ -10,6 +10,7 @@ import elemental.json.JsonArray;
 import local.paxbase.entity.dto.TimelineGroup;
 import local.paxbase.entity.dto.TimelineItem;
 
+@SuppressWarnings("serial")
 @JavaScript({"timelinecomponent-connector.js", "vis.js"})
 @StyleSheet({"vis.css"})
 public class TimelineComponent extends AbstractJavaScriptComponent {

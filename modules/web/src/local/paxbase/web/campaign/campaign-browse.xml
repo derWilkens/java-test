@@ -30,6 +30,15 @@
                 <![CDATA[select e from paxbase$UserPreference e]]>
             </query>
         </collectionDatasource>
+        <groupDatasource id="preferredCampaignsDS"
+                         allowCommit="false"
+                         class="local.paxbase.entity.Campaign"
+                         view="_local">
+            <query>
+                <![CDATA[select c from paxbase$Campaign c left join paxbase$UserPreference  p on c.uuid = p.entityUUID where p.userId = 
+:session$userId]]>
+            </query>
+        </groupDatasource>
     </dsContext>
     <actions>
         <action id="save"
