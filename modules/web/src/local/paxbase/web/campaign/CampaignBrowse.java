@@ -63,8 +63,7 @@ public class CampaignBrowse extends AbstractLookup {
 	 */
 	@Inject
 	private Datasource<Campaign> campaignDs;
-	@Inject 
-	private GroupDatasource<Campaign,UUID> preferredCampaignsDS;
+
 	/**
 	 * The {@link Table} instance, containing a list of {@link Campaign}
 	 * records, loaded via {@link CampaignBrowse#campaignsDs}
@@ -109,6 +108,7 @@ public class CampaignBrowse extends AbstractLookup {
 
 	private TimelineComponent timeline;
 
+	private CampaignDTO campaignDTO;
 	/**
 	 * {@link Boolean} value, indicating if a new instance of {@link Campaign}
 	 * is being created
@@ -123,15 +123,18 @@ public class CampaignBrowse extends AbstractLookup {
 		timeline = new TimelineComponent();
 
 		campaignsDs.refresh();
-		CampaignDTO campaignDTO = new CampaignDTO(preferredCampaignsDS);
+		userPreferencesDs.refresh();
+		
+		campaignDTO = new CampaignDTO(campaignsDs, userPreferencesDs);
+		
 		
 		timeline.setTimelineGroups(campaignDTO.getGroupList());
 		timeline.setTimelineItems(campaignDTO.getTimelineItemList());
-		//timeline.
-
-		com.vaadin.ui.Layout box = (Layout) WebComponentsHelper.unwrap(timelineBox);
 		timeline.setStart("2017-03-01");
 		timeline.setEnd("2017-05-01");
+
+		com.vaadin.ui.Layout box = (Layout) WebComponentsHelper.unwrap(timelineBox);
+
 		box.addComponent(timeline);
 
 		campaignsDs.addCollectionChangeListener(e -> {
@@ -250,7 +253,9 @@ public class CampaignBrowse extends AbstractLookup {
 						//userPreferencesDs.getItems().removeIf(f -> f.getEntityUuid().equals(siteUserSettings.getSingleSelected().getId()));
 						userPreferencesDs.commit();
 					}
-						
+					campaignDTO.refresh();
+					timeline.setTimelineGroups(campaignDTO.getGroupList());
+					timeline.setTimelineItems(campaignDTO.getTimelineItemList());
 				}
 //		          @Override
 //		          public void valueChange(Property.ValueChangeEvent event) {

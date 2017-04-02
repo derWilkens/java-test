@@ -11,12 +11,7 @@ local_paxbase_web_toolkit_ui_timelinecomponent_TimelineComponent = function() {
 	this.onStateChange = function() {
 		
 		var state = connector.getState();
-		
-		var data = state.dataAttributes;
-		var start = state.start;
-		var end =state.end;
-		var format = state.format;
-		
+				
 		timeline.setGroups(new vis.DataSet(this.getState().timelineGroups));
 		timeline.setItems(new vis.DataSet(this.getState().timelineItems));
 	}
