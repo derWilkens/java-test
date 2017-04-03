@@ -2,6 +2,7 @@
 <menu-config xmlns="http://schemas.haulmont.com/cuba/menu.xsd">
     <menu id="application"
           insertBefore="administration">
+        <item id="paxbase$Campaign.campaignOverview"/>
         <item id="paxbase$Site.browse"/>
         <item id="paxbase$Company.browse"/>
         <item id="paxbase$OffshoreUser.browse"/>
@@ -11,8 +12,9 @@
         <item id="paxbase$Waypoint.browse"/>
         <item id="paxbase$DutyPeriod.browse"/>
         <item id="paxbase$SiteType.browse"/>
-        <item id="campaignTimeline"/>
-        <item id="paxbase$Campaign.browse"/>
         <item id="paxbase$UserPreference.browse"/>
+        <item id="paxbase$PeriodType.browse"/>
+        <item id="paxbase$ServicePeriod.browse"/>
+        <item id="paxbase$Campaign.browse"/>
     </menu>
 </menu-config>

@@ -1,24 +1,24 @@
 package local.paxbase.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import com.haulmont.cuba.core.entity.annotation.Lookup;
-import com.haulmont.cuba.core.entity.annotation.LookupType;
-import java.util.Date;
+import java.util.UUID;
+
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import local.paxbase.entity.coredata.Site;
-import com.haulmont.cuba.core.entity.StandardEntity;
+import javax.persistence.Table;
+
 import com.haulmont.chile.core.annotations.NamePattern;
+import com.haulmont.cuba.core.entity.annotation.Lookup;
+import com.haulmont.cuba.core.entity.annotation.LookupType;
+
+import local.paxbase.entity.coredata.Site;
 
 @NamePattern("%s %s|campaignNumber,site")
 @Table(name = "PAXBASE_CAMPAIGN")
 @Entity(name = "paxbase$Campaign")
-public class Campaign extends Period {
+public class Campaign extends Period implements PreferredEntity{
     private static final long serialVersionUID = 2133165937821283408L;
 
     @Column(name = "CAMPAIGN_NUMBER", length = 10)
@@ -57,6 +57,32 @@ public class Campaign extends Period {
     public Site getSite() {
         return site;
     }
+    
+	@Override
+	public UUID getPreferredUUID() {
+		return this.getType().getId();
+	}
 
+	@Override
+	public String getLabel() {
+		return getType().getTypeName();
+	}
+
+	@Override
+	public String getGroupLabel(GroupedBy groupedBy) {
+		if (groupedBy.equals(GroupedBy.Site)){
+			return getSite().getSiteName();
+		}
+			
+		return null;
+	}
+	@Override
+	public UUID getGroupId(GroupedBy groupedBy) {
+		if (groupedBy.equals(GroupedBy.Site)){
+			return getSite().getId();
+		}
+			
+		return null;
+	}
 
 }

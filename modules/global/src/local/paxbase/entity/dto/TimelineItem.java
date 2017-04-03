@@ -35,8 +35,8 @@ public class TimelineItem  {
 		super();
 		this.content = content;
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		this.start = formatter.format(period.getStart());
-		this.end = formatter.format(period.getEnd());
+		this.start = period.getStart() != null ? formatter.format(period.getStart()):null;
+		this.end = period.getEnd()!=null ? formatter.format(period.getEnd()):null;
 		this.group = group;
 		
 				

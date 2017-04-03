@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://caption"
+        class="local.paxbase.web.campaign.CampaignOverview"
+        messagesPack="local.paxbase.web.campaign">
+    <dsContext>
+        <collectionDatasource id="campaignsDs"
+                              class="local.paxbase.entity.Campaign"
+                              view="campaignOverview">
+            <query>
+                <![CDATA[select e from paxbase$Campaign e]]>
+            </query>
+        </collectionDatasource>
+        <collectionDatasource id="sitesDs"
+                              class="local.paxbase.entity.coredata.Site"
+                              view="siteSelect">
+            <query>
+                <![CDATA[select e from paxbase$Site e]]>
+            </query>
+        </collectionDatasource>
+        <collectionDatasource id="userPreferencesDs"
+                              class="local.paxbase.entity.UserPreference"
+                              view="_local">
+            <query>
+                <![CDATA[select e from paxbase$UserPreference e]]>
+            </query>
+        </collectionDatasource>
+        <collectionDatasource id="periodTypesDs"
+                              class="local.paxbase.entity.coredata.PeriodType"
+                              view="_local">
+            <query>
+                <![CDATA[select e from paxbase$PeriodType e]]>
+            </query>
+        </collectionDatasource>
+        <collectionDatasource id="servicePeriodsDs"
+                              class="local.paxbase.entity.ServicePeriod"
+                              view="servicePeriodList-view">
+            <query>
+                <![CDATA[select e from paxbase$ServicePeriod e]]>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <actions>
+        <action id="save"
+                caption="mainMsg://actions.Ok"
+                icon="icons/ok.png"
+                invoke="save"
+                shortcut="CTRL-ENTER"/>
+        <action id="cancel"
+                caption="mainMsg://actions.Cancel"
+                icon="icons/cancel.png"
+                invoke="cancel"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout>
+        <vbox id="timelineBox"
+              spacing="true"/>
+        <hbox spacing="true">
+            <table id="typeUserSettings"
+                   height="100%"
+                   width="377px">
+                <columns>
+                    <column id="typeGroup"/>
+                    <column id="typeName"/>
+                    <column id="selected"/>
+                </columns>
+                <rows datasource="periodTypesDs"/>
+            </table>
+            <vbox spacing="true">
+                <filter datasource="sitesDs"/>
+                <table id="siteUserSettings"
+                       height="100%"
+                       settingsEnabled="false"
+                       width="339px">
+                    <columns>
+                        <column id="siteName"/>
+                    </columns>
+                    <rows datasource="sitesDs"/>
+                </table>
+            </vbox>
+        </hbox>
+    </layout>
+</window>

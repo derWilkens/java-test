@@ -213,8 +213,9 @@ create table PAXBASE_CAMPAIGN (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    START_ date,
-    END_ date,
+    START_ datetime(3),
+    END_ datetime(3),
+    TYPE_ID varchar(32),
     --
     CAMPAIGN_NUMBER varchar(10),
     SHUTDOWN_ boolean,
@@ -243,3 +244,40 @@ create table PAXBASE_USER_PREFERENCE (
     primary key (ID)
 )^
 -- end PAXBASE_USER_PREFERENCE
+-- begin PAXBASE_PERIOD_TYPE
+create table PAXBASE_PERIOD_TYPE (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    --
+    TYPE_NAME varchar(20),
+    TYPE_GROUP varchar(20),
+    --
+    primary key (ID)
+)^
+-- end PAXBASE_PERIOD_TYPE
+-- begin PAXBASE_SERVICE_PERIOD
+create table PAXBASE_SERVICE_PERIOD (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    START_ datetime(3),
+    END_ datetime(3),
+    TYPE_ID varchar(32),
+    --
+    OFFSHORE_USER_ID varchar(32),
+    SITE_ID varchar(32),
+    --
+    primary key (ID)
+)^
+-- end PAXBASE_SERVICE_PERIOD

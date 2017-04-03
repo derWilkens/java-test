@@ -2,6 +2,7 @@ package local.paxbase.entity.dto;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.UUID;
 
 public class TimelineGroup {
 	
@@ -38,6 +39,12 @@ public class TimelineGroup {
 
 	public TimelineGroup(String id, String content) {
 		this.id = id;
+		this.content = content;
+		visible = true;
+	}
+
+	public TimelineGroup(UUID id, String content) {
+		this.id = id.toString();
 		this.content = content;
 		visible = true;
 	}

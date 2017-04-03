@@ -1,62 +1,68 @@
 package local.paxbase.web.campaign;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.gui.data.CollectionDatasource;
-import com.haulmont.cuba.gui.data.GroupDatasource;
-import com.haulmont.cuba.gui.data.GroupInfo;
+import com.haulmont.cuba.gui.data.Datasource;
 
-import local.paxbase.entity.Campaign;
+import local.paxbase.entity.GroupedBy;
 import local.paxbase.entity.Period;
 import local.paxbase.entity.UserPreference;
 import local.paxbase.entity.dto.TimelineGroup;
 import local.paxbase.entity.dto.TimelineItem;
 
-public class CampaignDTO {
+public class TimelineDTO {
 	
 	private ArrayList<TimelineGroup> groupList;
 	private ArrayList<TimelineItem> timelineItemList;
-	private GroupDatasource<Campaign, UUID> campaignsDs;
+	private CollectionDatasource<Period, UUID> periodDs;
 	private CollectionDatasource<UserPreference, UUID> userPreferencesDs;
-	private HashSet<UUID> preferredSites;
+	private HashSet<UUID> preferredItems;
+	private GroupedBy groupedBy;
+	private String filteredEntityType; 
 	
-	public CampaignDTO(GroupDatasource<Campaign, UUID> campaignsDs, CollectionDatasource<UserPreference, UUID> userPreferencesDs) {
-		
-
-		this.campaignsDs = campaignsDs;
+	public TimelineDTO(CollectionDatasource<Period, UUID> periodDs, CollectionDatasource<UserPreference, UUID> userPreferencesDs, GroupedBy groupedBy) {
+		this.periodDs = periodDs;
 		this.userPreferencesDs = userPreferencesDs;
-		
-		refresh();
+		this.groupedBy = groupedBy;
 	}
+	
+	public TimelineDTO(GroupedBy site) {
+		// TODO Auto-generated constructor stub
+	}
+
+
+
 	public void refresh(){
 		
-		preferredSites = new HashSet<>();
+		preferredItems = new HashSet<>();
 		for (UserPreference preference : userPreferencesDs.getItems()) {
-			preferredSites.add(preference.getEntityUuid());
+			preferredItems.add(preference.getEntityUuid());
 		}
 		
 		groupList = new ArrayList<TimelineGroup>();
 		timelineItemList = new ArrayList<TimelineItem>();
 		//Collection<GroupInfo> groupInfos = campaignsDs.rootGroups();
-		HashMap<String, String> groupKeys = new HashMap<String, String>();
+		HashMap<UUID, String> groupKeys = new HashMap<UUID, String>();
 
-		for (Entity entity : campaignsDs.getItems()) {
-			Campaign campaign = (Campaign) entity;
-			if(preferredSites.contains(campaign.getSite().getUuid())){
-			timelineItemList.add(new TimelineItem((Period) campaign, campaign.getCampaignNumber(),
-					campaign.getSite().getId().toString()));
-			groupKeys.put(campaign.getSite().getId().toString(), campaign.getSite().getSiteName());
+		for (Period entity : periodDs.getItems()) {
+			
+			//entweder die Site oder den Type aber welches Attribut der Enity 
+			//abgefragt wird hängt ja vom preferredItem ab und auch nicht von der GroupBy-Eigenschaft	
+			//das verstehe ich doch nach zwei Tagen schon nicht mehr
+			
+			if (preferredItems.contains(entity) || true) {
+				timelineItemList
+						.add(new TimelineItem((Period) entity, entity.getLabel(), entity.getGroupLabel(groupedBy)));
+				groupKeys.put(entity.getGroupId(groupedBy), entity.getGroupLabel(groupedBy));
 			}
 		}
 
-		for (Entry<String, String> groupKeyValue : groupKeys.entrySet()) {
+		for (Entry<UUID, String> groupKeyValue : groupKeys.entrySet()) {
 			TimelineGroup timelineGroup = new TimelineGroup(groupKeyValue.getKey(), groupKeyValue.getValue());
 			groupList.add(timelineGroup);
 		}

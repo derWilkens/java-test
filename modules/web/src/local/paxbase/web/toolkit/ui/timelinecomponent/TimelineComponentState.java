@@ -7,6 +7,7 @@ import com.vaadin.shared.ui.JavaScriptComponentState;
 import local.paxbase.entity.dto.TimelineGroup;
 import local.paxbase.entity.dto.TimelineItem;
 
+@SuppressWarnings("serial")
 public class TimelineComponentState extends JavaScriptComponentState {
 	
 	public String start;
@@ -15,7 +16,5 @@ public class TimelineComponentState extends JavaScriptComponentState {
 	public String dataAttributes;
 	public Collection<TimelineGroup> timelineGroups; 
 	public Collection<TimelineItem> timelineItems;
-	
-
 	
 }

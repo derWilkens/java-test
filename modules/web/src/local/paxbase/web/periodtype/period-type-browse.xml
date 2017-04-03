@@ -1,28 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
         caption="msg://caption"
-        class="local.paxbase.web.campaign.CampaignBrowse"
-        focusComponent="campaignsTable"
-        lookupComponent="campaignsTable"
-        messagesPack="local.paxbase.web.campaign">
+        class="local.paxbase.web.periodtype.PeriodTypeBrowse"
+        focusComponent="periodTypesTable"
+        lookupComponent="periodTypesTable"
+        messagesPack="local.paxbase.web.periodtype">
     <dsContext>
-        <datasource id="campaignDs"
-                    class="local.paxbase.entity.Campaign"
-                    view="campaign-view"/>
-        <groupDatasource id="campaignsDs"
-                         class="local.paxbase.entity.Campaign"
-                         view="campaign-view">
+        <datasource id="periodTypeDs"
+                    class="local.paxbase.entity.coredata.PeriodType"
+                    view="_local"/>
+        <groupDatasource id="periodTypesDs"
+                         class="local.paxbase.entity.coredata.PeriodType"
+                         view="_local">
             <query>
-                <![CDATA[select e from paxbase$Campaign e]]>
+                <![CDATA[select e from paxbase$PeriodType e]]>
             </query>
         </groupDatasource>
-        <collectionDatasource id="sitesDs"
-                              class="local.paxbase.entity.coredata.Site"
-                              view="_minimal">
-            <query>
-                <![CDATA[select e from paxbase$Site e]]>
-            </query>
-        </collectionDatasource>
     </dsContext>
     <actions>
         <action id="save"
@@ -44,16 +37,16 @@
                reversePosition="true"
                width="100%">
             <vbox id="lookupBox"
-                  expand="campaignsTable"
+                  expand="periodTypesTable"
                   height="100%"
                   margin="false,true,false,false"
                   spacing="true">
                 <filter id="filter"
-                        applyTo="campaignsTable"
-                        datasource="campaignsDs">
+                        applyTo="periodTypesTable"
+                        datasource="periodTypesDs">
                     <properties include=".*"/>
                 </filter>
-                <groupTable id="campaignsTable"
+                <groupTable id="periodTypesTable"
                             width="100%">
                     <actions>
                         <action id="create"/>
@@ -61,22 +54,19 @@
                         <action id="remove"/>
                     </actions>
                     <columns>
-                        <column id="start"/>
-                        <column id="end"/>
-                        <column id="campaignNumber"/>
-                        <column id="shutdown"/>
-                        <column id="site"/>
+                        <column id="typeName"/>
+                        <column id="typeGroup"/>
                     </columns>
-                    <rows datasource="campaignsDs"/>
+                    <rows datasource="periodTypesDs"/>
                     <rowsCount/>
                     <buttonsPanel id="buttonsPanel"
                                   alwaysVisible="true">
                         <button id="createBtn"
-                                action="campaignsTable.create"/>
+                                action="periodTypesTable.create"/>
                         <button id="editBtn"
-                                action="campaignsTable.edit"/>
+                                action="periodTypesTable.edit"/>
                         <button id="removeBtn"
-                                action="campaignsTable.remove"/>
+                                action="periodTypesTable.remove"/>
                     </buttonsPanel>
                 </groupTable>
             </vbox>
@@ -87,14 +77,10 @@
                   spacing="true">
                 <vbox id="fieldGroupBox">
                     <fieldGroup id="fieldGroup"
-                                datasource="campaignDs">
+                                datasource="periodTypeDs">
                         <column width="250px">
-                            <field id="start"/>
-                            <field id="end"/>
-                            <field id="campaignNumber"/>
-                            <field id="shutdown"/>
-                            <field id="site"
-                                   optionsDatasource="sitesDs"/>
+                            <field id="typeName"/>
+                            <field id="typeGroup"/>
                         </column>
                     </fieldGroup>
                 </vbox>

@@ -1,6 +1,6 @@
-package local.paxbase.web.campaign;
+package local.paxbase.web.periodtype;
 
-import local.paxbase.entity.Campaign;
+import local.paxbase.entity.coredata.PeriodType;
 import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.components.actions.CreateAction;
@@ -16,31 +16,31 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 
-public class CampaignBrowse extends AbstractLookup {
+public class PeriodTypeBrowse extends AbstractLookup {
 
     /**
-     * The {@link CollectionDatasource} instance that loads a list of {@link Campaign} records
-     * to be displayed in {@link CampaignBrowse#campaignsTable} on the left
+     * The {@link CollectionDatasource} instance that loads a list of {@link PeriodType} records
+     * to be displayed in {@link PeriodTypeBrowse#periodTypesTable} on the left
      */
     @Inject
-    private CollectionDatasource<Campaign, UUID> campaignsDs;
+    private CollectionDatasource<PeriodType, UUID> periodTypesDs;
 
     /**
      * The {@link Datasource} instance that contains an instance of the selected entity
-     * in {@link CampaignBrowse#campaignsDs}
+     * in {@link PeriodTypeBrowse#periodTypesDs}
      * <p/> Containing instance is loaded in {@link CollectionDatasource#addItemChangeListener}
      * with the view, specified in the XML screen descriptor.
-     * The listener is set in the {@link CampaignBrowse#init(Map)} method
+     * The listener is set in the {@link PeriodTypeBrowse#init(Map)} method
      */
     @Inject
-    private Datasource<Campaign> campaignDs;
+    private Datasource<PeriodType> periodTypeDs;
 
     /**
-     * The {@link Table} instance, containing a list of {@link Campaign} records,
-     * loaded via {@link CampaignBrowse#campaignsDs}
+     * The {@link Table} instance, containing a list of {@link PeriodType} records,
+     * loaded via {@link PeriodTypeBrowse#periodTypesDs}
      */
     @Inject
-    private Table<Campaign> campaignsTable;
+    private Table<PeriodType> periodTypesTable;
 
     /**
      * The {@link BoxLayout} instance that contains components on the left side
@@ -56,23 +56,23 @@ public class CampaignBrowse extends AbstractLookup {
     private BoxLayout actionsPane;
 
     /**
-     * The {@link FieldGroup} instance that is linked to {@link CampaignBrowse#campaignDs}
-     * and shows fields of the selected {@link Campaign} record
+     * The {@link FieldGroup} instance that is linked to {@link PeriodTypeBrowse#periodTypeDs}
+     * and shows fields of the selected {@link PeriodType} record
      */
     @Inject
     private FieldGroup fieldGroup;
 
     /**
-     * The {@link RemoveAction} instance, related to {@link CampaignBrowse#campaignsTable}
+     * The {@link RemoveAction} instance, related to {@link PeriodTypeBrowse#periodTypesTable}
      */
-    @Named("campaignsTable.remove")
-    private RemoveAction campaignsTableRemove;
+    @Named("periodTypesTable.remove")
+    private RemoveAction periodTypesTableRemove;
 
     @Inject
     private DataSupplier dataSupplier;
 
     /**
-     * {@link Boolean} value, indicating if a new instance of {@link Campaign} is being created
+     * {@link Boolean} value, indicating if a new instance of {@link PeriodType} is being created
      */
     private boolean creating;
 
@@ -80,39 +80,39 @@ public class CampaignBrowse extends AbstractLookup {
     public void init(Map<String, Object> params) {
 
         /*
-         * Adding {@link com.haulmont.cuba.gui.data.Datasource.ItemChangeListener} to {@link campaignsDs}
-         * The listener reloads the selected record with the specified view and sets it to {@link campaignDs}
+         * Adding {@link com.haulmont.cuba.gui.data.Datasource.ItemChangeListener} to {@link periodTypesDs}
+         * The listener reloads the selected record with the specified view and sets it to {@link periodTypeDs}
          */
-        campaignsDs.addItemChangeListener(e -> {
+        periodTypesDs.addItemChangeListener(e -> {
             if (e.getItem() != null) {
-                Campaign reloadedItem = dataSupplier.reload(e.getDs().getItem(), campaignDs.getView());
-                campaignDs.setItem(reloadedItem);
+                PeriodType reloadedItem = dataSupplier.reload(e.getDs().getItem(), periodTypeDs.getView());
+                periodTypeDs.setItem(reloadedItem);
             }
         });
 
         /*
-         * Adding {@link CreateAction} to {@link campaignsTable}
-         * The listener removes selection in {@link campaignsTable}, sets a newly created item to {@link campaignDs}
+         * Adding {@link CreateAction} to {@link periodTypesTable}
+         * The listener removes selection in {@link periodTypesTable}, sets a newly created item to {@link periodTypeDs}
          * and enables controls for record editing
          */
-        campaignsTable.addAction(new CreateAction(campaignsTable) {
+        periodTypesTable.addAction(new CreateAction(periodTypesTable) {
             @Override
             protected void internalOpenEditor(CollectionDatasource datasource, Entity newItem, Datasource parentDs, Map<String, Object> params) {
-                campaignsTable.setSelected(Collections.emptyList());
-                campaignDs.setItem((Campaign) newItem);
+                periodTypesTable.setSelected(Collections.emptyList());
+                periodTypeDs.setItem((PeriodType) newItem);
                 refreshOptionsForLookupFields();
                 enableEditControls(true);
             }
         });
 
         /*
-         * Adding {@link EditAction} to {@link campaignsTable}
+         * Adding {@link EditAction} to {@link periodTypesTable}
          * The listener enables controls for record editing
          */
-        campaignsTable.addAction(new EditAction(campaignsTable) {
+        periodTypesTable.addAction(new EditAction(periodTypesTable) {
             @Override
             protected void internalOpenEditor(CollectionDatasource datasource, Entity existingItem, Datasource parentDs, Map<String, Object> params) {
-                if (campaignsTable.getSelected().size() == 1) {
+                if (periodTypesTable.getSelected().size() == 1) {
                     refreshOptionsForLookupFields();
                     enableEditControls(false);
                 }
@@ -120,10 +120,10 @@ public class CampaignBrowse extends AbstractLookup {
         });
 
         /*
-         * Setting {@link RemoveAction#afterRemoveHandler} for {@link campaignsTableRemove}
-         * to reset record, contained in {@link campaignDs}
+         * Setting {@link RemoveAction#afterRemoveHandler} for {@link periodTypesTableRemove}
+         * to reset record, contained in {@link periodTypeDs}
          */
-        campaignsTableRemove.setAfterRemoveHandler(removedItems -> campaignDs.setItem(null));
+        periodTypesTableRemove.setAfterRemoveHandler(removedItems -> periodTypeDs.setItem(null));
 
         disableEditControls();
     }
@@ -148,13 +148,13 @@ public class CampaignBrowse extends AbstractLookup {
         }
         getDsContext().commit();
 
-        Campaign editedItem = campaignDs.getItem();
+        PeriodType editedItem = periodTypeDs.getItem();
         if (creating) {
-            campaignsDs.includeItem(editedItem);
+            periodTypesDs.includeItem(editedItem);
         } else {
-            campaignsDs.updateItem(editedItem);
+            periodTypesDs.updateItem(editedItem);
         }
-        campaignsTable.setSelected(editedItem);
+        periodTypesTable.setSelected(editedItem);
 
         disableEditControls();
     }
@@ -163,12 +163,12 @@ public class CampaignBrowse extends AbstractLookup {
      * Method that is invoked by clicking Cancel button, discards changes and disables controls for record editing
      */
     public void cancel() {
-        Campaign selectedItem = campaignsDs.getItem();
+        PeriodType selectedItem = periodTypesDs.getItem();
         if (selectedItem != null) {
-            Campaign reloadedItem = dataSupplier.reload(selectedItem, campaignDs.getView());
-            campaignsDs.setItem(reloadedItem);
+            PeriodType reloadedItem = dataSupplier.reload(selectedItem, periodTypeDs.getView());
+            periodTypesDs.setItem(reloadedItem);
         } else {
-            campaignDs.setItem(null);
+            periodTypeDs.setItem(null);
         }
 
         disableEditControls();
@@ -176,7 +176,7 @@ public class CampaignBrowse extends AbstractLookup {
 
     /**
      * Enabling controls for record editing
-     * @param creating indicates if a new instance of {@link Campaign} is being created
+     * @param creating indicates if a new instance of {@link PeriodType} is being created
      */
     private void enableEditControls(boolean creating) {
         this.creating = creating;
@@ -189,7 +189,7 @@ public class CampaignBrowse extends AbstractLookup {
      */
     private void disableEditControls() {
         initEditComponents(false);
-        campaignsTable.requestFocus();
+        periodTypesTable.requestFocus();
     }
 
     /**
