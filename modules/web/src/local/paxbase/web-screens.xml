@@ -39,10 +39,10 @@
             template="local/paxbase/web/userpreference/user-preference-browse.xml"/>
     <screen id="paxbase$PeriodType.browse"
             template="local/paxbase/web/periodtype/period-type-browse.xml"/>
-    <screen id="paxbase$ServicePeriod.browse"
-            template="local/paxbase/web/serviceperiod/service-period-browse.xml"/>
     <screen id="paxbase$Campaign.campaignOverview"
             template="local/paxbase/web/campaign/campaignOverview.xml"/>
     <screen id="paxbase$Campaign.browse"
             template="local/paxbase/web/campaign/campaign-browse.xml"/>
+    <screen id="paxbase$ServicePeriod.browse"
+            template="local/paxbase/web/serviceperiod/service-period-browse.xml"/>
 </screen-config>

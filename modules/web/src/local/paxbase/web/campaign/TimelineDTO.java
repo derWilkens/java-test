@@ -9,8 +9,10 @@ import java.util.UUID;
 import com.haulmont.cuba.gui.data.CollectionDatasource;
 import com.haulmont.cuba.gui.data.Datasource;
 
+import local.paxbase.entity.Campaign;
 import local.paxbase.entity.GroupedBy;
 import local.paxbase.entity.Period;
+import local.paxbase.entity.ServicePeriod;
 import local.paxbase.entity.UserPreference;
 import local.paxbase.entity.dto.TimelineGroup;
 import local.paxbase.entity.dto.TimelineItem;
@@ -54,11 +56,38 @@ public class TimelineDTO {
 			//entweder die Site oder den Type aber welches Attribut der Enity 
 			//abgefragt wird hängt ja vom preferredItem ab und auch nicht von der GroupBy-Eigenschaft	
 			//das verstehe ich doch nach zwei Tagen schon nicht mehr
+			//oder beides? Site und Type? Nur Kampagnen und HWAL
+			//Klassischer Filter, zwei Kriterien, wobei die Werte der Kriterien eine Menge von Werten sein können
+			//besser eine Liste von Werten
+			//aber eine Positivliste, die Inital leer ist, zumindest per default
 			
-			if (preferredItems.contains(entity) || true) {
+			//select * from (select * from campaings as period union select * from servicePeriod as period) 
+			//where Type.uuid in (valueList) and site.uuid in (valueList)
+			
+			//es reicht, wenn ein Kriterium wahr ist...
+			
+			if (preferredItems.contains(entity.getType().getUuid())){
 				timelineItemList
 						.add(new TimelineItem((Period) entity, entity.getLabel(), entity.getGroupLabel(groupedBy)));
 				groupKeys.put(entity.getGroupId(groupedBy), entity.getGroupLabel(groupedBy));
+			}
+			else 
+			if (entity.getClass().equals(Campaign.class)){
+				Campaign campaign = (Campaign)entity;
+				if (preferredItems.contains(campaign.getSite().getUuid())){
+					timelineItemList
+							.add(new TimelineItem((Period) entity, entity.getLabel(), entity.getGroupLabel(groupedBy)));
+					groupKeys.put(entity.getGroupId(groupedBy), entity.getGroupLabel(groupedBy));
+				}
+			}
+			else
+			if (entity.getClass().equals(ServicePeriod.class)){
+				ServicePeriod servicePeriod = (ServicePeriod)entity;
+				if (preferredItems.contains(servicePeriod.getSite().getUuid())){
+					timelineItemList
+							.add(new TimelineItem((Period) entity, entity.getLabel(), entity.getGroupLabel(groupedBy)));
+					groupKeys.put(entity.getGroupId(groupedBy), entity.getGroupLabel(groupedBy));
+				}
 			}
 		}
 

@@ -14,7 +14,7 @@
         <item id="paxbase$SiteType.browse"/>
         <item id="paxbase$UserPreference.browse"/>
         <item id="paxbase$PeriodType.browse"/>
-        <item id="paxbase$ServicePeriod.browse"/>
         <item id="paxbase$Campaign.browse"/>
+        <item id="paxbase$ServicePeriod.browse"/>
     </menu>
 </menu-config>

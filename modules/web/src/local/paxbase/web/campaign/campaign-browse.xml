@@ -63,6 +63,7 @@
                     <columns>
                         <column id="start"/>
                         <column id="end"/>
+                        <column id="type"/>
                         <column id="campaignNumber"/>
                         <column id="shutdown"/>
                         <column id="site"/>
@@ -91,6 +92,7 @@
                         <column width="250px">
                             <field id="start"/>
                             <field id="end"/>
+                            <field id="type"/>
                             <field id="campaignNumber"/>
                             <field id="shutdown"/>
                             <field id="site"

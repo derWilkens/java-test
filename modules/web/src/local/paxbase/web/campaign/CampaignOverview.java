@@ -36,8 +36,8 @@ public class CampaignOverview extends AbstractLookup {
 	 * PeriodTypes werden in der Tabelle typeUserSettings angezeigt Selektierte
 	 * Types werden in die Preferences geschrieben
 	 */
-//	@Inject
-//	private CollectionDatasource<Period, UUID> periodTypesDs;
+	// @Inject
+	// private CollectionDatasource<Period, UUID> periodTypesDs;
 	@Inject
 	private Table<PeriodType> typeUserSettings;
 
@@ -45,9 +45,9 @@ public class CampaignOverview extends AbstractLookup {
 	 * Sites werden in Tabelle angezeigt Selektierte Sites werden in die
 	 * Preferences geschrieben
 	 */
-//	@Inject
-//	private CollectionDatasource<Site, UUID> sitesDs;
-	
+	// @Inject
+	// private CollectionDatasource<Site, UUID> sitesDs;
+
 	@Inject
 	private Table<Site> siteUserSettings;
 
@@ -84,7 +84,8 @@ public class CampaignOverview extends AbstractLookup {
 
 		userPreferencesDs.refresh();
 		campaignsDs.refresh();
-
+		servicePeriodsDs.refresh();
+		
 		initSiteUserSettings();
 		initTypeUserSettings();
 

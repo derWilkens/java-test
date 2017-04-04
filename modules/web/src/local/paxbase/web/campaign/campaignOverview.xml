@@ -56,7 +56,8 @@
     <layout>
         <vbox id="timelineBox"
               spacing="true"/>
-        <hbox spacing="true">
+        <hbox height="100%"
+              spacing="true">
             <table id="typeUserSettings"
                    height="100%"
                    width="377px">
@@ -68,7 +69,6 @@
                 <rows datasource="periodTypesDs"/>
             </table>
             <vbox spacing="true">
-                <filter datasource="sitesDs"/>
                 <table id="siteUserSettings"
                        height="100%"
                        settingsEnabled="false"
