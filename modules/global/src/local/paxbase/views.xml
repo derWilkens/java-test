@@ -113,27 +113,47 @@
     <view class="local.paxbase.entity.ServicePeriod"
           extends="_local"
           name="servicePeriod-view">
-        <property name="offshoreUser"
-                  view="_minimal"/>
         <property name="type"
                   view="_minimal">
-            <property name="typeGroup"/>
             <property name="typeName"/>
+            <property name="parentType"/>
         </property>
         <property name="site"
+                  view="_minimal"/>
+        <property name="personOnDuty"
                   view="_minimal"/>
     </view>
     <view class="local.paxbase.entity.ServicePeriod"
           extends="_local"
           name="servicePeriodList-view">
-        <property name="offshoreUser"
-                  view="_minimal"/>
         <property name="type"
                   view="_minimal">
-            <property name="typeGroup"/>
             <property name="typeName"/>
+            <property name="parentType"/>
         </property>
         <property name="site"
                   view="_minimal"/>
+        <property name="personOnDuty"
+                  view="_minimal"/>
+    </view>
+    <view class="local.paxbase.entity.UserPreference"
+          extends="_local"
+          name="userPreference-view"/>
+    <view class="local.paxbase.entity.coredata.PeriodType"
+          extends="_local"
+          name="periodType-view">
+        <property name="parentType"
+                  view="_minimal">
+            <property name="typeName"/>
+            <property name="periodSubClass"/>
+        </property>
+    </view>
+    <view class="local.paxbase.entity.coredata.PeriodType"
+          extends="_local"
+          name="periodTypeView">
+        <property name="parentType"
+                  view="_minimal">
+            <property name="typeName"/>
+        </property>
     </view>
 </views>

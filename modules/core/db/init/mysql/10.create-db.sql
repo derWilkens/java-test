@@ -256,7 +256,8 @@ create table PAXBASE_PERIOD_TYPE (
     DELETED_BY varchar(50),
     --
     TYPE_NAME varchar(20),
-    TYPE_GROUP varchar(20),
+    PARENT_TYPE_ID varchar(32),
+    PERIOD_SUB_CLASS varchar(50),
     --
     primary key (ID)
 )^
@@ -275,7 +276,7 @@ create table PAXBASE_SERVICE_PERIOD (
     END_ datetime(3),
     TYPE_ID varchar(32),
     --
-    OFFSHORE_USER_ID varchar(32),
+    PERSON_ON_DUTY_ID varchar(32),
     SITE_ID varchar(32),
     --
     primary key (ID)

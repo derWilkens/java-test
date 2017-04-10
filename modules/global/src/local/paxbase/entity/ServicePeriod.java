@@ -17,12 +17,21 @@ public class ServicePeriod extends Period {
 	private static final long serialVersionUID = -6112448983753359413L;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "OFFSHORE_USER_ID")
-    protected OffshoreUser offshoreUser;
+    @JoinColumn(name = "PERSON_ON_DUTY_ID")
+    protected OffshoreUser personOnDuty;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SITE_ID")
     protected Site site;
+
+    public void setPersonOnDuty(OffshoreUser personOnDuty) {
+        this.personOnDuty = personOnDuty;
+    }
+
+    public OffshoreUser getPersonOnDuty() {
+        return personOnDuty;
+    }
+
 
     public void setSite(Site site) {
         this.site = site;
@@ -32,14 +41,6 @@ public class ServicePeriod extends Period {
         return site;
     }
 
-
-    public void setOffshoreUser(OffshoreUser offshoreUser) {
-        this.offshoreUser = offshoreUser;
-    }
-
-    public OffshoreUser getOffshoreUser() {
-        return offshoreUser;
-    }
     
 	@Override
 	public UUID getPreferredUUID() {
@@ -57,7 +58,7 @@ public class ServicePeriod extends Period {
 			return getSite().getSiteName();
 		}
 		else if(groupedBy.equals(GroupedBy.User)){
-			return getOffshoreUser().getCaption();
+			return getPersonOnDuty().getCaption();
 		}
 			
 		return null;
@@ -68,7 +69,7 @@ public class ServicePeriod extends Period {
 			return getSite().getId();
 		}
 		else if(groupedBy.equals(GroupedBy.User)){
-			return getOffshoreUser().getId();
+			return getPersonOnDuty().getId();
 		}
 			
 		return null;

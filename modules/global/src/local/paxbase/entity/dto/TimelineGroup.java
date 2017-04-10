@@ -1,41 +1,40 @@
 package local.paxbase.entity.dto;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.UUID;
+import java.util.List;
 
-public class TimelineGroup {
-	
-	protected String id;
-	
-	protected String content;
+import com.haulmont.chile.core.annotations.MetaClass;
+import com.haulmont.chile.core.annotations.MetaProperty;
 
-    protected String group;
-    
+import local.paxbase.entity.AbstractNotPersistentStringIdEntity;
+
+@MetaClass(name = "paxbase$TimelineGroup")
+public class TimelineGroup extends AbstractNotPersistentStringIdEntity {
+    private static final long serialVersionUID = 3768626212104478342L;
+
+    @MetaProperty
+    protected String content;
+
+    @MetaProperty
     protected String subgroupOrder;
-    
-    protected String type; //Can be 'box' (default), 'point', 'range', or 'background'. 
-    
-    protected String style; //"color: red; background-color: pink;"
-    
-    protected String title; //Mouse-Over-Text
-    
-    protected boolean visible;
-    
-    protected Collection<TimelineItem> nestedGroups;
-    
-    protected boolean showNestedGroups;
 
-	public TimelineGroup() {
+    @MetaProperty
+    protected String type;
 
-		nestedGroups = new ArrayList<TimelineItem>();
-		showNestedGroups = true;
-		visible = true;
-	}
+    @MetaProperty
+    protected String style;
 
-	public TimelineGroup(String id) {
-		this.id = id;
-	}
+    @MetaProperty
+    protected String title;
+
+    @MetaProperty
+    protected Boolean visible;
+
+    @MetaProperty
+    protected List<TimelineItem> nestedGroups;
+
+    @MetaProperty
+    protected Boolean showNestedGroups;
+    
 
 	public TimelineGroup(String id, String content) {
 		this.id = id;
@@ -43,93 +42,68 @@ public class TimelineGroup {
 		visible = true;
 	}
 
-	public TimelineGroup(UUID id, String content) {
-		this.id = id.toString();
-		this.content = content;
-		visible = true;
-	}
+	public List<TimelineItem> getNestedGroups() {
+        return nestedGroups;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public void setNestedGroups(List<TimelineItem> nestedGroups) {
+        this.nestedGroups = nestedGroups;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
 
-	public String getContent() {
-		return content;
-	}
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+    public String getContent() {
+        return content;
+    }
 
-	public String getGroup() {
-		return group;
-	}
+    public void setSubgroupOrder(String subgroupOrder) {
+        this.subgroupOrder = subgroupOrder;
+    }
 
-	public void setGroup(String group) {
-		this.group = group;
-	}
+    public String getSubgroupOrder() {
+        return subgroupOrder;
+    }
 
-	public String getSubgroupOrder() {
-		return subgroupOrder;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public void setSubgroupOrder(String subgroupOrder) {
-		this.subgroupOrder = subgroupOrder;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public void setStyle(String style) {
+        this.style = style;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public String getStyle() {
+        return style;
+    }
 
-	public String getStyle() {
-		return style;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public void setStyle(String style) {
-		this.style = style;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public void setVisible(Boolean visible) {
+        this.visible = visible;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public Boolean getVisible() {
+        return visible;
+    }
 
-	public boolean isVisible() {
-		return visible;
-	}
+    public void setShowNestedGroups(Boolean showNestedGroups) {
+        this.showNestedGroups = showNestedGroups;
+    }
 
-	public void setVisible(boolean visible) {
-		this.visible = visible;
-	}
-
-	public Collection<TimelineItem> getNestedGroups() {
-		return nestedGroups;
-	}
-
-	public void setNestedGroups(Collection<TimelineItem> nestedGroups) {
-		this.nestedGroups = nestedGroups;
-	}
-
-	public boolean isShowNestedGroups() {
-		return showNestedGroups;
-	}
-
-	public void setShowNestedGroups(boolean showNestedGroups) {
-		this.showNestedGroups = showNestedGroups;
-	}
-    
-    
-    
-    
+    public Boolean getShowNestedGroups() {
+        return showNestedGroups;
+    }
 }

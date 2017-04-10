@@ -27,7 +27,7 @@
         </collectionDatasource>
         <collectionDatasource id="periodTypesDs"
                               class="local.paxbase.entity.coredata.PeriodType"
-                              view="_local">
+                              view="periodTypeView">
             <query>
                 <![CDATA[select e from paxbase$PeriodType e]]>
             </query>
@@ -57,14 +57,16 @@
         <vbox id="timelineBox"
               spacing="true"/>
         <hbox height="100%"
-              spacing="true">
+              spacing="true"
+              width="100%">
             <table id="typeUserSettings"
                    height="100%"
-                   width="377px">
+                   width="100%">
                 <columns>
-                    <column id="typeGroup"/>
+                    <column id="parentType"/>
                     <column id="typeName"/>
                     <column id="selected"/>
+                    <column id="periodSubClass"/>
                 </columns>
                 <rows datasource="periodTypesDs"/>
             </table>
@@ -72,7 +74,7 @@
                 <table id="siteUserSettings"
                        height="100%"
                        settingsEnabled="false"
-                       width="339px">
+                       width="100%">
                     <columns>
                         <column id="siteName"/>
                     </columns>

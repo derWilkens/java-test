@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <metadata xmlns="http://schemas.haulmont.com/cuba/metadata.xsd">
-
-    <metadata-model root-package="local.paxbase" namespace="paxbase"/>
-
+    <metadata-model namespace="paxbase"
+                    root-package="local.paxbase">
+        <class>local.paxbase.entity.dto.TimelineItem</class>
+        <class>local.paxbase.entity.dto.TimelineGroup</class>
+        <class>local.paxbase.entity.dto.TimelineDTO</class>
+    </metadata-model>
 </metadata>

@@ -19,10 +19,17 @@ public class StandardTestContainer  extends TestContainer {
                 // specifically for test environment. You can replace it with your own
                 // or add another one in the end.
                 "test-app.properties");
-        dbDriver = "org.hsqldb.jdbc.JDBCDriver";
-        dbUrl = "jdbc:hsqldb:hsql://localhost:9002/crewBase_test";
-        dbUser = "sa";
-        dbPassword = "";
+//        dbDriver = "org.hsqldb.jdbc.JDBCDriver";
+//        dbUrl = "jdbc:hsqldb:hsql://localhost:9002/crewBase_test";
+//        dbUser = "sa";
+//        dbPassword = "";
+        
+        dbDriver = "com.mysql.jdbc.Driver";
+        dbUrl = "jjdbc:mysql://localhost/crewbase?useSSL=false&amp;allowMultiQueries=true";
+        dbUser = "crewbase";
+        dbPassword = "1234";
+        
+ 
     }
 
     public static class Common extends StandardTestContainer {

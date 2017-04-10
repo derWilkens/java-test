@@ -8,14 +8,21 @@
     <dsContext>
         <datasource id="periodTypeDs"
                     class="local.paxbase.entity.coredata.PeriodType"
-                    view="_local"/>
+                    view="periodType-view"/>
         <groupDatasource id="periodTypesDs"
                          class="local.paxbase.entity.coredata.PeriodType"
-                         view="_local">
+                         view="periodType-view">
             <query>
                 <![CDATA[select e from paxbase$PeriodType e]]>
             </query>
         </groupDatasource>
+        <collectionDatasource id="parentTypesDs"
+                              class="local.paxbase.entity.coredata.PeriodType"
+                              view="_minimal">
+            <query>
+                <![CDATA[select e from paxbase$PeriodType e]]>
+            </query>
+        </collectionDatasource>
     </dsContext>
     <actions>
         <action id="save"
@@ -55,7 +62,8 @@
                     </actions>
                     <columns>
                         <column id="typeName"/>
-                        <column id="typeGroup"/>
+                        <column id="parentType"/>
+                        <column id="periodSubClass"/>
                     </columns>
                     <rows datasource="periodTypesDs"/>
                     <rowsCount/>
@@ -80,7 +88,9 @@
                                 datasource="periodTypeDs">
                         <column width="250px">
                             <field id="typeName"/>
-                            <field id="typeGroup"/>
+                            <field id="parentType"
+                                   optionsDatasource="parentTypesDs"/>
+                            <field id="periodSubClass"/>
                         </column>
                     </fieldGroup>
                 </vbox>

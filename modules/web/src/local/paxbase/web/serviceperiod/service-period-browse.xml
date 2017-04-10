@@ -57,7 +57,7 @@
                         <column id="start"/>
                         <column id="end"/>
                         <column id="type"/>
-                        <column id="offshoreUser"/>
+                        <column id="personOnDuty"/>
                         <column id="site"/>
                     </columns>
                     <rows datasource="servicePeriodsDs"/>
@@ -85,7 +85,7 @@
                             <field id="start"/>
                             <field id="end"/>
                             <field id="type"/>
-                            <field id="offshoreUser"/>
+                            <field id="personOnDuty"/>
                             <field id="site"/>
                         </column>
                     </fieldGroup>

@@ -17,11 +17,12 @@ import com.haulmont.cuba.gui.xml.layout.ComponentsFactory;
 import com.haulmont.cuba.web.gui.components.WebComponentsHelper;
 import com.vaadin.ui.Layout;
 
-import local.paxbase.entity.GroupedBy;
 import local.paxbase.entity.Period;
 import local.paxbase.entity.UserPreference;
 import local.paxbase.entity.coredata.PeriodType;
 import local.paxbase.entity.coredata.Site;
+import local.paxbase.entity.dto.TimelineDTO;
+import local.paxbase.service.TimelineService;
 import local.paxbase.web.toolkit.ui.timelinecomponent.TimelineComponent;
 
 public class CampaignOverview extends AbstractLookup {
@@ -78,10 +79,14 @@ public class CampaignOverview extends AbstractLookup {
 
 	// private TimelineDTO campaignDTO;
 	// private TimelineDTO servicePeriodDTO;
-
+	
+	@Inject
+	private TimelineService timelineDTOService;
+	
 	@Override
 	public void init(Map<String, Object> params) {
-
+		
+		
 		userPreferencesDs.refresh();
 		campaignsDs.refresh();
 		servicePeriodsDs.refresh();
@@ -91,10 +96,12 @@ public class CampaignOverview extends AbstractLookup {
 
 		// JS-UI-Komponente
 		timeline = new TimelineComponent();
-
-		timeline.addDTO(new TimelineDTO(campaignsDs, userPreferencesDs, GroupedBy.Site));
-		timeline.addDTO(new TimelineDTO(servicePeriodsDs, userPreferencesDs, GroupedBy.Site));
+		TimelineDTO dto = timelineDTOService.getDto("CampaignBrowse");
+		if (dto != null){
+		timeline.addDTO(timelineDTOService.getDto("CampaignBrowse"));
+//		timeline.addDTO(new TimelineDTO(servicePeriodsDs, userPreferencesDs, GroupedBy.Site));
 		timeline.refresh();
+		}
 		// new TimelineDTO(GroupedBy.Site);
 		// timeline.setTimelineGroups(campaignDTO.getGroupList());
 		// (timeline.setTimelineItems(campaignDTO.getTimelineItemList());

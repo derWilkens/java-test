@@ -21,6 +21,7 @@ buildscript {
     }
 }
 
+
 def globalModule = project(':app-global')
 def coreModule = project(':app-core')
 def guiModule = project(':app-gui')

@@ -9,9 +9,9 @@ import com.vaadin.annotations.StyleSheet;
 import com.vaadin.ui.AbstractJavaScriptComponent;
 
 import elemental.json.JsonArray;
+import local.paxbase.entity.dto.TimelineDTO;
 import local.paxbase.entity.dto.TimelineGroup;
 import local.paxbase.entity.dto.TimelineItem;
-import local.paxbase.web.campaign.TimelineDTO;
 
 @SuppressWarnings("serial")
 @JavaScript({"timelinecomponent-connector.js", "vis.js"})
@@ -88,7 +88,6 @@ public class TimelineComponent extends AbstractJavaScriptComponent {
 		getState().timelineGroups = new ArrayList<TimelineGroup>();
 		
 		for (TimelineDTO timelineDTO : dtoList) {
-			timelineDTO.refresh();
 			getState().timelineItems.addAll(timelineDTO.getTimelineItemList());
 			getState().timelineGroups.addAll(timelineDTO.getGroupList());
 		}

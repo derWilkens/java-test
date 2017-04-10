@@ -12,6 +12,8 @@
             <map>
                 <entry key="paxbase_NewService"
                        value="local.paxbase.service.NewService"/>
+                <entry key="paxbase_TimelineService"
+                       value="local.paxbase.service.TimelineService"/>
             </map>
         </property>
     </bean>
