@@ -14,6 +14,7 @@ import com.haulmont.cuba.gui.components.VBoxLayout;
 import com.haulmont.cuba.gui.data.CollectionDatasource;
 import com.haulmont.cuba.gui.data.DataSupplier;
 import com.haulmont.cuba.gui.xml.layout.ComponentsFactory;
+import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.web.gui.components.WebComponentsHelper;
 import com.vaadin.ui.Layout;
 
@@ -41,7 +42,9 @@ public class CampaignOverview extends AbstractLookup {
 	// private CollectionDatasource<Period, UUID> periodTypesDs;
 	@Inject
 	private Table<PeriodType> typeUserSettings;
-
+	
+	@Inject
+	private Table<User> personsOnDutyTable;
 	/**
 	 * Sites werden in Tabelle angezeigt Selektierte Sites werden in die
 	 * Preferences geschrieben
@@ -64,6 +67,9 @@ public class CampaignOverview extends AbstractLookup {
 	 */
 	@Inject
 	private CollectionDatasource<Period, UUID> campaignsDs;
+	
+	private PersonOnDutyDs personsOnDutyDs;
+	
 
 	/**
 	 * Alle ServicePeriods zur Anzeige in der Timeline, werden anschließend nach
@@ -77,34 +83,28 @@ public class CampaignOverview extends AbstractLookup {
 
 	private TimelineComponent timeline;
 
-	// private TimelineDTO campaignDTO;
-	// private TimelineDTO servicePeriodDTO;
-	
 	@Inject
 	private TimelineService timelineDTOService;
-	
+
 	@Override
 	public void init(Map<String, Object> params) {
-		
-		
+
 		userPreferencesDs.refresh();
 		campaignsDs.refresh();
 		servicePeriodsDs.refresh();
 		
+		initPersonsOnDuty();
 		initSiteUserSettings();
 		initTypeUserSettings();
 
 		// JS-UI-Komponente
 		timeline = new TimelineComponent();
 		TimelineDTO dto = timelineDTOService.getDto("CampaignBrowse");
-		if (dto != null){
-		timeline.addDTO(timelineDTOService.getDto("CampaignBrowse"));
-//		timeline.addDTO(new TimelineDTO(servicePeriodsDs, userPreferencesDs, GroupedBy.Site));
-		timeline.refresh();
+		if (dto != null) {
+			timeline.addDTO(timelineDTOService.getDto("CampaignBrowse"));
+			timeline.refresh();
 		}
-		// new TimelineDTO(GroupedBy.Site);
-		// timeline.setTimelineGroups(campaignDTO.getGroupList());
-		// (timeline.setTimelineItems(campaignDTO.getTimelineItemList());
+
 		timeline.setStart("2017-03-01");
 		timeline.setEnd("2017-05-01");
 
@@ -199,8 +199,8 @@ public class CampaignOverview extends AbstractLookup {
 			return checkBox;
 		});
 	}
-
-	// public Component generateSelectedCell(Site entity) {
-	// return null; // PlainTextCell(entity.getInstanceName());
-	// }
+	private void initPersonsOnDuty(){
+//		personsOnDutyDs = new PersonOnDutyDs();
+//		personsOnDutyTable.setDatasource(personsOnDutyDs);
+	}
 }

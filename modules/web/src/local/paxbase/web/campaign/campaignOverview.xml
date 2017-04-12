@@ -39,6 +39,13 @@
                 <![CDATA[select e from paxbase$ServicePeriod e]]>
             </query>
         </collectionDatasource>
+        <collectionDatasource id="personOnDutyListDs"
+                              class="local.paxbase.entity.OffshoreUser"
+                              view="_local">
+            <query>
+                <![CDATA[select e.personOnDuty from paxbase$ServicePeriod e]]>
+            </query>
+        </collectionDatasource>
     </dsContext>
     <actions>
         <action id="save"
@@ -81,6 +88,29 @@
                     <rows datasource="sitesDs"/>
                 </table>
             </vbox>
+            <table id="personsOnDutyTable"
+                   height="100px"
+                   width="200px">
+                <columns>
+                    <column id="login"/>
+                    <column id="name"/>
+                    <column id="firstName"/>
+                    <column id="lastName"/>
+                    <column id="middleName"/>
+                    <column id="position"/>
+                    <column id="email"/>
+                    <column id="language"/>
+                    <column id="timeZone"/>
+                    <column id="timeZoneAuto"/>
+                    <column id="active"/>
+                    <column id="changePasswordAtNextLogon"/>
+                    <column id="ipMask"/>
+                    <column id="client"/>
+                    <column id="weight"/>
+                    <column id="weightChangeDate"/>
+                </columns>
+                <rows datasource="personOnDutyListDs"/>
+            </table>
         </hbox>
     </layout>
 </window>
