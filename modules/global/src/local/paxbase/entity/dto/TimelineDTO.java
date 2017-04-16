@@ -7,6 +7,7 @@ import com.haulmont.chile.core.annotations.MetaClass;
 import com.haulmont.chile.core.annotations.MetaProperty;
 import com.haulmont.cuba.core.entity.AbstractNotPersistentEntity;
 
+import local.paxbase.entity.Campaign;
 import local.paxbase.entity.GroupedBy;
 
 @MetaClass(name = "paxbase$TimelineDTO")
@@ -45,5 +46,10 @@ public class TimelineDTO extends AbstractNotPersistentEntity {
     public List<TimelineItem> getTimelineItemList() {
         return timelineItemList;
     }
+
+	public void addItem(Campaign entity, TimelineConfig campaignTimelineConfig) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

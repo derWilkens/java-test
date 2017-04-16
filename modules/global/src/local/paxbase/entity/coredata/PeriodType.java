@@ -1,17 +1,18 @@
 package local.paxbase.entity.coredata;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.persistence.Column;
-import com.haulmont.cuba.core.entity.StandardEntity;
-import com.haulmont.cuba.core.entity.annotation.Lookup;
-import com.haulmont.cuba.core.entity.annotation.LookupType;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import local.paxbase.entity.GroupedBy;
-import local.paxbase.entity.PeriodSubClass;
+import javax.persistence.Table;
 
+import com.haulmont.chile.core.annotations.NamePattern;
+import com.haulmont.cuba.core.entity.StandardEntity;
+import com.haulmont.cuba.core.entity.annotation.Lookup;
+import com.haulmont.cuba.core.entity.annotation.LookupType;
+
+@NamePattern("%s|typeName")
 @Table(name = "PAXBASE_PERIOD_TYPE")
 @Entity(name = "paxbase$PeriodType")
 public class PeriodType extends StandardEntity {

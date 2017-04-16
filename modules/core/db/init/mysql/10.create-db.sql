@@ -115,8 +115,7 @@ create table PAXBASE_PAYLOAD (
     primary key (ID)
 )^
 -- end PAXBASE_PAYLOAD
--- begin PAXBASE_DUTY_PERIOD
-create table PAXBASE_DUTY_PERIOD (
+-- begin PAXBASE_DUTY_PERIODcreate table PAXBASE_DUTY_PERIOD (
     ID varchar(32),
     VERSION integer not null,
     CREATE_TS datetime(3),
@@ -125,10 +124,10 @@ create table PAXBASE_DUTY_PERIOD (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
-    CLIENT integer not null,
+    START_ datetime(3),
+    END_ datetime(3),
+    TYPE_ID varchar(32),
     --
-    BEGIN_DATE date not null,
-    END_DATE date,
     USER_ID varchar(32),
     SITE_ID varchar(32),
     OUTBOUND_TRANSFER_ID varchar(32),
@@ -180,8 +179,7 @@ create table PAXBASE_MODE_OF_TRANSFER (
     primary key (ID)
 )^
 -- end PAXBASE_MODE_OF_TRANSFER
--- begin PAXBASE_SITE_TYPE
-create table PAXBASE_SITE_TYPE (
+-- begin PAXBASE_SITE_TYPEcreate table PAXBASE_SITE_TYPE (
     ID varchar(32),
     VERSION integer not null,
     CREATE_TS datetime(3),
@@ -192,6 +190,7 @@ create table PAXBASE_SITE_TYPE (
     DELETED_BY varchar(50),
     --
     TYPE_ varchar(50),
+    PARENT_TYPE_ID varchar(32),
     --
     primary key (ID)
 )^
@@ -262,8 +261,9 @@ create table PAXBASE_PERIOD_TYPE (
     primary key (ID)
 )^
 -- end PAXBASE_PERIOD_TYPE
--- begin PAXBASE_SERVICE_PERIOD
-create table PAXBASE_SERVICE_PERIOD (
+
+-- begin PAXBASE_ADMINISTRATION_PERIOD
+create table PAXBASE_ADMINISTRATION_PERIOD (
     ID varchar(32),
     VERSION integer not null,
     CREATE_TS datetime(3),
@@ -281,4 +281,23 @@ create table PAXBASE_SERVICE_PERIOD (
     --
     primary key (ID)
 )^
--- end PAXBASE_SERVICE_PERIOD
+-- end PAXBASE_ADMINISTRATION_PERIOD
+-- begin PAXBASE_FUNCTION_CATEGORY
+create table PAXBASE_FUNCTION_CATEGORY (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    CLIENT integer not null,
+    --
+    CATEGORY_NAME varchar(50),
+    PARENT_TYPE_ID varchar(32),
+    PERIOD_SUB_CLASS varchar(50),
+    --
+    primary key (ID)
+)^
+-- end PAXBASE_FUNCTION_CATEGORY

@@ -19,20 +19,16 @@ import com.haulmont.cuba.core.global.DeletePolicy;
 import local.paxbase.entity.coredata.StandardClientEntity;
 import local.paxbase.entity.coredata.Company;
 import local.paxbase.entity.coredata.Site;
+import com.haulmont.cuba.core.entity.annotation.Lookup;
+import com.haulmont.cuba.core.entity.annotation.LookupType;
 
-@NamePattern("%s - %s, %s|beginDate,endDate,site")
+@NamePattern(" - , %s|site")
 @Table(name = "PAXBASE_DUTY_PERIOD")
 @Entity(name = "paxbase$DutyPeriod")
-public class DutyPeriod extends StandardClientEntity {
+public class DutyPeriod extends Period {
     private static final long serialVersionUID = 848103393103367871L;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "BEGIN_DATE", nullable = false)
-    protected Date beginDate;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "END_DATE")
-    protected Date endDate;
 
     @OnDeleteInverse(DeletePolicy.CASCADE)
     @OnDelete(DeletePolicy.UNLINK)
@@ -40,6 +36,7 @@ public class DutyPeriod extends StandardClientEntity {
     @JoinColumn(name = "USER_ID")
     protected OffshoreUser user;
 
+    @Lookup(type = LookupType.DROPDOWN, actions = {"lookup"})
     @OnDeleteInverse(DeletePolicy.UNLINK)
     @OnDelete(DeletePolicy.UNLINK)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -107,21 +104,9 @@ public class DutyPeriod extends StandardClientEntity {
     }
 
 
-    public void setBeginDate(Date beginDate) {
-        this.beginDate = beginDate;
-    }
 
-    public Date getBeginDate() {
-        return beginDate;
-    }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
 
-    public Date getEndDate() {
-        return endDate;
-    }
 
     public void setUser(OffshoreUser user) {
         this.user = user;

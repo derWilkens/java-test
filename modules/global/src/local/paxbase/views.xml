@@ -110,32 +110,6 @@
     <view class="local.paxbase.entity.coredata.Site"
           extends="_local"
           name="siteSelect"/>
-    <view class="local.paxbase.entity.ServicePeriod"
-          extends="_local"
-          name="servicePeriod-view">
-        <property name="type"
-                  view="_minimal">
-            <property name="typeName"/>
-            <property name="parentType"/>
-        </property>
-        <property name="site"
-                  view="_minimal"/>
-        <property name="personOnDuty"
-                  view="_minimal"/>
-    </view>
-    <view class="local.paxbase.entity.ServicePeriod"
-          extends="_local"
-          name="servicePeriodList-view">
-        <property name="type"
-                  view="_minimal">
-            <property name="typeName"/>
-            <property name="parentType"/>
-        </property>
-        <property name="site"
-                  view="_minimal"/>
-        <property name="personOnDuty"
-                  view="_minimal"/>
-    </view>
     <view class="local.paxbase.entity.UserPreference"
           extends="_local"
           name="userPreference-view"/>
@@ -144,16 +118,49 @@
           name="periodType-view">
         <property name="parentType"
                   view="_minimal">
-            <property name="typeName"/>
+        </property>
+    </view>
+    <view class="local.paxbase.entity.AdministrationPeriod"
+          extends="_local"
+          name="administrationPeriod-view">
+        <property name="personOnDuty"
+                  view="_minimal"/>
+        <property name="site"
+                  view="_minimal"/>
+        <property name="type"
+                  view="_minimal">
             <property name="periodSubClass"/>
         </property>
     </view>
-    <view class="local.paxbase.entity.coredata.PeriodType"
+    <view class="local.paxbase.entity.AdministrationPeriod"
           extends="_local"
-          name="periodTypeView">
-        <property name="parentType"
+          name="administrationPeriodTree-view">
+        <property name="type"
                   view="_minimal">
-            <property name="typeName"/>
+            <property name="parentType"
+                      view="_minimal"/>
+            <property name="periodSubClass"/>
         </property>
+        <property name="personOnDuty"
+                  view="_minimal"/>
+        <property name="site"
+                  view="_minimal"/>
+    </view>
+    <view class="local.paxbase.entity.coredata.Site"
+          extends="_local"
+          name="site-view"/>
+    <view class="local.paxbase.entity.coredata.FunctionCategory"
+          name="functionCategory-treeView">
+        <property name="parentType"
+                  view="_minimal"/>
+        <property name="categoryName"/>
+        <property name="periodSubClass"/>
+    </view>
+    <view class="local.paxbase.entity.coredata.FunctionCategory"
+          name="functionCategory-view">
+        <property name="categoryName"/>
+        <property name="parentType"
+                  view="_minimal"/>
+        <property name="periodSubClass"/>
     </view>
 </views>

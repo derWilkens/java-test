@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
         caption="msg://caption"
-        class="local.paxbase.web.sitetype.SiteTypeBrowse"
-        focusComponent="siteTypesTable"
-        lookupComponent="siteTypesTable"
-        messagesPack="local.paxbase.web.sitetype">
+        class="local.paxbase.web.functioncategory.FunctionCategoryBrowse"
+        focusComponent="functionCategoriesTable"
+        lookupComponent="functionCategoriesTable"
+        messagesPack="local.paxbase.web.functioncategory">
     <dsContext>
-        <datasource id="siteTypeDs"
-                    class="local.paxbase.entity.coredata.SiteType"
-                    view="_local"/>
-        <groupDatasource id="siteTypesDs"
-                         class="local.paxbase.entity.coredata.SiteType"
-                         view="_local">
+        <datasource id="functionCategoryDs"
+                    class="local.paxbase.entity.coredata.FunctionCategory"
+                    view="functionCategory-view"/>
+        <hierarchicalDatasource id="functionCategoriesDs"
+                                class="local.paxbase.entity.coredata.FunctionCategory"
+                                hierarchyProperty="parentType"
+                                view="functionCategory-treeView">
             <query>
-                <![CDATA[select e from paxbase$SiteType e]]>
+                <![CDATA[select e from paxbase$FunctionCategory e]]>
             </query>
-        </groupDatasource>
+        </hierarchicalDatasource>
         <collectionDatasource id="parentTypesDs"
-                              class="local.paxbase.entity.coredata.SiteType"
+                              class="local.paxbase.entity.coredata.FunctionCategory"
                               view="_minimal">
-            <![CDATA[select e from paxbase$SiteType e]]>
+            <query>
+                <![CDATA[select e from paxbase$FunctionCategory e]]>
+            </query>
         </collectionDatasource>
     </dsContext>
     <actions>
@@ -42,38 +45,38 @@
                reversePosition="true"
                width="100%">
             <vbox id="lookupBox"
-                  expand="siteTypesTable"
+                  expand="functionCategoriesTable"
                   height="100%"
                   margin="false,true,false,false"
                   spacing="true">
                 <filter id="filter"
-                        applyTo="siteTypesTable"
-                        datasource="siteTypesDs">
+                        applyTo="functionCategoriesTable"
+                        datasource="functionCategoriesDs">
                     <properties include=".*"/>
                 </filter>
-                <groupTable id="siteTypesTable"
-                            width="100%">
+                <treeTable id="functionCategoriesTable"
+                           width="100%">
                     <actions>
                         <action id="create"/>
                         <action id="edit"/>
                         <action id="remove"/>
                     </actions>
                     <columns>
-                        <column id="type"/>
-                        <column id="parentType"/>
+                        <column id="categoryName"/>
+                        <column id="periodSubClass"/>
                     </columns>
-                    <rows datasource="siteTypesDs"/>
+                    <rows datasource="functionCategoriesDs"/>
                     <rowsCount/>
                     <buttonsPanel id="buttonsPanel"
                                   alwaysVisible="true">
                         <button id="createBtn"
-                                action="siteTypesTable.create"/>
+                                action="functionCategoriesTable.create"/>
                         <button id="editBtn"
-                                action="siteTypesTable.edit"/>
+                                action="functionCategoriesTable.edit"/>
                         <button id="removeBtn"
-                                action="siteTypesTable.remove"/>
+                                action="functionCategoriesTable.remove"/>
                     </buttonsPanel>
-                </groupTable>
+                </treeTable>
             </vbox>
             <vbox id="editBox"
                   expand="fieldGroupBox"
@@ -82,11 +85,12 @@
                   spacing="true">
                 <vbox id="fieldGroupBox">
                     <fieldGroup id="fieldGroup"
-                                datasource="siteTypeDs">
+                                datasource="functionCategoryDs">
                         <column width="250px">
-                            <field id="type"/>
+                            <field id="categoryName"/>
                             <field id="parentType"
                                    optionsDatasource="parentTypesDs"/>
+                            <field id="periodSubClass"/>
                         </column>
                     </fieldGroup>
                 </vbox>

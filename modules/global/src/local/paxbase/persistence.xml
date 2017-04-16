@@ -20,6 +20,7 @@
         <class>local.paxbase.entity.Period</class>
         <class>local.paxbase.entity.UserPreference</class>
         <class>local.paxbase.entity.coredata.PeriodType</class>
-        <class>local.paxbase.entity.ServicePeriod</class>
+        <class>local.paxbase.entity.AdministrationPeriod</class>
+        <class>local.paxbase.entity.coredata.FunctionCategory</class>
     </persistence-unit>
 </persistence>

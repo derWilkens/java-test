@@ -18,8 +18,6 @@
                     datasource="dutyPeriodDs">
             <column width="250px">
                 <field id="client"/>
-                <field id="beginDate"/>
-                <field id="endDate"/>
                 <field id="user"/>
                 <field id="site"/>
                 <field id="outboundTransfer"/>

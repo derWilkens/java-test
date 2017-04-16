@@ -1,6 +1,6 @@
-package local.paxbase.web.serviceperiod;
+package local.paxbase.web.administrationperiod;
 
-import local.paxbase.entity.ServicePeriod;
+import local.paxbase.entity.AdministrationPeriod;
 import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.components.actions.CreateAction;
@@ -16,31 +16,31 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 
-public class ServicePeriodBrowse extends AbstractLookup {
+public class AdministrationPeriodBrowse extends AbstractLookup {
 
     /**
-     * The {@link CollectionDatasource} instance that loads a list of {@link ServicePeriod} records
-     * to be displayed in {@link ServicePeriodBrowse#servicePeriodsTable} on the left
+     * The {@link CollectionDatasource} instance that loads a list of {@link AdministrationPeriod} records
+     * to be displayed in {@link AdministrationPeriodBrowse#administrationPeriodsTable} on the left
      */
     @Inject
-    private CollectionDatasource<ServicePeriod, UUID> servicePeriodsDs;
+    private CollectionDatasource<AdministrationPeriod, UUID> administrationPeriodsDs;
 
     /**
      * The {@link Datasource} instance that contains an instance of the selected entity
-     * in {@link ServicePeriodBrowse#servicePeriodsDs}
+     * in {@link AdministrationPeriodBrowse#administrationPeriodsDs}
      * <p/> Containing instance is loaded in {@link CollectionDatasource#addItemChangeListener}
      * with the view, specified in the XML screen descriptor.
-     * The listener is set in the {@link ServicePeriodBrowse#init(Map)} method
+     * The listener is set in the {@link AdministrationPeriodBrowse#init(Map)} method
      */
     @Inject
-    private Datasource<ServicePeriod> servicePeriodDs;
+    private Datasource<AdministrationPeriod> administrationPeriodDs;
 
     /**
-     * The {@link Table} instance, containing a list of {@link ServicePeriod} records,
-     * loaded via {@link ServicePeriodBrowse#servicePeriodsDs}
+     * The {@link Table} instance, containing a list of {@link AdministrationPeriod} records,
+     * loaded via {@link AdministrationPeriodBrowse#administrationPeriodsDs}
      */
     @Inject
-    private Table<ServicePeriod> servicePeriodsTable;
+    private Table<AdministrationPeriod> administrationPeriodsTable;
 
     /**
      * The {@link BoxLayout} instance that contains components on the left side
@@ -56,23 +56,23 @@ public class ServicePeriodBrowse extends AbstractLookup {
     private BoxLayout actionsPane;
 
     /**
-     * The {@link FieldGroup} instance that is linked to {@link ServicePeriodBrowse#servicePeriodDs}
-     * and shows fields of the selected {@link ServicePeriod} record
+     * The {@link FieldGroup} instance that is linked to {@link AdministrationPeriodBrowse#administrationPeriodDs}
+     * and shows fields of the selected {@link AdministrationPeriod} record
      */
     @Inject
     private FieldGroup fieldGroup;
 
     /**
-     * The {@link RemoveAction} instance, related to {@link ServicePeriodBrowse#servicePeriodsTable}
+     * The {@link RemoveAction} instance, related to {@link AdministrationPeriodBrowse#administrationPeriodsTable}
      */
-    @Named("servicePeriodsTable.remove")
-    private RemoveAction servicePeriodsTableRemove;
+    @Named("administrationPeriodsTable.remove")
+    private RemoveAction administrationPeriodsTableRemove;
 
     @Inject
     private DataSupplier dataSupplier;
 
     /**
-     * {@link Boolean} value, indicating if a new instance of {@link ServicePeriod} is being created
+     * {@link Boolean} value, indicating if a new instance of {@link AdministrationPeriod} is being created
      */
     private boolean creating;
 
@@ -80,39 +80,39 @@ public class ServicePeriodBrowse extends AbstractLookup {
     public void init(Map<String, Object> params) {
 
         /*
-         * Adding {@link com.haulmont.cuba.gui.data.Datasource.ItemChangeListener} to {@link servicePeriodsDs}
-         * The listener reloads the selected record with the specified view and sets it to {@link servicePeriodDs}
+         * Adding {@link com.haulmont.cuba.gui.data.Datasource.ItemChangeListener} to {@link administrationPeriodsDs}
+         * The listener reloads the selected record with the specified view and sets it to {@link administrationPeriodDs}
          */
-        servicePeriodsDs.addItemChangeListener(e -> {
+        administrationPeriodsDs.addItemChangeListener(e -> {
             if (e.getItem() != null) {
-                ServicePeriod reloadedItem = dataSupplier.reload(e.getDs().getItem(), servicePeriodDs.getView());
-                servicePeriodDs.setItem(reloadedItem);
+                AdministrationPeriod reloadedItem = dataSupplier.reload(e.getDs().getItem(), administrationPeriodDs.getView());
+                administrationPeriodDs.setItem(reloadedItem);
             }
         });
 
         /*
-         * Adding {@link CreateAction} to {@link servicePeriodsTable}
-         * The listener removes selection in {@link servicePeriodsTable}, sets a newly created item to {@link servicePeriodDs}
+         * Adding {@link CreateAction} to {@link administrationPeriodsTable}
+         * The listener removes selection in {@link administrationPeriodsTable}, sets a newly created item to {@link administrationPeriodDs}
          * and enables controls for record editing
          */
-        servicePeriodsTable.addAction(new CreateAction(servicePeriodsTable) {
+        administrationPeriodsTable.addAction(new CreateAction(administrationPeriodsTable) {
             @Override
             protected void internalOpenEditor(CollectionDatasource datasource, Entity newItem, Datasource parentDs, Map<String, Object> params) {
-                servicePeriodsTable.setSelected(Collections.emptyList());
-                servicePeriodDs.setItem((ServicePeriod) newItem);
+                administrationPeriodsTable.setSelected(Collections.emptyList());
+                administrationPeriodDs.setItem((AdministrationPeriod) newItem);
                 refreshOptionsForLookupFields();
                 enableEditControls(true);
             }
         });
 
         /*
-         * Adding {@link EditAction} to {@link servicePeriodsTable}
+         * Adding {@link EditAction} to {@link administrationPeriodsTable}
          * The listener enables controls for record editing
          */
-        servicePeriodsTable.addAction(new EditAction(servicePeriodsTable) {
+        administrationPeriodsTable.addAction(new EditAction(administrationPeriodsTable) {
             @Override
             protected void internalOpenEditor(CollectionDatasource datasource, Entity existingItem, Datasource parentDs, Map<String, Object> params) {
-                if (servicePeriodsTable.getSelected().size() == 1) {
+                if (administrationPeriodsTable.getSelected().size() == 1) {
                     refreshOptionsForLookupFields();
                     enableEditControls(false);
                 }
@@ -120,10 +120,10 @@ public class ServicePeriodBrowse extends AbstractLookup {
         });
 
         /*
-         * Setting {@link RemoveAction#afterRemoveHandler} for {@link servicePeriodsTableRemove}
-         * to reset record, contained in {@link servicePeriodDs}
+         * Setting {@link RemoveAction#afterRemoveHandler} for {@link administrationPeriodsTableRemove}
+         * to reset record, contained in {@link administrationPeriodDs}
          */
-        servicePeriodsTableRemove.setAfterRemoveHandler(removedItems -> servicePeriodDs.setItem(null));
+        administrationPeriodsTableRemove.setAfterRemoveHandler(removedItems -> administrationPeriodDs.setItem(null));
 
         disableEditControls();
     }
@@ -148,13 +148,13 @@ public class ServicePeriodBrowse extends AbstractLookup {
         }
         getDsContext().commit();
 
-        ServicePeriod editedItem = servicePeriodDs.getItem();
+        AdministrationPeriod editedItem = administrationPeriodDs.getItem();
         if (creating) {
-            servicePeriodsDs.includeItem(editedItem);
+            administrationPeriodsDs.includeItem(editedItem);
         } else {
-            servicePeriodsDs.updateItem(editedItem);
+            administrationPeriodsDs.updateItem(editedItem);
         }
-        servicePeriodsTable.setSelected(editedItem);
+        administrationPeriodsTable.setSelected(editedItem);
 
         disableEditControls();
     }
@@ -163,12 +163,12 @@ public class ServicePeriodBrowse extends AbstractLookup {
      * Method that is invoked by clicking Cancel button, discards changes and disables controls for record editing
      */
     public void cancel() {
-        ServicePeriod selectedItem = servicePeriodsDs.getItem();
+        AdministrationPeriod selectedItem = administrationPeriodsDs.getItem();
         if (selectedItem != null) {
-            ServicePeriod reloadedItem = dataSupplier.reload(selectedItem, servicePeriodDs.getView());
-            servicePeriodsDs.setItem(reloadedItem);
+            AdministrationPeriod reloadedItem = dataSupplier.reload(selectedItem, administrationPeriodDs.getView());
+            administrationPeriodsDs.setItem(reloadedItem);
         } else {
-            servicePeriodDs.setItem(null);
+            administrationPeriodDs.setItem(null);
         }
 
         disableEditControls();
@@ -176,7 +176,7 @@ public class ServicePeriodBrowse extends AbstractLookup {
 
     /**
      * Enabling controls for record editing
-     * @param creating indicates if a new instance of {@link ServicePeriod} is being created
+     * @param creating indicates if a new instance of {@link AdministrationPeriod} is being created
      */
     private void enableEditControls(boolean creating) {
         this.creating = creating;
@@ -189,7 +189,7 @@ public class ServicePeriodBrowse extends AbstractLookup {
      */
     private void disableEditControls() {
         initEditComponents(false);
-        servicePeriodsTable.requestFocus();
+        administrationPeriodsTable.requestFocus();
     }
 
     /**

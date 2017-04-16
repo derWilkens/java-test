@@ -32,8 +32,6 @@
             </actions>
             <columns>
                 <column id="client"/>
-                <column id="beginDate"/>
-                <column id="endDate"/>
             </columns>
             <rows datasource="dutyPeriodsDs"/>
             <rowsCount/>

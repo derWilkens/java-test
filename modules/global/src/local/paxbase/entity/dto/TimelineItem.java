@@ -35,8 +35,11 @@ public class TimelineItem extends AbstractNotPersistentStringIdEntity {
 
     @MetaProperty
     protected Boolean editable;
+    
+    @MetaProperty
+    protected String subgroupId;
 
-    public TimelineItem(Period entity, String content, String groupId) {
+	public TimelineItem(Period entity, String content, String groupId, String subgroupId) {
     	super();
     	this.id = entity.getId().toString();
 		this.content = content;
@@ -44,6 +47,8 @@ public class TimelineItem extends AbstractNotPersistentStringIdEntity {
 		this.start = entity.getStart() != null ? formatter.format(entity.getStart()):null;
 		this.end = entity.getEnd()!=null ? formatter.format(entity.getEnd()):null;
 		this.group = groupId;
+		this.subgroupId = subgroupId;
+		
 		this.type = "box";
 		this.editable = false;
 		
@@ -113,6 +118,12 @@ public class TimelineItem extends AbstractNotPersistentStringIdEntity {
         return editable;
     }
 
+    public String getSubgroupId() {
+		return subgroupId;
+	}
 
+	public void setSubgroupId(String subgroupId) {
+		this.subgroupId = subgroupId;
+	}
 
 }

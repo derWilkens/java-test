@@ -1,4 +1,4 @@
-package local.paxbase.entity;
+package local.paxbase.entity.coredata;
 
 import com.haulmont.chile.core.datatypes.impl.EnumClass;
 
@@ -8,7 +8,9 @@ import javax.annotation.Nullable;
 public enum PeriodSubClass implements EnumClass<String> {
 
     Campaign("1"),
-    ServicePeriod("2");
+    Administration("2"),
+    DutyPeriod("3");
+	
 
     private String id;
 

@@ -30,7 +30,7 @@ public class TimelineGroup extends AbstractNotPersistentStringIdEntity {
     protected Boolean visible;
 
     @MetaProperty
-    protected List<TimelineItem> nestedGroups;
+    protected List<String> nestedGroups;
 
     @MetaProperty
     protected Boolean showNestedGroups;
@@ -42,11 +42,11 @@ public class TimelineGroup extends AbstractNotPersistentStringIdEntity {
 		visible = true;
 	}
 
-	public List<TimelineItem> getNestedGroups() {
+	public List<String> getNestedGroups() {
         return nestedGroups;
     }
 
-    public void setNestedGroups(List<TimelineItem> nestedGroups) {
+    public void setNestedGroups(List<String> nestedGroups) {
         this.nestedGroups = nestedGroups;
     }
 

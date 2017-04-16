@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
         caption="msg://caption"
-        class="local.paxbase.web.serviceperiod.ServicePeriodBrowse"
-        focusComponent="servicePeriodsTable"
-        lookupComponent="servicePeriodsTable"
-        messagesPack="local.paxbase.web.serviceperiod">
+        class="local.paxbase.web.administrationperiod.AdministrationPeriodBrowse"
+        focusComponent="administrationPeriodsTable"
+        lookupComponent="administrationPeriodsTable"
+        messagesPack="local.paxbase.web.administrationperiod">
     <dsContext>
-        <datasource id="servicePeriodDs"
-                    class="local.paxbase.entity.ServicePeriod"
-                    view="servicePeriod-view"/>
-        <groupDatasource id="servicePeriodsDs"
-                         class="local.paxbase.entity.ServicePeriod"
-                         view="servicePeriod-view">
+        <datasource id="administrationPeriodDs"
+                    class="local.paxbase.entity.AdministrationPeriod"
+                    view="administrationPeriod-view"/>
+        <groupDatasource id="administrationPeriodsDs"
+                         class="local.paxbase.entity.AdministrationPeriod"
+                         view="administrationPeriod-view">
             <query>
-                <![CDATA[select e from paxbase$ServicePeriod e]]>
+                <![CDATA[select e from paxbase$AdministrationPeriod e]]>
             </query>
         </groupDatasource>
+        <collectionDatasource id="sitesDs"
+                              class="local.paxbase.entity.coredata.Site"
+                              view="_minimal">
+            <query>
+                <![CDATA[select e from paxbase$Site e]]>
+            </query>
+        </collectionDatasource>
     </dsContext>
     <actions>
         <action id="save"
@@ -37,16 +44,16 @@
                reversePosition="true"
                width="100%">
             <vbox id="lookupBox"
-                  expand="servicePeriodsTable"
+                  expand="administrationPeriodsTable"
                   height="100%"
                   margin="false,true,false,false"
                   spacing="true">
                 <filter id="filter"
-                        applyTo="servicePeriodsTable"
-                        datasource="servicePeriodsDs">
+                        applyTo="administrationPeriodsTable"
+                        datasource="administrationPeriodsDs">
                     <properties include=".*"/>
                 </filter>
-                <groupTable id="servicePeriodsTable"
+                <groupTable id="administrationPeriodsTable"
                             width="100%">
                     <actions>
                         <action id="create"/>
@@ -60,16 +67,16 @@
                         <column id="personOnDuty"/>
                         <column id="site"/>
                     </columns>
-                    <rows datasource="servicePeriodsDs"/>
+                    <rows datasource="administrationPeriodsDs"/>
                     <rowsCount/>
                     <buttonsPanel id="buttonsPanel"
                                   alwaysVisible="true">
                         <button id="createBtn"
-                                action="servicePeriodsTable.create"/>
+                                action="administrationPeriodsTable.create"/>
                         <button id="editBtn"
-                                action="servicePeriodsTable.edit"/>
+                                action="administrationPeriodsTable.edit"/>
                         <button id="removeBtn"
-                                action="servicePeriodsTable.remove"/>
+                                action="administrationPeriodsTable.remove"/>
                     </buttonsPanel>
                 </groupTable>
             </vbox>
@@ -80,13 +87,14 @@
                   spacing="true">
                 <vbox id="fieldGroupBox">
                     <fieldGroup id="fieldGroup"
-                                datasource="servicePeriodDs">
+                                datasource="administrationPeriodDs">
                         <column width="250px">
                             <field id="start"/>
                             <field id="end"/>
                             <field id="type"/>
                             <field id="personOnDuty"/>
-                            <field id="site"/>
+                            <field id="site"
+                                   optionsDatasource="sitesDs"/>
                         </column>
                     </fieldGroup>
                 </vbox>

@@ -18,6 +18,8 @@ import com.haulmont.chile.core.annotations.NamePattern;
 import java.util.Set;
 import javax.persistence.OneToMany;
 import local.paxbase.entity.Campaign;
+import com.haulmont.cuba.core.entity.annotation.Lookup;
+import com.haulmont.cuba.core.entity.annotation.LookupType;
 
 /**
  * @author christian
@@ -35,6 +37,7 @@ public class Site extends StandardClientEntity {
     @Column(name = "ITEM_DESIGNATION", length = 7)
     protected String itemDesignation;
 
+    @Lookup(type = LookupType.DROPDOWN)
     @OnDeleteInverse(DeletePolicy.UNLINK)
     @OnDelete(DeletePolicy.UNLINK)
     @ManyToOne(fetch = FetchType.LAZY)
