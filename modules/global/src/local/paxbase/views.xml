@@ -34,9 +34,6 @@
     <view class="local.paxbase.entity.DutyPeriod"
           extends="_local"
           name="dutyPeriod-edit-view">
-        <property name="user"
-                  view="_minimal">
-        </property>
         <property name="site"
                   view="_minimal"/>
         <property name="outboundTransfer"
@@ -44,6 +41,8 @@
         <property name="inboundTransfer"
                   view="_minimal"/>
         <property name="contractor"
+                  view="_minimal"/>
+        <property name="personOnDuty"
                   view="_minimal"/>
     </view>
     <view class="local.paxbase.entity.OffshoreUser"
@@ -119,32 +118,6 @@
         <property name="parentType"
                   view="_minimal">
         </property>
-    </view>
-    <view class="local.paxbase.entity.AdministrationPeriod"
-          extends="_local"
-          name="administrationPeriod-view">
-        <property name="personOnDuty"
-                  view="_minimal"/>
-        <property name="site"
-                  view="_minimal"/>
-        <property name="type"
-                  view="_minimal">
-            <property name="periodSubClass"/>
-        </property>
-    </view>
-    <view class="local.paxbase.entity.AdministrationPeriod"
-          extends="_local"
-          name="administrationPeriodTree-view">
-        <property name="type"
-                  view="_minimal">
-            <property name="parentType"
-                      view="_minimal"/>
-            <property name="periodSubClass"/>
-        </property>
-        <property name="personOnDuty"
-                  view="_minimal"/>
-        <property name="site"
-                  view="_minimal"/>
     </view>
     <view class="local.paxbase.entity.coredata.Site"
           extends="_local"

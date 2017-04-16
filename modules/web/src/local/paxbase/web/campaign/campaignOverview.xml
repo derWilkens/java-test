@@ -25,18 +25,16 @@
                 <![CDATA[select e from paxbase$UserPreference e]]>
             </query>
         </collectionDatasource>
-        <collectionDatasource id="periodTypesDs"
-                              class="local.paxbase.entity.coredata.PeriodType"
-                              view="periodType-view">
+        <collectionDatasource id="functionCategoriesDs"
+                              class="local.paxbase.entity.coredata.FunctionCategory">
             <query>
-                <![CDATA[select e from paxbase$PeriodType e]]>
+                <![CDATA[select e from paxbase$FunctionCategory e]]>
             </query>
         </collectionDatasource>
-        <collectionDatasource id="administrationPeriodsDs"
-                              class="local.paxbase.entity.AdministrationPeriod"
-                              view="administrationPeriod-view">
+        <collectionDatasource id="dutyPeriodsDs"
+                              class="local.paxbase.entity.DutyPeriod">
             <query>
-                <![CDATA[select e from paxbase$AdministrationPeriod e]]>
+                <![CDATA[select e from paxbase$DutyPeriod e]]>
             </query>
         </collectionDatasource>
         <collectionDatasource id="personOnDutyListDs"
@@ -75,7 +73,7 @@
                     <column id="selected"/>
                     <column id="periodSubClass"/>
                 </columns>
-                <rows datasource="periodTypesDs"/>
+                <rows datasource="functionCategoriesDs"/>
             </table>
             <vbox spacing="true">
                 <table id="siteUserSettings"

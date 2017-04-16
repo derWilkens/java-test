@@ -14,8 +14,6 @@
         <item id="paxbase$SiteType.browse"/>
         <item id="paxbase$UserPreference.browse"/>
         <item id="paxbase$Campaign.browse"/>
-        <item id="paxbase$PeriodType.browse"/>
-        <item id="paxbase$AdministrationPeriod.browse"/>
         <item id="paxbase$FunctionCategory.browse"/>
     </menu>
 </menu-config>

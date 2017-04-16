@@ -16,10 +16,13 @@ import com.haulmont.cuba.core.entity.StandardEntity;
 import local.paxbase.DateFormatter;
 import local.paxbase.entity.coredata.PeriodType;
 import com.haulmont.chile.core.annotations.NamePattern;
+import com.haulmont.cuba.core.entity.annotation.Lookup;
+import com.haulmont.cuba.core.entity.annotation.LookupType;
+import local.paxbase.entity.coredata.FunctionCategory;
 
-@NamePattern("%s %s %s|start,end,type")
+@NamePattern("%s %s %s|start,end,category")
 @MappedSuperclass
-public class Period extends StandardEntity implements PreferredEntity {
+public class Period extends StandardEntity {
     private static final long serialVersionUID = -5029609650607107962L;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -29,18 +32,20 @@ public class Period extends StandardEntity implements PreferredEntity {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "END_")
     protected Date end;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "TYPE_ID")
-    protected PeriodType type;
     
-    public void setType(PeriodType type) {
-        this.type = type;
+    @Lookup(type = LookupType.DROPDOWN)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CATEGORY_ID")
+    protected FunctionCategory category;
+
+    public void setCategory(FunctionCategory category) {
+        this.category = category;
     }
 
-    public PeriodType getType() {
-        return type;
+    public FunctionCategory getCategory() {
+        return category;
     }
+
 
     public void setStart(Date start) {
         this.start = start;
@@ -57,27 +62,5 @@ public class Period extends StandardEntity implements PreferredEntity {
     public Date getEnd() {
         return end;
     }
-
-	@Override
-	public UUID getPreferredUUID() {
-		return this.id;
-	}
-
-	@Override
-	public String getLabel() {
-		return getType().getTypeName() + " " + DateFormatter.toMMJJJJ(getStart()) + " - " + DateFormatter.toMMJJJJ(getEnd());
-	}
-
-	@Override
-	public String getGroupLabel(GroupedBy groupedBy) {
-		return "";
-	}
-
-	@Override
-	public UUID getGroupId(GroupedBy groupedBy) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 }

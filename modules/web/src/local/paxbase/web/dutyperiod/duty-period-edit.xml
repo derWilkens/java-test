@@ -18,7 +18,7 @@
                     datasource="dutyPeriodDs">
             <column width="250px">
                 <field id="client"/>
-                <field id="user"/>
+                <field id="personOnDuty"/>
                 <field id="site"/>
                 <field id="outboundTransfer"/>
                 <field id="inboundTransfer"/>

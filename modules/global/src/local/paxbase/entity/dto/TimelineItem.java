@@ -1,6 +1,7 @@
 package local.paxbase.entity.dto;
 
 import java.text.SimpleDateFormat;
+import java.util.function.Function;
 
 import com.haulmont.chile.core.annotations.MetaClass;
 import com.haulmont.chile.core.annotations.MetaProperty;
@@ -52,6 +53,21 @@ public class TimelineItem extends AbstractNotPersistentStringIdEntity {
 		this.type = "box";
 		this.editable = false;
 		
+	}
+
+	@SuppressWarnings("unchecked")
+	public TimelineItem(Period entity, TimelineConfig campaignTimelineConfig) {
+    	super();
+    	this.id = entity.getId().toString();
+		this.content = ((Function<Period, String>) campaignTimelineConfig.getItemLabelFunction()).apply(entity);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		this.start = entity.getStart() != null ? formatter.format(entity.getStart()):null;
+		this.end = entity.getEnd()!=null ? formatter.format(entity.getEnd()):null;
+		this.group = ((Function<Period, String>) campaignTimelineConfig.getGroupFunction()).apply(entity);
+		this.subgroupId = ((Function<Period, String>) campaignTimelineConfig.getNestedGroupFunction()).apply(entity);;
+		
+		this.type = "box";
+		this.editable = false;
 	}
 
 	public void setContent(String content) {

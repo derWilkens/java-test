@@ -126,7 +126,7 @@ create table PAXBASE_PAYLOAD (
     DELETED_BY varchar(50),
     START_ datetime(3),
     END_ datetime(3),
-    TYPE_ID varchar(32),
+    CATEGORY_ID varchar(32),
     --
     USER_ID varchar(32),
     SITE_ID varchar(32),
@@ -214,7 +214,7 @@ create table PAXBASE_CAMPAIGN (
     DELETED_BY varchar(50),
     START_ datetime(3),
     END_ datetime(3),
-    TYPE_ID varchar(32),
+    CATEGORY_ID varchar(32),
     --
     CAMPAIGN_NUMBER varchar(10),
     SHUTDOWN_ boolean,
@@ -274,7 +274,7 @@ create table PAXBASE_ADMINISTRATION_PERIOD (
     DELETED_BY varchar(50),
     START_ datetime(3),
     END_ datetime(3),
-    TYPE_ID varchar(32),
+    CATEGORY_ID varchar(32),
     --
     PERSON_ON_DUTY_ID varchar(32),
     SITE_ID varchar(32),

@@ -30,11 +30,12 @@ public class DutyPeriod extends Period {
 
 
 
+
     @OnDeleteInverse(DeletePolicy.CASCADE)
     @OnDelete(DeletePolicy.UNLINK)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
-    protected OffshoreUser user;
+    @JoinColumn(name = "PERSON_ON_DUTY_ID")
+    protected OffshoreUser personOnDuty;
 
     @Lookup(type = LookupType.DROPDOWN, actions = {"lookup"})
     @OnDeleteInverse(DeletePolicy.UNLINK)
@@ -61,6 +62,15 @@ public class DutyPeriod extends Period {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CONTRACTOR_ID")
     protected Company contractor;
+
+    public void setPersonOnDuty(OffshoreUser personOnDuty) {
+        this.personOnDuty = personOnDuty;
+    }
+
+    public OffshoreUser getPersonOnDuty() {
+        return personOnDuty;
+    }
+
 
     public Site getSite() {
         return site;
@@ -108,13 +118,7 @@ public class DutyPeriod extends Period {
 
 
 
-    public void setUser(OffshoreUser user) {
-        this.user = user;
-    }
 
-    public OffshoreUser getUser() {
-        return user;
-    }
 
 
 }

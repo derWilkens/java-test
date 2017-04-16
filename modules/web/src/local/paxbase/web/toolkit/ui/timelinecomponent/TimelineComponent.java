@@ -89,7 +89,7 @@ public class TimelineComponent extends AbstractJavaScriptComponent {
 		
 		for (TimelineDTO timelineDTO : dtoList) {
 			getState().timelineItems.addAll(timelineDTO.getTimelineItemList());
-			getState().timelineGroups.addAll(timelineDTO.getGroupList());
+			getState().timelineGroups.addAll(timelineDTO.getGroupList().values());
 		}
 		
 	}

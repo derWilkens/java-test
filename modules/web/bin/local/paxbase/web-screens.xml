@@ -41,10 +41,6 @@
             template="local/paxbase/web/campaign/campaignOverview.xml"/>
     <screen id="paxbase$Campaign.browse"
             template="local/paxbase/web/campaign/campaign-browse.xml"/>
-    <screen id="paxbase$PeriodType.browse"
-            template="local/paxbase/web/periodtype/period-type-browse.xml"/>
-    <screen id="paxbase$AdministrationPeriod.browse"
-            template="local/paxbase/web/administrationperiod/administration-period-browse.xml"/>
     <screen id="paxbase$FunctionCategory.browse"
             template="local/paxbase/web/functioncategory/function-category-browse.xml"/>
 </screen-config>

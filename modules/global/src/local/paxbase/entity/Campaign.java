@@ -1,7 +1,5 @@
 package local.paxbase.entity;
 
-import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,7 +16,7 @@ import local.paxbase.entity.coredata.Site;
 @NamePattern("%s %s|campaignNumber,site")
 @Table(name = "PAXBASE_CAMPAIGN")
 @Entity(name = "paxbase$Campaign")
-public class Campaign extends Period implements PreferredEntity{
+public class Campaign extends Period {
     private static final long serialVersionUID = 2133165937821283408L;
 
     @Column(name = "CAMPAIGN_NUMBER", length = 10)
@@ -58,31 +56,4 @@ public class Campaign extends Period implements PreferredEntity{
         return site;
     }
     
-	@Override
-	public UUID getPreferredUUID() {
-		return this.getType().getId();
-	}
-
-	@Override
-	public String getLabel() {
-		return getType().getTypeName();
-	}
-
-	@Override
-	public String getGroupLabel(GroupedBy groupedBy) {
-		if (groupedBy.equals(GroupedBy.Site)){
-			return getSite().getSiteName();
-		}
-			
-		return null;
-	}
-	@Override
-	public UUID getGroupId(GroupedBy groupedBy) {
-		if (groupedBy.equals(GroupedBy.Site)){
-			return getSite().getId();
-		}
-			
-		return null;
-	}
-
 }
