@@ -1,7 +1,6 @@
 package local.paxbase.entity;
 
 import java.util.Date;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.FetchType;
@@ -11,18 +10,17 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.haulmont.cuba.core.entity.StandardEntity;
-
-import local.paxbase.DateFormatter;
-import local.paxbase.entity.coredata.PeriodType;
 import com.haulmont.chile.core.annotations.NamePattern;
+import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.cuba.core.entity.annotation.Lookup;
 import com.haulmont.cuba.core.entity.annotation.LookupType;
-import local.paxbase.entity.coredata.FunctionCategory;
 
-@NamePattern("%s %s %s|start,end,category")
+import local.paxbase.entity.coredata.FunctionCategory;
+import local.paxbase.entity.coredata.StandardClientEntity;
+
+@NamePattern("%s %s %s|start,end,functionCategory")
 @MappedSuperclass
-public class Period extends StandardEntity {
+public class Period extends StandardClientEntity {
     private static final long serialVersionUID = -5029609650607107962L;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -33,17 +31,18 @@ public class Period extends StandardEntity {
     @Column(name = "END_")
     protected Date end;
     
+
     @Lookup(type = LookupType.DROPDOWN)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CATEGORY_ID")
-    protected FunctionCategory category;
+    @JoinColumn(name = "FUNCTION_CATEGORY_ID")
+    protected FunctionCategory functionCategory;
 
-    public void setCategory(FunctionCategory category) {
-        this.category = category;
+    public void setFunctionCategory(FunctionCategory functionCategory) {
+        this.functionCategory = functionCategory;
     }
 
-    public FunctionCategory getCategory() {
-        return category;
+    public FunctionCategory getFunctionCategory() {
+        return functionCategory;
     }
 
 

@@ -15,7 +15,7 @@ import com.haulmont.cuba.core.entity.annotation.LookupType;
 @NamePattern("%s|typeName")
 @Table(name = "PAXBASE_PERIOD_TYPE")
 @Entity(name = "paxbase$PeriodType")
-public class PeriodType extends StandardEntity {
+public class PeriodType extends StandardClientEntity {
     private static final long serialVersionUID = 8534126243989364712L;
 
     @Column(name = "TYPE_NAME", length = 20)

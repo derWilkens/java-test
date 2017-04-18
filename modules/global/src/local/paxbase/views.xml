@@ -84,10 +84,8 @@
           name="campaign-view">
         <property name="site"
                   view="_minimal"/>
-        <property name="type"
-                  view="_minimal">
-            <property name="typeName"/>
-        </property>
+        <property name="category"
+                  view="_minimal"/>
     </view>
     <view class="local.paxbase.entity.coredata.Site"
           extends="_local"
@@ -101,10 +99,8 @@
           name="campaignOverview">
         <property name="site"
                   view="_minimal"/>
-        <property name="type"
-                  view="_minimal">
-            <property name="typeName"/>
-        </property>
+        <property name="category"
+                  view="_minimal"/>
     </view>
     <view class="local.paxbase.entity.coredata.Site"
           extends="_local"
@@ -135,5 +131,13 @@
         <property name="parentType"
                   view="_minimal"/>
         <property name="periodSubClass"/>
+    </view>
+    <view class="local.paxbase.entity.coredata.SiteType"
+          extends="_local"
+          name="siteType-view">
+        <property name="parentType"
+                  view="_minimal">
+            <property name="type"/>
+        </property>
     </view>
 </views>

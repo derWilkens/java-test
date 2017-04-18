@@ -23,6 +23,13 @@
                 <![CDATA[select e from paxbase$Site e]]>
             </query>
         </collectionDatasource>
+        <collectionDatasource id="categoriesDs"
+                              class="local.paxbase.entity.coredata.FunctionCategory"
+                              view="_minimal">
+            <query>
+                <![CDATA[select e from paxbase$FunctionCategory e]]>
+            </query>
+        </collectionDatasource>
     </dsContext>
     <actions>
         <action id="save"
@@ -63,7 +70,7 @@
                     <columns>
                         <column id="start"/>
                         <column id="end"/>
-                        <column id="type"/>
+                        <column id="category"/>
                         <column id="campaignNumber"/>
                         <column id="shutdown"/>
                         <column id="site"/>
@@ -92,7 +99,8 @@
                         <column width="250px">
                             <field id="start"/>
                             <field id="end"/>
-                            <field id="type"/>
+                            <field id="category"
+                                   optionsDatasource="categoriesDs"/>
                             <field id="campaignNumber"/>
                             <field id="shutdown"/>
                             <field id="site"

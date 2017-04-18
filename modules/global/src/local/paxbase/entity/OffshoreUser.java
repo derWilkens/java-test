@@ -20,6 +20,7 @@ import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
 import com.haulmont.cuba.core.global.DeletePolicy;
 
 import local.paxbase.entity.coredata.AppUser;
+import local.paxbase.entity.coredata.Company;
 
 /**
  * @author christian
@@ -43,15 +44,18 @@ public class OffshoreUser extends AppUser {
     @OnDelete(DeletePolicy.UNLINK)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "COMPANY_ID")
-    protected local.paxbase.entity.coredata.Company company;
-
-    public local.paxbase.entity.coredata.Company getCompany() {
+    protected Company company;
+    public Company getCompany() {
         return company;
     }
 
-    public void setCompany(local.paxbase.entity.coredata.Company company) {
+    public void setCompany(Company company) {
         this.company = company;
     }
+
+
+
+
 
 
 

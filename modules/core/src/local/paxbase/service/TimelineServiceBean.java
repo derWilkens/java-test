@@ -2,10 +2,8 @@ package local.paxbase.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 
@@ -23,15 +21,13 @@ import com.haulmont.cuba.security.entity.User;
 
 import local.paxbase.entity.Campaign;
 import local.paxbase.entity.DutyPeriod;
-import local.paxbase.entity.GroupedBy;
 import local.paxbase.entity.OffshoreUser;
 import local.paxbase.entity.UserPreference;
+import local.paxbase.entity.coredata.FunctionCategory;
 import local.paxbase.entity.coredata.PeriodSubClass;
-import local.paxbase.entity.coredata.PeriodType;
 import local.paxbase.entity.coredata.Site;
 import local.paxbase.entity.dto.TimelineConfig;
 import local.paxbase.entity.dto.TimelineDTO;
-import local.paxbase.entity.dto.TimelineGroup;
 
 @Service(TimelineService.NAME)
 public class TimelineServiceBean implements TimelineService {
@@ -51,10 +47,8 @@ public class TimelineServiceBean implements TimelineService {
 		TimelineConfig dutyPeriodConfig = new TimelineConfig();
 		dutyPeriodConfig.setGroupFunction((DutyPeriod e)->e.getSite().getSiteName());
 		dutyPeriodConfig.setNestedGroupFunction((DutyPeriod e) -> e.getSite().getParentSite().getSiteName());
-		//dutyPeriodConfig.setItemLabelFunction((DutyPeriod e)-> e.getType().getTypeName());
+		dutyPeriodConfig.setItemLabelFunction((DutyPeriod e)-> e.getCategory().getCategoryName());
 		
-		
-		HashMap<String, String> groupKeys = new HashMap<String, String>();
 		try (Transaction tx = persistence.createTransaction()) {
 			// preferences des Users für den context laden
 			List<UserPreference> userPreferenceList = getUserPreferences(context);
@@ -63,37 +57,26 @@ public class TimelineServiceBean implements TimelineService {
 			// gucken wir, welche Entitäten wir denn brauchen
 			// also erstmal die Typen laden, die in den Preferences sind
 
-			List<Site> preferredSites = getSites(userPreferenceList);
-			List<PeriodType> preferredPeriodTypes = getPeriodTypes(userPreferenceList);
+			List<Site> preferredSites = loadPreferredSites(userPreferenceList);
+			List<FunctionCategory> preferredFunctionCategories = loadPreferredFunctionCategories(userPreferenceList);
 			Set<PeriodSubClass> preferredSubClassList = new HashSet<PeriodSubClass>();
 
-			for (PeriodType periodType : preferredPeriodTypes) {
-				if (periodType.getPeriodSubClass() != null) {
-					preferredSubClassList.add(periodType.getPeriodSubClass());
+			for (FunctionCategory functionCategory : preferredFunctionCategories) {
+				if (functionCategory.getPeriodSubClass() != null) {
+					preferredSubClassList.add(functionCategory.getPeriodSubClass());
 				}
 			}
+			
 			for (PeriodSubClass periodSubClass : preferredSubClassList) {
 
 				if (periodSubClass.equals(PeriodSubClass.Campaign)) {
-					// jetzt können die Kampagnen selektiert werden
-					// deren Sites preferred sind
-					for (Campaign entity : getCampaigns(preferredSites)) {
-						dto.addItem(entity, campaignTimelineConfig);
-//						dto.getTimelineItemList()
-//								.add(new TimelineItem(entity, entity.getLabel(), entity.getGroupLabel(groupedBy),""));
-//						groupKeys.put(entity.getGroupLabel(groupedBy), entity.getSite().getSiteName());
-					}
+					dto.addItems(getCampaigns(preferredSites), campaignTimelineConfig);
+
 				} else if (periodSubClass.equals(PeriodSubClass.Administration)) {
-
-					for (DutyPeriod entity : getDutyPeriods(getPreferredPersonOnDutyList(userPreferenceList),
-							preferredSites)) {
-
-//						dto.getTimelineItemList()
-//								.add(new TimelineItem(entity, entity.getLabel(), entity.getGroupLabel(groupedBy),""));
-//						groupKeys.put(entity.getGroupLabel(groupedBy), entity.getSite().getSiteName());
-					}
+					List<OffshoreUser> personsOnDuty = loadPreferredPersonsOnDuty(userPreferenceList);
+					List<DutyPeriod> dutyPeriods = getDutyPeriods(personsOnDuty, preferredSites);
+					dto.addItems(dutyPeriods, dutyPeriodConfig);
 				}
-
 			}
 
 			tx.commit();
@@ -112,7 +95,6 @@ public class TimelineServiceBean implements TimelineService {
 		queryString = "select e from paxbase$DutyPeriod e where ";
 
 		if (personOnDutyList.size() > 0) {
-
 			queryString = queryString + "e.personOnDuty.id in :personsIdList ";
 			queryConcatenator = "AND ";
 		}
@@ -176,26 +158,23 @@ public class TimelineServiceBean implements TimelineService {
 	 *         DutyPeriod usw)
 	 * 
 	 */
-	private List<PeriodType> getPeriodTypes(List<UserPreference> userPreferenceList) {
-		List<PeriodType> entityList;
+	private List<FunctionCategory> loadPreferredFunctionCategories(List<UserPreference> userPreferenceList) {
 
-		List<UUID> periodTypeIds = getEntityUUIDList(userPreferenceList);
+		List<UUID> functionCategoryIds = getEntityUUIDsFromList(userPreferenceList);
 
-		String queryString = "select e from paxbase$PeriodType e where e.id in :periodIds";
+		String queryString = "select e from paxbase$FunctionCategory e where e.id in :entityUUIDs";
 
-		TypedQuery<PeriodType> query = persistence.getEntityManager().createQuery(queryString, PeriodType.class);
+		TypedQuery<FunctionCategory> query = persistence.getEntityManager().createQuery(queryString, FunctionCategory.class);
 
-		query.setParameter("periodIds", periodTypeIds);
+		query.setParameter("entityUUIDs", functionCategoryIds);
 
-		entityList = query.getResultList();
-
-		return entityList;
+		return query.getResultList();
 	}
 
-	private List<OffshoreUser> getPreferredPersonOnDutyList(List<UserPreference> userPreferenceList) {
+	private List<OffshoreUser> loadPreferredPersonsOnDuty(List<UserPreference> userPreferenceList) {
 		List<OffshoreUser> entityList;
 
-		List<UUID> entityUUIDs = getEntityUUIDList(userPreferenceList);
+		List<UUID> entityUUIDs = getEntityUUIDsFromList(userPreferenceList);
 
 		String queryString = "select e from paxbase$OffshoreUser e where e.id in :entityUUIDs";
 
@@ -208,10 +187,10 @@ public class TimelineServiceBean implements TimelineService {
 		return entityList;
 	}
 
-	private List<Site> getSites(List<UserPreference> userPreferenceList) {
+	private List<Site> loadPreferredSites(List<UserPreference> userPreferenceList) {
 		List<Site> entityList;
 
-		List<UUID> entityUUIDs = getEntityUUIDList(userPreferenceList);
+		List<UUID> entityUUIDs = getEntityUUIDsFromList(userPreferenceList);
 
 		String queryString = "select e from paxbase$Site e where e.id in :entityUUIDs";
 
@@ -224,7 +203,7 @@ public class TimelineServiceBean implements TimelineService {
 		return entityList;
 	}
 
-	private List<UUID> getEntityUUIDList(List<UserPreference> userPreferenceList) {
+	private List<UUID> getEntityUUIDsFromList(List<UserPreference> userPreferenceList) {
 		List<UUID> periodTypeIds = new ArrayList<UUID>();
 		for (UserPreference userPreference : userPreferenceList) {
 			periodTypeIds.add(userPreference.getEntityUuid());
@@ -232,8 +211,8 @@ public class TimelineServiceBean implements TimelineService {
 		return periodTypeIds;
 	}
 
-	@Override
-	public Collection<User> getPersonsOnDutyList() {
+
+	public Collection<User> getPersonsOnDuty() {
 
 		Collection<User> userList;
 

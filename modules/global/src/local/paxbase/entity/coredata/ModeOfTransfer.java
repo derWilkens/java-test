@@ -8,7 +8,7 @@ import com.haulmont.cuba.core.entity.StandardEntity;
 
 @Table(name = "PAXBASE_MODE_OF_TRANSFER")
 @Entity(name = "paxbase$ModeOfTransfer")
-public class ModeOfTransfer extends StandardEntity {
+public class ModeOfTransfer extends StandardClientEntity {
     private static final long serialVersionUID = 7132601331111253754L;
 
     @Column(name = "MODE_", length = 50)

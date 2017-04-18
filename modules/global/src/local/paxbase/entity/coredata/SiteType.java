@@ -12,13 +12,13 @@ import javax.persistence.ManyToOne;
 
 @Table(name = "PAXBASE_SITE_TYPE")
 @Entity(name = "paxbase$SiteType")
-public class SiteType extends StandardEntity {
+public class SiteType extends StandardClientEntity {
     private static final long serialVersionUID = 593633394072817102L;
 
     @Column(name = "TYPE_", length = 50)
     protected String type;
 
-    @Lookup(type = LookupType.DROPDOWN)
+    @Lookup(type = LookupType.DROPDOWN, actions = {"lookup"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PARENT_TYPE_ID")
     protected SiteType parentType;

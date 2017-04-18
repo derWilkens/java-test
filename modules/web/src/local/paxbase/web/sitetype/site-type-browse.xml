@@ -8,18 +8,21 @@
     <dsContext>
         <datasource id="siteTypeDs"
                     class="local.paxbase.entity.coredata.SiteType"
-                    view="_local"/>
-        <groupDatasource id="siteTypesDs"
-                         class="local.paxbase.entity.coredata.SiteType"
-                         view="_local">
+                    view="siteType-view"/>
+        <hierarchicalDatasource id="siteTypesDs"
+                                class="local.paxbase.entity.coredata.SiteType"
+                                hierarchyProperty="parentType"
+                                view="siteType-view">
             <query>
                 <![CDATA[select e from paxbase$SiteType e]]>
             </query>
-        </groupDatasource>
+        </hierarchicalDatasource>
         <collectionDatasource id="parentTypesDs"
                               class="local.paxbase.entity.coredata.SiteType"
                               view="_minimal">
-            <![CDATA[select e from paxbase$SiteType e]]>
+            <query>
+                <![CDATA[select e from paxbase$SiteType e]]>
+            </query>
         </collectionDatasource>
     </dsContext>
     <actions>
@@ -51,8 +54,8 @@
                         datasource="siteTypesDs">
                     <properties include=".*"/>
                 </filter>
-                <groupTable id="siteTypesTable"
-                            width="100%">
+                <treeTable id="siteTypesTable"
+                           width="100%">
                     <actions>
                         <action id="create"/>
                         <action id="edit"/>
@@ -60,7 +63,7 @@
                     </actions>
                     <columns>
                         <column id="type"/>
-                        <column id="parentType"/>
+                        <column id="parentType.type"/>
                     </columns>
                     <rows datasource="siteTypesDs"/>
                     <rowsCount/>
@@ -73,7 +76,7 @@
                         <button id="removeBtn"
                                 action="siteTypesTable.remove"/>
                     </buttonsPanel>
-                </groupTable>
+                </treeTable>
             </vbox>
             <vbox id="editBox"
                   expand="fieldGroupBox"

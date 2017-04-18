@@ -14,7 +14,7 @@ import local.paxbase.entity.coredata.CraftType;
 
 @Table(name = "PAXBASE_PAYLOAD")
 @Entity(name = "paxbase$Payload")
-public class Payload extends StandardEntity {
+public class Payload extends StandardClientEntity {
     private static final long serialVersionUID = -6052308096298262761L;
 
     @OnDeleteInverse(DeletePolicy.CASCADE)

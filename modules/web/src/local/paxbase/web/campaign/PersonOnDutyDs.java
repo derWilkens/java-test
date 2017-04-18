@@ -17,6 +17,7 @@ public class PersonOnDutyDs extends CustomCollectionDatasource<User, UUID> {
 	@Override
 	protected Collection<User> getEntities(Map<String, Object> params) {
 		
-		return timelineService.getPersonsOnDutyList();
+		//return ((Object) timelineService).getPersonsOnDutyList();
+		return null;
 	}
 }

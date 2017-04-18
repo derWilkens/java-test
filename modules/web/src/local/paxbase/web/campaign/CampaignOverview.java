@@ -68,7 +68,7 @@ public class CampaignOverview extends AbstractLookup {
 	@Inject
 	private CollectionDatasource<Period, UUID> campaignsDs;
 	
-	private PersonOnDutyDs personsOnDutyDs;
+	//private PersonOnDutyDs personsOnDutyDs;
 	
 
 	/**

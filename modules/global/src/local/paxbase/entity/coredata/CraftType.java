@@ -3,12 +3,11 @@
  */
 package local.paxbase.entity.coredata;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import com.haulmont.cuba.core.entity.StandardEntity;
-import javax.persistence.Column;
-import com.haulmont.chile.core.annotations.NamePattern;
 
+import com.haulmont.chile.core.annotations.NamePattern;
 
 /**
  * @author christian

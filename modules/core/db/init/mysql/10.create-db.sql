@@ -96,8 +96,7 @@ create table PAXBASE_WAYPOINT (
     primary key (ID)
 )^-- end PAXBASE_WAYPOINT
 
--- begin PAXBASE_PAYLOAD
-create table PAXBASE_PAYLOAD (
+-- begin PAXBASE_PAYLOADcreate table PAXBASE_PAYLOAD (
     ID varchar(32),
     VERSION integer not null,
     CREATE_TS datetime(3),
@@ -106,6 +105,7 @@ create table PAXBASE_PAYLOAD (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
+    CLIENT integer not null,
     --
     CRAFT_TYPE_ID varchar(32) not null,
     SITE_A_ID varchar(32) not null,
@@ -124,11 +124,12 @@ create table PAXBASE_PAYLOAD (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
+    CLIENT integer not null,
     START_ datetime(3),
     END_ datetime(3),
     CATEGORY_ID varchar(32),
     --
-    USER_ID varchar(32),
+    PERSON_ON_DUTY_ID varchar(32),
     SITE_ID varchar(32),
     OUTBOUND_TRANSFER_ID varchar(32),
     INBOUND_TRANSFER_ID varchar(32),
@@ -163,8 +164,7 @@ alter table SEC_USER add column CLIENT integer ^
 alter table SEC_USER add column DTYPE varchar(100) ^
 update SEC_USER set DTYPE = 'sec$User' where DTYPE is null ^
 -- end SEC_USER
--- begin PAXBASE_MODE_OF_TRANSFER
-create table PAXBASE_MODE_OF_TRANSFER (
+-- begin PAXBASE_MODE_OF_TRANSFERcreate table PAXBASE_MODE_OF_TRANSFER (
     ID varchar(32),
     VERSION integer not null,
     CREATE_TS datetime(3),
@@ -173,6 +173,7 @@ create table PAXBASE_MODE_OF_TRANSFER (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
+    CLIENT integer not null,
     --
     MODE_ varchar(50),
     --
@@ -188,6 +189,7 @@ create table PAXBASE_MODE_OF_TRANSFER (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
+    CLIENT integer not null,
     --
     TYPE_ varchar(50),
     PARENT_TYPE_ID varchar(32),
@@ -212,6 +214,7 @@ create table PAXBASE_CAMPAIGN (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
+    CLIENT integer not null,
     START_ datetime(3),
     END_ datetime(3),
     CATEGORY_ID varchar(32),
@@ -253,6 +256,7 @@ create table PAXBASE_PERIOD_TYPE (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
+    CLIENT integer not null,
     --
     TYPE_NAME varchar(20),
     PARENT_TYPE_ID varchar(32),
@@ -262,26 +266,6 @@ create table PAXBASE_PERIOD_TYPE (
 )^
 -- end PAXBASE_PERIOD_TYPE
 
--- begin PAXBASE_ADMINISTRATION_PERIOD
-create table PAXBASE_ADMINISTRATION_PERIOD (
-    ID varchar(32),
-    VERSION integer not null,
-    CREATE_TS datetime(3),
-    CREATED_BY varchar(50),
-    UPDATE_TS datetime(3),
-    UPDATED_BY varchar(50),
-    DELETE_TS datetime(3),
-    DELETED_BY varchar(50),
-    START_ datetime(3),
-    END_ datetime(3),
-    CATEGORY_ID varchar(32),
-    --
-    PERSON_ON_DUTY_ID varchar(32),
-    SITE_ID varchar(32),
-    --
-    primary key (ID)
-)^
--- end PAXBASE_ADMINISTRATION_PERIOD
 -- begin PAXBASE_FUNCTION_CATEGORY
 create table PAXBASE_FUNCTION_CATEGORY (
     ID varchar(32),

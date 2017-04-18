@@ -9,5 +9,5 @@ import local.paxbase.entity.dto.TimelineDTO;
 public interface TimelineService {
     String NAME = "paxbase_TimelineService";
     TimelineDTO getDto(String context);
-    Collection<User> getPersonsOnDutyList();
+    Collection<User> getPersonsOnDuty();
 }

@@ -7,7 +7,6 @@ import com.haulmont.chile.core.annotations.MetaClass;
 import com.haulmont.chile.core.annotations.MetaProperty;
 
 import local.paxbase.entity.AbstractNotPersistentStringIdEntity;
-import local.paxbase.entity.Campaign;
 import local.paxbase.entity.Period;
 
 @MetaClass(name = "paxbase$TimelineGroup")
@@ -45,7 +44,7 @@ public class TimelineGroup extends AbstractNotPersistentStringIdEntity {
 	}
 
 	@SuppressWarnings("unchecked")
-	public TimelineGroup(Campaign entity, TimelineConfig timelineConfig) {
+	public TimelineGroup(Period entity, TimelineConfig timelineConfig) {
 		this.id = entity.getId().toString();
 		this.content = ((Function<Period, String>) timelineConfig.getGroupFunction()).apply(entity);
 

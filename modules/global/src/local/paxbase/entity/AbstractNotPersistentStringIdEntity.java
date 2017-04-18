@@ -24,12 +24,8 @@ import com.haulmont.chile.core.model.utils.InstanceUtils;
 import com.haulmont.cuba.core.entity.annotation.SystemLevel;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.Metadata;
-import com.haulmont.cuba.core.global.UuidProvider;
 import com.haulmont.cuba.core.sys.CubaEnhanced;
 import com.haulmont.cuba.core.sys.CubaEnhancingDisabled;
-
-import java.util.Arrays;
-import java.util.UUID;
 
 /**
  * Base class for not persistent entities.

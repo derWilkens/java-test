@@ -8,7 +8,6 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 import com.haulmont.chile.core.annotations.NamePattern;
 
-
 /**
  * @author christian
  */

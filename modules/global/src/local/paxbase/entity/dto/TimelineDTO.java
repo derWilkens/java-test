@@ -8,8 +8,7 @@ import com.haulmont.chile.core.annotations.MetaClass;
 import com.haulmont.chile.core.annotations.MetaProperty;
 import com.haulmont.cuba.core.entity.AbstractNotPersistentEntity;
 
-import local.paxbase.entity.Campaign;
-import local.paxbase.entity.GroupedBy;
+import local.paxbase.entity.Period;
 
 @MetaClass(name = "paxbase$TimelineDTO")
 public class TimelineDTO extends AbstractNotPersistentEntity {
@@ -43,10 +42,17 @@ public class TimelineDTO extends AbstractNotPersistentEntity {
         return timelineItemList;
     }
 
-	public void addItem(Campaign entity, TimelineConfig timelineConfig) {
+	public void addItem(Period entity, TimelineConfig timelineConfig) {
 		TimelineItem item = new TimelineItem(entity, timelineConfig);
 		this.timelineItemList.add(item);
 		this.groupList.put(item.getGroup(), new TimelineGroup(entity, timelineConfig));
+	}
+
+	public void addItems(List<?> entities, TimelineConfig timelineConfig) {
+		for(Object entity : entities)
+		{
+			addItem((Period) entity, timelineConfig);
+		}
 		
 	}
 
