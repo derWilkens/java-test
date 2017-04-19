@@ -39,17 +39,7 @@ public class DutyPeriod extends Period {
     protected Site site;
 
 
-    @OnDeleteInverse(DeletePolicy.UNLINK)
-    @OnDelete(DeletePolicy.UNLINK)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "OUTBOUND_TRANSFER_ID")
-    protected Transfer outboundTransfer;
 
-    @OnDeleteInverse(DeletePolicy.UNLINK)
-    @OnDelete(DeletePolicy.UNLINK)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "INBOUND_TRANSFER_ID")
-    protected Transfer inboundTransfer;
 
     @OnDeleteInverse(DeletePolicy.UNLINK)
     @OnDelete(DeletePolicy.UNLINK)
@@ -91,21 +81,9 @@ public class DutyPeriod extends Period {
 
 
 
-    public void setOutboundTransfer(Transfer outboundTransfer) {
-        this.outboundTransfer = outboundTransfer;
-    }
 
-    public Transfer getOutboundTransfer() {
-        return outboundTransfer;
-    }
 
-    public void setInboundTransfer(Transfer inboundTransfer) {
-        this.inboundTransfer = inboundTransfer;
-    }
 
-    public Transfer getInboundTransfer() {
-        return inboundTransfer;
-    }
 
 
 

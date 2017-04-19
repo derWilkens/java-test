@@ -20,8 +20,6 @@
                 <field id="client"/>
                 <field id="personOnDuty"/>
                 <field id="site"/>
-                <field id="outboundTransfer"/>
-                <field id="inboundTransfer"/>
                 <field id="contractor"/>
             </column>
         </fieldGroup>

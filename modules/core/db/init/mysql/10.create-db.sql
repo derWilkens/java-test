@@ -127,12 +127,10 @@ create table PAXBASE_WAYPOINT (
     CLIENT integer not null,
     START_ datetime(3),
     END_ datetime(3),
-    CATEGORY_ID varchar(32),
+    FUNCTION_CATEGORY_ID varchar(32),
     --
     PERSON_ON_DUTY_ID varchar(32),
     SITE_ID varchar(32),
-    OUTBOUND_TRANSFER_ID varchar(32),
-    INBOUND_TRANSFER_ID varchar(32),
     CONTRACTOR_ID varchar(32),
     --
     primary key (ID)
@@ -217,7 +215,7 @@ create table PAXBASE_CAMPAIGN (
     CLIENT integer not null,
     START_ datetime(3),
     END_ datetime(3),
-    CATEGORY_ID varchar(32),
+    FUNCTION_CATEGORY_ID varchar(32),
     --
     CAMPAIGN_NUMBER varchar(10),
     SHUTDOWN_ boolean,
@@ -285,3 +283,24 @@ create table PAXBASE_FUNCTION_CATEGORY (
     primary key (ID)
 )^
 -- end PAXBASE_FUNCTION_CATEGORY
+-- begin PAXBASE_CONTRACTOR_DUTY_PERIOD
+create table PAXBASE_CONTRACTOR_DUTY_PERIOD (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    CLIENT integer not null,
+    START_ datetime(3),
+    END_ datetime(3),
+    FUNCTION_CATEGORY_ID varchar(32),
+    DTYPE varchar(31),
+    --
+    CONTRACTOR_ID varchar(32),
+    --
+    primary key (ID)
+)^
+-- end PAXBASE_CONTRACTOR_DUTY_PERIOD

@@ -47,7 +47,7 @@ public class TimelineServiceBean implements TimelineService {
 		TimelineConfig dutyPeriodConfig = new TimelineConfig();
 		dutyPeriodConfig.setGroupFunction((DutyPeriod e)->e.getSite().getSiteName());
 		dutyPeriodConfig.setNestedGroupFunction((DutyPeriod e) -> e.getSite().getParentSite().getSiteName());
-		dutyPeriodConfig.setItemLabelFunction((DutyPeriod e)-> e.getCategory().getCategoryName());
+		dutyPeriodConfig.setItemLabelFunction((DutyPeriod e)-> e.getFunctionCategory().getCategoryName());
 		
 		try (Transaction tx = persistence.createTransaction()) {
 			// preferences des Users für den context laden

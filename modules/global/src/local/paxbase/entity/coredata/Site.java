@@ -56,17 +56,6 @@ public class Site extends StandardClientEntity {
     @JoinColumn(name = "SITE_TYPE_ID")
     protected SiteType siteType;
 
-    @OneToMany(mappedBy = "site")
-    protected Set<Campaign> campaigns;
-
-    public void setCampaigns(Set<Campaign> campaigns) {
-        this.campaigns = campaigns;
-    }
-
-    public Set<Campaign> getCampaigns() {
-        return campaigns;
-    }
-
 
     public void setSiteName(String siteName) {
         this.siteName = siteName;

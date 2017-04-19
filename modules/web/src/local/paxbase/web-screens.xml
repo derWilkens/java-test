@@ -39,8 +39,10 @@
             template="local/paxbase/web/campaign/campaignOverview.xml"/>
     <screen id="paxbase$FunctionCategory.browse"
             template="local/paxbase/web/functioncategory/function-category-browse.xml"/>
-    <screen id="paxbase$Campaign.browse"
-            template="local/paxbase/web/campaign/campaign-browse.xml"/>
     <screen id="paxbase$SiteType.browse"
             template="local/paxbase/web/sitetype/site-type-browse.xml"/>
+    <screen id="paxbase$ContractorDutyPeriod.browse"
+            template="local/paxbase/web/contractordutyperiod/contractor-duty-period-browse.xml"/>
+    <screen id="paxbase$Campaign.browse"
+            template="local/paxbase/web/campaign/campaign-browse.xml"/>
 </screen-config>

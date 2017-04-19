@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
         caption="msg://caption"
-        class="local.paxbase.web.campaign.CampaignBrowse"
-        focusComponent="campaignsTable"
-        lookupComponent="campaignsTable"
-        messagesPack="local.paxbase.web.campaign">
+        class="local.paxbase.web.contractordutyperiod.ContractorDutyPeriodBrowse"
+        focusComponent="contractorDutyPeriodsTable"
+        lookupComponent="contractorDutyPeriodsTable"
+        messagesPack="local.paxbase.web.contractordutyperiod">
     <dsContext>
-        <datasource id="campaignDs"
-                    class="local.paxbase.entity.Campaign"
-                    view="campaign-view"/>
-        <groupDatasource id="campaignsDs"
-                         class="local.paxbase.entity.Campaign"
-                         view="campaign-view">
+        <datasource id="contractorDutyPeriodDs"
+                    class="local.paxbase.entity.ContractorDutyPeriod"
+                    view="contractorDutyPeriod-view"/>
+        <groupDatasource id="contractorDutyPeriodsDs"
+                         class="local.paxbase.entity.ContractorDutyPeriod"
+                         view="contractorDutyPeriod-view">
             <query>
-                <![CDATA[select e from paxbase$Campaign e]]>
+                <![CDATA[select e from paxbase$ContractorDutyPeriod e]]>
             </query>
         </groupDatasource>
-        <collectionDatasource id="sitesDs"
-                              class="local.paxbase.entity.coredata.Site"
+        <collectionDatasource id="contractorsDs"
+                              class="local.paxbase.entity.coredata.Company"
                               view="_minimal">
             <query>
-                <![CDATA[select e from paxbase$Site e]]>
+                <![CDATA[select e from paxbase$Company e]]>
             </query>
         </collectionDatasource>
         <collectionDatasource id="functionCategoriesDs"
@@ -51,16 +51,16 @@
                reversePosition="true"
                width="100%">
             <vbox id="lookupBox"
-                  expand="campaignsTable"
+                  expand="contractorDutyPeriodsTable"
                   height="100%"
                   margin="false,true,false,false"
                   spacing="true">
                 <filter id="filter"
-                        applyTo="campaignsTable"
-                        datasource="campaignsDs">
+                        applyTo="contractorDutyPeriodsTable"
+                        datasource="contractorDutyPeriodsDs">
                     <properties include=".*"/>
                 </filter>
-                <groupTable id="campaignsTable"
+                <groupTable id="contractorDutyPeriodsTable"
                             width="100%">
                     <actions>
                         <action id="create"/>
@@ -72,21 +72,18 @@
                         <column id="start"/>
                         <column id="end"/>
                         <column id="functionCategory"/>
-                        <column id="campaignNumber"/>
-                        <column id="shutdown"/>
-                        <column id="site"/>
-                        <column id="site"/>
+                        <column id="contractor"/>
                     </columns>
-                    <rows datasource="campaignsDs"/>
+                    <rows datasource="contractorDutyPeriodsDs"/>
                     <rowsCount/>
                     <buttonsPanel id="buttonsPanel"
                                   alwaysVisible="true">
                         <button id="createBtn"
-                                action="campaignsTable.create"/>
+                                action="contractorDutyPeriodsTable.create"/>
                         <button id="editBtn"
-                                action="campaignsTable.edit"/>
+                                action="contractorDutyPeriodsTable.edit"/>
                         <button id="removeBtn"
-                                action="campaignsTable.remove"/>
+                                action="contractorDutyPeriodsTable.remove"/>
                     </buttonsPanel>
                 </groupTable>
             </vbox>
@@ -97,18 +94,15 @@
                   spacing="true">
                 <vbox id="fieldGroupBox">
                     <fieldGroup id="fieldGroup"
-                                datasource="campaignDs">
+                                datasource="contractorDutyPeriodDs">
                         <column width="250px">
                             <field id="client"/>
                             <field id="start"/>
                             <field id="end"/>
                             <field id="functionCategory"
                                    optionsDatasource="functionCategoriesDs"/>
-                            <field id="campaignNumber"/>
-                            <field id="shutdown"/>
-                            <field id="site"
-                                   optionsDatasource="sitesDs"/>
-                            <field id="site"/>
+                            <field id="contractor"
+                                   optionsDatasource="contractorsDs"/>
                         </column>
                     </fieldGroup>
                 </vbox>

@@ -36,10 +36,6 @@
           name="dutyPeriod-edit-view">
         <property name="site"
                   view="_minimal"/>
-        <property name="outboundTransfer"
-                  view="_minimal"/>
-        <property name="inboundTransfer"
-                  view="_minimal"/>
         <property name="contractor"
                   view="_minimal"/>
         <property name="personOnDuty"
@@ -82,24 +78,19 @@
     <view class="local.paxbase.entity.Campaign"
           extends="_local"
           name="campaign-view">
-        <property name="site"
+        <property name="functionCategory"
                   view="_minimal"/>
-        <property name="category"
+        <property name="site"
                   view="_minimal"/>
     </view>
     <view class="local.paxbase.entity.coredata.Site"
           extends="_local"
           name="siteCampaignsView">
-        <property name="campaigns"
-                  view="_minimal">
-        </property>
     </view>
     <view class="local.paxbase.entity.Campaign"
           extends="_local"
           name="campaignOverview">
-        <property name="site"
-                  view="_minimal"/>
-        <property name="category"
+        <property name="functionCategory"
                   view="_minimal"/>
     </view>
     <view class="local.paxbase.entity.coredata.Site"
@@ -139,5 +130,13 @@
                   view="_minimal">
             <property name="type"/>
         </property>
+    </view>
+    <view class="local.paxbase.entity.ContractorDutyPeriod"
+          extends="_local"
+          name="contractorDutyPeriod-view">
+        <property name="contractor"
+                  view="_minimal"/>
+        <property name="functionCategory"
+                  view="_minimal"/>
     </view>
 </views>

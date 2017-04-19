@@ -75,18 +75,16 @@
                 </columns>
                 <rows datasource="functionCategoriesDs"/>
             </table>
-            <vbox spacing="true">
-                <table id="siteUserSettings"
-                       height="100%"
-                       settingsEnabled="false"
-                       width="100%">
-                    <columns>
-                        <column id="siteName"/>
-                    </columns>
-                    <rows datasource="sitesDs"/>
-                </table>
-            </vbox>
-            <table id="personsOnDutyTable"
+            <table id="siteUserSettings"
+                   height="100%"
+                   settingsEnabled="false"
+                   width="100%">
+                <columns>
+                    <column id="siteName"/>
+                </columns>
+                <rows datasource="sitesDs"/>
+            </table>
+            <table id="personsOnDutyUserSettings"
                    height="100%"
                    width="100%">
                 <columns>

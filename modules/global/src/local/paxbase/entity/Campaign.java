@@ -25,10 +25,18 @@ public class Campaign extends Period {
     @Column(name = "SHUTDOWN_")
     protected Boolean shutdown;
 
-    @Lookup(type = LookupType.DROPDOWN)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SITE_ID")
     protected Site site;
+
+    public void setSite(Site site) {
+        this.site = site;
+    }
+
+    public Site getSite() {
+        return site;
+    }
+
 
     public void setShutdown(Boolean shutdown) {
         this.shutdown = shutdown;
@@ -47,13 +55,5 @@ public class Campaign extends Period {
         return campaignNumber;
     }
 
-
-    public void setSite(Site site) {
-        this.site = site;
-    }
-
-    public Site getSite() {
-        return site;
-    }
     
 }
