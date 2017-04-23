@@ -1,7 +1,9 @@
 package local.paxbase.entity.dto;
 
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.function.Function;
 
 import com.haulmont.chile.core.annotations.MetaClass;
 import com.haulmont.chile.core.annotations.MetaProperty;
@@ -11,47 +13,51 @@ import local.paxbase.entity.Period;
 
 @MetaClass(name = "paxbase$TimelineDTO")
 public class TimelineDTO extends AbstractNotPersistentEntity {
-    private static final long serialVersionUID = 3757688296152498888L;
+	private static final long serialVersionUID = 3757688296152498888L;
 
-    @MetaProperty
-    protected HashMap<String,TimelineGroup> groupList;
+	@MetaProperty
+	protected Set<TimelineGroup> groupList;
 
-    @MetaProperty
-    protected List<TimelineItem> timelineItemList;
+	@MetaProperty
+	protected Set<TimelineItem> timelineItemList;
 
-
-    public  HashMap<String,TimelineGroup> getGroupList() {
-        return groupList;
-    }
-
-    public void setGroupList( HashMap<String,TimelineGroup> groupList) {
-        this.groupList = groupList;
-    }
-
-    public TimelineDTO() {
-		this.timelineItemList = new ArrayList<TimelineItem>();
-		this.groupList = new  HashMap<String,TimelineGroup>();
+	public Set< TimelineGroup> getGroupList() {
+		return groupList;
 	}
 
-    public void setTimelineItemList(List<TimelineItem> timelineItemList) {
-        this.timelineItemList = timelineItemList;
-    }
+	public void setGroupList(Set<TimelineGroup> groupList) {
+		this.groupList = groupList;
+	}
 
-    public List<TimelineItem> getTimelineItemList() {
-        return timelineItemList;
-    }
+	public TimelineDTO() {
+		this.timelineItemList = new HashSet<TimelineItem>();
+		this.groupList = new HashSet<TimelineGroup>();
+	}
 
+	public void setTimelineItemList(Set< TimelineItem> timelineItemList) {
+		this.timelineItemList = timelineItemList;
+	}
+
+	public Set<TimelineItem> getTimelineItemList() {
+		return timelineItemList;
+	}
+
+	@SuppressWarnings("unchecked")
 	public void addItem(Period entity, TimelineConfig timelineConfig) {
 		TimelineItem item = new TimelineItem(entity, timelineConfig);
 		this.timelineItemList.add(item);
-		this.groupList.put(item.getGroup(), new TimelineGroup(entity, timelineConfig));
 
 		String groupId = ((Function<Period, String>) timelineConfig.getGroupFunction()).apply(entity);
 		String parentGroupId = ((Function<Period, String>) timelineConfig.getParentGroupIdFunction()).apply(entity);
 		
+		if (groupId != null && !this.groupList.contains(groupId)) {
 			TimelineGroup group = new TimelineGroup(entity, timelineConfig);
+			this.groupList.add(group);
 
+			if (parentGroupId != null && !this.groupList.contains(parentGroupId)) {
 				TimelineGroup parentGroup = new TimelineGroup(parentGroupId, parentGroupId);
+				parentGroup.addSubgroup(groupId);
+				this.groupList.add(parentGroup);
 
 			}
 		}
