@@ -1,6 +1,5 @@
 package local.paxbase.entity.dto;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -46,14 +45,23 @@ public class TimelineDTO extends AbstractNotPersistentEntity {
 		TimelineItem item = new TimelineItem(entity, timelineConfig);
 		this.timelineItemList.add(item);
 		this.groupList.put(item.getGroup(), new TimelineGroup(entity, timelineConfig));
+
+		String groupId = ((Function<Period, String>) timelineConfig.getGroupFunction()).apply(entity);
+		String parentGroupId = ((Function<Period, String>) timelineConfig.getParentGroupIdFunction()).apply(entity);
+		
+			TimelineGroup group = new TimelineGroup(entity, timelineConfig);
+
+				TimelineGroup parentGroup = new TimelineGroup(parentGroupId, parentGroupId);
+
+			}
+		}
 	}
 
 	public void addItems(List<?> entities, TimelineConfig timelineConfig) {
-		for(Object entity : entities)
-		{
+		for (Object entity : entities) {
 			addItem((Period) entity, timelineConfig);
 		}
-		
+
 	}
 
 }

@@ -1,49 +1,132 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
-        caption="msg://browseCaption"
+        caption="msg://caption"
         class="local.paxbase.web.dutyperiod.DutyPeriodBrowse"
         focusComponent="dutyPeriodsTable"
         lookupComponent="dutyPeriodsTable"
         messagesPack="local.paxbase.web.dutyperiod">
     <dsContext>
-        <collectionDatasource id="dutyPeriodsDs"
-                              class="local.paxbase.entity.DutyPeriod"
-                              view="_local">
+        <datasource id="dutyPeriodDs"
+                    class="local.paxbase.entity.DutyPeriod"
+                    view="dutyPeriod-edit-view"/>
+        <groupDatasource id="dutyPeriodsDs"
+                         class="local.paxbase.entity.DutyPeriod"
+                         view="dutyPeriod-edit-view">
             <query>
                 <![CDATA[select e from paxbase$DutyPeriod e]]>
             </query>
+        </groupDatasource>
+        <collectionDatasource id="sitesDs"
+                              class="local.paxbase.entity.coredata.Site"
+                              view="_minimal">
+            <query>
+                <![CDATA[select e from paxbase$Site e]]>
+            </query>
+        </collectionDatasource>
+        <collectionDatasource id="contractorsDs"
+                              class="local.paxbase.entity.coredata.Company"
+                              view="_minimal">
+            <query>
+                <![CDATA[select e from paxbase$Company e]]>
+            </query>
+        </collectionDatasource>
+        <collectionDatasource id="functionCategoriesDs"
+                              class="local.paxbase.entity.coredata.FunctionCategory"
+                              view="_minimal">
+            <query>
+                <![CDATA[select e from paxbase$FunctionCategory e]]>
+            </query>
         </collectionDatasource>
     </dsContext>
+    <actions>
+        <action id="save"
+                caption="mainMsg://actions.Ok"
+                icon="icons/ok.png"
+                invoke="save"
+                shortcut="CTRL-ENTER"/>
+        <action id="cancel"
+                caption="mainMsg://actions.Cancel"
+                icon="icons/cancel.png"
+                invoke="cancel"/>
+    </actions>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="dutyPeriodsTable"
-            spacing="true">
-        <filter id="filter"
-                applyTo="dutyPeriodsTable"
-                datasource="dutyPeriodsDs">
-            <properties include=".*"/>
-        </filter>
-        <table id="dutyPeriodsTable"
+    <layout>
+        <split id="split"
+               height="100%"
+               orientation="horizontal"
+               reversePosition="true"
                width="100%">
-            <actions>
-                <action id="create"/>
-                <action id="edit"/>
-                <action id="remove"/>
-            </actions>
-            <columns>
-                <column id="client"/>
-            </columns>
-            <rows datasource="dutyPeriodsDs"/>
-            <rowsCount/>
-            <buttonsPanel id="buttonsPanel"
-                          alwaysVisible="true">
-                <button id="createBtn"
-                        action="dutyPeriodsTable.create"/>
-                <button id="editBtn"
-                        action="dutyPeriodsTable.edit"/>
-                <button id="removeBtn"
-                        action="dutyPeriodsTable.remove"/>
-            </buttonsPanel>
-        </table>
+            <vbox id="lookupBox"
+                  expand="dutyPeriodsTable"
+                  height="100%"
+                  margin="false,true,false,false"
+                  spacing="true">
+                <filter id="filter"
+                        applyTo="dutyPeriodsTable"
+                        datasource="dutyPeriodsDs">
+                    <properties include=".*"/>
+                </filter>
+                <groupTable id="dutyPeriodsTable"
+                            width="100%">
+                    <actions>
+                        <action id="create"/>
+                        <action id="edit"/>
+                        <action id="remove"/>
+                    </actions>
+                    <columns>
+                        <column id="client"/>
+                        <column id="start"/>
+                        <column id="end"/>
+                        <column id="functionCategory"/>
+                        <column id="personOnDuty"/>
+                        <column id="site"/>
+                        <column id="contractor"/>
+                    </columns>
+                    <rows datasource="dutyPeriodsDs"/>
+                    <rowsCount/>
+                    <buttonsPanel id="buttonsPanel"
+                                  alwaysVisible="true">
+                        <button id="createBtn"
+                                action="dutyPeriodsTable.create"/>
+                        <button id="editBtn"
+                                action="dutyPeriodsTable.edit"/>
+                        <button id="removeBtn"
+                                action="dutyPeriodsTable.remove"/>
+                    </buttonsPanel>
+                </groupTable>
+            </vbox>
+            <vbox id="editBox"
+                  expand="fieldGroupBox"
+                  height="100%"
+                  margin="false,false,false,true"
+                  spacing="true">
+                <vbox id="fieldGroupBox">
+                    <fieldGroup id="fieldGroup"
+                                datasource="dutyPeriodDs">
+                        <column width="250px">
+                            <field id="client"/>
+                            <field id="start"/>
+                            <field id="end"/>
+                            <field id="functionCategory"
+                                   optionsDatasource="functionCategoriesDs"/>
+                            <field id="personOnDuty"/>
+                            <field id="site"
+                                   optionsDatasource="sitesDs"/>
+                            <field id="contractor"
+                                   optionsDatasource="contractorsDs"/>
+                        </column>
+                    </fieldGroup>
+                </vbox>
+                <hbox id="actionsPane"
+                      spacing="true"
+                      visible="false">
+                    <button id="saveBtn"
+                            action="save"/>
+                    <button id="cancelBtn"
+                            action="cancel"/>
+                </hbox>
+            </vbox>
+        </split>
     </layout>
 </window>

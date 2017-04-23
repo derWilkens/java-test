@@ -1,6 +1,8 @@
 package local.paxbase.entity.dto;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Function;
 
 import com.haulmont.chile.core.annotations.MetaClass;
@@ -32,25 +34,37 @@ public class TimelineGroup extends AbstractNotPersistentStringIdEntity {
 	protected Boolean visible;
 
 	@MetaProperty
-	protected List<String> nestedGroups;
+	private List<String> nestedGroups;
 
 	@MetaProperty
 	protected Boolean showNestedGroups;
 
-	public TimelineGroup(String id, String content) {
-		this.id = id;
+	public TimelineGroup(String entityId, String content) {
+		this.id = entityId;
 		this.content = content;
 		visible = true;
 	}
 
 	@SuppressWarnings("unchecked")
 	public TimelineGroup(Period entity, TimelineConfig timelineConfig) {
-		this.id = entity.getId().toString();
+		this.showNestedGroups = false;
+		this.id = ((Function<Period, String>) timelineConfig.getGroupFunction()).apply(entity);
 		this.content = ((Function<Period, String>) timelineConfig.getGroupFunction()).apply(entity);
+		// NestedGroups sind subGroups
+//		String nestedGroupId = ((Function<Period, String>) timelineConfig.getParentGroupIdFunction()).apply(entity);
+//		if (nestedGroupId != null && this.nestedGroups != null && !this.nestedGroups.contains(nestedGroupId)) {
+//			this.addSubgroup(nestedGroupId);
+//			// nestedGroups.add(nestedGroupId);
+//			this.showNestedGroups = true;
+//		}
+	}
 
-		String nestedGroup = ((Function<Period, String>) timelineConfig.getNestedGroupFunction()).apply(entity);
-		if (nestedGroup != null && !this.nestedGroups.contains(nestedGroup)) {
-			this.nestedGroups.add(nestedGroup);
+	public void addSubgroup(String group) {
+		if (this.nestedGroups == null) {
+			this.nestedGroups = new ArrayList<String>();
+		}
+		if (group != null) {
+			this.nestedGroups.add(group);
 		}
 	}
 

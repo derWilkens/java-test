@@ -22,5 +22,6 @@
         <class>local.paxbase.entity.coredata.PeriodType</class>
         <class>local.paxbase.entity.coredata.FunctionCategory</class>
         <class>local.paxbase.entity.ContractorDutyPeriod</class>
+        <class>local.paxbase.entity.coredata.OE</class>
     </persistence-unit>
 </persistence>

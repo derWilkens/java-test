@@ -31,7 +31,7 @@ public class DutyPeriod extends Period {
     @JoinColumn(name = "PERSON_ON_DUTY_ID")
     protected OffshoreUser personOnDuty;
 
-    @Lookup(type = LookupType.DROPDOWN, actions = {"lookup"})
+    @Lookup(type = LookupType.DROPDOWN)
     @OnDeleteInverse(DeletePolicy.UNLINK)
     @OnDelete(DeletePolicy.UNLINK)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -41,6 +41,7 @@ public class DutyPeriod extends Period {
 
 
 
+    @Lookup(type = LookupType.DROPDOWN)
     @OnDeleteInverse(DeletePolicy.UNLINK)
     @OnDelete(DeletePolicy.UNLINK)
     @ManyToOne(fetch = FetchType.LAZY)

@@ -1,84 +1,72 @@
 package local.paxbase.entity.dto;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.function.Function;
 
-import local.paxbase.entity.GroupedBy;
+import com.haulmont.chile.core.annotations.MetaClass;
+import com.haulmont.chile.core.annotations.MetaProperty;
+import com.haulmont.cuba.core.entity.AbstractNotPersistentEntity;
 
-public class TimelineDTOX implements Serializable{
-	
-	private static final long serialVersionUID = -5409206984283999021L;
-	private ArrayList<TimelineGroup> groupList;
-	private ArrayList<TimelineItem> timelineItemList;
+import local.paxbase.entity.Period;
 
-	
-	public TimelineDTOX( GroupedBy groupedBy) {
-		groupList = new ArrayList<TimelineGroup>();
-		timelineItemList = new ArrayList<TimelineItem>();
-	}
-	
+@MetaClass(name = "paxbase$TimelineDTO")
+public class TimelineDTOX extends AbstractNotPersistentEntity {
+	private static final long serialVersionUID = 3757688296152498888L;
 
+	@MetaProperty
+	protected HashMap<String, TimelineGroup> groupList;
 
+	@MetaProperty
+	protected HashMap<String, TimelineItem> timelineItemList;
 
-
-	public void refresh(){
-		
-
-			//entweder die Site oder den Type aber welches Attribut der Enity 
-			//abgefragt wird hängt ja vom preferredItem ab und auch nicht von der GroupBy-Eigenschaft	
-			//das verstehe ich doch nach zwei Tagen schon nicht mehr
-			//oder beides? Site und Type? Nur Kampagnen und HWAL
-			//Klassischer Filter, zwei Kriterien, wobei die Werte der Kriterien eine Menge von Werten sein können
-			//besser eine Liste von Werten
-			//aber eine Positivliste, die Inital leer ist, zumindest per default
-			
-			//select * from (select * from campaings as period union select * from servicePeriod as period) 
-			//where Type.uuid in (valueList) and site.uuid in (valueList)
-			
-			//es reicht, wenn ein Kriterium wahr ist...
-			
-//			if (preferredItems.contains(entity.getType().getUuid())){
-//				timelineItemList
-//						.add(new TimelineItem((Period) entity, entity.getLabel(), entity.getGroupLabel(groupedBy)));
-//				groupKeys.put(entity.getGroupId(groupedBy), entity.getGroupLabel(groupedBy));
-//			}
-//			else 
-//			if (entity.getClass().equals(Campaign.class)){
-//				Campaign campaign = (Campaign)entity;
-//				if (preferredItems.contains(campaign.getSite().getUuid())){
-//					timelineItemList
-//							.add(new TimelineItem((Period) entity, entity.getLabel(), entity.getGroupLabel(groupedBy)));
-//					groupKeys.put(entity.getGroupId(groupedBy), entity.getGroupLabel(groupedBy));
-//				}
-//			}
-//			else
-//			if (entity.getClass().equals(ServicePeriod.class)){
-//				ServicePeriod servicePeriod = (ServicePeriod)entity;
-//				if (preferredItems.contains(servicePeriod.getSite().getUuid())){
-//					timelineItemList
-//							.add(new TimelineItem((Period) entity, entity.getLabel(), entity.getGroupLabel(groupedBy)));
-//					groupKeys.put(entity.getGroupId(groupedBy), entity.getGroupLabel(groupedBy));
-//				}
-//			}
-
-	}
-	
-	public ArrayList<TimelineGroup> getGroupList() {
+	public HashMap<String, TimelineGroup> getGroupList() {
 		return groupList;
 	}
 
-	public void setGroupList(ArrayList<TimelineGroup> groupList) {
+	public void setGroupList(HashMap<String, TimelineGroup> groupList) {
 		this.groupList = groupList;
 	}
 
-	public ArrayList<TimelineItem> getTimelineItemList() {
-		return timelineItemList;
+	public TimelineDTOX() {
+		this.timelineItemList = new HashMap<String, TimelineItem>();
+		this.groupList = new HashMap<String, TimelineGroup>();
 	}
 
-	public void setTimelineItemList(ArrayList<TimelineItem> timelineItemList) {
+	public void setTimelineItemList(HashMap<String, TimelineItem> timelineItemList) {
 		this.timelineItemList = timelineItemList;
 	}
 
+	public HashMap<String, TimelineItem> getTimelineItemList() {
+		return timelineItemList;
+	}
 
+	@SuppressWarnings("unchecked")
+	public void addItem(Period entity, TimelineConfig timelineConfig) {
+		TimelineItem item = new TimelineItem(entity, timelineConfig);
+		this.timelineItemList.put(item.getId(), item);
+
+		String groupId = ((Function<Period, String>) timelineConfig.getGroupFunction()).apply(entity);
+		String parentGroupId = ((Function<Period, String>) timelineConfig.getParentGroupIdFunction()).apply(entity);
+		
+		if (groupId != null && !this.groupList.containsKey(groupId)) {
+			TimelineGroup group = new TimelineGroup(entity, timelineConfig);
+			this.groupList.put(item.getGroup(), group);
+
+			if (parentGroupId != null && !this.groupList.containsKey(parentGroupId)) {
+				TimelineGroup parentGroup = new TimelineGroup(parentGroupId, parentGroupId);
+				parentGroup.addSubgroup(groupId);
+				this.groupList.put(item.getGroup(), parentGroup);
+
+			}
+		}
+	}
+
+	public void addItems(List<?> entities, TimelineConfig timelineConfig) {
+		for (Object entity : entities) {
+			addItem((Period) entity, timelineConfig);
+		}
+
+	}
 
 }

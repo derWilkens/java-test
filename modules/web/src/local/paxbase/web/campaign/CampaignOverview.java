@@ -20,7 +20,7 @@ import com.vaadin.ui.Layout;
 
 import local.paxbase.entity.Period;
 import local.paxbase.entity.UserPreference;
-import local.paxbase.entity.coredata.PeriodType;
+import local.paxbase.entity.coredata.FunctionCategory;
 import local.paxbase.entity.coredata.Site;
 import local.paxbase.entity.dto.TimelineDTO;
 import local.paxbase.service.TimelineService;
@@ -35,16 +35,17 @@ public class CampaignOverview extends AbstractLookup {
 	private CollectionDatasource<UserPreference, UUID> userPreferencesDs;
 
 	/**
-	 * PeriodTypes werden in der Tabelle typeUserSettings angezeigt Selektierte
-	 * Types werden in die Preferences geschrieben
+	 * FunctionCategories werden in der Tabelle functionCategoryUserSettings angezeigt.
+	 * Selektierte FunctionCategories werden in die Preferences geschrieben
 	 */
 	// @Inject
 	// private CollectionDatasource<Period, UUID> periodTypesDs;
-	@Inject
-	private Table<PeriodType> typeUserSettings;
 	
 	@Inject
-	private Table<User> personsOnDutyTable;
+	private Table<FunctionCategory> functionCategoryUserSettings;
+	
+	@Inject
+	private Table<User> personsOnDutyUserSettings;
 	/**
 	 * Sites werden in Tabelle angezeigt Selektierte Sites werden in die
 	 * Preferences geschrieben
@@ -68,7 +69,7 @@ public class CampaignOverview extends AbstractLookup {
 	@Inject
 	private CollectionDatasource<Period, UUID> campaignsDs;
 	
-	//private PersonOnDutyDs personsOnDutyDs;
+	private PersonOnDutyDs personsOnDutyDs;
 	
 
 	/**
@@ -76,7 +77,7 @@ public class CampaignOverview extends AbstractLookup {
 	 * User-Präferenzen gefilter
 	 */
 	@Inject
-	private CollectionDatasource<Period, UUID> servicePeriodsDs;
+	private CollectionDatasource<Period, UUID> dutyPeriodsDs;
 
 	@Inject
 	private VBoxLayout timelineBox;
@@ -85,23 +86,26 @@ public class CampaignOverview extends AbstractLookup {
 
 	@Inject
 	private TimelineService timelineDTOService;
-
+	private TimelineDTO dto;
+	
 	@Override
 	public void init(Map<String, Object> params) {
 
 		userPreferencesDs.refresh();
-		campaignsDs.refresh();
-		servicePeriodsDs.refresh();
 		
-		initPersonsOnDuty();
+		campaignsDs.refresh();
+		
+		dutyPeriodsDs.refresh();
+		
+		//initPersonsOnDuty();
 		initSiteUserSettings();
 		initTypeUserSettings();
 
 		// JS-UI-Komponente
 		timeline = new TimelineComponent();
-		TimelineDTO dto = timelineDTOService.getDto("CampaignBrowse");
+		dto = timelineDTOService.getDto("CampaignBrowse");
 		if (dto != null) {
-			timeline.addDTO(timelineDTOService.getDto("CampaignBrowse"));
+			timeline.addDTO(dto);
 			timeline.refresh();
 		}
 
@@ -115,7 +119,7 @@ public class CampaignOverview extends AbstractLookup {
 	}
 
 	private void initTypeUserSettings() {
-		typeUserSettings.addGeneratedColumn("selected", entity -> {
+		functionCategoryUserSettings.addGeneratedColumn("selected", entity -> {
 
 			CheckBox checkBox = typeSelectedComponentsFactory.createComponent(CheckBox.class);
 
@@ -135,7 +139,7 @@ public class CampaignOverview extends AbstractLookup {
 
 						final UserPreference newItem = dataservice.newInstance(userPreferencesDs.getMetaClass());
 						newItem.setContext("CampaignBrowse");
-						newItem.setEntityUuid((UUID) typeUserSettings.getSingleSelected().getId());
+						newItem.setEntityUuid((UUID) functionCategoryUserSettings.getSingleSelected().getId());
 						userPreferencesDs.addItem((UserPreference) newItem);
 						userPreferencesDs.commit();
 					} else {
@@ -143,13 +147,14 @@ public class CampaignOverview extends AbstractLookup {
 						Iterator<UserPreference> iter = userPreferencesDs.getItems().iterator();
 						while (iter.hasNext()) {
 							UserPreference userPreference = (UserPreference) iter.next();
-							if (userPreference.getEntityUuid().equals(typeUserSettings.getSingleSelected().getId())) {
+							if (userPreference.getEntityUuid().equals(functionCategoryUserSettings.getSingleSelected().getId())) {
 								tmp = userPreference;
 							}
 						}
 						userPreferencesDs.removeItem(tmp);
 						userPreferencesDs.commit();
 					}
+					dto = timelineDTOService.getDto("CampaignBrowse");
 					timeline.refresh();
 				}
 			});
@@ -192,6 +197,7 @@ public class CampaignOverview extends AbstractLookup {
 						userPreferencesDs.removeItem(tmp);
 						userPreferencesDs.commit();
 					}
+					dto = timelineDTOService.getDto("CampaignBrowse");
 					timeline.refresh();
 				}
 
@@ -200,7 +206,8 @@ public class CampaignOverview extends AbstractLookup {
 		});
 	}
 	private void initPersonsOnDuty(){
-//		personsOnDutyDs = new PersonOnDutyDs();
-//		personsOnDutyTable.setDatasource(personsOnDutyDs);
+		personsOnDutyDs = new PersonOnDutyDs();
+		personsOnDutyUserSettings.setDatasource(personsOnDutyDs);
 	}
+
 }

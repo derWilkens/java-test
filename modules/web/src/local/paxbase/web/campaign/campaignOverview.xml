@@ -26,7 +26,8 @@
             </query>
         </collectionDatasource>
         <collectionDatasource id="functionCategoriesDs"
-                              class="local.paxbase.entity.coredata.FunctionCategory">
+                              class="local.paxbase.entity.coredata.FunctionCategory"
+                              view="functionCategory-treeView">
             <query>
                 <![CDATA[select e from paxbase$FunctionCategory e]]>
             </query>
@@ -37,11 +38,12 @@
                 <![CDATA[select e from paxbase$DutyPeriod e]]>
             </query>
         </collectionDatasource>
-        <collectionDatasource id="personOnDutyListDs"
+        <collectionDatasource id="offshoreUsersDs"
                               class="local.paxbase.entity.OffshoreUser"
-                              view="_local">
+                              datasourceClass="local.paxbase.web.campaign.PersonOnDutyDs"
+                              view="_minimal">
             <query>
-                <![CDATA[select e.personOnDuty from paxbase$ServicePeriod e]]>
+                <![CDATA[select e from paxbase$OffshoreUser e]]>
             </query>
         </collectionDatasource>
     </dsContext>
@@ -64,7 +66,7 @@
         <hbox height="100%"
               spacing="true"
               width="100%">
-            <table id="typeUserSettings"
+            <table id="functionCategoryUserSettings"
                    height="100%"
                    width="100%">
                 <columns>
@@ -84,16 +86,16 @@
                 </columns>
                 <rows datasource="sitesDs"/>
             </table>
+            <filter applyTo="personsOnDutyUserSettings"
+                    datasource="offshoreUsersDs"/>
             <table id="personsOnDutyUserSettings"
                    height="100%"
                    width="100%">
                 <columns>
-                    <column id="login"/>
-                    <column id="name"/>
-                    <column id="firstName"/>
                     <column id="lastName"/>
+                    <column id="firstName"/>
                 </columns>
-                <rows datasource="personOnDutyListDs"/>
+                <rows datasource="offshoreUsersDs"/>
             </table>
         </hbox>
     </layout>

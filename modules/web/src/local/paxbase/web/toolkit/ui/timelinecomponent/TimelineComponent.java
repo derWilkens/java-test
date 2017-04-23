@@ -13,11 +13,13 @@ import local.paxbase.entity.dto.TimelineDTO;
 import local.paxbase.entity.dto.TimelineGroup;
 import local.paxbase.entity.dto.TimelineItem;
 
-@SuppressWarnings("serial")
+
 @JavaScript({"timelinecomponent-connector.js", "vis.js"})
 @StyleSheet({"vis.css"})
 public class TimelineComponent extends AbstractJavaScriptComponent {
 	   
+	private static final long serialVersionUID = -1963421147896570853L;
+	
 	private List<TimelineDTO> dtoList;
 	
     public interface ValueChangeListener {
@@ -80,6 +82,7 @@ public class TimelineComponent extends AbstractJavaScriptComponent {
 	public void setTimelineItems(Collection<TimelineItem> timelineItems) {
 		getState().timelineItems = timelineItems;
 	}
+	
 	public void addDTO(TimelineDTO dto){
 		dtoList.add(dto);
 	}
@@ -89,7 +92,7 @@ public class TimelineComponent extends AbstractJavaScriptComponent {
 		
 		for (TimelineDTO timelineDTO : dtoList) {
 			getState().timelineItems.addAll(timelineDTO.getTimelineItemList());
-			getState().timelineGroups.addAll(timelineDTO.getGroupList().values());
+			getState().timelineGroups.addAll(timelineDTO.getGroupList());
 		}
 		
 	}

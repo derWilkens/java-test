@@ -11,13 +11,13 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import com.esotericsoftware.minlog.Log;
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.TypedQuery;
 import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.UserSessionSource;
-import com.haulmont.cuba.security.entity.User;
 
 import local.paxbase.entity.Campaign;
 import local.paxbase.entity.DutyPeriod;
@@ -41,13 +41,26 @@ public class TimelineServiceBean implements TimelineService {
 		TimelineDTO dto = new TimelineDTO();
 		TimelineConfig campaignTimelineConfig = new TimelineConfig();
 		campaignTimelineConfig.setGroupFunction((Campaign e) -> {return  e.getSite().getSiteName();});
-		campaignTimelineConfig.setNestedGroupFunction((Campaign e) -> {return  e.getSite().getParentSite().getSiteName();});
+		campaignTimelineConfig.setParentGroupIdFunction((Campaign e) -> {
+			if (e.getSite().getParentSite()!=null){
+				return  e.getSite().getParentSite().getSiteName();
+			}else return null;
+			});
 		campaignTimelineConfig.setItemLabelFunction((Campaign e) -> {return e.getCampaignNumber();});
 		
 		TimelineConfig dutyPeriodConfig = new TimelineConfig();
 		dutyPeriodConfig.setGroupFunction((DutyPeriod e)->e.getSite().getSiteName());
-		dutyPeriodConfig.setNestedGroupFunction((DutyPeriod e) -> e.getSite().getParentSite().getSiteName());
-		dutyPeriodConfig.setItemLabelFunction((DutyPeriod e)-> e.getFunctionCategory().getCategoryName());
+		dutyPeriodConfig.setParentGroupIdFunction((DutyPeriod e) -> {
+			if (e.getSite().getParentSite()!=null){
+				return  e.getSite().getParentSite().getSiteName();
+			}else return null;
+			});
+		dutyPeriodConfig.setItemLabelFunction((DutyPeriod e)-> {
+			if(e.getFunctionCategory() == null){
+				Log.info("Function Category is null: " + e.getUuid().toString());
+				return null;
+			}
+			else return e.getFunctionCategory().getCategoryName();});
 		
 		try (Transaction tx = persistence.createTransaction()) {
 			// preferences des Users für den context laden
@@ -211,16 +224,16 @@ public class TimelineServiceBean implements TimelineService {
 		return periodTypeIds;
 	}
 
+	@Override
+	public Collection<OffshoreUser> getPersonsOnDuty() {
 
-	public Collection<User> getPersonsOnDuty() {
-
-		Collection<User> userList;
+		Collection<OffshoreUser> userList;
 
 		try (Transaction tx = persistence.createTransaction()) {
 
 			String queryString = "select e.personOnDuty from paxbase$DutyPeriod e ";
 
-			TypedQuery<User> query = persistence.getEntityManager().createQuery(queryString, User.class);
+			TypedQuery<OffshoreUser> query = persistence.getEntityManager().createQuery(queryString, OffshoreUser.class);
 			
 			userList = query.getResultList();
 

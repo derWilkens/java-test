@@ -40,6 +40,8 @@
                   view="_minimal"/>
         <property name="personOnDuty"
                   view="_minimal"/>
+        <property name="functionCategory"
+                  view="_minimal"/>
     </view>
     <view class="local.paxbase.entity.OffshoreUser"
           name="offshoreUser-browser-view">
@@ -49,6 +51,8 @@
         <property name="position"/>
         <property name="firstName"/>
         <property name="lastName"/>
+        <property name="oe"
+                  view="_minimal"/>
     </view>
     <view class="local.paxbase.entity.OffshoreUser"
           name="offshoreUser-edit-view">
@@ -68,6 +72,8 @@
         <property name="group"
                   view="_minimal"/>
         <property name="client"/>
+        <property name="oe"
+                  view="_minimal"/>
     </view>
     <view class="local.paxbase.entity.Waypoint"
           extends="_local"
@@ -138,5 +144,34 @@
                   view="_minimal"/>
         <property name="functionCategory"
                   view="_minimal"/>
+    </view>
+    <view class="local.paxbase.entity.OffshoreUser"
+          extends="_minimal"
+          name="offshoreUser-treeview">
+        <property name="company"
+                  view="_minimal"/>
+        <property name="oe"
+                  view="_minimal">
+            <property name="parentOE"
+                      view="_minimal"/>
+        </property>
+    </view>
+    <view class="local.paxbase.entity.coredata.OE"
+          extends="_local"
+          name="oe-treeview">
+        <property name="parentOE"
+                  view="_minimal">
+            <property name="name"/>
+        </property>
+    </view>
+    <view class="local.paxbase.entity.OffshoreUser"
+          extends="_minimal"
+          name="offshoreUser-treeview2">
+        <property name="oe"
+                  view="_minimal">
+            <property name="name"/>
+            <property name="parentOE"
+                      view="_minimal"/>
+        </property>
     </view>
 </views>

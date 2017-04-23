@@ -21,6 +21,9 @@ import com.haulmont.cuba.core.global.DeletePolicy;
 
 import local.paxbase.entity.coredata.AppUser;
 import local.paxbase.entity.coredata.Company;
+import com.haulmont.cuba.core.entity.annotation.Lookup;
+import com.haulmont.cuba.core.entity.annotation.LookupType;
+import local.paxbase.entity.coredata.OE;
 
 /**
  * @author christian
@@ -45,6 +48,20 @@ public class OffshoreUser extends AppUser {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "COMPANY_ID")
     protected Company company;
+    @Lookup(type = LookupType.DROPDOWN)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "OE_ID")
+    protected OE oe;
+
+    public void setOe(OE oe) {
+        this.oe = oe;
+    }
+
+    public OE getOe() {
+        return oe;
+    }
+
+
     public Company getCompany() {
         return company;
     }

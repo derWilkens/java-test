@@ -16,13 +16,6 @@
                 <![CDATA[select e from paxbase$Campaign e]]>
             </query>
         </groupDatasource>
-        <collectionDatasource id="sitesDs"
-                              class="local.paxbase.entity.coredata.Site"
-                              view="_minimal">
-            <query>
-                <![CDATA[select e from paxbase$Site e]]>
-            </query>
-        </collectionDatasource>
         <collectionDatasource id="functionCategoriesDs"
                               class="local.paxbase.entity.coredata.FunctionCategory"
                               view="_minimal">
@@ -75,7 +68,6 @@
                         <column id="campaignNumber"/>
                         <column id="shutdown"/>
                         <column id="site"/>
-                        <column id="site"/>
                     </columns>
                     <rows datasource="campaignsDs"/>
                     <rowsCount/>
@@ -106,8 +98,6 @@
                                    optionsDatasource="functionCategoriesDs"/>
                             <field id="campaignNumber"/>
                             <field id="shutdown"/>
-                            <field id="site"
-                                   optionsDatasource="sitesDs"/>
                             <field id="site"/>
                         </column>
                     </fieldGroup>
