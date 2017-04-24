@@ -2,6 +2,7 @@ package local.paxbase.web.toolkit.ui.timelinecomponent;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 import com.vaadin.annotations.JavaScript;
@@ -20,7 +21,7 @@ public class TimelineComponent extends AbstractJavaScriptComponent {
 	   
 	private static final long serialVersionUID = -1963421147896570853L;
 	
-	private List<TimelineDTO> dtoList;
+	private HashMap<String, TimelineDTO> dtoList;
 	
     public interface ValueChangeListener {
         void valueChanged(String[] newData);
@@ -30,7 +31,9 @@ public class TimelineComponent extends AbstractJavaScriptComponent {
     
 	
 	public TimelineComponent() {
-		dtoList = new ArrayList<TimelineDTO>();
+		getState().timelineItems = new ArrayList<TimelineItem>();
+		getState().timelineGroups = new ArrayList<TimelineGroup>();
+		dtoList = new HashMap<String,TimelineDTO>();
 		addFunction("valueChanged", arguments -> {
             JsonArray array = arguments.getArray(0);
             String[] values = new String[1];
@@ -83,16 +86,17 @@ public class TimelineComponent extends AbstractJavaScriptComponent {
 		getState().timelineItems = timelineItems;
 	}
 	
-	public void addDTO(TimelineDTO dto){
-		dtoList.add(dto);
+	public void addDTO(String key, TimelineDTO dto){
+		dtoList.put(key, dto);
 	}
 	public void refresh(){
-		getState().timelineItems = new ArrayList<TimelineItem>();
-		getState().timelineGroups = new ArrayList<TimelineGroup>();
+		getState().timelineItems.clear();// = new ArrayList<TimelineItem>();
+		getState().timelineGroups.clear(); //= new ArrayList<TimelineGroup>();
 		
-		for (TimelineDTO timelineDTO : dtoList) {
+		for (TimelineDTO timelineDTO : dtoList.values()) {
 			getState().timelineItems.addAll(timelineDTO.getTimelineItemList());
 			getState().timelineGroups.addAll(timelineDTO.getGroupList());
+			//getState().timelineGroups.addAll(timelineDTO.getParentGroupList());
 		}
 		
 	}

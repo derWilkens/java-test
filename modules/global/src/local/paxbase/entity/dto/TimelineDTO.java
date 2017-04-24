@@ -19,9 +19,20 @@ public class TimelineDTO extends AbstractNotPersistentEntity {
 	protected Set<TimelineGroup> groupList;
 
 	@MetaProperty
+	protected Set<TimelineGroup> parentGroupList;
+
+	@MetaProperty
 	protected Set<TimelineItem> timelineItemList;
 
-	public Set< TimelineGroup> getGroupList() {
+	public void setParentGroupList(Set<TimelineGroup> parentGroupList) {
+		this.parentGroupList = parentGroupList;
+	}
+
+	public Set<TimelineGroup> getParentGroupList() {
+		return parentGroupList;
+	}
+
+	public Set<TimelineGroup> getGroupList() {
 		return groupList;
 	}
 
@@ -32,9 +43,10 @@ public class TimelineDTO extends AbstractNotPersistentEntity {
 	public TimelineDTO() {
 		this.timelineItemList = new HashSet<TimelineItem>();
 		this.groupList = new HashSet<TimelineGroup>();
+		this.parentGroupList = new HashSet<TimelineGroup>();
 	}
 
-	public void setTimelineItemList(Set< TimelineItem> timelineItemList) {
+	public void setTimelineItemList(Set<TimelineItem> timelineItemList) {
 		this.timelineItemList = timelineItemList;
 	}
 
@@ -49,7 +61,7 @@ public class TimelineDTO extends AbstractNotPersistentEntity {
 
 		String groupId = ((Function<Period, String>) timelineConfig.getGroupFunction()).apply(entity);
 		String parentGroupId = ((Function<Period, String>) timelineConfig.getParentGroupIdFunction()).apply(entity);
-		
+
 		if (groupId != null && !this.groupList.contains(groupId)) {
 			TimelineGroup group = new TimelineGroup(entity, timelineConfig);
 			this.groupList.add(group);
@@ -57,7 +69,7 @@ public class TimelineDTO extends AbstractNotPersistentEntity {
 			if (parentGroupId != null && !this.groupList.contains(parentGroupId)) {
 				TimelineGroup parentGroup = new TimelineGroup(parentGroupId, parentGroupId);
 				parentGroup.addSubgroup(groupId);
-				this.groupList.add(parentGroup);
+				this.parentGroupList.add(parentGroup);
 
 			}
 		}

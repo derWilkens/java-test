@@ -105,7 +105,7 @@ public class CampaignOverview extends AbstractLookup {
 		timeline = new TimelineComponent();
 		dto = timelineDTOService.getDto("CampaignBrowse");
 		if (dto != null) {
-			timeline.addDTO(dto);
+			timeline.addDTO("CampaignBrowse",dto);
 			timeline.refresh();
 		}
 
@@ -154,7 +154,7 @@ public class CampaignOverview extends AbstractLookup {
 						userPreferencesDs.removeItem(tmp);
 						userPreferencesDs.commit();
 					}
-					dto = timelineDTOService.getDto("CampaignBrowse");
+					timeline.addDTO("CampaignBrowse", timelineDTOService.getDto("CampaignBrowse"));
 					timeline.refresh();
 				}
 			});
@@ -197,7 +197,7 @@ public class CampaignOverview extends AbstractLookup {
 						userPreferencesDs.removeItem(tmp);
 						userPreferencesDs.commit();
 					}
-					dto = timelineDTOService.getDto("CampaignBrowse");
+					timeline.addDTO("CampaignBrowse", timelineDTOService.getDto("CampaignBrowse"));
 					timeline.refresh();
 				}
 
