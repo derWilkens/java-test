@@ -41,11 +41,7 @@
         <collectionDatasource id="offshoreUsersDs"
                               class="local.paxbase.entity.OffshoreUser"
                               datasourceClass="local.paxbase.web.campaign.PersonOnDutyDs"
-                              view="_minimal">
-            <query>
-                <![CDATA[select e from paxbase$OffshoreUser e]]>
-            </query>
-        </collectionDatasource>
+                              view="_minimal"/>
     </dsContext>
     <actions>
         <action id="save"
@@ -86,8 +82,6 @@
                 </columns>
                 <rows datasource="sitesDs"/>
             </table>
-            <filter applyTo="personsOnDutyUserSettings"
-                    datasource="offshoreUsersDs"/>
             <table id="personsOnDutyUserSettings"
                    height="100%"
                    width="100%">

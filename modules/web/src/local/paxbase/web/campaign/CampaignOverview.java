@@ -35,15 +35,16 @@ public class CampaignOverview extends AbstractLookup {
 	private CollectionDatasource<UserPreference, UUID> userPreferencesDs;
 
 	/**
-	 * FunctionCategories werden in der Tabelle functionCategoryUserSettings angezeigt.
-	 * Selektierte FunctionCategories werden in die Preferences geschrieben
+	 * FunctionCategories werden in der Tabelle functionCategoryUserSettings
+	 * angezeigt. Selektierte FunctionCategories werden in die Preferences
+	 * geschrieben
 	 */
 	// @Inject
 	// private CollectionDatasource<Period, UUID> periodTypesDs;
-	
+
 	@Inject
 	private Table<FunctionCategory> functionCategoryUserSettings;
-	
+
 	@Inject
 	private Table<User> personsOnDutyUserSettings;
 	/**
@@ -56,6 +57,9 @@ public class CampaignOverview extends AbstractLookup {
 	@Inject
 	private Table<Site> siteUserSettings;
 
+	/*
+	 * Wo kommen die denn her?
+	 */
 	@Inject
 	private ComponentsFactory typeSelectedComponentsFactory;
 
@@ -68,9 +72,6 @@ public class CampaignOverview extends AbstractLookup {
 	 */
 	@Inject
 	private CollectionDatasource<Period, UUID> campaignsDs;
-	
-	private PersonOnDutyDs personsOnDutyDs;
-	
 
 	/**
 	 * Alle ServicePeriods zur Anzeige in der Timeline, werden anschließend nach
@@ -87,25 +88,25 @@ public class CampaignOverview extends AbstractLookup {
 	@Inject
 	private TimelineService timelineDTOService;
 	private TimelineDTO dto;
-	
+
 	@Override
 	public void init(Map<String, Object> params) {
 
 		userPreferencesDs.refresh();
-		
+
 		campaignsDs.refresh();
-		
+
 		dutyPeriodsDs.refresh();
-		
-		//initPersonsOnDuty();
+
 		initSiteUserSettings();
 		initTypeUserSettings();
+		initPersonsUserSettings();
 
 		// JS-UI-Komponente
 		timeline = new TimelineComponent();
 		dto = timelineDTOService.getDto("CampaignBrowse");
 		if (dto != null) {
-			timeline.addDTO("CampaignBrowse",dto);
+			timeline.addDTO("CampaignBrowse", dto);
 			timeline.refresh();
 		}
 
@@ -147,7 +148,8 @@ public class CampaignOverview extends AbstractLookup {
 						Iterator<UserPreference> iter = userPreferencesDs.getItems().iterator();
 						while (iter.hasNext()) {
 							UserPreference userPreference = (UserPreference) iter.next();
-							if (userPreference.getEntityUuid().equals(functionCategoryUserSettings.getSingleSelected().getId())) {
+							if (userPreference.getEntityUuid()
+									.equals(functionCategoryUserSettings.getSingleSelected().getId())) {
 								tmp = userPreference;
 							}
 						}
@@ -205,9 +207,59 @@ public class CampaignOverview extends AbstractLookup {
 			return checkBox;
 		});
 	}
-	private void initPersonsOnDuty(){
-		personsOnDutyDs = new PersonOnDutyDs();
-		personsOnDutyUserSettings.setDatasource(personsOnDutyDs);
+
+	private void initPersonsUserSettings() {
+		personsOnDutyUserSettings.addGeneratedColumn("selected", entity -> {
+			CheckBox checkBox = siteSelectedComponentsFactory.createComponent(CheckBox.class);
+			for (UserPreference userPreference : userPreferencesDs.getItems()) {
+				if (entity.getId().equals(userPreference.getEntityUuid())
+						&& userPreference.getContext().equals("CampaignBrowse")) {
+					checkBox.setValue(true);
+				}
+			}
+
+			checkBox.addValueChangeListener(new ValueChangeListener() {
+
+				@Override
+				public void valueChanged(ValueChangeEvent e) {
+
+					if (checkBox.isChecked()) {
+						final DataSupplier dataservice = userPreferencesDs.getDataSupplier();
+						final UserPreference newItem = dataservice.newInstance(userPreferencesDs.getMetaClass());
+						newItem.setContext("CampaignBrowse");
+						newItem.setEntityUuid((UUID) personsOnDutyUserSettings.getSingleSelected().getId());
+						userPreferencesDs.addItem((UserPreference) newItem);
+						userPreferencesDs.commit();
+					} else {
+						UserPreference tmp = null;
+						Iterator<UserPreference> iter = userPreferencesDs.getItems().iterator();
+						while (iter.hasNext()) {
+							UserPreference userPreference = (UserPreference) iter.next();
+							if (userPreference.getEntityUuid().equals(personsOnDutyUserSettings.getSingleSelected().getId())) {
+								tmp = userPreference;
+							}
+						}
+						userPreferencesDs.removeItem(tmp);
+						userPreferencesDs.commit();
+					}
+					timeline.addDTO("CampaignBrowse", timelineDTOService.getDto("CampaignBrowse"));
+					timeline.refresh();
+				}
+
+			});
+			return checkBox;
+		});
+	}
+
+	@SuppressWarnings("unused")
+	private void initPersonsOnDuty() {
+		/*
+		 * Die Datasource wird declarativ erzeugt...
+		 */
+		// personsOnDutyDs = new PersonOnDutyDs();
+		// //personsOnDutyDs.setup(getDsContext(), dataSupplier,
+		// "personsOnDutyDs", metaClass, view);
+		// personsOnDutyUserSettings.setDatasource(personsOnDutyDs);
 	}
 
 }
