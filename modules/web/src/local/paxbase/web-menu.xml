@@ -16,6 +16,7 @@
         <item id="paxbase$Campaign.browse"/>
         <item id="paxbase$OE.browse"/>
         <item id="paxbase$OffshoreUser.browse"/>
-        <item id="paxbase$DutyPeriod.browse"/>
+        <item screen="importPeriods"/>
+        <item screen="paxbase$DutyPeriod.browse"/>
     </menu>
 </menu-config>

@@ -118,16 +118,18 @@
     <view class="local.paxbase.entity.coredata.FunctionCategory"
           name="functionCategory-treeView">
         <property name="parentType"
-                  view="_minimal"/>
+                  view="_minimal">
+            <property name="periodSubClass"/>
+        </property>
         <property name="categoryName"/>
         <property name="periodSubClass"/>
     </view>
     <view class="local.paxbase.entity.coredata.FunctionCategory"
           name="functionCategory-view">
         <property name="categoryName"/>
+        <property name="periodSubClass"/>
         <property name="parentType"
                   view="_minimal"/>
-        <property name="periodSubClass"/>
     </view>
     <view class="local.paxbase.entity.coredata.SiteType"
           extends="_local"
@@ -173,5 +175,17 @@
             <property name="parentOE"
                       view="_minimal"/>
         </property>
+    </view>
+    <view class="local.paxbase.entity.Campaign"
+          name="campaign-templateView"
+          overwrite="true">
+        <property name="shutdown"/>
+        <property name="site">
+            <property name="itemDesignation"/>
+            <property name="siteName"/>
+        </property>
+        <property name="start"/>
+        <property name="end"/>
+        <property name="campaignNumber"/>
     </view>
 </views>

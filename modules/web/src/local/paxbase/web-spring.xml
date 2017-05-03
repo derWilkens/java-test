@@ -6,14 +6,16 @@
     <!-- Annotation-based beans -->
     <context:component-scan base-package="local.paxbase"/>
     <bean class="com.haulmont.cuba.web.sys.remoting.WebRemoteProxyBeanCreator">
-        <property name="clusterInvocationSupport"
-                  ref="cuba_clusterInvocationSupport"/>
+        <property name="serverSelector"
+                  ref="cuba_ServerSelector"/>
         <property name="remoteServices">
             <map>
                 <entry key="paxbase_NewService"
                        value="local.paxbase.service.NewService"/>
                 <entry key="paxbase_TimelineService"
                        value="local.paxbase.service.TimelineService"/>
+                <entry key="paxbase_PeriodImportService"
+                       value="local.paxbase.service.PeriodImportService"/>
             </map>
         </property>
     </bean>

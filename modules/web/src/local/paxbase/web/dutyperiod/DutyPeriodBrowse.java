@@ -202,4 +202,5 @@ public class DutyPeriodBrowse extends AbstractLookup {
         actionsPane.setVisible(enabled);
         lookupBox.setEnabled(!enabled);
     }
+
 }

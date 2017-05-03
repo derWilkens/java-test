@@ -27,7 +27,7 @@
         </collectionDatasource>
         <collectionDatasource id="functionCategoriesDs"
                               class="local.paxbase.entity.coredata.FunctionCategory"
-                              view="functionCategory-treeView">
+                              view="functionCategory-view">
             <query>
                 <![CDATA[select e from paxbase$FunctionCategory e]]>
             </query>
@@ -66,10 +66,9 @@
                    height="100%"
                    width="100%">
                 <columns>
-                    <column id="parentType"/>
-                    <column id="typeName"/>
-                    <column id="selected"/>
+                    <column id="categoryName"/>
                     <column id="periodSubClass"/>
+                    <column id="selected"/>
                 </columns>
                 <rows datasource="functionCategoriesDs"/>
             </table>

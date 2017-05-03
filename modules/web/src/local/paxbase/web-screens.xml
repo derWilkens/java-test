@@ -43,6 +43,8 @@
             template="local/paxbase/web/oe/oe-browse.xml"/>
     <screen id="paxbase$OffshoreUser.browse"
             template="local/paxbase/web/offshoreuser/offshore-user-browse.xml"/>
+    <screen id="importPeriods"
+            template="local/paxbase/gui/screens/importPeriods.xml"/>
     <screen id="paxbase$DutyPeriod.browse"
             template="local/paxbase/web/dutyperiod/duty-period-browse.xml"/>
 </screen-config>

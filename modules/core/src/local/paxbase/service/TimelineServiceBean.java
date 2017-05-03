@@ -60,7 +60,7 @@ public class TimelineServiceBean implements TimelineService {
 				Log.info("Function Category is null: " + e.getUuid().toString());
 				return null;
 			}
-			else return e.getFunctionCategory().getCategoryName();});
+			else return e.getPersonOnDuty().getCaption() + " " + e.getFunctionCategory().getCategoryName();});
 		
 		try (Transaction tx = persistence.createTransaction()) {
 			// preferences des Users für den context laden
@@ -83,11 +83,11 @@ public class TimelineServiceBean implements TimelineService {
 			for (PeriodSubClass periodSubClass : preferredSubClassList) {
 
 				if (periodSubClass.equals(PeriodSubClass.Campaign)) {
-					dto.addItems(getCampaigns(preferredSites), campaignTimelineConfig);
+					dto.addItems(getCampaigns(preferredSites, preferredFunctionCategories), campaignTimelineConfig);
 
 				} else if (periodSubClass.equals(PeriodSubClass.Administration)) {
 					List<OffshoreUser> personsOnDuty = loadPreferredPersonsOnDuty(userPreferenceList);
-					List<DutyPeriod> dutyPeriods = getDutyPeriods(personsOnDuty, preferredSites);
+					List<DutyPeriod> dutyPeriods = getDutyPeriods(personsOnDuty, preferredSites, preferredFunctionCategories);
 					dto.addItems(dutyPeriods, dutyPeriodConfig);
 				}
 			}
@@ -99,7 +99,7 @@ public class TimelineServiceBean implements TimelineService {
 	}
 
 	// Drei Kriterien: (implizit Type), Site, ServiceUser;
-	private List<DutyPeriod> getDutyPeriods(List<OffshoreUser> personOnDutyList, List<Site> siteList) {
+	private List<DutyPeriod> getDutyPeriods(List<OffshoreUser> personOnDutyList, List<Site> siteList, List<FunctionCategory> preferredFunctionCategories) {
 		List<DutyPeriod> DutyPeriods;
 
 		String queryString;
@@ -113,8 +113,12 @@ public class TimelineServiceBean implements TimelineService {
 		}
 		if (siteList.size() > 0) {
 			queryString = queryString + queryConcatenator + "e.site.id in :siteIdList ";
+			queryConcatenator = "AND ";
 		}
-
+		if (preferredFunctionCategories.size() > 0) {
+			queryString = queryString + queryConcatenator + "e.functionCategory.id in :catIdList ";
+			queryConcatenator = "AND ";
+		}
 		TypedQuery<DutyPeriod> query = persistence.getEntityManager().createQuery(queryString, DutyPeriod.class);
 		if (personOnDutyList.size() > 0) {
 			query.setParameter("personsIdList", getUUIDList(personOnDutyList));
@@ -122,20 +126,24 @@ public class TimelineServiceBean implements TimelineService {
 		if (siteList.size() > 0) {
 			query.setParameter("siteIdList", getUUIDList(siteList));
 		}
+		if (preferredFunctionCategories.size() > 0) {
+			query.setParameter("catIdList", getUUIDList(preferredFunctionCategories));
+		}
+		
 		DutyPeriods = query.getResultList();
 
 		return DutyPeriods;
 	}
 
-	private List<Campaign> getCampaigns(List<Site> siteList) {
+	private List<Campaign> getCampaigns(List<Site> siteList, List<FunctionCategory> preferredFunctionCategories) {
 		List<Campaign> campaigns;
 
-		String queryString = "select e from paxbase$Campaign e where e.site.id in :idList";
+		String queryString = "select e from paxbase$Campaign e where e.site.id in :idList AND e.functionCategory.id in :catIdList";
 
 		TypedQuery<Campaign> query = persistence.getEntityManager().createQuery(queryString, Campaign.class);
 
 		query.setParameter("idList", getUUIDList(siteList));
-
+		query.setParameter("catIdList", getUUIDList(preferredFunctionCategories));
 		campaigns = query.getResultList();
 
 		return campaigns;

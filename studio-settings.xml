@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<studio>
+    <screenDesigner>
+        <screen module="web"
+                presentSize="1280x1024"
+                previewMode="true"
+                reference="local/paxbase/gui/screens/importPeriods.xml"/>
+    </screenDesigner>
+</studio>

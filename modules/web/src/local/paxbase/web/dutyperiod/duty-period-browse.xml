@@ -73,6 +73,7 @@
                         <action id="create"/>
                         <action id="edit"/>
                         <action id="remove"/>
+                        <action id="excel"/>
                     </actions>
                     <columns>
                         <column id="client"/>
@@ -93,6 +94,8 @@
                                 action="dutyPeriodsTable.edit"/>
                         <button id="removeBtn"
                                 action="dutyPeriodsTable.remove"/>
+                        <button id="excelBtn"
+                                action="dutyPeriodsTable.excel"/>
                     </buttonsPanel>
                 </groupTable>
             </vbox>
@@ -104,17 +107,17 @@
                 <vbox id="fieldGroupBox">
                     <fieldGroup id="fieldGroup"
                                 datasource="dutyPeriodDs">
-                        <column width="250px">
-                            <field id="client"/>
-                            <field id="start"/>
-                            <field id="end"/>
-                            <field id="functionCategory"
-                                   optionsDatasource="functionCategoriesDs"/>
-                            <field id="personOnDuty"/>
-                            <field id="site"
-                                   optionsDatasource="sitesDs"/>
-                            <field id="contractor"
-                                   optionsDatasource="contractorsDs"/>
+                        <column width="300px">
+                            <field property="client"/>
+                            <field property="start"/>
+                            <field property="end"/>
+                            <field optionsDatasource="functionCategoriesDs"
+                                   property="functionCategory"/>
+                            <field property="personOnDuty"/>
+                            <field optionsDatasource="sitesDs"
+                                   property="site"/>
+                            <field optionsDatasource="contractorsDs"
+                                   property="contractor"/>
                         </column>
                     </fieldGroup>
                 </vbox>

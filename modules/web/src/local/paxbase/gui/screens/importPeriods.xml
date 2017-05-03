@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://caption"
+        class="local.paxbase.gui.screens.Importperiods"
+        messagesPack="local.paxbase.gui.screens">
+    <dsContext>
+        <collectionDatasource id="campaignTemplateDs"
+                              class="local.paxbase.entity.Campaign"
+                              view="campaign-templateView">
+            <query>
+                <![CDATA[select e from paxbase$Campaign e]]>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <actions>
+        <action id="importRawData"
+                invoke="onImportRawData"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout>
+        <vbox spacing="true">
+            <label id="label"
+                   value="Rohdaten-Import aus der Zwischenablage."
+                   width="100%"/>
+            <textArea id="taImport"
+                      height="429px"
+                      width="832px"/>
+            <button id="btnImport"
+                    action="importRawData"
+                    caption="Import"/>
+            <button id="btnTemplateDownload"
+                    action="tblCampaign.excel"
+                    caption="msg://caption"/>
+            <table id="tblCampaign"
+                   height="100px"
+                   width="100%">
+                <actions>
+                    <action id="excel"/>
+                </actions>
+                <columns>
+                    <column id="site.itemDesignation"/>
+                    <column id="campaignNumber"/>
+                    <column id="start"/>
+                    <column id="end"/>
+                    <column id="shutdown"/>
+                </columns>
+                <rows datasource="campaignTemplateDs"/>
+            </table>
+        </vbox>
+    </layout>
+</window>
