@@ -23,5 +23,6 @@
         <class>local.paxbase.entity.coredata.FunctionCategory</class>
         <class>local.paxbase.entity.ContractorDutyPeriod</class>
         <class>local.paxbase.entity.coredata.OE</class>
+        <class>local.paxbase.entity.PeriodImportStage</class>
     </persistence-unit>
 </persistence>

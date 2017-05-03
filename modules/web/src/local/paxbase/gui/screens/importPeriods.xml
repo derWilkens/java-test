@@ -11,6 +11,13 @@
                 <![CDATA[select e from paxbase$Campaign e]]>
             </query>
         </collectionDatasource>
+        <collectionDatasource id="periodImportStagesDs"
+                              class="local.paxbase.entity.PeriodImportStage"
+                              view="_local">
+            <query>
+                <![CDATA[select e from paxbase$PeriodImportStage e]]>
+            </query>
+        </collectionDatasource>
     </dsContext>
     <actions>
         <action id="importRawData"
@@ -33,7 +40,7 @@
                     action="tblCampaign.excel"
                     caption="msg://caption"/>
             <table id="tblCampaign"
-                   height="100px"
+                   height="0px"
                    width="100%">
                 <actions>
                     <action id="excel"/>
@@ -47,6 +54,20 @@
                 </columns>
                 <rows datasource="campaignTemplateDs"/>
             </table>
+            <table id="tblPeriodImportStage"
+                   height="100px"
+                   width="100%">
+                <columns>
+                    <column id="itemDesignation"/>
+                    <column id="campaignNumber"/>
+                    <column id="startDate"/>
+                    <column id="endDate"/>
+                    <column id="shutdown"/>
+                </columns>
+                <rows datasource="periodImportStagesDs"/>
+            </table>
+            <button id="btnSave"
+                    caption="msg://caption"/>
         </vbox>
     </layout>
 </window>

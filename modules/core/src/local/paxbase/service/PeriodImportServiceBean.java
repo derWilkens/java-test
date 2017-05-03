@@ -1,11 +1,10 @@
 package local.paxbase.service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import local.paxbase.entity.PeriodImportRecord;
+import local.paxbase.entity.PeriodImportStage;
 
 @Service(PeriodImportService.NAME)
 public class PeriodImportServiceBean implements PeriodImportService {
@@ -15,16 +14,16 @@ public class PeriodImportServiceBean implements PeriodImportService {
 	//neues item erstellen, nonpersistens entity
 	//list hinzufügen
 	//list fungiert dann als DS für Tabelle
-	public List<PeriodImportRecord> parseCsv(String rawPeriods){
-		ArrayList<PeriodImportRecord> parseResult = new ArrayList<PeriodImportRecord>();
+	public ArrayList<PeriodImportStage> parseCsv(String rawPeriods){
+		ArrayList<PeriodImportStage> parseResult = new ArrayList<PeriodImportStage>();
 		String[] lines = rawPeriods.split("[\r\n]");
 		for(String line:lines){
-			PeriodImportRecord record = new PeriodImportRecord();
+			PeriodImportStage record = new PeriodImportStage();
 			String[] values = line.split("\t");
 			record.setItemDesignation(values[0]);
-			record.setCampaignNo(values[1]);
-			record.setStart(null);
-			record.setEnd(null);
+			record.setCampaignNumber(values[1]);
+			record.setStartDate(null);
+			record.setEndDate(null);
 			record.setShutdown(null);
 			parseResult.add(record);
 		}

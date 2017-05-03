@@ -1,11 +1,11 @@
 package local.paxbase.service;
 
-import java.util.List;
+import java.util.ArrayList;
 
-import local.paxbase.entity.PeriodImportRecord;
+import local.paxbase.entity.PeriodImportStage;
 
 public interface PeriodImportService {
     String NAME = "paxbase_PeriodImportService";
-    public List<PeriodImportRecord> parseCsv(String rawPeriods);
+    public ArrayList<PeriodImportStage> parseCsv(String rawPeriods);
     
 }
