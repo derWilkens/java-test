@@ -48,6 +48,9 @@ public class PeriodImportStage extends BaseUuidEntity implements Updatable, Crea
     @Column(name = "SHUTDOWN_")
     protected Boolean shutdown;
 
+    @Column(name = "IMPORT_LOG")
+    protected String importLog;
+
     @Column(name = "UPDATE_TS")
     protected Date updateTs;
 
@@ -59,6 +62,16 @@ public class PeriodImportStage extends BaseUuidEntity implements Updatable, Crea
 
     @Column(name = "CREATED_BY", length = 50)
     protected String createdBy;
+
+
+    public void setImportLog(String importLog) {
+        this.importLog = importLog;
+    }
+
+    public String getImportLog() {
+        return importLog;
+    }
+
 
     public void setItemDesignation(String itemDesignation) {
         this.itemDesignation = itemDesignation;

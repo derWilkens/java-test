@@ -329,9 +329,9 @@ create table PAXBASE_OE (
 -- begin PAXBASE_PERIOD_IMPORT_STAGE
 create table PAXBASE_PERIOD_IMPORT_STAGE (
     ID varchar(32),
-    UPDATE_TS datetime,
+    UPDATE_TS datetime(3),
     UPDATED_BY varchar(50),
-    CREATE_TS datetime,
+    CREATE_TS datetime(3),
     CREATED_BY varchar(50),
     DTYPE varchar(31),
     --
@@ -340,6 +340,7 @@ create table PAXBASE_PERIOD_IMPORT_STAGE (
     START_DATE date,
     END_DATE date,
     SHUTDOWN_ boolean,
+    IMPORT_LOG varchar(255),
     --
     primary key (ID)
 )^

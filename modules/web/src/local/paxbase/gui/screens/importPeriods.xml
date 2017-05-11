@@ -22,23 +22,15 @@
     <actions>
         <action id="importRawData"
                 invoke="onImportRawData"/>
+        <action id="createCampaigns"
+                invoke="onCreateCampaigns"/>
+        <action id="clearRawDataTextArea"
+                invoke="onClearRawDataTextArea"/>
     </actions>
     <dialogMode height="600"
                 width="800"/>
     <layout>
         <vbox spacing="true">
-            <label id="label"
-                   value="Rohdaten-Import aus der Zwischenablage."
-                   width="100%"/>
-            <textArea id="taImport"
-                      height="429px"
-                      width="832px"/>
-            <button id="btnImport"
-                    action="importRawData"
-                    caption="Import"/>
-            <button id="btnTemplateDownload"
-                    action="tblCampaign.excel"
-                    caption="msg://caption"/>
             <table id="tblCampaign"
                    height="0px"
                    width="100%">
@@ -48,14 +40,34 @@
                 <columns>
                     <column id="site.itemDesignation"/>
                     <column id="campaignNumber"/>
-                    <column id="start"/>
-                    <column id="end"/>
+                    <column id="start">
+                        <formatter class="com.haulmont.cuba.gui.components.formatters.DateFormatter"
+                                   format="dd.MM.yyyy"/>
+                    </column>
+                    <column id="end">
+                        <formatter class="com.haulmont.cuba.gui.components.formatters.DateFormatter"
+                                   format="dd.MM.yyyy"/>
+                    </column>
                     <column id="shutdown"/>
                 </columns>
                 <rows datasource="campaignTemplateDs"/>
             </table>
+            <button id="btnTemplateDownload"
+                    action="tblCampaign.excel"
+                    caption="msg://saveTemplate"/>
+            <label id="label"
+                   value="msg://Rohdaten-Import aus der Zwischenablage."
+                   width="100%"/>
+            <button id="btnClearTa"
+                    icon="font-icon:TRASH_O"/>
+            <textArea id="taImport"
+                      height="250px"
+                      width="832px"/>
+            <button id="btnImport"
+                    action="importRawData"
+                    caption="msg://Import"/>
             <table id="tblPeriodImportStage"
-                   height="100px"
+                   height="258px"
                    width="100%">
                 <columns>
                     <column id="itemDesignation"/>
@@ -63,11 +75,15 @@
                     <column id="startDate"/>
                     <column id="endDate"/>
                     <column id="shutdown"/>
+                    <column id="importLog"/>
                 </columns>
                 <rows datasource="periodImportStagesDs"/>
             </table>
-            <button id="btnSave"
-                    caption="msg://caption"/>
+            <buttonsPanel>
+                <button id="btnSave"
+                        action="createCampaigns"
+                        caption="msg://createOrUpdateCampaigns"/>
+            </buttonsPanel>
         </vbox>
     </layout>
 </window>
