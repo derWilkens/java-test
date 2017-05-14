@@ -244,6 +244,7 @@ create table PAXBASE_USER_PREFERENCE (
     USER_ID varchar(32) not null,
     CONTEXT varchar(255),
     ENTITY_UUID varchar(32),
+    USER_VALUE varchar(255),
     --
     primary key (ID)
 )^
@@ -340,7 +341,7 @@ create table PAXBASE_PERIOD_IMPORT_STAGE (
     START_DATE date,
     END_DATE date,
     SHUTDOWN_ boolean,
-    IMPORT_LOG varchar(255),
+    IMPORT_LOG longtext,
     --
     primary key (ID)
 )^

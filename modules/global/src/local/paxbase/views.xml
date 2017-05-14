@@ -188,4 +188,11 @@
         <property name="end"/>
         <property name="campaignNumber"/>
     </view>
+    <view class="local.paxbase.entity.UserPreference"
+          name="userPreference-SiteColors">
+        <property name="entityUuid"/>
+        <property name="userValue"/>
+        <property name="userId"/>
+        <property name="context"/>
+    </view>
 </views>

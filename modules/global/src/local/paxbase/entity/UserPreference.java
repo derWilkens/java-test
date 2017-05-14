@@ -22,6 +22,18 @@ public class UserPreference extends StandardClientEntity {
     @Column(name = "ENTITY_UUID")
     protected UUID entityUuid;
 
+    @Column(name = "USER_VALUE")
+    protected String userValue;
+
+    public void setUserValue(String userValue) {
+        this.userValue = userValue;
+    }
+
+    public String getUserValue() {
+        return userValue;
+    }
+
+
     public UUID getUserId() {
         return userId;
     }

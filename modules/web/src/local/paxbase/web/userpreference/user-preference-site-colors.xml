@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://caption"
+        class="local.paxbase.web.userpreference.UserPreferenceSiteColors"
+        focusComponent="userPreferencesTable"
+        lookupComponent="userPreferencesTable"
+        messagesPack="local.paxbase.web.userpreference">
+    <dsContext>
+        <datasource id="userPreferenceDs"
+                    class="local.paxbase.entity.UserPreference"
+                    view="userPreference-SiteColors"/>
+        <collectionDatasource id="userPreferencesDs"
+                              class="local.paxbase.entity.UserPreference"
+                              view="userPreference-SiteColors">
+            <query>
+                <![CDATA[select e from paxbase$UserPreference e where e.context = 'SiteColors']]>
+            </query>
+        </collectionDatasource>
+        <collectionDatasource id="sitesDs"
+                              class="local.paxbase.entity.coredata.Site"
+                              view="_local">
+            <query>
+                <![CDATA[select e from paxbase$Site e order by e.itemDesignation]]>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <actions>
+        <action id="save"
+                caption="mainMsg://actions.Ok"
+                icon="icons/ok.png"
+                invoke="save"
+                shortcut="CTRL-ENTER"/>
+        <action id="cancel"
+                caption="mainMsg://actions.Cancel"
+                icon="icons/cancel.png"
+                invoke="cancel"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout>
+        <split id="split"
+               height="100%"
+               orientation="horizontal"
+               reversePosition="true"
+               width="100%">
+            <vbox id="lookupBox"
+                  height="100%"
+                  margin="false,true,false,false"
+                  spacing="true">
+                <table id="userPreferencesTable"
+                       height="100%"
+                       width="100%">
+                    <actions>
+                        <action id="create"/>
+                        <action id="edit"/>
+                        <action id="remove"/>
+                    </actions>
+                    <columns>
+                        <column id="entityUuid"/>
+                        <column id="userValue"/>
+                    </columns>
+                    <rows datasource="userPreferencesDs"/>
+                    <rowsCount/>
+                    <buttonsPanel id="buttonsPanel"
+                                  alwaysVisible="true">
+                        <button id="createBtn"
+                                action="userPreferencesTable.create"/>
+                        <button id="editBtn"
+                                action="userPreferencesTable.edit"/>
+                        <button id="removeBtn"
+                                action="userPreferencesTable.remove"/>
+                    </buttonsPanel>
+                </table>
+            </vbox>
+            <vbox id="editBox"
+                  expand="fieldGroupBox"
+                  height="100%"
+                  margin="false,false,false,true"
+                  spacing="true">
+                <vbox id="fieldGroupBox">
+                    <fieldGroup id="fieldGroup"
+                                datasource="userPreferenceDs">
+                        <column width="250px">
+                            <field property="entityUuid"/>
+                            <field property="userValue"/>
+                            <field property="context"/>
+                        </column>
+                    </fieldGroup>
+                </vbox>
+                <colorPicker id="colorPicker"
+                             swatchesVisible="true"/>
+                <lookupField id="cbxSite"
+                             captionProperty="itemDesignation"
+                             height="28px"
+                             optionsDatasource="sitesDs"/>
+                <hbox id="actionsPane"
+                      spacing="true"
+                      visible="false">
+                    <button id="saveBtn"
+                            action="save"/>
+                    <button id="cancelBtn"
+                            action="cancel"/>
+                </hbox>
+            </vbox>
+        </split>
+    </layout>
+</window>

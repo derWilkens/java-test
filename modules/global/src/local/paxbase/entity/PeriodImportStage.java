@@ -22,6 +22,7 @@ import java.util.Date;
 import com.haulmont.cuba.core.entity.Creatable;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Lob;
 
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "DTYPE", discriminatorType = DiscriminatorType.STRING)
@@ -48,6 +49,7 @@ public class PeriodImportStage extends BaseUuidEntity implements Updatable, Crea
     @Column(name = "SHUTDOWN_")
     protected Boolean shutdown;
 
+    @Lob
     @Column(name = "IMPORT_LOG")
     protected String importLog;
 

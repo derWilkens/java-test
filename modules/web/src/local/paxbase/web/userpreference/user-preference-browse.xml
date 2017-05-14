@@ -35,6 +35,7 @@
                 <column id="userId"/>
                 <column id="context"/>
                 <column id="entityUuid"/>
+                <column id="userValue"/>
             </columns>
             <rows datasource="userPreferencesDs"/>
             <rowsCount/>

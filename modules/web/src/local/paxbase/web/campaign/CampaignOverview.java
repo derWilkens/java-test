@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
+import com.esotericsoftware.minlog.Log;
 import com.haulmont.cuba.gui.components.AbstractLookup;
 import com.haulmont.cuba.gui.components.CheckBox;
 import com.haulmont.cuba.gui.components.Table;
@@ -192,8 +193,14 @@ public class CampaignOverview extends AbstractLookup {
 						Iterator<UserPreference> iter = userPreferencesDs.getItems().iterator();
 						while (iter.hasNext()) {
 							UserPreference userPreference = (UserPreference) iter.next();
-							if (userPreference.getEntityUuid().equals(siteUserSettings.getSingleSelected().getId())) {
-								tmp = userPreference;
+							try {
+							Log.info(userPreference.getUuid().toString());
+								if (userPreference.getEntityUuid().equals(siteUserSettings.getSingleSelected().getId())) {
+									tmp = userPreference;
+								}
+							} catch (Exception e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
 							}
 						}
 						userPreferencesDs.removeItem(tmp);

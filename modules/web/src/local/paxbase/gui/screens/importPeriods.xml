@@ -8,7 +8,8 @@
                               class="local.paxbase.entity.Campaign"
                               view="campaign-templateView">
             <query>
-                <![CDATA[select e from paxbase$Campaign e]]>
+                <![CDATA[select e from paxbase$Campaign e 
+order by e.site.itemDesignation, e.campaignNumber]]>
             </query>
         </collectionDatasource>
         <collectionDatasource id="periodImportStagesDs"
@@ -38,17 +39,22 @@
                     <action id="excel"/>
                 </actions>
                 <columns>
-                    <column id="site.itemDesignation"/>
-                    <column id="campaignNumber"/>
-                    <column id="start">
+                    <column id="site.itemDesignation"
+                            caption="NAS"/>
+                    <column id="campaignNumber"
+                            caption="Kamapgnennummer"/>
+                    <column id="start"
+                            caption="Start">
                         <formatter class="com.haulmont.cuba.gui.components.formatters.DateFormatter"
                                    format="dd.MM.yyyy"/>
                     </column>
-                    <column id="end">
+                    <column id="end"
+                            caption="Ende">
                         <formatter class="com.haulmont.cuba.gui.components.formatters.DateFormatter"
                                    format="dd.MM.yyyy"/>
                     </column>
-                    <column id="shutdown"/>
+                    <column id="shutdown"
+                            caption="Abschaltkampagne"/>
                 </columns>
                 <rows datasource="campaignTemplateDs"/>
             </table>

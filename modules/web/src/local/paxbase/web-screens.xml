@@ -47,4 +47,8 @@
             template="local/paxbase/gui/screens/importPeriods.xml"/>
     <screen id="paxbase$DutyPeriod.browse"
             template="local/paxbase/web/dutyperiod/duty-period-browse.xml"/>
+    <screen id="paxbase$PeriodImportStage.browse"
+            template="local/paxbase/web/periodimportstage/period-import-stage-browse.xml"/>
+    <screen id="paxbase$UserPreferenceSiteColors.browse"
+            template="local/paxbase/web/userpreference/user-preference-site-colors.xml"/>
 </screen-config>

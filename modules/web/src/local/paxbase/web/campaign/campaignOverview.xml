@@ -22,7 +22,7 @@
                               class="local.paxbase.entity.UserPreference"
                               view="_local">
             <query>
-                <![CDATA[select e from paxbase$UserPreference e]]>
+                <![CDATA[select e from paxbase$UserPreference e where e.context = 'CampaignBrowse']]>
             </query>
         </collectionDatasource>
         <collectionDatasource id="functionCategoriesDs"
