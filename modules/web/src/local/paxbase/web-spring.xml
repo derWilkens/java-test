@@ -16,6 +16,8 @@
                        value="local.paxbase.service.TimelineService"/>
                 <entry key="paxbase_PeriodImportService"
                        value="local.paxbase.service.PeriodImportService"/>
+                <entry key="paxbase_UserpreferencesService"
+                       value="local.paxbase.service.UserpreferencesService"/>
             </map>
         </property>
     </bean>

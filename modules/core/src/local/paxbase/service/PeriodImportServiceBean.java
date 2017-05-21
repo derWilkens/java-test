@@ -45,37 +45,36 @@ public class PeriodImportServiceBean implements PeriodImportService {
 				periodImportItem = metadata.create(PeriodImportStage.class);
 				if (values.length < 5) {
 					errorMsg += "Bitte alle Felder füllen: " + line + "\n";
-				}
-				else{
-				periodImportItem.setItemDesignation(values[0]);
-				periodImportItem.setCampaignNumber(values[1]);
-				if (periodImportItem.getCampaignNumber() == null) {
-					errorMsg += "Kampagnen-Nr nicht gesetzt \n";
-				}
+				} else {
+					periodImportItem.setItemDesignation(values[0]);
+					periodImportItem.setCampaignNumber(values[1]);
+					if (periodImportItem.getCampaignNumber() == null) {
+						errorMsg += "Kampagnen-Nr nicht gesetzt \n";
+					}
 
-				try {
-					getSiteByItemDesignation(values[0]);
-				} catch (Exception e) {
-					errorMsg += "NAS nicht gefunden: " + values[0] + "\n";
-				}
+					try {
+						getSiteByItemDesignation(values[0]);
+					} catch (Exception e) {
+						errorMsg += "NAS nicht gefunden: " + values[0] + "\n";
+					}
 
-				try {
-					periodImportItem.setStartDate(stringToDate(values[2]));
-				} catch (ParseException e) {
-					errorMsg += "Startdatum muss im Format dd.mm.jjjj vorliegen: " + values[2] + "\n";
-				}
-				try {
-					periodImportItem.setEndDate(stringToDate(values[3]));
-				} catch (ParseException e) {
-					errorMsg += "Endedatum muss im Format dd.mm.jjjj vorliegen: " + values[3] + "\n";
-				}
-				periodImportItem.setShutdown(stringToBoolean(values[4]));
+					try {
+						periodImportItem.setStartDate(stringToDate(values[2]));
+					} catch (ParseException e) {
+						errorMsg += "Startdatum muss im Format dd.mm.jjjj vorliegen: " + values[2] + "\n";
+					}
+					try {
+						periodImportItem.setEndDate(stringToDate(values[3]));
+					} catch (ParseException e) {
+						errorMsg += "Endedatum muss im Format dd.mm.jjjj vorliegen: " + values[3] + "\n";
+					}
+					periodImportItem.setShutdown(stringToBoolean(values[4]));
 				}
 				try {
 					periodImportItem.setImportLog(errorMsg);
 					persistence.getEntityManager().persist(periodImportItem);
 					tx.commit();
-					
+
 				} catch (Exception e) {
 					e.printStackTrace();
 					tx = persistence.createTransaction();
@@ -111,6 +110,7 @@ public class PeriodImportServiceBean implements PeriodImportService {
 
 			TypedQuery<Site> query = persistence.getEntityManager().createQuery(queryString, Site.class);
 			query.setParameter("itemDesignation", itemDesignation);
+
 			site = query.getSingleResult();
 
 			tx.commit();
@@ -121,13 +121,13 @@ public class PeriodImportServiceBean implements PeriodImportService {
 	@Override
 	public Campaign getCampaignByIdAndItemDesignation(String campaignNumber, String itemDesignation) {
 		Campaign campaign;
-		
-			String queryString = "select e from paxbase$Campaign e where e.campaignNumber = :campaignNumber and e.site.itemDesignation = :itemDesignation";
-			TypedQuery<Campaign> query = persistence.getEntityManager().createQuery(queryString, Campaign.class);
-			query.setParameter("campaignNumber", campaignNumber);
-			query.setParameter("itemDesignation", itemDesignation);
-			campaign = query.getFirstResult();
-		
+
+		String queryString = "select e from paxbase$Campaign e where e.campaignNumber = :campaignNumber and e.site.itemDesignation = :itemDesignation";
+		TypedQuery<Campaign> query = persistence.getEntityManager().createQuery(queryString, Campaign.class);
+		query.setParameter("campaignNumber", campaignNumber);
+		query.setParameter("itemDesignation", itemDesignation);
+		campaign = query.getFirstResult();
+
 		return campaign;
 	}
 
@@ -182,7 +182,7 @@ public class PeriodImportServiceBean implements PeriodImportService {
 
 			tx.commit();
 		}
-		
+
 		return counter;
 	}
 

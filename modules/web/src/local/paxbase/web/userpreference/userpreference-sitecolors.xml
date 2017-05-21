@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://caption"
+        class="local.paxbase.web.userpreference.UserpreferenceSitecolors"
+        messagesPack="local.paxbase.web.userpreference">
+    <dsContext>
+        <collectionDatasource id="sitesDs"
+                              class="local.paxbase.entity.coredata.Site"
+                              view="siteSelect">
+            <query>
+                <![CDATA[select e from paxbase$Site e]]>
+            </query>
+        </collectionDatasource>
+        <collectionDatasource id="userPreferencesDs"
+                              class="local.paxbase.entity.UserPreference">
+            <query>
+                <![CDATA[select e from paxbase$UserPreference e where e.context = 'SiteColors']]>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout>
+        <table id="siteColors"
+               height="100%"
+               width="100%">
+            <columns>
+                <column id="siteName"/>
+            </columns>
+            <rows datasource="sitesDs"/>
+        </table>
+    </layout>
+</window>

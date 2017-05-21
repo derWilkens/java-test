@@ -11,7 +11,6 @@
         <item id="paxbase$CrewChange.browse"/>
         <item id="paxbase$Waypoint.browse"/>
         <item id="paxbase$UserPreference.browse"/>
-        <item screen="paxbase$UserPreferenceSiteColors.browse"/>
         <item id="paxbase$FunctionCategory.browse"/>
         <item id="paxbase$SiteType.browse"/>
         <item id="paxbase$ContractorDutyPeriod.browse"/>
@@ -20,5 +19,6 @@
         <item id="paxbase$OffshoreUser.browse"/>
         <item screen="paxbase$DutyPeriod.browse"/>
         <item screen="paxbase$PeriodImportStage.browse"/>
+        <item screen="userpreference-sitecolors"/>
     </menu>
 </menu-config>
