@@ -34,11 +34,12 @@ public class TimelineServiceBean implements TimelineService {
 
 	@Inject
 	private Persistence persistence;
-
+	
 	@Override
 	public TimelineDTO getDto(String context) {
 
 		TimelineDTO dto = new TimelineDTO();
+
 		TimelineConfig campaignTimelineConfig = new TimelineConfig();
 		campaignTimelineConfig.setGroupFunction((Campaign e) -> {return  e.getSite().getSiteName();});
 		campaignTimelineConfig.setParentGroupIdFunction((Campaign e) -> {
@@ -47,6 +48,13 @@ public class TimelineServiceBean implements TimelineService {
 			}else return null;
 			});
 		campaignTimelineConfig.setItemLabelFunction((Campaign e) -> {return e.getCampaignNumber();});
+		campaignTimelineConfig.setStyleFunction((Campaign e)-> {
+			String colorHex = getSiteColorPreference(e.getSite().getUuid());
+			if (colorHex != null){
+			 return  "background-color: #" + colorHex + ";";
+			}
+			return "";
+		});		
 		
 		TimelineConfig dutyPeriodConfig = new TimelineConfig();
 		dutyPeriodConfig.setGroupFunction((DutyPeriod e)->e.getSite().getSiteName());
@@ -60,7 +68,15 @@ public class TimelineServiceBean implements TimelineService {
 				Log.info("Function Category is null: " + e.getUuid().toString());
 				return null;
 			}
-			else return e.getPersonOnDuty().getCaption() + " " + e.getFunctionCategory().getCategoryName();});
+			else return e.getPersonOnDuty().getCaption() + " " + e.getFunctionCategory().getCategoryName();
+			});
+		dutyPeriodConfig.setStyleFunction((DutyPeriod e)-> {
+			String colorHex = getSiteColorPreference(e.getSite().getUuid());
+			if (colorHex != null){
+			 return  "background-color: #" + colorHex + ";";
+			}
+			return "";
+		});
 		
 		try (Transaction tx = persistence.createTransaction()) {
 			// preferences des Users für den context laden
@@ -96,6 +112,23 @@ public class TimelineServiceBean implements TimelineService {
 		}
 		return dto;
 
+	}
+
+	private String getSiteColorPreference(UUID siteId) {
+		UserPreference userPreference;
+
+		String queryString = "select e from paxbase$UserPreference e where e.userId = :userId and e.context=:context and e.entityUuid=:siteId";
+		TypedQuery<UserPreference> query = persistence.getEntityManager().createQuery(queryString,
+				UserPreference.class);
+		UserSessionSource session = AppBeans.get(UserSessionSource.class);
+		query.setParameter("userId", session.getUserSession().getUser().getId());
+		query.setParameter("context", "SiteColors");
+		query.setParameter("siteId", siteId);
+		userPreference = query.getFirstResult();
+		if(userPreference!=null){
+			return userPreference.getUserValue();
+		}
+		return null;
 	}
 
 	// Drei Kriterien: (implizit Type), Site, ServiceUser;

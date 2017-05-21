@@ -40,7 +40,7 @@ public class TimelineItem extends AbstractNotPersistentStringIdEntity {
     @MetaProperty
     protected String subgroupId;
 
-	public TimelineItem(Period entity, String content, String groupId, String subgroupId) {
+	public TimelineItem(Period entity, String content, String groupId, String subgroupId, String style) {
     	super();
     	this.id = entity.getId().toString();
 		this.content = content;
@@ -49,8 +49,8 @@ public class TimelineItem extends AbstractNotPersistentStringIdEntity {
 		this.end = entity.getEnd()!=null ? formatter.format(entity.getEnd()):null;
 		this.group = groupId;
 		this.subgroupId = subgroupId;
-		
-		this.type = "box";
+		this.style = style;
+		this.type = "range";
 		this.editable = false;
 		
 	}
@@ -64,9 +64,9 @@ public class TimelineItem extends AbstractNotPersistentStringIdEntity {
 		this.start = entity.getStart() != null ? formatter.format(entity.getStart()):null;
 		this.end = entity.getEnd()!=null ? formatter.format(entity.getEnd()):null;
 		this.group = ((Function<Period, String>) campaignTimelineConfig.getGroupFunction()).apply(entity);
-		this.subgroupId = ((Function<Period, String>) campaignTimelineConfig.getParentGroupIdFunction()).apply(entity);;
-		
-		this.type = "box";
+		this.subgroupId = ((Function<Period, String>) campaignTimelineConfig.getParentGroupIdFunction()).apply(entity);
+		this.style = ((Function<Period, String>)campaignTimelineConfig.getStyleFunction()).apply(entity);
+		this.type = "range";
 		this.editable = false;
 	}
 
