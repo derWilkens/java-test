@@ -346,3 +346,89 @@ create table PAXBASE_PERIOD_IMPORT_STAGE (
     primary key (ID)
 )^
 -- end PAXBASE_PERIOD_IMPORT_STAGE
+-- begin PAXBASE_QUALIFICATION_TYPE
+create table PAXBASE_QUALIFICATION_TYPE (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    CLIENT integer not null,
+    --
+    NAME varchar(255),
+    --
+    primary key (ID)
+)^
+-- end PAXBASE_QUALIFICATION_TYPE
+-- begin PAXBASE_ROLE
+create table PAXBASE_ROLE (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    CLIENT integer not null,
+    --
+    NAME varchar(30),
+    --
+    primary key (ID)
+)^
+-- end PAXBASE_ROLE
+-- begin PAXBASE_JOBFUNCTION
+create table PAXBASE_JOBFUNCTION (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    --
+    NAME varchar(30),
+    --
+    primary key (ID)
+)^
+-- end PAXBASE_JOBFUNCTION
+-- begin PAXBASE_CERTIFICATE
+create table PAXBASE_CERTIFICATE (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    --
+    ISSUING_DATE date,
+    EXPIRATION_DATE date,
+    VERFIED_BY_ID varchar(32),
+    QUALIFICATION_TYPE_ID varchar(32),
+    OFFSHORE_USER_ID varchar(32),
+    FILE_DATA_ID varchar(32),
+    CERTIFICATE_TYPE_ID varchar(32),
+    --
+    primary key (ID)
+)^
+-- end PAXBASE_CERTIFICATE
+-- begin PAXBASE_FUNCTION_ROLE_LINK
+create table PAXBASE_FUNCTION_ROLE_LINK (
+    FUNCTION_ID varchar(32),
+    ROLE_ID varchar(32),
+    primary key (FUNCTION_ID, ROLE_ID)
+)^
+-- end PAXBASE_FUNCTION_ROLE_LINK
+-- begin PAXBASE_ROLE_QUALIFICATION_TYPE_LINK
+create table PAXBASE_ROLE_QUALIFICATION_TYPE_LINK (
+    ROLE_ID varchar(32),
+    QUALIFICATION_TYPE_ID varchar(32),
+    primary key (ROLE_ID, QUALIFICATION_TYPE_ID)
+)^
+-- end PAXBASE_ROLE_QUALIFICATION_TYPE_LINK

@@ -2,6 +2,7 @@
 <menu-config xmlns="http://schemas.haulmont.com/cuba/menu.xsd">
     <menu id="application"
           insertBefore="administration">
+        <item screen="paxbase$Certificate.edit"/>
         <item id="paxbase$Campaign.campaignOverview"/>
         <item screen="importPeriods"/>
         <item id="paxbase$Site.browse"/>

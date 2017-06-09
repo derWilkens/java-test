@@ -1,0 +1,5 @@
+create table PAXBASE_ROLE_QUALIFICATION_TYPE_LINK (
+    ROLE_ID varchar(32),
+    QUALIFICATION_TYPE_ID varchar(32),
+    primary key (ROLE_ID, QUALIFICATION_TYPE_ID)
+);

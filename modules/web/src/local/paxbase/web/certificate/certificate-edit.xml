@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://editorCaption"
+        class="local.paxbase.web.certificate.CertificateEdit"
+        datasource="certificateDs"
+        focusComponent="fieldGroup"
+        messagesPack="local.paxbase.web.certificate">
+    <dsContext>
+        <datasource id="certificateDs"
+                    class="local.paxbase.entity.cap.Certificate"
+                    view="certificate-view"/>
+        <collectionDatasource id="qualificationTypesDs"
+                              class="local.paxbase.entity.cap.coredata.QualificationType"
+                              view="_minimal">
+            <query>
+                <![CDATA[select e from paxbase$QualificationType e]]>
+            </query>
+        </collectionDatasource>
+        <collectionDatasource id="certificateTypesDs"
+                              class="local.paxbase.entity.cap.coredata.QualificationType"
+                              view="_minimal">
+            <query>
+                <![CDATA[select e from paxbase$QualificationType e]]>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <dialogMode forceDialog="true"
+                height="AUTO"
+                modal="true"
+                width="600"/>
+    <layout expand="windowActions"
+            spacing="true">
+        <fieldGroup id="fieldGroup"
+                    datasource="certificateDs">
+            <column width="250px">
+                <field property="issuingDate"/>
+                <field property="expirationDate"/>
+                <field optionsDatasource="qualificationTypesDs"
+                       property="qualificationType"/>
+                <field property="offshoreUser"/>
+                <field property="fileData"/>
+                <field optionsDatasource="certificateTypesDs"
+                       property="certificateType"/>
+            </column>
+        </fieldGroup>
+        <frame id="windowActions"
+               screen="editWindowActions"/>
+    </layout>
+</window>

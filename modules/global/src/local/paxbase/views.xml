@@ -165,6 +165,10 @@
                   view="_minimal">
             <property name="name"/>
         </property>
+        <property name="deputyLeader"
+                  view="_minimal"/>
+        <property name="leader"
+                  view="_minimal"/>
     </view>
     <view class="local.paxbase.entity.OffshoreUser"
           extends="_minimal"
@@ -194,5 +198,17 @@
         <property name="userValue"/>
         <property name="userId"/>
         <property name="context"/>
+    </view>
+    <view class="local.paxbase.entity.cap.Certificate"
+          extends="_local"
+          name="certificate-view">
+        <property name="qualificationType"
+                  view="_minimal"/>
+        <property name="offshoreUser"
+                  view="_minimal"/>
+        <property name="fileData"
+                  view="_minimal"/>
+        <property name="certificateType"
+                  view="_minimal"/>
     </view>
 </views>

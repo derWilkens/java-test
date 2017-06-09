@@ -51,4 +51,6 @@
             template="local/paxbase/web/periodimportstage/period-import-stage-browse.xml"/>
     <screen id="userpreference-sitecolors"
             template="local/paxbase/web/userpreference/userpreference-sitecolors.xml"/>
+    <screen id="paxbase$Certificate.edit"
+            template="local/paxbase/web/certificate/certificate-edit.xml"/>
 </screen-config>
