@@ -41,6 +41,7 @@
                 <field property="fileData"/>
                 <field optionsDatasource="certificateTypesDs"
                        property="certificateType"/>
+                <field property="state"/>
             </column>
         </fieldGroup>
         <frame id="windowActions"

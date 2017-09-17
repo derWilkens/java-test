@@ -65,6 +65,18 @@ public class Certificate extends StandardEntity {
     @JoinColumn(name = "CERTIFICATE_TYPE_ID")
     protected QualificationType certificateType;
 
+    @Column(name = "STATE")
+    protected String state;
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+
     public FileDescriptor getFileData() {
         return fileData;
     }

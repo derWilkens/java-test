@@ -323,6 +323,8 @@ create table PAXBASE_OE (
     --
     NAME varchar(255),
     PARENT_OE_ID varchar(32),
+    LEADER_ID varchar(32),
+    DEPUTY_LEADER_ID varchar(32),
     --
     primary key (ID)
 )^
@@ -414,6 +416,7 @@ create table PAXBASE_CERTIFICATE (
     OFFSHORE_USER_ID varchar(32),
     FILE_DATA_ID varchar(32),
     CERTIFICATE_TYPE_ID varchar(32),
+    STATE varchar(255),
     --
     primary key (ID)
 )^

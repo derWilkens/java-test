@@ -35,6 +35,8 @@
                 <column id="client"/>
                 <column id="name"/>
                 <column id="parentOE"/>
+                <column id="deputyLeader"/>
+                <column id="leader"/>
             </columns>
             <rows datasource="oEsDs"/>
             <rowsCount/>

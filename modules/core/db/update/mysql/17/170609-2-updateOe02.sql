@@ -1,0 +1,2 @@
+alter table PAXBASE_OE add constraint FK_PAXBASE_OE_DEPUTY_LEADER foreign key (DEPUTY_LEADER_ID) references SEC_USER(ID);
+create index IDX_PAXBASE_OE_DEPUTY_LEADER on PAXBASE_OE (DEPUTY_LEADER_ID);
