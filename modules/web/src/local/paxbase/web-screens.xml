@@ -39,8 +39,6 @@
             template="local/paxbase/web/contractordutyperiod/contractor-duty-period-browse.xml"/>
     <screen id="paxbase$Campaign.browse"
             template="local/paxbase/web/campaign/campaign-browse.xml"/>
-    <screen id="paxbase$OE.browse"
-            template="local/paxbase/web/oe/oe-browse.xml"/>
     <screen id="paxbase$OffshoreUser.browse"
             template="local/paxbase/web/offshoreuser/offshore-user-browse.xml"/>
     <screen id="importPeriods"
@@ -53,4 +51,6 @@
             template="local/paxbase/web/userpreference/userpreference-sitecolors.xml"/>
     <screen id="paxbase$Certificate.edit"
             template="local/paxbase/web/certificate/certificate-edit.xml"/>
+    <screen id="paxbase$Department.browse"
+            template="local/paxbase/web/department/department-browse.xml"/>
 </screen-config>

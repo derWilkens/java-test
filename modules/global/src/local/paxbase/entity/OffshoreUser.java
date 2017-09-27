@@ -23,7 +23,8 @@ import local.paxbase.entity.coredata.AppUser;
 import local.paxbase.entity.coredata.Company;
 import com.haulmont.cuba.core.entity.annotation.Lookup;
 import com.haulmont.cuba.core.entity.annotation.LookupType;
-import local.paxbase.entity.coredata.OE;
+
+import local.paxbase.entity.coredata.Department;
 
 /**
  * @author christian
@@ -48,17 +49,19 @@ public class OffshoreUser extends AppUser {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "COMPANY_ID")
     protected Company company;
+
+
     @Lookup(type = LookupType.DROPDOWN)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "OE_ID")
-    protected OE oe;
+    @JoinColumn(name = "DEPARTMENT_ID")
+    protected Department department;
 
-    public void setOe(OE oe) {
-        this.oe = oe;
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
-    public OE getOe() {
-        return oe;
+    public Department getDepartment() {
+        return department;
     }
 
 

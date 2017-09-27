@@ -51,7 +51,7 @@
         <property name="position"/>
         <property name="firstName"/>
         <property name="lastName"/>
-        <property name="oe"
+        <property name="department"
                   view="_minimal"/>
     </view>
     <view class="local.paxbase.entity.OffshoreUser"
@@ -72,7 +72,7 @@
         <property name="group"
                   view="_minimal"/>
         <property name="client"/>
-        <property name="oe"
+        <property name="department"
                   view="_minimal"/>
     </view>
     <view class="local.paxbase.entity.Waypoint"
@@ -152,13 +152,13 @@
           name="offshoreUser-treeview">
         <property name="company"
                   view="_minimal"/>
-        <property name="oe"
+        <property name="department"
                   view="_minimal">
-            <property name="parentOE"
+            <property name="parentDepartment"
                       view="_minimal"/>
         </property>
     </view>
-    <view class="local.paxbase.entity.coredata.OE"
+    <view class="local.paxbase.entity.coredata.Department"
           extends="_local"
           name="oe-treeview">
         <property name="parentOE"
@@ -173,10 +173,10 @@
     <view class="local.paxbase.entity.OffshoreUser"
           extends="_minimal"
           name="offshoreUser-treeview2">
-        <property name="oe"
+        <property name="department"
                   view="_minimal">
             <property name="name"/>
-            <property name="parentOE"
+            <property name="parentDepartment"
                       view="_minimal"/>
         </property>
     </view>
@@ -210,5 +210,17 @@
                   view="_minimal"/>
         <property name="certificateType"
                   view="_minimal"/>
+    </view>
+    <view class="local.paxbase.entity.coredata.Department"
+          extends="_local"
+          name="oe-treeview">
+        <property name="deputyLeader"
+                  view="_minimal"/>
+        <property name="leader"
+                  view="_minimal"/>
+        <property name="parentDepartment"
+                  view="_minimal">
+            <property name="name"/>
+        </property>
     </view>
 </views>

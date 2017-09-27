@@ -157,12 +157,12 @@ create table PAXBASE_CRAFT_TYPE (
 -- begin SEC_USERalter table SEC_USER add column WEIGHT integer ^
 alter table SEC_USER add column WEIGHT_CHANGE_DATE date ^
 alter table SEC_USER add column COMPANY_ID varchar(32) ^
-alter table SEC_USER add column OE_ID varchar(32) ^
+alter table SEC_USER add column DEPARTMENT_ID varchar(32) ^
 alter table SEC_USER add column CLIENT integer ^
 alter table SEC_USER add column WEIGHT integer ^
 alter table SEC_USER add column WEIGHT_CHANGE_DATE date ^
 alter table SEC_USER add column COMPANY_ID varchar(32) ^
-alter table SEC_USER add column OE_ID varchar(32) ^
+alter table SEC_USER add column DEPARTMENT_ID varchar(32) ^
 alter table SEC_USER add column DTYPE varchar(100) ^
 update SEC_USER set DTYPE = 'sec$User' where DTYPE is null ^
 -- end SEC_USER
@@ -309,26 +309,7 @@ create table PAXBASE_CONTRACTOR_DUTY_PERIOD (
     primary key (ID)
 )^
 -- end PAXBASE_CONTRACTOR_DUTY_PERIOD
--- begin PAXBASE_OE
-create table PAXBASE_OE (
-    ID varchar(32),
-    VERSION integer not null,
-    CREATE_TS datetime(3),
-    CREATED_BY varchar(50),
-    UPDATE_TS datetime(3),
-    UPDATED_BY varchar(50),
-    DELETE_TS datetime(3),
-    DELETED_BY varchar(50),
-    CLIENT integer not null,
-    --
-    NAME varchar(255),
-    PARENT_OE_ID varchar(32),
-    LEADER_ID varchar(32),
-    DEPUTY_LEADER_ID varchar(32),
-    --
-    primary key (ID)
-)^
--- end PAXBASE_OE
+
 -- begin PAXBASE_PERIOD_IMPORT_STAGE
 create table PAXBASE_PERIOD_IMPORT_STAGE (
     ID varchar(32),
@@ -435,3 +416,23 @@ create table PAXBASE_ROLE_QUALIFICATION_TYPE_LINK (
     primary key (ROLE_ID, QUALIFICATION_TYPE_ID)
 )^
 -- end PAXBASE_ROLE_QUALIFICATION_TYPE_LINK
+-- begin PAXBASE_DEPARTMENT
+create table PAXBASE_DEPARTMENT (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    CLIENT integer not null,
+    --
+    NAME varchar(255),
+    PARENT_DEPARTMENT_ID varchar(32),
+    LEADER_ID varchar(32),
+    DEPUTY_LEADER_ID varchar(32),
+    --
+    primary key (ID)
+)^
+-- end PAXBASE_DEPARTMENT

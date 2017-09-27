@@ -1,28 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
         caption="msg://caption"
-        class="local.paxbase.web.offshoreuser.OffshoreUserBrowse"
-        focusComponent="offshoreUsersTable"
-        lookupComponent="offshoreUsersTable"
-        messagesPack="local.paxbase.web.offshoreuser">
+        class="local.paxbase.web.department.DepartmentBrowse"
+        focusComponent="departmentsTable"
+        lookupComponent="departmentsTable"
+        messagesPack="local.paxbase.web.department">
     <dsContext>
-        <datasource id="offshoreUserDs"
-                    class="local.paxbase.entity.OffshoreUser"
-                    view="offshoreUser-edit-view"/>
-        <groupDatasource id="offshoreUsersDs"
-                         class="local.paxbase.entity.OffshoreUser"
-                         view="offshoreUser-browser-view">
+        <datasource id="departmentDs"
+                    class="local.paxbase.entity.coredata.Department"
+                    view="department-treeview"/>
+        <groupDatasource id="departmentsDs"
+                         class="local.paxbase.entity.coredata.Department"
+                         view="department-treeview">
             <query>
-                <![CDATA[select e from paxbase$OffshoreUser e]]>
+                <![CDATA[select e from paxbase$Department e]]>
             </query>
         </groupDatasource>
-        <collectionDatasource id="oesDs"
-                              class="local.paxbase.entity.coredata.Department"
-                              view="_minimal">
-            <query>
-                <![CDATA[select e from paxbase$OE e]]>
-            </query>
-        </collectionDatasource>
     </dsContext>
     <actions>
         <action id="save"
@@ -32,6 +25,7 @@
                 shortcut="CTRL-ENTER"/>
         <action id="cancel"
                 caption="mainMsg://actions.Cancel"
+                description="Esc"
                 icon="icons/cancel.png"
                 invoke="cancel"/>
     </actions>
@@ -44,16 +38,16 @@
                reversePosition="true"
                width="100%">
             <vbox id="lookupBox"
-                  expand="offshoreUsersTable"
+                  expand="departmentsTable"
                   height="100%"
                   margin="false,true,false,false"
                   spacing="true">
                 <filter id="filter"
-                        applyTo="offshoreUsersTable"
-                        datasource="offshoreUsersDs">
+                        applyTo="departmentsTable"
+                        datasource="departmentsDs">
                     <properties include=".*"/>
                 </filter>
-                <groupTable id="offshoreUsersTable"
+                <groupTable id="departmentsTable"
                             width="100%">
                     <actions>
                         <action id="create"/>
@@ -61,22 +55,22 @@
                         <action id="remove"/>
                     </actions>
                     <columns>
-                        <column id="firstName"/>
-                        <column id="lastName"/>
-                        <column id="position"/>
-                        <column id="company"/>
-                        <column id="department"/>
+                        <column id="client"/>
+                        <column id="name"/>
+                        <column id="parentDepartment"/>
+                        <column id="leader"/>
+                        <column id="deputyLeader"/>
                     </columns>
-                    <rows datasource="offshoreUsersDs"/>
+                    <rows datasource="departmentsDs"/>
                     <rowsCount/>
                     <buttonsPanel id="buttonsPanel"
                                   alwaysVisible="true">
                         <button id="createBtn"
-                                action="offshoreUsersTable.create"/>
+                                action="departmentsTable.create"/>
                         <button id="editBtn"
-                                action="offshoreUsersTable.edit"/>
+                                action="departmentsTable.edit"/>
                         <button id="removeBtn"
-                                action="offshoreUsersTable.remove"/>
+                                action="departmentsTable.remove"/>
                     </buttonsPanel>
                 </groupTable>
             </vbox>
@@ -87,21 +81,13 @@
                   spacing="true">
                 <vbox id="fieldGroupBox">
                     <fieldGroup id="fieldGroup"
-                                datasource="offshoreUserDs">
+                                datasource="departmentDs">
                         <column width="250px">
-                            <field id="login"/>
-                            <field id="firstName"/>
-                            <field id="lastName"/>
-                            <field id="position"/>
-                            <field id="email"/>
-                            <field id="language"/>
-                            <field id="active"/>
-                            <field id="changePasswordAtNextLogon"/>
-                            <field id="group"/>
-                            <field id="client"/>
-                            <field id="company"/>
-                            <field id="department"
-                                   optionsDatasource="oesDs"/>
+                            <field property="client"/>
+                            <field property="name"/>
+                            <field property="parentDepartment"/>
+                            <field property="leader"/>
+                            <field property="deputyLeader"/>
                         </column>
                     </fieldGroup>
                 </vbox>
