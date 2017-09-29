@@ -234,4 +234,9 @@
             <property name="itemDesignation"/>
         </property>
     </view>
+    <view class="local.paxbase.entity.coredata.Department"
+          name="department-view">
+        <property name="name"/>
+        <property name="acronym"/>
+    </view>
 </views>

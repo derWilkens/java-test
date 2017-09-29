@@ -67,6 +67,7 @@
                         <column id="parentDepartment"/>
                         <column id="leader"/>
                         <column id="deputyLeader"/>
+                        <column id="acronym"/>
                     </columns>
                     <rows datasource="departmentsDs"/>
                     <rowsCount/>
@@ -96,6 +97,7 @@
                                    property="parentDepartment"/>
                             <field property="leader"/>
                             <field property="deputyLeader"/>
+                            <field property="acronym"/>
                         </column>
                     </fieldGroup>
                 </vbox>

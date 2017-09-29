@@ -13,14 +13,24 @@
                 <![CDATA[select e from paxbase$OffshoreUser e]]>
             </query>
         </groupDatasource>
-        <datasource id="dutyPeriodDs"
-                    class="local.paxbase.entity.DutyPeriod"
-                    view="dutyPeriod-view"/>
+        <collectionDatasource id="dutyPeriodsDs"
+                              class="local.paxbase.entity.DutyPeriod"
+                              view="dutyPeriod-view">
+            <query>
+                <![CDATA[select e from paxbase$DutyPeriod e]]>
+            </query>
+        </collectionDatasource>
+        <collectionDatasource id="departmentsDs"
+                              class="local.paxbase.entity.coredata.Department"
+                              view="department-view">
+            <query>
+                <![CDATA[select e from paxbase$Department e]]>
+            </query>
+        </collectionDatasource>
     </dsContext>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="offshoreUsersTable"
-            spacing="true">
+    <layout spacing="true">
         <vbox id="timelineBox"
               spacing="true"/>
         <filter id="filter"
@@ -28,28 +38,41 @@
                 datasource="offshoreUsersDs">
             <properties include=".*"/>
         </filter>
-        <groupTable id="offshoreUsersTable"
-                    width="100%">
-            <actions>
-                <action id="create"/>
-                <action id="edit"/>
-                <action id="remove"/>
-            </actions>
-            <columns>
-                <column id="firstName"/>
-                <column id="lastName"/>
-            </columns>
-            <rows datasource="offshoreUsersDs"/>
-            <rowsCount/>
-            <buttonsPanel id="buttonsPanel"
-                          alwaysVisible="true">
-                <button id="createBtn"
-                        action="offshoreUsersTable.create"/>
-                <button id="editBtn"
-                        action="offshoreUsersTable.edit"/>
-                <button id="removeBtn"
-                        action="offshoreUsersTable.remove"/>
-            </buttonsPanel>
-        </groupTable>
+        <hbox spacing="true">
+            <groupTable id="offshoreUsersTable"
+                        height="100%"
+                        width="100%">
+                <actions>
+                    <action id="create"/>
+                    <action id="edit"/>
+                    <action id="remove"/>
+                </actions>
+                <columns>
+                    <column id="firstName"/>
+                    <column id="lastName"/>
+                </columns>
+                <rows datasource="offshoreUsersDs"/>
+                <rowsCount/>
+                <buttonsPanel id="buttonsPanel"
+                              alwaysVisible="true">
+                    <button id="createBtn"
+                            action="offshoreUsersTable.create"/>
+                    <button id="editBtn"
+                            action="offshoreUsersTable.edit"/>
+                    <button id="removeBtn"
+                            action="offshoreUsersTable.remove"/>
+                </buttonsPanel>
+            </groupTable>
+            <dataGrid id="departments"
+                      caption="msg://department"
+                      datasource="departmentsDs"
+                      height="100px"
+                      width="200px">
+                <columns>
+                    <column property="name"/>
+                    <column property="acronym"/>
+                </columns>
+            </dataGrid>
+        </hbox>
     </layout>
 </window>

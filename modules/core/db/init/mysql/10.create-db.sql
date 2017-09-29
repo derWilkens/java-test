@@ -429,10 +429,11 @@ create table PAXBASE_DEPARTMENT (
     DELETED_BY varchar(50),
     CLIENT integer not null,
     --
-    NAME varchar(255),
+    NAME varchar(100),
     PARENT_DEPARTMENT_ID varchar(32),
     LEADER_ID varchar(32),
     DEPUTY_LEADER_ID varchar(32),
+    ACRONYM varchar(15),
     --
     primary key (ID)
 )^

@@ -34,50 +34,16 @@ public class TimelineServiceBean implements TimelineService {
 
 	@Inject
 	private Persistence persistence;
-	
+
 	@Override
 	public TimelineDTO getDto(String context) {
 
 		TimelineDTO dto = new TimelineDTO();
 
-		TimelineConfig campaignTimelineConfig = new TimelineConfig();
-		campaignTimelineConfig.setGroupFunction((Campaign e) -> {return  e.getSite().getSiteName();});
-		campaignTimelineConfig.setParentGroupIdFunction((Campaign e) -> {
-			if (e.getSite().getParentSite()!=null){
-				return  e.getSite().getParentSite().getSiteName();
-			}else return null;
-			});
-		campaignTimelineConfig.setItemLabelFunction((Campaign e) -> {return e.getCampaignNumber();});
-		campaignTimelineConfig.setStyleFunction((Campaign e)-> {
-			String colorHex = getSiteColorPreference(e.getSite().getUuid());
-			if (colorHex != null){
-			 return  "background-color: #" + colorHex + ";";
-			}
-			return "";
-		});		
-		
-		TimelineConfig dutyPeriodConfig = new TimelineConfig();
-		dutyPeriodConfig.setGroupFunction((DutyPeriod e)->e.getSite().getSiteName());
-		dutyPeriodConfig.setParentGroupIdFunction((DutyPeriod e) -> {
-			if (e.getSite().getParentSite()!=null){
-				return  e.getSite().getParentSite().getSiteName();
-			}else return null;
-			});
-		dutyPeriodConfig.setItemLabelFunction((DutyPeriod e)-> {
-			if(e.getFunctionCategory() == null){
-				Log.info("Function Category is null: " + e.getUuid().toString());
-				return null;
-			}
-			else return e.getPersonOnDuty().getCaption() + " " + e.getFunctionCategory().getCategoryName();
-			});
-		dutyPeriodConfig.setStyleFunction((DutyPeriod e)-> {
-			String colorHex = getSiteColorPreference(e.getSite().getUuid());
-			if (colorHex != null){
-			 return  "background-color: #" + colorHex + ";";
-			}
-			return "";
-		});
-		
+		TimelineConfig campaignTimelineConfig = getCampaignConfig();
+
+		TimelineConfig dutyPeriodConfig = getDutyPeriodGroupedBySiteConfig();
+
 		try (Transaction tx = persistence.createTransaction()) {
 			// preferences des Users für den context laden
 			List<UserPreference> userPreferenceList = getUserPreferences(context);
@@ -95,7 +61,7 @@ public class TimelineServiceBean implements TimelineService {
 					preferredSubClassList.add(functionCategory.getPeriodSubClass());
 				}
 			}
-			
+
 			for (PeriodSubClass periodSubClass : preferredSubClassList) {
 
 				if (periodSubClass.equals(PeriodSubClass.Campaign)) {
@@ -103,7 +69,8 @@ public class TimelineServiceBean implements TimelineService {
 
 				} else if (periodSubClass.equals(PeriodSubClass.Administration)) {
 					List<OffshoreUser> personsOnDuty = loadPreferredPersonsOnDuty(userPreferenceList);
-					List<DutyPeriod> dutyPeriods = getDutyPeriods(personsOnDuty, preferredSites, preferredFunctionCategories);
+					List<DutyPeriod> dutyPeriods = getDutyPeriods(personsOnDuty, preferredSites,
+							preferredFunctionCategories);
 					dto.addItems(dutyPeriods, dutyPeriodConfig);
 				}
 			}
@@ -112,6 +79,105 @@ public class TimelineServiceBean implements TimelineService {
 		}
 		return dto;
 
+	}
+
+	@Override
+	public TimelineDTO getRotoplanDto() {
+		TimelineDTO dto = new TimelineDTO();
+		TimelineConfig rotaplanConfig = getCampaignConfig();
+		
+		try (Transaction tx = persistence.createTransaction()) {
+			
+			// der angemeldete User darf seine MA einplanen, ein Admin darf
+			// alle?
+			// --> jeder MA sucht sich selbst die Departments			
+			List<UserPreference> preferredDepartments = getUserPreferences("RotaplanDepartments");
+			List<OffshoreUser> personsOnDuty = loadPreferredPersonsByDepartment(preferredDepartments);
+			List<DutyPeriod> dutyPeriods = getDutyPeriods(personsOnDuty, null, null);
+			
+			dto.addItems(dutyPeriods, rotaplanConfig);
+			
+			tx.commit();
+		}
+		return dto;
+
+	}
+
+	private TimelineConfig getDutyPeriodGroupedBySiteConfig() {
+		TimelineConfig dutyPeriodConfig = new TimelineConfig();
+		dutyPeriodConfig.setGroupFunction((DutyPeriod e) -> e.getSite().getSiteName());
+		dutyPeriodConfig.setParentGroupIdFunction((DutyPeriod e) -> {
+			if (e.getSite().getParentSite() != null) {
+				return e.getSite().getParentSite().getSiteName();
+			} else
+				return null;
+		});
+		dutyPeriodConfig.setItemLabelFunction((DutyPeriod e) -> {
+			if (e.getFunctionCategory() == null) {
+				Log.info("Function Category is null: " + e.getUuid().toString());
+				return null;
+			} else
+				return e.getPersonOnDuty().getCaption() + " " + e.getFunctionCategory().getCategoryName();
+		});
+		dutyPeriodConfig.setStyleFunction((DutyPeriod e) -> {
+			String colorHex = getSiteColorPreference(e.getSite().getUuid());
+			if (colorHex != null) {
+				return "background-color: #" + colorHex + ";";
+			}
+			return "";
+		});
+		return dutyPeriodConfig;
+	}
+
+	private TimelineConfig getDutyPeriodGroupedByUserConfig() {
+		TimelineConfig dutyPeriodConfig = new TimelineConfig();
+		dutyPeriodConfig.setGroupFunction((DutyPeriod e) -> e.getPersonOnDuty().getUuid().toString());
+		dutyPeriodConfig.setParentGroupIdFunction((DutyPeriod e) -> {
+			if (e.getPersonOnDuty().getDepartment() != null) {
+				return e.getPersonOnDuty().getDepartment().getName();
+			} else
+				return null;
+		});
+		dutyPeriodConfig.setItemLabelFunction((DutyPeriod e) -> {
+			Log.info(e.getPersonOnDuty().getInstanceName());
+			if (e.getPersonOnDuty() == null) {
+				Log.info("PersonOnDuty is null: " + e.getUuid().toString());
+				return null;
+			} else
+				return e.getPersonOnDuty().getCaption();
+		});
+		dutyPeriodConfig.setStyleFunction((DutyPeriod e) -> {
+			String colorHex = getSiteColorPreference(e.getSite().getUuid());
+			if (colorHex != null) {
+				return "background-color: #" + colorHex + ";";
+			}
+			return "";
+		});
+		return dutyPeriodConfig;
+	}
+
+	private TimelineConfig getCampaignConfig() {
+		TimelineConfig campaignTimelineConfig = new TimelineConfig();
+		campaignTimelineConfig.setGroupFunction((Campaign e) -> {
+			return e.getSite().getSiteName();
+		});
+		campaignTimelineConfig.setParentGroupIdFunction((Campaign e) -> {
+			if (e.getSite().getParentSite() != null) {
+				return e.getSite().getParentSite().getSiteName();
+			} else
+				return null;
+		});
+		campaignTimelineConfig.setItemLabelFunction((Campaign e) -> {
+			return e.getCampaignNumber();
+		});
+		campaignTimelineConfig.setStyleFunction((Campaign e) -> {
+			String colorHex = getSiteColorPreference(e.getSite().getUuid());
+			if (colorHex != null) {
+				return "background-color: #" + colorHex + ";";
+			}
+			return "";
+		});
+		return campaignTimelineConfig;
 	}
 
 	private String getSiteColorPreference(UUID siteId) {
@@ -125,44 +191,49 @@ public class TimelineServiceBean implements TimelineService {
 		query.setParameter("context", "SiteColors");
 		query.setParameter("siteId", siteId);
 		userPreference = query.getFirstResult();
-		if(userPreference!=null){
+		if (userPreference != null) {
 			return userPreference.getUserValue();
 		}
 		return null;
 	}
 
 	// Drei Kriterien: (implizit Type), Site, ServiceUser;
-	private List<DutyPeriod> getDutyPeriods(List<OffshoreUser> personOnDutyList, List<Site> siteList, List<FunctionCategory> preferredFunctionCategories) {
+	private List<DutyPeriod> getDutyPeriods(List<OffshoreUser> personOnDutyList, List<Site> siteList,
+			List<FunctionCategory> preferredFunctionCategories) {
 		List<DutyPeriod> DutyPeriods;
 
 		String queryString;
 		String queryConcatenator = "";
 
-		queryString = "select e from paxbase$DutyPeriod e where ";
+		queryString = "select e from paxbase$DutyPeriod e ";
 
-		if (personOnDutyList.size() > 0) {
+		if (personOnDutyList != null && personOnDutyList.size() > 0) {
+			queryConcatenator = queryConcatenator.equals("") ?  "" : "where";
 			queryString = queryString + "e.personOnDuty.id in :personsIdList ";
 			queryConcatenator = "AND ";
 		}
-		if (siteList.size() > 0) {
+		if (siteList != null && siteList.size() > 0) {
+			queryConcatenator = queryConcatenator.equals("") ?  "" : "where";
 			queryString = queryString + queryConcatenator + "e.site.id in :siteIdList ";
 			queryConcatenator = "AND ";
 		}
-		if (preferredFunctionCategories.size() > 0) {
+		if (preferredFunctionCategories != null && preferredFunctionCategories.size() > 0) {
+			queryConcatenator = queryConcatenator.equals("") ?  "" : "where";
 			queryString = queryString + queryConcatenator + "e.functionCategory.id in :catIdList ";
 			queryConcatenator = "AND ";
 		}
+
 		TypedQuery<DutyPeriod> query = persistence.getEntityManager().createQuery(queryString, DutyPeriod.class);
-		if (personOnDutyList.size() > 0) {
+		if (personOnDutyList != null && personOnDutyList.size() > 0) {
 			query.setParameter("personsIdList", getUUIDList(personOnDutyList));
 		}
-		if (siteList.size() > 0) {
+		if (siteList != null && siteList.size() > 0) {
 			query.setParameter("siteIdList", getUUIDList(siteList));
 		}
-		if (preferredFunctionCategories.size() > 0) {
+		if (preferredFunctionCategories != null && preferredFunctionCategories.size() > 0) {
 			query.setParameter("catIdList", getUUIDList(preferredFunctionCategories));
 		}
-		
+
 		DutyPeriods = query.getResultList();
 
 		return DutyPeriods;
@@ -218,7 +289,8 @@ public class TimelineServiceBean implements TimelineService {
 
 		String queryString = "select e from paxbase$FunctionCategory e where e.id in :entityUUIDs";
 
-		TypedQuery<FunctionCategory> query = persistence.getEntityManager().createQuery(queryString, FunctionCategory.class);
+		TypedQuery<FunctionCategory> query = persistence.getEntityManager().createQuery(queryString,
+				FunctionCategory.class);
 
 		query.setParameter("entityUUIDs", functionCategoryIds);
 
@@ -235,6 +307,22 @@ public class TimelineServiceBean implements TimelineService {
 		TypedQuery<OffshoreUser> query = persistence.getEntityManager().createQuery(queryString, OffshoreUser.class);
 
 		query.setParameter("entityUUIDs", entityUUIDs);
+
+		entityList = query.getResultList();
+
+		return entityList;
+	}
+
+	private List<OffshoreUser> loadPreferredPersonsByDepartment(List<UserPreference> userPreferenceList) {
+		List<OffshoreUser> entityList;
+
+		List<UUID> entityUUIDs = getEntityUUIDsFromList(userPreferenceList);
+
+		String queryString = "select e from paxbase$OffshoreUser e where e.departmend.Id in :entityUUIDs";
+
+		TypedQuery<OffshoreUser> query = persistence.getEntityManager().createQuery(queryString, OffshoreUser.class);
+
+		query.setParameter("entityUUIDs", getUUIDList(entityUUIDs));
 
 		entityList = query.getResultList();
 
@@ -274,8 +362,9 @@ public class TimelineServiceBean implements TimelineService {
 
 			String queryString = "select e.personOnDuty from paxbase$DutyPeriod e ";
 
-			TypedQuery<OffshoreUser> query = persistence.getEntityManager().createQuery(queryString, OffshoreUser.class);
-			
+			TypedQuery<OffshoreUser> query = persistence.getEntityManager().createQuery(queryString,
+					OffshoreUser.class);
+
 			userList = query.getResultList();
 
 			tx.commit();

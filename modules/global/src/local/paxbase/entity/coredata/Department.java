@@ -17,7 +17,7 @@ import com.haulmont.chile.core.annotations.NamePattern;
 public class Department extends StandardClientEntity {
     private static final long serialVersionUID = -7887700637280267255L;
 
-    @Column(name = "NAME")
+    @Column(name = "NAME", length = 100)
     protected String name;
 
     @Lookup(type = LookupType.DROPDOWN, actions = {"lookup", "open", "clear"})
@@ -34,6 +34,18 @@ public class Department extends StandardClientEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DEPUTY_LEADER_ID")
     protected OffshoreUser deputyLeader;
+
+    @Column(name = "ACRONYM", length = 15)
+    protected String acronym;
+
+    public void setAcronym(String acronym) {
+        this.acronym = acronym;
+    }
+
+    public String getAcronym() {
+        return acronym;
+    }
+
 
     public Department getParentDepartment() {
         return parentDepartment;
