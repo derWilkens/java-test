@@ -7,7 +7,6 @@
         <item screen="importPeriods"/>
         <item id="paxbase$Site.browse"/>
         <item id="paxbase$Company.browse"/>
-        <item id="paxbase$CraftType.browse"/>
         <item id="paxbase$Transfer.browse"/>
         <item id="paxbase$CrewChange.browse"/>
         <item id="paxbase$Waypoint.browse"/>
@@ -16,10 +15,14 @@
         <item id="paxbase$SiteType.browse"/>
         <item id="paxbase$ContractorDutyPeriod.browse"/>
         <item id="paxbase$Campaign.browse"/>
-        <item id="paxbase$OffshoreUser.browse"/>
         <item screen="paxbase$DutyPeriod.browse"/>
         <item screen="paxbase$PeriodImportStage.browse"/>
         <item screen="userpreference-sitecolors"/>
         <item screen="paxbase$Department.browse"/>
+        <item screen="paxbase$OffshoreUser.browse"/>
+        <item screen="paxbase$AppUser.browse"/>
+        <item screen="paxbase$ModeOfTransfer.browse"/>
+        <item screen="paxbase$CraftType.browse"/>
+        <item screen="paxbase$Rotaplan.browse"/>
     </menu>
 </menu-config>

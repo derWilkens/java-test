@@ -25,6 +25,7 @@ public class DutyPeriod extends Period {
 
 
 
+    @Lookup(type = LookupType.SCREEN)
     @OnDeleteInverse(DeletePolicy.CASCADE)
     @OnDelete(DeletePolicy.UNLINK)
     @ManyToOne(fetch = FetchType.LAZY)

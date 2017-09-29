@@ -1,28 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
         caption="msg://caption"
-        class="local.paxbase.web.department.DepartmentBrowse"
-        focusComponent="departmentsTable"
-        lookupComponent="departmentsTable"
-        messagesPack="local.paxbase.web.department">
+        class="local.paxbase.web.appuser.AppUserBrowse"
+        focusComponent="appUsersTable"
+        lookupComponent="appUsersTable"
+        messagesPack="local.paxbase.web.appuser">
     <dsContext>
-        <datasource id="departmentDs"
-                    class="local.paxbase.entity.coredata.Department"
-                    view="department-treeview"/>
-        <groupDatasource id="departmentsDs"
-                         class="local.paxbase.entity.coredata.Department"
-                         view="department-treeview">
+        <datasource id="appUserDs"
+                    class="local.paxbase.entity.coredata.AppUser"
+                    view="appUser-view"/>
+        <groupDatasource id="appUsersDs"
+                         class="local.paxbase.entity.coredata.AppUser"
+                         view="appUser-view">
             <query>
-                <![CDATA[select e from paxbase$Department e]]>
+                <![CDATA[select e from paxbase$AppUser e]]>
             </query>
         </groupDatasource>
-        <collectionDatasource id="parentDepartmentsDs"
-                              class="local.paxbase.entity.coredata.Department"
-                              view="_minimal">
-            <query>
-                <![CDATA[select e from paxbase$Department e]]>
-            </query>
-        </collectionDatasource>
     </dsContext>
     <actions>
         <action id="save"
@@ -45,16 +38,16 @@
                reversePosition="true"
                width="100%">
             <vbox id="lookupBox"
-                  expand="departmentsTable"
+                  expand="appUsersTable"
                   height="100%"
                   margin="false,true,false,false"
                   spacing="true">
                 <filter id="filter"
-                        applyTo="departmentsTable"
-                        datasource="departmentsDs">
+                        applyTo="appUsersTable"
+                        datasource="appUsersDs">
                     <properties include=".*"/>
                 </filter>
-                <groupTable id="departmentsTable"
+                <groupTable id="appUsersTable"
                             width="100%">
                     <actions>
                         <action id="create"/>
@@ -62,22 +55,20 @@
                         <action id="remove"/>
                     </actions>
                     <columns>
-                        <column id="client"/>
-                        <column id="name"/>
-                        <column id="parentDepartment"/>
-                        <column id="leader"/>
-                        <column id="deputyLeader"/>
+                        <column id="firstName"/>
+                        <column id="lastName"/>
+                        <column id="email"/>
                     </columns>
-                    <rows datasource="departmentsDs"/>
+                    <rows datasource="appUsersDs"/>
                     <rowsCount/>
                     <buttonsPanel id="buttonsPanel"
                                   alwaysVisible="true">
                         <button id="createBtn"
-                                action="departmentsTable.create"/>
+                                action="appUsersTable.create"/>
                         <button id="editBtn"
-                                action="departmentsTable.edit"/>
+                                action="appUsersTable.edit"/>
                         <button id="removeBtn"
-                                action="departmentsTable.remove"/>
+                                action="appUsersTable.remove"/>
                     </buttonsPanel>
                 </groupTable>
             </vbox>
@@ -88,14 +79,11 @@
                   spacing="true">
                 <vbox id="fieldGroupBox">
                     <fieldGroup id="fieldGroup"
-                                datasource="departmentDs">
+                                datasource="appUserDs">
                         <column width="250px">
-                            <field property="client"/>
-                            <field property="name"/>
-                            <field optionsDatasource="parentDepartmentsDs"
-                                   property="parentDepartment"/>
-                            <field property="leader"/>
-                            <field property="deputyLeader"/>
+                            <field property="firstName"/>
+                            <field property="lastName"/>
+                            <field property="email"/>
                         </column>
                     </fieldGroup>
                 </vbox>

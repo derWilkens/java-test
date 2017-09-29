@@ -21,7 +21,9 @@
         <property name="operatedBy"
                   view="_minimal"/>
         <property name="modeOfTransfer"
-                  view="_minimal"/>
+                  view="_minimal">
+            <property name="mode"/>
+        </property>
     </view>
     <view class="local.paxbase.entity.coredata.Site"
           extends="_local"
@@ -58,7 +60,6 @@
           name="offshoreUser-edit-view">
         <property name="company"
                   view="_minimal">
-            <property name="companyName"/>
         </property>
         <property name="login"/>
         <property name="password"/>
@@ -158,18 +159,6 @@
                       view="_minimal"/>
         </property>
     </view>
-    <view class="local.paxbase.entity.coredata.Department"
-          extends="_local"
-          name="oe-treeview">
-        <property name="parentOE"
-                  view="_minimal">
-            <property name="name"/>
-        </property>
-        <property name="deputyLeader"
-                  view="_minimal"/>
-        <property name="leader"
-                  view="_minimal"/>
-    </view>
     <view class="local.paxbase.entity.OffshoreUser"
           extends="_minimal"
           name="offshoreUser-treeview2">
@@ -213,14 +202,36 @@
     </view>
     <view class="local.paxbase.entity.coredata.Department"
           extends="_local"
-          name="oe-treeview">
-        <property name="deputyLeader"
-                  view="_minimal"/>
-        <property name="leader"
-                  view="_minimal"/>
+          name="department-treeview">
         <property name="parentDepartment"
                   view="_minimal">
             <property name="name"/>
+        </property>
+        <property name="leader"
+                  view="_minimal"/>
+        <property name="deputyLeader"
+                  view="_minimal"/>
+    </view>
+    <view class="local.paxbase.entity.coredata.AppUser"
+          name="appUser-view">
+        <property name="firstName"/>
+        <property name="lastName"/>
+        <property name="email"/>
+    </view>
+    <view class="local.paxbase.entity.coredata.CraftType"
+          extends="_local"
+          name="craftType-view">
+        <property name="modeOfTransfer"
+                  view="_minimal"/>
+    </view>
+    <view class="local.paxbase.entity.DutyPeriod"
+          extends="_local"
+          name="dutyPeriod-view">
+        <property name="personOnDuty"
+                  view="_minimal"/>
+        <property name="site"
+                  view="_minimal">
+            <property name="itemDesignation"/>
         </property>
     </view>
 </views>

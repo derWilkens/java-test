@@ -5,7 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Column;
 import com.haulmont.cuba.core.entity.StandardEntity;
+import com.haulmont.chile.core.annotations.NamePattern;
 
+@NamePattern("%s|mode")
 @Table(name = "PAXBASE_MODE_OF_TRANSFER")
 @Entity(name = "paxbase$ModeOfTransfer")
 public class ModeOfTransfer extends StandardClientEntity {

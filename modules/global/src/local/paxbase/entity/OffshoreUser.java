@@ -44,6 +44,7 @@ public class OffshoreUser extends AppUser {
     protected Date weightChangeDate;
 
 
+    @Lookup(type = LookupType.DROPDOWN, actions = {"clear"})
     @OnDeleteInverse(DeletePolicy.CASCADE)
     @OnDelete(DeletePolicy.UNLINK)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -51,7 +52,7 @@ public class OffshoreUser extends AppUser {
     protected Company company;
 
 
-    @Lookup(type = LookupType.DROPDOWN)
+    @Lookup(type = LookupType.DROPDOWN, actions = {"clear"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DEPARTMENT_ID")
     protected Department department;

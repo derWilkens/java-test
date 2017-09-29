@@ -1,6 +1,6 @@
-package local.paxbase.web.offshoreuser;
+package local.paxbase.web.appuser;
 
-import local.paxbase.entity.OffshoreUser;
+import local.paxbase.entity.coredata.AppUser;
 import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.components.actions.CreateAction;
@@ -17,31 +17,31 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 
-public class OffshoreUserBrowse extends AbstractLookup {
+public class AppUserBrowse extends AbstractLookup {
 
     /**
-     * The {@link CollectionDatasource} instance that loads a list of {@link OffshoreUser} records
-     * to be displayed in {@link OffshoreUserBrowse#offshoreUsersTable} on the left
+     * The {@link CollectionDatasource} instance that loads a list of {@link AppUser} records
+     * to be displayed in {@link AppUserBrowse#appUsersTable} on the left
      */
     @Inject
-    private CollectionDatasource<OffshoreUser, UUID> offshoreUsersDs;
+    private CollectionDatasource<AppUser, UUID> appUsersDs;
 
     /**
      * The {@link Datasource} instance that contains an instance of the selected entity
-     * in {@link OffshoreUserBrowse#offshoreUsersDs}
+     * in {@link AppUserBrowse#appUsersDs}
      * <p/> Containing instance is loaded in {@link CollectionDatasource#addItemChangeListener}
      * with the view, specified in the XML screen descriptor.
-     * The listener is set in the {@link OffshoreUserBrowse#init(Map)} method
+     * The listener is set in the {@link AppUserBrowse#init(Map)} method
      */
     @Inject
-    private Datasource<OffshoreUser> offshoreUserDs;
+    private Datasource<AppUser> appUserDs;
 
     /**
-     * The {@link Table} instance, containing a list of {@link OffshoreUser} records,
-     * loaded via {@link OffshoreUserBrowse#offshoreUsersDs}
+     * The {@link Table} instance, containing a list of {@link AppUser} records,
+     * loaded via {@link AppUserBrowse#appUsersDs}
      */
     @Inject
-    private Table<OffshoreUser> offshoreUsersTable;
+    private Table<AppUser> appUsersTable;
 
     /**
      * The {@link BoxLayout} instance that contains components on the left side
@@ -64,23 +64,23 @@ public class OffshoreUserBrowse extends AbstractLookup {
     private BoxLayout actionsPane;
 
     /**
-     * The {@link FieldGroup} instance that is linked to {@link OffshoreUserBrowse#offshoreUserDs}
-     * and shows fields of the selected {@link OffshoreUser} record
+     * The {@link FieldGroup} instance that is linked to {@link AppUserBrowse#appUserDs}
+     * and shows fields of the selected {@link AppUser} record
      */
     @Inject
     private FieldGroup fieldGroup;
 
     /**
-     * The {@link RemoveAction} instance, related to {@link OffshoreUserBrowse#offshoreUsersTable}
+     * The {@link RemoveAction} instance, related to {@link AppUserBrowse#appUsersTable}
      */
-    @Named("offshoreUsersTable.remove")
-    private RemoveAction offshoreUsersTableRemove;
+    @Named("appUsersTable.remove")
+    private RemoveAction appUsersTableRemove;
 
     @Inject
     private DataSupplier dataSupplier;
 
     /**
-     * {@link Boolean} value, indicating if a new instance of {@link OffshoreUser} is being created
+     * {@link Boolean} value, indicating if a new instance of {@link AppUser} is being created
      */
     private boolean creating;
 
@@ -88,39 +88,39 @@ public class OffshoreUserBrowse extends AbstractLookup {
     public void init(Map<String, Object> params) {
 
         /*
-         * Adding {@link com.haulmont.cuba.gui.data.Datasource.ItemChangeListener} to {@link offshoreUsersDs}
-         * The listener reloads the selected record with the specified view and sets it to {@link offshoreUserDs}
+         * Adding {@link com.haulmont.cuba.gui.data.Datasource.ItemChangeListener} to {@link appUsersDs}
+         * The listener reloads the selected record with the specified view and sets it to {@link appUserDs}
          */
-        offshoreUsersDs.addItemChangeListener(e -> {
+        appUsersDs.addItemChangeListener(e -> {
             if (e.getItem() != null) {
-                OffshoreUser reloadedItem = dataSupplier.reload(e.getDs().getItem(), offshoreUserDs.getView());
-                offshoreUserDs.setItem(reloadedItem);
+                AppUser reloadedItem = dataSupplier.reload(e.getDs().getItem(), appUserDs.getView());
+                appUserDs.setItem(reloadedItem);
             }
         });
 
         /*
-         * Adding {@link CreateAction} to {@link offshoreUsersTable}
-         * The listener removes selection in {@link offshoreUsersTable}, sets a newly created item to {@link offshoreUserDs}
+         * Adding {@link CreateAction} to {@link appUsersTable}
+         * The listener removes selection in {@link appUsersTable}, sets a newly created item to {@link appUserDs}
          * and enables controls for record editing
          */
-        offshoreUsersTable.addAction(new CreateAction(offshoreUsersTable) {
+        appUsersTable.addAction(new CreateAction(appUsersTable) {
             @Override
             protected void internalOpenEditor(CollectionDatasource datasource, Entity newItem, Datasource parentDs, Map<String, Object> params) {
-                offshoreUsersTable.setSelected(Collections.emptyList());
-                offshoreUserDs.setItem((OffshoreUser) newItem);
+                appUsersTable.setSelected(Collections.emptyList());
+                appUserDs.setItem((AppUser) newItem);
                 refreshOptionsForLookupFields();
                 enableEditControls(true);
             }
         });
 
         /*
-         * Adding {@link EditAction} to {@link offshoreUsersTable}
+         * Adding {@link EditAction} to {@link appUsersTable}
          * The listener enables controls for record editing
          */
-        offshoreUsersTable.addAction(new EditAction(offshoreUsersTable) {
+        appUsersTable.addAction(new EditAction(appUsersTable) {
             @Override
             protected void internalOpenEditor(CollectionDatasource datasource, Entity existingItem, Datasource parentDs, Map<String, Object> params) {
-                if (offshoreUsersTable.getSelected().size() == 1) {
+                if (appUsersTable.getSelected().size() == 1) {
                     refreshOptionsForLookupFields();
                     enableEditControls(false);
                 }
@@ -149,10 +149,10 @@ public class OffshoreUserBrowse extends AbstractLookup {
         });
 
         /*
-         * Setting {@link RemoveAction#afterRemoveHandler} for {@link offshoreUsersTableRemove}
-         * to reset record, contained in {@link offshoreUserDs}
+         * Setting {@link RemoveAction#afterRemoveHandler} for {@link appUsersTableRemove}
+         * to reset record, contained in {@link appUserDs}
          */
-        offshoreUsersTableRemove.setAfterRemoveHandler(removedItems -> offshoreUserDs.setItem(null));
+        appUsersTableRemove.setAfterRemoveHandler(removedItems -> appUserDs.setItem(null));
 
         /*
          * Adding ESCAPE shortcut that invokes cancel() method
@@ -183,13 +183,13 @@ public class OffshoreUserBrowse extends AbstractLookup {
         }
         getDsContext().commit();
 
-        OffshoreUser editedItem = offshoreUserDs.getItem();
+        AppUser editedItem = appUserDs.getItem();
         if (creating) {
-            offshoreUsersDs.includeItem(editedItem);
+            appUsersDs.includeItem(editedItem);
         } else {
-            offshoreUsersDs.updateItem(editedItem);
+            appUsersDs.updateItem(editedItem);
         }
-        offshoreUsersTable.setSelected(editedItem);
+        appUsersTable.setSelected(editedItem);
 
         disableEditControls();
     }
@@ -198,12 +198,12 @@ public class OffshoreUserBrowse extends AbstractLookup {
      * Method that is invoked by clicking Cancel button, discards changes and disables controls for record editing
      */
     public void cancel() {
-        OffshoreUser selectedItem = offshoreUsersDs.getItem();
+        AppUser selectedItem = appUsersDs.getItem();
         if (selectedItem != null) {
-            OffshoreUser reloadedItem = dataSupplier.reload(selectedItem, offshoreUserDs.getView());
-            offshoreUsersDs.setItem(reloadedItem);
+            AppUser reloadedItem = dataSupplier.reload(selectedItem, appUserDs.getView());
+            appUsersDs.setItem(reloadedItem);
         } else {
-            offshoreUserDs.setItem(null);
+            appUserDs.setItem(null);
         }
 
         disableEditControls();
@@ -211,7 +211,7 @@ public class OffshoreUserBrowse extends AbstractLookup {
 
     /**
      * Enabling controls for record editing
-     * @param creating indicates if a new instance of {@link OffshoreUser} is being created
+     * @param creating indicates if a new instance of {@link AppUser} is being created
      */
     private void enableEditControls(boolean creating) {
         this.creating = creating;
@@ -224,7 +224,7 @@ public class OffshoreUserBrowse extends AbstractLookup {
      */
     private void disableEditControls() {
         initEditComponents(false);
-        offshoreUsersTable.requestFocus();
+        appUsersTable.requestFocus();
     }
 
     /**

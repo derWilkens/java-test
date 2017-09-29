@@ -111,7 +111,7 @@ public class CampaignOverview extends AbstractLookup {
 			timeline.refresh();
 		}
 
-		timeline.setStart("2017-03-01");
+		timeline.setStart("2017-03-01");//@todo: heute - 30 Tage, Ende heute + 90 Tage
 		timeline.setEnd("2017-05-01");
 
 		com.vaadin.ui.Layout box = (Layout) WebComponentsHelper.unwrap(timelineBox);

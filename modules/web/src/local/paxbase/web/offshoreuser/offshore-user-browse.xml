@@ -8,7 +8,7 @@
     <dsContext>
         <datasource id="offshoreUserDs"
                     class="local.paxbase.entity.OffshoreUser"
-                    view="offshoreUser-edit-view"/>
+                    view="offshoreUser-browser-view"/>
         <groupDatasource id="offshoreUsersDs"
                          class="local.paxbase.entity.OffshoreUser"
                          view="offshoreUser-browser-view">
@@ -16,11 +16,18 @@
                 <![CDATA[select e from paxbase$OffshoreUser e]]>
             </query>
         </groupDatasource>
-        <collectionDatasource id="oesDs"
+        <collectionDatasource id="companiesDs"
+                              class="local.paxbase.entity.coredata.Company"
+                              view="_minimal">
+            <query>
+                <![CDATA[select e from paxbase$Company e]]>
+            </query>
+        </collectionDatasource>
+        <collectionDatasource id="departmentsDs"
                               class="local.paxbase.entity.coredata.Department"
                               view="_minimal">
             <query>
-                <![CDATA[select e from paxbase$OE e]]>
+                <![CDATA[select e from paxbase$Department e]]>
             </query>
         </collectionDatasource>
     </dsContext>
@@ -32,6 +39,7 @@
                 shortcut="CTRL-ENTER"/>
         <action id="cancel"
                 caption="mainMsg://actions.Cancel"
+                description="Esc"
                 icon="icons/cancel.png"
                 invoke="cancel"/>
     </actions>
@@ -89,19 +97,13 @@
                     <fieldGroup id="fieldGroup"
                                 datasource="offshoreUserDs">
                         <column width="250px">
-                            <field id="login"/>
-                            <field id="firstName"/>
-                            <field id="lastName"/>
-                            <field id="position"/>
-                            <field id="email"/>
-                            <field id="language"/>
-                            <field id="active"/>
-                            <field id="changePasswordAtNextLogon"/>
-                            <field id="group"/>
-                            <field id="client"/>
-                            <field id="company"/>
-                            <field id="department"
-                                   optionsDatasource="oesDs"/>
+                            <field property="firstName"/>
+                            <field property="lastName"/>
+                            <field property="position"/>
+                            <field optionsDatasource="companiesDs"
+                                   property="company"/>
+                            <field optionsDatasource="departmentsDs"
+                                   property="department"/>
                         </column>
                     </fieldGroup>
                 </vbox>

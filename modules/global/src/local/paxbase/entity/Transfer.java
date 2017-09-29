@@ -21,6 +21,8 @@ import com.haulmont.cuba.core.global.DeletePolicy;
 import local.paxbase.entity.coredata.StandardClientEntity;
 import local.paxbase.entity.coredata.Company;
 import local.paxbase.entity.coredata.ModeOfTransfer;
+import com.haulmont.cuba.core.entity.annotation.Lookup;
+import com.haulmont.cuba.core.entity.annotation.LookupType;
 
 /**
  * @author christian
@@ -51,6 +53,7 @@ public class Transfer extends StandardClientEntity {
     @OneToMany(mappedBy = "transfer")
     protected Set<Waypoint> waypointList;
 
+    @Lookup(type = LookupType.DROPDOWN, actions = {"clear"})
     @OnDeleteInverse(DeletePolicy.UNLINK)
     @OnDelete(DeletePolicy.UNLINK)
     @ManyToOne(fetch = FetchType.LAZY)

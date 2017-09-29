@@ -150,6 +150,7 @@ create table PAXBASE_CRAFT_TYPE (
     --
     NAME varchar(50) not null,
     SEATS integer not null,
+    MODE_OF_TRANSFER_ID varchar(32),
     --
     primary key (ID)
 )^

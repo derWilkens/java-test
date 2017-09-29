@@ -9,7 +9,9 @@ import javax.persistence.ManyToOne;
 import com.haulmont.cuba.core.entity.annotation.Lookup;
 import com.haulmont.cuba.core.entity.annotation.LookupType;
 import local.paxbase.entity.OffshoreUser;
+import com.haulmont.chile.core.annotations.NamePattern;
 
+@NamePattern("%s|name")
 @Table(name = "PAXBASE_DEPARTMENT")
 @Entity(name = "paxbase$Department")
 public class Department extends StandardClientEntity {
@@ -18,11 +20,12 @@ public class Department extends StandardClientEntity {
     @Column(name = "NAME")
     protected String name;
 
+    @Lookup(type = LookupType.DROPDOWN, actions = {"lookup", "open", "clear"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PARENT_DEPARTMENT_ID")
     protected Department parentDepartment;
 
-    @Lookup(type = LookupType.SCREEN)
+    @Lookup(type = LookupType.SCREEN, actions = {"lookup", "open", "clear"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LEADER_ID")
     protected OffshoreUser leader;

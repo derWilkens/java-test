@@ -8,6 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.haulmont.chile.core.annotations.NamePattern;
+import com.haulmont.cuba.core.entity.annotation.Lookup;
+import com.haulmont.cuba.core.entity.annotation.LookupType;
+import com.haulmont.cuba.core.entity.annotation.OnDelete;
+import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
+import com.haulmont.cuba.core.global.DeletePolicy;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  * @author christian
@@ -23,6 +31,22 @@ public class CraftType extends StandardClientEntity {
 
     @Column(name = "SEATS", nullable = false)
     protected Integer seats;
+
+    @Lookup(type = LookupType.DROPDOWN)
+    @OnDeleteInverse(DeletePolicy.UNLINK)
+    @OnDelete(DeletePolicy.UNLINK)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MODE_OF_TRANSFER_ID")
+    protected ModeOfTransfer modeOfTransfer;
+
+    public void setModeOfTransfer(ModeOfTransfer modeOfTransfer) {
+        this.modeOfTransfer = modeOfTransfer;
+    }
+
+    public ModeOfTransfer getModeOfTransfer() {
+        return modeOfTransfer;
+    }
+
 
     public void setSeats(Integer seats) {
         this.seats = seats;

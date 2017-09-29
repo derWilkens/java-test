@@ -10,7 +10,7 @@
                          class="local.paxbase.entity.UserPreference"
                          view="_local">
             <query>
-                <![CDATA[select e from paxbase$UserPreference e]]>
+                <![CDATA[select e from paxbase$UserPreference e where e.userId =  :session$userId]]>
             </query>
         </groupDatasource>
     </dsContext>

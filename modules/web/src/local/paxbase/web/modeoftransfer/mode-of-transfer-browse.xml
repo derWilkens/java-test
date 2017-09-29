@@ -1,28 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
         caption="msg://caption"
-        class="local.paxbase.web.department.DepartmentBrowse"
-        focusComponent="departmentsTable"
-        lookupComponent="departmentsTable"
-        messagesPack="local.paxbase.web.department">
+        class="local.paxbase.web.modeoftransfer.ModeOfTransferBrowse"
+        focusComponent="modeOfTransfersTable"
+        lookupComponent="modeOfTransfersTable"
+        messagesPack="local.paxbase.web.modeoftransfer">
     <dsContext>
-        <datasource id="departmentDs"
-                    class="local.paxbase.entity.coredata.Department"
-                    view="department-treeview"/>
-        <groupDatasource id="departmentsDs"
-                         class="local.paxbase.entity.coredata.Department"
-                         view="department-treeview">
+        <datasource id="modeOfTransferDs"
+                    class="local.paxbase.entity.coredata.ModeOfTransfer"
+                    view="_local"/>
+        <groupDatasource id="modeOfTransfersDs"
+                         class="local.paxbase.entity.coredata.ModeOfTransfer"
+                         view="_local">
             <query>
-                <![CDATA[select e from paxbase$Department e]]>
+                <![CDATA[select e from paxbase$ModeOfTransfer e]]>
             </query>
         </groupDatasource>
-        <collectionDatasource id="parentDepartmentsDs"
-                              class="local.paxbase.entity.coredata.Department"
-                              view="_minimal">
-            <query>
-                <![CDATA[select e from paxbase$Department e]]>
-            </query>
-        </collectionDatasource>
     </dsContext>
     <actions>
         <action id="save"
@@ -45,16 +38,16 @@
                reversePosition="true"
                width="100%">
             <vbox id="lookupBox"
-                  expand="departmentsTable"
+                  expand="modeOfTransfersTable"
                   height="100%"
                   margin="false,true,false,false"
                   spacing="true">
                 <filter id="filter"
-                        applyTo="departmentsTable"
-                        datasource="departmentsDs">
+                        applyTo="modeOfTransfersTable"
+                        datasource="modeOfTransfersDs">
                     <properties include=".*"/>
                 </filter>
-                <groupTable id="departmentsTable"
+                <groupTable id="modeOfTransfersTable"
                             width="100%">
                     <actions>
                         <action id="create"/>
@@ -63,21 +56,18 @@
                     </actions>
                     <columns>
                         <column id="client"/>
-                        <column id="name"/>
-                        <column id="parentDepartment"/>
-                        <column id="leader"/>
-                        <column id="deputyLeader"/>
+                        <column id="mode"/>
                     </columns>
-                    <rows datasource="departmentsDs"/>
+                    <rows datasource="modeOfTransfersDs"/>
                     <rowsCount/>
                     <buttonsPanel id="buttonsPanel"
                                   alwaysVisible="true">
                         <button id="createBtn"
-                                action="departmentsTable.create"/>
+                                action="modeOfTransfersTable.create"/>
                         <button id="editBtn"
-                                action="departmentsTable.edit"/>
+                                action="modeOfTransfersTable.edit"/>
                         <button id="removeBtn"
-                                action="departmentsTable.remove"/>
+                                action="modeOfTransfersTable.remove"/>
                     </buttonsPanel>
                 </groupTable>
             </vbox>
@@ -88,14 +78,10 @@
                   spacing="true">
                 <vbox id="fieldGroupBox">
                     <fieldGroup id="fieldGroup"
-                                datasource="departmentDs">
+                                datasource="modeOfTransferDs">
                         <column width="250px">
                             <field property="client"/>
-                            <field property="name"/>
-                            <field optionsDatasource="parentDepartmentsDs"
-                                   property="parentDepartment"/>
-                            <field property="leader"/>
-                            <field property="deputyLeader"/>
+                            <field property="mode"/>
                         </column>
                     </fieldGroup>
                 </vbox>

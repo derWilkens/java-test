@@ -6,95 +6,47 @@
         lookupComponent="craftTypesTable"
         messagesPack="local.paxbase.web.crafttype">
     <dsContext>
-        <datasource id="craftTypeDs"
-                    class="local.paxbase.entity.coredata.CraftType"
-                    view="_local"/>
-        <collectionDatasource id="craftTypesDs"
-                              class="local.paxbase.entity.coredata.CraftType"
-                              view="_local">
+        <groupDatasource id="craftTypesDs"
+                         class="local.paxbase.entity.coredata.CraftType"
+                         view="craftType-view">
             <query>
                 <![CDATA[select e from paxbase$CraftType e]]>
             </query>
-        </collectionDatasource>
+        </groupDatasource>
     </dsContext>
-    <actions>
-        <action id="save"
-                caption="mainMsg://actions.Ok"
-                icon="icons/ok.png"
-                invoke="save"
-                shortcut="CTRL-ENTER"/>
-        <action id="cancel"
-                caption="mainMsg://actions.Cancel"
-                icon="icons/cancel.png"
-                invoke="cancel"/>
-    </actions>
     <dialogMode height="600"
                 width="800"/>
-    <layout>
-        <split id="split"
-               height="100%"
-               orientation="horizontal"
-               reversePosition="true"
-               width="100%">
-            <vbox id="lookupBox"
-                  expand="craftTypesTable"
-                  height="100%"
-                  margin="false,true,false,false"
-                  spacing="true">
-                <filter id="filter"
-                        applyTo="craftTypesTable"
-                        datasource="craftTypesDs">
-                    <properties include=".*"/>
-                </filter>
-                <table id="craftTypesTable"
-                       width="100%">
-                    <actions>
-                        <action id="create"/>
-                        <action id="edit"/>
-                        <action id="remove"/>
-                    </actions>
-                    <columns>
-                        <column id="client"/>
-                        <column id="name"/>
-                        <column id="seats"/>
-                    </columns>
-                    <rows datasource="craftTypesDs"/>
-                    <rowsCount/>
-                    <buttonsPanel id="buttonsPanel"
-                                  alwaysVisible="true">
-                        <button id="createBtn"
-                                action="craftTypesTable.create"/>
-                        <button id="editBtn"
-                                action="craftTypesTable.edit"/>
-                        <button id="removeBtn"
-                                action="craftTypesTable.remove"/>
-                    </buttonsPanel>
-                </table>
-            </vbox>
-            <vbox id="editBox"
-                  expand="fieldGroupBox"
-                  height="100%"
-                  margin="false,false,false,true"
-                  spacing="true">
-                <vbox id="fieldGroupBox">
-                    <fieldGroup id="fieldGroup"
-                                datasource="craftTypeDs">
-                        <column width="250px">
-                            <field id="client"/>
-                            <field id="name"/>
-                            <field id="seats"/>
-                        </column>
-                    </fieldGroup>
-                </vbox>
-                <hbox id="actionsPane"
-                      spacing="true"
-                      visible="false">
-                    <button id="saveBtn"
-                            action="save"/>
-                    <button id="cancelBtn"
-                            action="cancel"/>
-                </hbox>
-            </vbox>
-        </split>
+    <layout expand="craftTypesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="craftTypesTable"
+                datasource="craftTypesDs">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="craftTypesTable"
+                    width="100%">
+            <actions>
+                <action id="create"/>
+                <action id="edit"/>
+                <action id="remove"/>
+            </actions>
+            <columns>
+                <column id="client"/>
+                <column id="name"/>
+                <column id="seats"/>
+                <column id="modeOfTransfer"/>
+            </columns>
+            <rows datasource="craftTypesDs"/>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn"
+                        action="craftTypesTable.create"/>
+                <button id="editBtn"
+                        action="craftTypesTable.edit"/>
+                <button id="removeBtn"
+                        action="craftTypesTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
     </layout>
 </window>

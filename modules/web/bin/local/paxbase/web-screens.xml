@@ -9,8 +9,6 @@
             template="local/paxbase/web/company/company-browse.xml"/>
     <screen id="paxbase$Company.edit"
             template="local/paxbase/web/company/company-edit.xml"/>
-    <screen id="paxbase$CraftType.browse"
-            template="local/paxbase/web/crafttype/craft-type-browse.xml"/>
     <screen id="paxbase$Transfer.edit"
             template="local/paxbase/web/transfer/transfer-edit.xml"/>
     <screen id="paxbase$Transfer.browse"
@@ -39,8 +37,6 @@
             template="local/paxbase/web/contractordutyperiod/contractor-duty-period-browse.xml"/>
     <screen id="paxbase$Campaign.browse"
             template="local/paxbase/web/campaign/campaign-browse.xml"/>
-    <screen id="paxbase$OffshoreUser.browse"
-            template="local/paxbase/web/offshoreuser/offshore-user-browse.xml"/>
     <screen id="importPeriods"
             template="local/paxbase/gui/screens/importPeriods.xml"/>
     <screen id="paxbase$DutyPeriod.browse"
@@ -53,4 +49,14 @@
             template="local/paxbase/web/certificate/certificate-edit.xml"/>
     <screen id="paxbase$Department.browse"
             template="local/paxbase/web/department/department-browse.xml"/>
+    <screen id="paxbase$OffshoreUser.browse"
+            template="local/paxbase/web/offshoreuser/offshore-user-browse.xml"/>
+    <screen id="paxbase$AppUser.browse"
+            template="local/paxbase/web/appuser/app-user-browse.xml"/>
+    <screen id="paxbase$ModeOfTransfer.browse"
+            template="local/paxbase/web/modeoftransfer/mode-of-transfer-browse.xml"/>
+    <screen id="paxbase$CraftType.browse"
+            template="local/paxbase/web/crafttype/craft-type-browse.xml"/>
+    <screen id="paxbase$Rotaplan.browse"
+            template="local/paxbase/web/offshoreuser/rotaplan.xml"/>
 </screen-config>

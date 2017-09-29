@@ -9,7 +9,9 @@ import com.haulmont.cuba.core.entity.annotation.LookupType;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import com.haulmont.chile.core.annotations.NamePattern;
 
+@NamePattern("%s|type")
 @Table(name = "PAXBASE_SITE_TYPE")
 @Entity(name = "paxbase$SiteType")
 public class SiteType extends StandardClientEntity {
