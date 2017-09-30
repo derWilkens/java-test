@@ -3,12 +3,12 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent  = function() {
 	var element = connector.getElement();
 	$(element)
 			.html(
-					"<div id='mytimeline'></div>" +
+					"<div id='visualization'/>" +
 					"<div>" +
 					"<h3>Items:</h3>" +
 					"<ul class='items'>" +
 					"<li draggable='true' class='item'>" +
-					"item 1 - box" +
+					"item 1 - box 2125" +
 					"</li>" +
 					"<li draggable='true' class='item'>" +
 					"item 2 - point" +
@@ -24,19 +24,19 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent  = function() {
 					"</div>" 
 					);
 	$(element).css("padding", "5px 10px");
-	
-
-	var container = document.getElementById('mytimeline');
+	$(element).css("width", "100%");
+	var container = document.getElementById('visualization');
 	  
 	// specify options
 	  var options = {
 	    stack: true,
 	    start: new Date(),
-	    end: new Date(1000*60*60*24 + (new Date()).valueOf()),
+	    end: new Date(1000*60*60*24*14 + (new Date()).valueOf()),
 	    editable: true,
-	    orientation: 'top'
+	    orientation: 'top',
+	    width: "70%"
 	  };
-	  
+
 	this.onStateChange = function() {
 		
 		var state = connector.getState();
@@ -51,19 +51,21 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent  = function() {
 	//var options = {
 	//		    groupOrder: 'content'  // groupOrder can be a property name or a sorting function
 	//		  };
-	  var options = {
-			    stack: true,
-			    start: new Date(),
-			    end: new Date(1000*60*60*24 + (new Date()).valueOf()),
-			    editable: true,
-			    orientation: 'top'
-			  };
+
 	// Create a Timeline
 	
 	  var timeline = new vis.Timeline(container);
 	  timeline.setOptions(options);
 	  timeline.setGroups(new vis.DataSet(this.getState().timelineGroups));
 	  timeline.setItems(new vis.DataSet(this.getState().timelineItems));
+	  
+	  timeline.on('drop', handleDrop);
+	  
+	  //timeline.addEventListener('drop',handleDrop.bind(this), false);
+	  
+	  function handleDrop(properties) {
+		  alert('selected items: ' + properties.items);
+	  }
 	  
 	  function handleDragStart(event) {
 		    dragSrcEl = event.target;
@@ -81,8 +83,9 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent  = function() {
 		      item.start = new Date();
 		      item.end = new Date(1000*60*10 + (new Date()).valueOf());
 		    }
-
+		    //connector.valueChanged(item);
 		    event.dataTransfer.setData("text", JSON.stringify(item));
+		    
 		  }
 
 		  var items = document.querySelectorAll('.items .item');
@@ -91,4 +94,6 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent  = function() {
 		    var item = items[i];
 		    item.addEventListener('dragstart', handleDragStart.bind(this), false);
 		  }
+		  
+		  
 }

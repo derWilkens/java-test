@@ -59,7 +59,7 @@ public class TimelineDTO extends AbstractNotPersistentEntity {
 		TimelineItem item = new TimelineItem(entity, timelineConfig);
 		this.timelineItemList.add(item);
 
-		String groupId = ((Function<Period, String>) timelineConfig.getGroupFunction()).apply(entity);
+		String groupId = ((Function<Period, String>) timelineConfig.getGroupIdFunction()).apply(entity);
 		String parentGroupId = ((Function<Period, String>) timelineConfig.getParentGroupIdFunction()).apply(entity);
 
 		if (groupId != null && !this.groupList.contains(groupId)) {

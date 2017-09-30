@@ -48,8 +48,8 @@ public class TimelineGroup extends AbstractNotPersistentStringIdEntity {
 	@SuppressWarnings("unchecked")
 	public TimelineGroup(Period entity, TimelineConfig timelineConfig) {
 		this.showNestedGroups = false;
-		this.id = ((Function<Period, String>) timelineConfig.getGroupFunction()).apply(entity);
-		this.content = ((Function<Period, String>) timelineConfig.getGroupFunction()).apply(entity);
+		this.id = ((Function<Period, String>) timelineConfig.getGroupIdFunction()).apply(entity);
+		this.content = ((Function<Period, String>) timelineConfig.getGroupLabelFunction()).apply(entity);
 		// NestedGroups sind subGroups
 //		String nestedGroupId = ((Function<Period, String>) timelineConfig.getParentGroupIdFunction()).apply(entity);
 //		if (nestedGroupId != null && this.nestedGroups != null && !this.nestedGroups.contains(nestedGroupId)) {

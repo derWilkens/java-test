@@ -4,7 +4,8 @@ import java.util.function.Function;
 
 public class TimelineConfig {
 
-	private Function<?, String> groupFunction;
+	private Function<?, String> groupIdFunction;
+	private Function<?, String> groupLabelFunction;
 	private Function<?, String> parentGroupIdFunction;
 	private Function<?, String> itemLabelFunction;
 	private Function<?, String> styleFunction;
@@ -18,13 +19,19 @@ public class TimelineConfig {
 		this.parentGroupIdFunction = parentGroupIdFunction;
 	}
 
-	public Function<?, String> getGroupFunction() {
-		return groupFunction;
+	public Function<?, String> getGroupIdFunction() {
+		return groupIdFunction;
 	}
-	public void setGroupFunction(Function<?, String> groupFunction) {
-		this.groupFunction = groupFunction;
+	public void setGroupIdFunction(Function<?, String> groupFunction) {
+		this.groupIdFunction = groupFunction;
 	}
 
+	public Function<?, String> getGroupLabelFunction() {
+		return groupLabelFunction;
+	}
+	public void setGroupLabelFunction(Function<?, String> groupLabelFunction) {
+		this.groupLabelFunction = groupLabelFunction;
+	}
 	public Function<?, String> getItemLabelFunction() {
 		return itemLabelFunction;
 	}

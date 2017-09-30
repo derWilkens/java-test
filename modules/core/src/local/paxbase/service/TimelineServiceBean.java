@@ -84,7 +84,7 @@ public class TimelineServiceBean implements TimelineService {
 	@Override
 	public TimelineDTO getRotoplanDto() {
 		TimelineDTO dto = new TimelineDTO();
-		TimelineConfig rotaplanConfig = getCampaignConfig();
+		TimelineConfig rotaplanConfig = getDutyPeriodGroupedByUserConfig();
 		
 		try (Transaction tx = persistence.createTransaction()) {
 			
@@ -105,7 +105,7 @@ public class TimelineServiceBean implements TimelineService {
 
 	private TimelineConfig getDutyPeriodGroupedBySiteConfig() {
 		TimelineConfig dutyPeriodConfig = new TimelineConfig();
-		dutyPeriodConfig.setGroupFunction((DutyPeriod e) -> e.getSite().getSiteName());
+		dutyPeriodConfig.setGroupIdFunction((DutyPeriod e) -> e.getSite().getSiteName());
 		dutyPeriodConfig.setParentGroupIdFunction((DutyPeriod e) -> {
 			if (e.getSite().getParentSite() != null) {
 				return e.getSite().getParentSite().getSiteName();
@@ -131,7 +131,8 @@ public class TimelineServiceBean implements TimelineService {
 
 	private TimelineConfig getDutyPeriodGroupedByUserConfig() {
 		TimelineConfig dutyPeriodConfig = new TimelineConfig();
-		dutyPeriodConfig.setGroupFunction((DutyPeriod e) -> e.getPersonOnDuty().getUuid().toString());
+		dutyPeriodConfig.setGroupIdFunction((DutyPeriod e) -> e.getPersonOnDuty().getUuid().toString());
+		dutyPeriodConfig.setGroupLabelFunction((DutyPeriod e) -> e.getPersonOnDuty().getCaption());
 		dutyPeriodConfig.setParentGroupIdFunction((DutyPeriod e) -> {
 			if (e.getPersonOnDuty().getDepartment() != null) {
 				return e.getPersonOnDuty().getDepartment().getName();
@@ -158,7 +159,7 @@ public class TimelineServiceBean implements TimelineService {
 
 	private TimelineConfig getCampaignConfig() {
 		TimelineConfig campaignTimelineConfig = new TimelineConfig();
-		campaignTimelineConfig.setGroupFunction((Campaign e) -> {
+		campaignTimelineConfig.setGroupIdFunction((Campaign e) -> {
 			return e.getSite().getSiteName();
 		});
 		campaignTimelineConfig.setParentGroupIdFunction((Campaign e) -> {

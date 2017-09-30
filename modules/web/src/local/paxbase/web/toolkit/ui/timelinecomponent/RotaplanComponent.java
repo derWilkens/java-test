@@ -34,6 +34,7 @@ public class RotaplanComponent extends AbstractJavaScriptComponent {
 		getState().timelineItems = new ArrayList<TimelineItem>();
 		getState().timelineGroups = new ArrayList<TimelineGroup>();
 		dtoList = new HashMap<String,TimelineDTO>();
+		
 		addFunction("valueChanged", arguments -> {
             JsonArray array = arguments.getArray(0);
             String[] values = new String[1];

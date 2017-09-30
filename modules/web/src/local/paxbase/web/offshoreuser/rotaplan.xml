@@ -30,15 +30,18 @@
     </dsContext>
     <dialogMode height="600"
                 width="800"/>
-    <layout spacing="true">
-        <vbox id="timelineBox"
-              spacing="true"/>
+    <layout expand="timelineBox"
+            spacing="true">
+        <scrollBox id="timelineBox"
+                   scrollBars="both"
+                   spacing="true"/>
         <filter id="filter"
                 applyTo="offshoreUsersTable"
                 datasource="offshoreUsersDs">
             <properties include=".*"/>
         </filter>
-        <hbox spacing="true">
+        <hbox spacing="true"
+              width="100%">
             <groupTable id="offshoreUsersTable"
                         height="100%"
                         width="100%">
@@ -67,7 +70,7 @@
                       caption="msg://department"
                       datasource="departmentsDs"
                       height="100px"
-                      width="200px">
+                      width="100%">
                 <columns>
                     <column property="name"/>
                     <column property="acronym"/>
