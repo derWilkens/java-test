@@ -233,6 +233,10 @@
                   view="_minimal">
             <property name="itemDesignation"/>
         </property>
+        <property name="contractor"
+                  view="_minimal"/>
+        <property name="functionCategory"
+                  view="_minimal"/>
     </view>
     <view class="local.paxbase.entity.coredata.Department"
           name="department-view">

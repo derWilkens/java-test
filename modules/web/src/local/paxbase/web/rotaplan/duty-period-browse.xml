@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
         caption="msg://caption"
-        class="local.paxbase.web.dutyperiod.DutyPeriodBrowse"
+        class="local.paxbase.web.rotaplan.DutyPeriodRotaplan"
         focusComponent="dutyPeriodsTable"
         lookupComponent="dutyPeriodsTable"
-        messagesPack="local.paxbase.web.dutyperiod">
+        messagesPack="local.paxbase.web.rotaplan">
     <dsContext>
         <datasource id="dutyPeriodDs"
                     class="local.paxbase.entity.DutyPeriod"
@@ -53,6 +53,9 @@
     <dialogMode height="600"
                 width="800"/>
     <layout>
+        <scrollBox id="timelineBox"
+                   scrollBars="both"
+                   spacing="true"/>
         <split id="split"
                height="100%"
                orientation="horizontal"
@@ -74,7 +77,6 @@
                         <action id="create"/>
                         <action id="edit"/>
                         <action id="remove"/>
-                        <action id="refresh"/>
                     </actions>
                     <columns>
                         <column id="client"/>
@@ -95,8 +97,6 @@
                                 action="dutyPeriodsTable.edit"/>
                         <button id="removeBtn"
                                 action="dutyPeriodsTable.remove"/>
-                        <button id="refreshBtn"
-                                action="dutyPeriodsTable.refresh"/>
                     </buttonsPanel>
                 </groupTable>
             </vbox>

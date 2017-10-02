@@ -9,9 +9,8 @@ public class TimelineConfig {
 	private Function<?, String> parentGroupIdFunction;
 	private Function<?, String> itemLabelFunction;
 	private Function<?, String> styleFunction;
+	private Function<?, Boolean> editableFunction;
 	
-
-
 	public Function<?, String> getParentGroupIdFunction() {
 		return parentGroupIdFunction;
 	}
@@ -44,5 +43,11 @@ public class TimelineConfig {
 	}
 	public void setStyleFunction(Function<?, String> styleFunction) {
 		this.styleFunction = styleFunction;
+	}
+	public Function<?, Boolean> getEditableFunction() {
+		return editableFunction;
+	}
+	public void setEditableFunction(Function<?, Boolean> editableFunction) {
+		this.editableFunction = editableFunction;
 	}
 }

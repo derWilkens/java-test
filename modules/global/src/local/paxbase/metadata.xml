@@ -6,5 +6,6 @@
         <class>local.paxbase.entity.dto.TimelineGroup</class>
         <class>local.paxbase.entity.dto.TimelineDTO</class>
         <class>local.paxbase.entity.PeriodImportRecord</class>
+        <class>local.paxbase.entity.dto.DutyPeriodDTO</class>
     </metadata-model>
 </metadata>

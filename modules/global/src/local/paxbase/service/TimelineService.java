@@ -2,8 +2,6 @@ package local.paxbase.service;
 
 import java.util.Collection;
 
-import com.haulmont.cuba.security.entity.User;
-
 import local.paxbase.entity.OffshoreUser;
 import local.paxbase.entity.dto.TimelineDTO;
 

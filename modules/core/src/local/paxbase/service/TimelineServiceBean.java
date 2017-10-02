@@ -126,6 +126,9 @@ public class TimelineServiceBean implements TimelineService {
 			}
 			return "";
 		});
+		dutyPeriodConfig.setEditableFunction((DutyPeriod e) -> {
+			return true;
+		});
 		return dutyPeriodConfig;
 	}
 
@@ -139,21 +142,20 @@ public class TimelineServiceBean implements TimelineService {
 			} else
 				return null;
 		});
-		dutyPeriodConfig.setItemLabelFunction((DutyPeriod e) -> {
-			Log.info(e.getPersonOnDuty().getInstanceName());
-			if (e.getPersonOnDuty() == null) {
-				Log.info("PersonOnDuty is null: " + e.getUuid().toString());
-				return null;
-			} else
-				return e.getPersonOnDuty().getCaption();
-		});
+		dutyPeriodConfig.setItemLabelFunction((DutyPeriod e) -> e.getFunctionCategory().getCategoryName());
 		dutyPeriodConfig.setStyleFunction((DutyPeriod e) -> {
-			String colorHex = getSiteColorPreference(e.getSite().getUuid());
-			if (colorHex != null) {
-				return "background-color: #" + colorHex + ";";
+			if (null != e.getSite()) {
+				String colorHex = getSiteColorPreference(e.getSite().getUuid());
+				if (colorHex != null) {
+					return "background-color: #" + colorHex + ";";
+				}
 			}
 			return "";
 		});
+		dutyPeriodConfig.setEditableFunction((DutyPeriod e) -> {
+			return true;
+		});
+		
 		return dutyPeriodConfig;
 	}
 

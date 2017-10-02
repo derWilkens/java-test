@@ -51,7 +51,7 @@ public class TimelineItem extends AbstractNotPersistentStringIdEntity {
 		this.subgroupId = subgroupId;
 		this.style = style;
 		this.type = "range";
-		this.editable = false;
+		this.editable = true;
 		
 	}
 
@@ -67,7 +67,11 @@ public class TimelineItem extends AbstractNotPersistentStringIdEntity {
 		this.subgroupId = ((Function<Period, String>) campaignTimelineConfig.getParentGroupIdFunction()).apply(entity);
 		this.style = ((Function<Period, String>)campaignTimelineConfig.getStyleFunction()).apply(entity);
 		this.type = "range";
-		this.editable = false;
+		this.editable = ((Function<Period, Boolean>) campaignTimelineConfig.getEditableFunction()).apply(entity);
+	}
+
+	public TimelineItem(Object array) {
+		// TODO Auto-generated constructor stub
 	}
 
 	public void setContent(String content) {

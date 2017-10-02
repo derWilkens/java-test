@@ -8,15 +8,12 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.haulmont.cuba.gui.components.AbstractEditor;
 import com.haulmont.cuba.gui.components.AbstractLookup;
 import com.haulmont.cuba.gui.components.ScrollBoxLayout;
-import com.haulmont.cuba.gui.components.VBoxLayout;
 import com.haulmont.cuba.gui.data.CollectionDatasource;
 import com.haulmont.cuba.web.gui.components.WebComponentsHelper;
 import com.vaadin.ui.Layout;
 
-import local.paxbase.entity.DutyPeriod;
 import local.paxbase.entity.OffshoreUser;
 import local.paxbase.entity.dto.TimelineDTO;
 import local.paxbase.service.TimelineService;
@@ -33,6 +30,7 @@ public class Rotaplan extends AbstractLookup{
 	private ScrollBoxLayout timelineBox;
 	private RotaplanComponent rotaplan;
 	
+
 	@Inject
 	private TimelineService timelineDTOService;
 	private TimelineDTO dto;
@@ -52,5 +50,8 @@ public class Rotaplan extends AbstractLookup{
 		com.vaadin.ui.Layout box = (Layout) WebComponentsHelper.unwrap(timelineBox);
 		box.setWidth("100%");
 		box.addComponent(rotaplan);
+		//rotaplan.setListener(new DutyPeriodListener());
 	}
+
+	
 }

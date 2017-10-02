@@ -9,6 +9,7 @@ import com.haulmont.cuba.gui.components.actions.RemoveAction;
 import com.haulmont.cuba.gui.data.CollectionDatasource;
 import com.haulmont.cuba.gui.data.DataSupplier;
 import com.haulmont.cuba.gui.data.Datasource;
+import com.haulmont.cuba.security.entity.EntityOp;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -48,6 +49,13 @@ public class DutyPeriodBrowse extends AbstractLookup {
      */
     @Inject
     private BoxLayout lookupBox;
+
+    /**
+    * The {@link BoxLayout} instance that contains components on the right side
+    * of {@link SplitPanel}
+    */
+    @Inject
+    private BoxLayout editBox;
 
     /**
      * The {@link BoxLayout} instance that contains buttons to invoke Save or Cancel actions in edit mode
@@ -117,6 +125,27 @@ public class DutyPeriodBrowse extends AbstractLookup {
                     enableEditControls(false);
                 }
             }
+
+            @Override
+            public void refreshState() {
+                if (target != null) {
+                    CollectionDatasource ds = target.getDatasource();
+                    if (ds != null && !captionInitialized) {
+                        setCaption(messages.getMainMessage("actions.Edit"));
+                    }
+                }
+                super.refreshState();
+            }
+
+            @Override
+            protected boolean isPermitted() {
+                CollectionDatasource ownerDatasource = target.getDatasource();
+                boolean entityOpPermitted = security.isEntityOpPermitted(ownerDatasource.getMetaClass(), EntityOp.UPDATE);
+                if (!entityOpPermitted) {
+                    return false;
+                }
+                return super.isPermitted();
+            }
         });
 
         /*
@@ -124,6 +153,12 @@ public class DutyPeriodBrowse extends AbstractLookup {
          * to reset record, contained in {@link dutyPeriodDs}
          */
         dutyPeriodsTableRemove.setAfterRemoveHandler(removedItems -> dutyPeriodDs.setItem(null));
+
+        /*
+         * Adding ESCAPE shortcut that invokes cancel() method
+         */
+        editBox.addShortcutAction(new ShortcutAction(new KeyCombination(KeyCombination.Key.ESCAPE),
+        shortcutTriggeredEvent -> cancel()));
 
         disableEditControls();
     }
@@ -202,5 +237,4 @@ public class DutyPeriodBrowse extends AbstractLookup {
         actionsPane.setVisible(enabled);
         lookupBox.setEnabled(!enabled);
     }
-
 }

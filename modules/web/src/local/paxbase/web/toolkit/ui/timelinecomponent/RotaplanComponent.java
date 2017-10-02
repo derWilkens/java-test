@@ -10,6 +10,7 @@ import com.vaadin.annotations.StyleSheet;
 import com.vaadin.ui.AbstractJavaScriptComponent;
 
 import elemental.json.JsonArray;
+import elemental.json.JsonObject;
 import local.paxbase.entity.dto.TimelineDTO;
 import local.paxbase.entity.dto.TimelineGroup;
 import local.paxbase.entity.dto.TimelineItem;
@@ -23,11 +24,13 @@ public class RotaplanComponent extends AbstractJavaScriptComponent {
 	
 	private HashMap<String, TimelineDTO> dtoList;
 	
-    public interface ValueChangeListener {
-        void valueChanged(String[] newData);
+    public interface RotaplandChangeListener {
+        //void valueChanged(String[] newData);
+		void itemAdded(JsonObject obj);
+		void itemMoved(JsonObject obj);
     }
 
-    private ValueChangeListener listener;
+    private RotaplandChangeListener listener;
     
 	
 	public RotaplanComponent() {
@@ -35,12 +38,12 @@ public class RotaplanComponent extends AbstractJavaScriptComponent {
 		getState().timelineGroups = new ArrayList<TimelineGroup>();
 		dtoList = new HashMap<String,TimelineDTO>();
 		
-		addFunction("valueChanged", arguments -> {
-            JsonArray array = arguments.getArray(0);
-            String[] values = new String[1];
-            values[0] = array.getString(0);
-          
-            listener.valueChanged(values);
+		addFunction("itemAdded", arguments -> {
+			 JsonObject obj = arguments.getObject(0);
+            listener.itemAdded(obj);
+        });
+		addFunction("itemMoved", arguments -> {
+            listener.itemMoved(arguments.getObject(0));
         });
 		
 	}
@@ -86,7 +89,12 @@ public class RotaplanComponent extends AbstractJavaScriptComponent {
 	public void setTimelineItems(Collection<TimelineItem> timelineItems) {
 		getState().timelineItems = timelineItems;
 	}
-	
+    public RotaplandChangeListener getListener() {
+        return listener;
+    }
+    public void setListener(RotaplandChangeListener listener) {
+        this.listener = listener;
+    }
 	public void addDTO(String key, TimelineDTO dto){
 		dtoList.put(key, dto);
 	}

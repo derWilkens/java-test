@@ -15,7 +15,6 @@
         <item id="paxbase$SiteType.browse"/>
         <item id="paxbase$ContractorDutyPeriod.browse"/>
         <item id="paxbase$Campaign.browse"/>
-        <item screen="paxbase$DutyPeriod.browse"/>
         <item screen="paxbase$PeriodImportStage.browse"/>
         <item screen="userpreference-sitecolors"/>
         <item screen="paxbase$Department.browse"/>
@@ -23,6 +22,7 @@
         <item screen="paxbase$AppUser.browse"/>
         <item screen="paxbase$ModeOfTransfer.browse"/>
         <item screen="paxbase$CraftType.browse"/>
-        <item screen="paxbase$Rotaplan.browse"/>
+        <item screen="paxbase$DutyPeriod.browse"/>
+        <item screen="paxbase$DutyPeriodRotaplan.browse"/>
     </menu>
 </menu-config>
