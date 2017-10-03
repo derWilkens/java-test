@@ -17,7 +17,7 @@ import local.paxbase.entity.dto.TimelineItem;
 
 
 @JavaScript({"rotaplan-connector.js", "vis.js"})
-@StyleSheet({"vis.css"})
+@StyleSheet({"vis.css", "timeline.css"})
 public class RotaplanComponent extends AbstractJavaScriptComponent {
 	   
 	private static final long serialVersionUID = -1963421147896570853L;
@@ -39,13 +39,11 @@ public class RotaplanComponent extends AbstractJavaScriptComponent {
 		dtoList = new HashMap<String,TimelineDTO>();
 		
 		addFunction("itemAdded", arguments -> {
-			 JsonObject obj = arguments.getObject(0);
-            listener.itemAdded(obj);
+            listener.itemAdded(arguments.getObject(0));
         });
 		addFunction("itemMoved", arguments -> {
             listener.itemMoved(arguments.getObject(0));
         });
-		
 	}
 
     @Override

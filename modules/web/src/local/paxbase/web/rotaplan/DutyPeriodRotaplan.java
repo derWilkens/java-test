@@ -139,7 +139,7 @@ public class DutyPeriodRotaplan extends AbstractLookup {
 			rotaplan.refresh();
 		}
 		com.vaadin.ui.Layout box = (Layout) WebComponentsHelper.unwrap(timelineBox);
-		box.setWidth("100%");
+		//box.setWidth("100%");
 		box.addComponent(rotaplan);
 		rotaplan.setListener(new InnerListener());
 		

@@ -54,16 +54,16 @@
                 width="800"/>
     <layout>
         <scrollBox id="timelineBox"
+                   height="100%"
                    scrollBars="both"
                    spacing="true"/>
         <split id="split"
-               height="100%"
                orientation="horizontal"
                reversePosition="true"
                width="100%">
             <vbox id="lookupBox"
                   expand="dutyPeriodsTable"
-                  height="100%"
+                  height="1117px"
                   margin="false,true,false,false"
                   spacing="true">
                 <filter id="filter"
