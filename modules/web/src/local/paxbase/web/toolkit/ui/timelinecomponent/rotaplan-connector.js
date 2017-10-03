@@ -5,7 +5,9 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 			"<div id='visualization'/>" 
 					+ "<div>"
 					+ "<h3>Items:</h3>" 
-					+ "<ul class='items'>"
+					+ "<ul id='siteDuties' class='siteItems'>"
+					+ "</ul>"
+					+ "<ul id='functionDuties' class='items'>"
 					+ "<li draggable='true' class='item'>"
 					+ "Offshore " 
 					+ "</li>"
@@ -19,6 +21,7 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 					+ "Abwesend"
 					+ "</li>" 
 					+ "</ul>"
+					+ "<button onclick='createSiteItemList()'>Sites generieren</button>"
 					+ "</div>");
 	$(element).css("padding", "5px 10px");
 	$(element).css("width", "95%");
@@ -50,12 +53,21 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 		          }
 		      },
 
-		      onMove: function (item, callback) {
-		    	  	connector.itemMoved(item);
-		            callback(item); // send back item as confirmation (can be
+		 onMove: function (item, callback) {
+		    	  connector.itemMoved(item);
+		          callback(item); // send back item as confirmation (can be
 									// changed)
-	
-		      }
+
+		      },
+		 onRemove: function (item, callback){
+			 if (item) {
+	    	  connector.itemDeleted(item);
+	          callback(item);	
+			 }
+			 else{
+				 callback(null);
+			 }
+		 }
 
 	};
 
@@ -75,6 +87,20 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 	timeline.setGroups(new vis.DataSet(this.getState().timelineGroups));
 	timeline.setItems(new vis.DataSet(this.getState().timelineItems));
 
+	function createSiteItemList() {
+		alert.show("asdasd")
+	}
+		var siteItems = this.getState().siteItems;
+		for (var i = siteItems.length - 1; i >= 0; i--) {
+			var node = document.createElement("LI"); // Create a <li> node
+			node.setAttribute("draggable", "true");
+			node.setAttribute("class", "siteItem");
+			node.setAttribute("background-color", siteItems[i].color);
+			var textnode = document.createTextNode(siteItems[i].site); 
+			node.appendChild(textnode); // Append the text to <li>
+			document.getElementById("siteDuties").appendChild(node);
+		}
+	
 	function handleDragStart(event) {
 		dragSrcEl = event.target;
 
