@@ -10,6 +10,7 @@ import com.vaadin.annotations.StyleSheet;
 import com.vaadin.ui.AbstractJavaScriptComponent;
 
 import elemental.json.JsonArray;
+import local.paxbase.entity.UserPreferencesContext;
 import local.paxbase.entity.dto.TimelineDTO;
 import local.paxbase.entity.dto.TimelineGroup;
 import local.paxbase.entity.dto.TimelineItem;
@@ -21,7 +22,7 @@ public class TimelineComponent extends AbstractJavaScriptComponent {
 	   
 	private static final long serialVersionUID = -1963421147896570853L;
 	
-	private HashMap<String, TimelineDTO> dtoList;
+	private HashMap<UserPreferencesContext, TimelineDTO> dtoList;
 	
     public interface ValueChangeListener {
         void valueChanged(String[] newData);
@@ -33,7 +34,7 @@ public class TimelineComponent extends AbstractJavaScriptComponent {
 	public TimelineComponent() {
 		getState().timelineItems = new ArrayList<TimelineItem>();
 		getState().timelineGroups = new ArrayList<TimelineGroup>();
-		dtoList = new HashMap<String,TimelineDTO>();
+		dtoList = new HashMap<UserPreferencesContext, TimelineDTO>();
 		addFunction("valueChanged", arguments -> {
             JsonArray array = arguments.getArray(0);
             String[] values = new String[1];
@@ -86,8 +87,8 @@ public class TimelineComponent extends AbstractJavaScriptComponent {
 		getState().timelineItems = timelineItems;
 	}
 	
-	public void addDTO(String key, TimelineDTO dto){
-		dtoList.put(key, dto);
+	public void addDTO(UserPreferencesContext context, TimelineDTO dto){
+		dtoList.put(context, dto);
 	}
 	public void refresh(){
 		getState().timelineItems.clear();// = new ArrayList<TimelineItem>();

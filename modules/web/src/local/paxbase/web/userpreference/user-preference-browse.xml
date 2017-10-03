@@ -33,9 +33,9 @@
             <columns>
                 <column id="client"/>
                 <column id="userId"/>
-                <column id="context"/>
                 <column id="entityUuid"/>
                 <column id="userValue"/>
+                <column id="contextId"/>
             </columns>
             <rows datasource="userPreferencesDs"/>
             <rowsCount/>

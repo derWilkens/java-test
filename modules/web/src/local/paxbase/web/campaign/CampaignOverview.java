@@ -7,7 +7,6 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-import com.esotericsoftware.minlog.Log;
 import com.haulmont.cuba.gui.components.AbstractLookup;
 import com.haulmont.cuba.gui.components.CheckBox;
 import com.haulmont.cuba.gui.components.Table;
@@ -21,6 +20,7 @@ import com.vaadin.ui.Layout;
 
 import local.paxbase.entity.Period;
 import local.paxbase.entity.UserPreference;
+import local.paxbase.entity.UserPreferencesContext;
 import local.paxbase.entity.coredata.FunctionCategory;
 import local.paxbase.entity.coredata.Site;
 import local.paxbase.entity.dto.TimelineDTO;
@@ -105,9 +105,9 @@ public class CampaignOverview extends AbstractLookup {
 
 		// JS-UI-Komponente
 		timeline = new TimelineComponent();
-		dto = timelineDTOService.getDto("CampaignBrowse");
+		dto = timelineDTOService.getDto(UserPreferencesContext.CampaignBrowse);
 		if (dto != null) {
-			timeline.addDTO("CampaignBrowse", dto);
+			timeline.addDTO(UserPreferencesContext.CampaignBrowse, dto);
 			timeline.refresh();
 		}
 
@@ -157,7 +157,7 @@ public class CampaignOverview extends AbstractLookup {
 						userPreferencesDs.removeItem(tmp);
 						userPreferencesDs.commit();
 					}
-					timeline.addDTO("CampaignBrowse", timelineDTOService.getDto("CampaignBrowse"));
+					timeline.addDTO(UserPreferencesContext.CampaignBrowse, timelineDTOService.getDto(UserPreferencesContext.CampaignBrowse));
 					timeline.refresh();
 				}
 			});
@@ -194,7 +194,6 @@ public class CampaignOverview extends AbstractLookup {
 						while (iter.hasNext()) {
 							UserPreference userPreference = (UserPreference) iter.next();
 							try {
-							Log.info(userPreference.getUuid().toString());
 								if (userPreference.getEntityUuid().equals(siteUserSettings.getSingleSelected().getId())) {
 									tmp = userPreference;
 								}
@@ -206,7 +205,7 @@ public class CampaignOverview extends AbstractLookup {
 						userPreferencesDs.removeItem(tmp);
 						userPreferencesDs.commit();
 					}
-					timeline.addDTO("CampaignBrowse", timelineDTOService.getDto("CampaignBrowse"));
+					timeline.addDTO(UserPreferencesContext.CampaignBrowse, timelineDTOService.getDto(UserPreferencesContext.CampaignBrowse));
 					timeline.refresh();
 				}
 
@@ -249,7 +248,7 @@ public class CampaignOverview extends AbstractLookup {
 						userPreferencesDs.removeItem(tmp);
 						userPreferencesDs.commit();
 					}
-					timeline.addDTO("CampaignBrowse", timelineDTOService.getDto("CampaignBrowse"));
+					timeline.addDTO(UserPreferencesContext.CampaignBrowse, timelineDTOService.getDto(UserPreferencesContext.CampaignBrowse));
 					timeline.refresh();
 				}
 

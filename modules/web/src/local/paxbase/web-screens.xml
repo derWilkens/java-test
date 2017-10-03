@@ -53,8 +53,6 @@
             template="local/paxbase/web/modeoftransfer/mode-of-transfer-browse.xml"/>
     <screen id="paxbase$CraftType.browse"
             template="local/paxbase/web/crafttype/craft-type-browse.xml"/>
-    <screen id="paxbase$Rotaplan.browse"
-            template="local/paxbase/web/offshoreuser/rotaplan.xml"/>
     <screen id="paxbase$DutyPeriod.browse"
             template="local/paxbase/web/dutyperiod/duty-period-browse.xml"/>
     <screen id="paxbase$DutyPeriodRotaplan.browse"

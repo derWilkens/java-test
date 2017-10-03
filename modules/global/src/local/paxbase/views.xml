@@ -186,7 +186,6 @@
         <property name="entityUuid"/>
         <property name="userValue"/>
         <property name="userId"/>
-        <property name="context"/>
     </view>
     <view class="local.paxbase.entity.cap.Certificate"
           extends="_local"

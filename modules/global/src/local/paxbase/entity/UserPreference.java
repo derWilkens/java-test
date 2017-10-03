@@ -16,14 +16,23 @@ public class UserPreference extends StandardClientEntity {
     @Column(name = "USER_ID", nullable = false)
     protected UUID userId;
 
-    @Column(name = "CONTEXT")
-    protected String context;
-
     @Column(name = "ENTITY_UUID")
     protected UUID entityUuid;
 
     @Column(name = "USER_VALUE")
     protected String userValue;
+
+    @Column(name = "CONTEXT_ID")
+    protected Integer contextId;
+
+    public void setContextId(UserPreferencesContext contextId) {
+        this.contextId = contextId == null ? null : contextId.getId();
+    }
+
+    public UserPreferencesContext getContextId() {
+        return contextId == null ? null : UserPreferencesContext.fromId(contextId);
+    }
+
 
     public void setUserValue(String userValue) {
         this.userValue = userValue;
@@ -52,14 +61,6 @@ public class UserPreference extends StandardClientEntity {
     }
 
 
-
-    public void setContext(String context) {
-        this.context = context;
-    }
-
-    public String getContext() {
-        return context;
-    }
 
 
 

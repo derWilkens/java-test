@@ -49,6 +49,7 @@ public class DutyPeriodRotaplan extends AbstractLookup {
 	private RotaplanComponent rotaplan;
 	@Inject
 	private TimelineService timelineDTOService;
+	
 	private TimelineDTO dto;
 	@Inject
 	private ScrollBoxLayout timelineBox;
@@ -313,6 +314,7 @@ public class DutyPeriodRotaplan extends AbstractLookup {
 		@Override
 		public void itemAdded(JsonObject jsonItem) {
 			if (!jsonItem.getString("content").equals("new item")) {
+				
 				DataSupplier dataservice = dutyPeriodDs.getDataSupplier();
 				DutyPeriod newItem = dataservice.newInstance(dutyPeriodDs.getMetaClass());
 
@@ -336,14 +338,14 @@ public class DutyPeriodRotaplan extends AbstractLookup {
 
 				@SuppressWarnings("rawtypes")
 				Collection items = functionCategoriesDs.getItems();
-
+				String content = jsonItem.getString("content");
+				
 				for (Iterator iterator = items.iterator(); iterator.hasNext();) {
 					FunctionCategory cat = (FunctionCategory) iterator.next();
 					if (cat.getCategoryName().equals(jsonItem.getString("content"))) {
 						newItem.setFunctionCategory(cat);
 						break;
 					}
-
 				}
 				save();
 

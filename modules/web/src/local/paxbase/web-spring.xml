@@ -10,14 +10,14 @@
                   ref="cuba_ServerSelector"/>
         <property name="remoteServices">
             <map>
-                <entry key="paxbase_DutyPeriodService"
-                       value="local.paxbase.service.DutyPeriodService"/>
                 <entry key="paxbase_TimelineService"
                        value="local.paxbase.service.TimelineService"/>
                 <entry key="paxbase_PeriodImportService"
                        value="local.paxbase.service.PeriodImportService"/>
                 <entry key="paxbase_UserpreferencesService"
                        value="local.paxbase.service.UserpreferencesService"/>
+                <entry key="paxbase_RotaplanService"
+                       value="local.paxbase.service.RotaplanService"/>
             </map>
         </property>
     </bean>

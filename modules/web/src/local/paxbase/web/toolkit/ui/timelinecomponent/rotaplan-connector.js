@@ -95,8 +95,8 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 			var node = document.createElement("LI"); // Create a <li> node
 			node.setAttribute("draggable", "true");
 			node.setAttribute("class", "siteItem");
-			node.setAttribute("background-color", siteItems[i].color);
-			var textnode = document.createTextNode(siteItems[i].site); 
+			node.setAttribute("style", "background-color: " + siteItems[i].color);
+			var textnode = document.createTextNode(siteItems[i].siteName); 
 			node.appendChild(textnode); // Append the text to <li>
 			document.getElementById("siteDuties").appendChild(node);
 		}
@@ -109,7 +109,7 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 		var item = {
 			id : new Date(),
 			type : itemType,
-			content : event.target.innerHTML.split('-')[0].trim()
+			content : event.target.innerHTML.trim()
 			//,
 			//start : new Date(),
 			//end : new Date(1000 * 60 * 60 * 24 * 7 + (new Date()).valueOf())
@@ -117,7 +117,7 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 		event.dataTransfer.setData("text", JSON.stringify(item));
 	}
 
-	var items = document.querySelectorAll('.items .item');
+	var items = document.querySelectorAll('.items .item .siteItems');
 
 	//an jedes Item den DragHandler setzen, damit dieses vorm Hinzufügen parametrisiert werden kann 
 	for (var i = items.length - 1; i >= 0; i--) {

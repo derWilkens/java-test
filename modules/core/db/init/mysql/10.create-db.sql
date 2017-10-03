@@ -246,6 +246,7 @@ create table PAXBASE_USER_PREFERENCE (
     CONTEXT varchar(255),
     ENTITY_UUID varchar(32),
     USER_VALUE varchar(255),
+    CONTEXT_ID integer,
     --
     primary key (ID)
 )^

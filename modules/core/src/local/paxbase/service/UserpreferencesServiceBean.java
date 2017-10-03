@@ -11,6 +11,7 @@ import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.TypedQuery;
 
 import local.paxbase.entity.UserPreference;
+import local.paxbase.entity.UserPreferencesContext;
 
 @Service(UserpreferencesService.NAME)
 public class UserpreferencesServiceBean implements UserpreferencesService {
@@ -18,15 +19,14 @@ public class UserpreferencesServiceBean implements UserpreferencesService {
 	private Persistence persistence;
 
 	@Override
-	public UserPreference getPreference(String context, UUID entityUuid) {
+	public UserPreference getPreference(UserPreferencesContext context, UUID entityUuid) {
 		UserPreference preference = null;
-
-		Transaction tx = persistence.createTransaction();
-			String queryString = "select e from paxbase$UserPreference e where e.context = :context and e.entityUuid = :entityUuid";
+		try (Transaction tx = persistence.createTransaction()) {
+			String queryString = "select e from paxbase$UserPreference e where e.contextId = :context and e.entityUuid = :entityUuid";
 
 			TypedQuery<UserPreference> query = persistence.getEntityManager().createQuery(queryString,
 					UserPreference.class);
-			query.setParameter("context", context);
+			query.setParameter("contextId", context);
 			query.setParameter("entityUuid", entityUuid);
 			try {
 				preference = query.getSingleResult();
@@ -35,8 +35,8 @@ public class UserpreferencesServiceBean implements UserpreferencesService {
 				e.printStackTrace();
 			}
 
-		
-		return preference;
+			return preference;
+		}
 	}
 
 }
