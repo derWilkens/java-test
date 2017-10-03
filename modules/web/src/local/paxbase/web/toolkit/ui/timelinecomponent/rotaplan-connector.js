@@ -3,7 +3,7 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 	var element = connector.getElement();
 	$(element).html(
 			"<div id='visualization'/>" 
-					+ "<div style='padding: 5px 10px'>"
+					+ "<div>"
 					+ "<h3>Items:</h3>" 
 					+ "<ul class='items'>"
 					+ "<li draggable='true' class='item'>"
@@ -21,9 +21,8 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 					+ "</ul>"
 					+ "</div>");
 	$(element).css("padding", "5px 10px");
-	$(element).css("width", "1000");
-	$(element).css("height", "500");
-	
+	$(element).css("width", "95%");
+
 	var container = document.getElementById('visualization');
 
 	// specify options
@@ -33,7 +32,7 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 		end : new Date(1000 * 60 * 60 * 24 * 14 + (new Date()).valueOf()),
 		editable : true,
 		orientation : 'top',
-		width : "100%",
+		width: '1800px', //100% funktioniert nicht, auf der Komponente gesetzt, verschwindet dass nach itemAdded
 
 		onAdd: function (item, callback) {
 				if (item) {
@@ -44,7 +43,7 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 					newItem.content = item.content;
 					newItem.group = item.group;
 					connector.itemAdded(newItem);
-		            //callback(item); // send back adjusted new item
+		            //callback(item); // send back adjusted new item 0918
 		          }
 		          else {
 		            callback(null); // cancel item creation
