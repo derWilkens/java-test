@@ -23,6 +23,9 @@ public class TimelineDTO extends AbstractNotPersistentEntity {
 
 	@MetaProperty
 	protected Set<TimelineItem> timelineItemList;
+	
+	@MetaProperty
+	protected Set<SiteItem> siteItems;
 
 	public void setParentGroupList(Set<TimelineGroup> parentGroupList) {
 		this.parentGroupList = parentGroupList;
@@ -44,6 +47,7 @@ public class TimelineDTO extends AbstractNotPersistentEntity {
 		this.timelineItemList = new HashSet<TimelineItem>();
 		this.groupList = new HashSet<TimelineGroup>();
 		this.parentGroupList = new HashSet<TimelineGroup>();
+		this.siteItems = new HashSet<SiteItem>();
 	}
 
 	public void setTimelineItemList(Set<TimelineItem> timelineItemList) {
@@ -53,7 +57,13 @@ public class TimelineDTO extends AbstractNotPersistentEntity {
 	public Set<TimelineItem> getTimelineItemList() {
 		return timelineItemList;
 	}
+	public Set<SiteItem> getSiteItems() {
+		return siteItems;
+	}
 
+	public void setSiteItems(Set<SiteItem> siteItems) {
+		this.siteItems = siteItems;
+	}
 	@SuppressWarnings("unchecked")
 	public void addItem(Period entity, TimelineConfig timelineConfig) {
 		TimelineItem item = new TimelineItem(entity, timelineConfig);
@@ -81,5 +91,7 @@ public class TimelineDTO extends AbstractNotPersistentEntity {
 		}
 
 	}
+
+
 
 }

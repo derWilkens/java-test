@@ -2,6 +2,7 @@ package local.paxbase.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,6 +27,7 @@ import local.paxbase.entity.UserPreference;
 import local.paxbase.entity.coredata.FunctionCategory;
 import local.paxbase.entity.coredata.PeriodSubClass;
 import local.paxbase.entity.coredata.Site;
+import local.paxbase.entity.dto.SiteItem;
 import local.paxbase.entity.dto.TimelineConfig;
 import local.paxbase.entity.dto.TimelineDTO;
 
@@ -97,6 +99,18 @@ public class TimelineServiceBean implements TimelineService {
 			
 			dto.addItems(dutyPeriods, rotaplanConfig);
 			
+			/* @TODO
+			 * SiteItems aus der DB holen, entweder Benutzerspezifisch oder alle*/
+			Set<SiteItem> siteItems = dto.getSiteItems();
+			SiteItem item1 = new SiteItem();
+			item1.setSiteName("HWAL");
+			item1.setColor("#0b7eea");
+			siteItems.add(item1);
+			SiteItem item2 = new SiteItem();
+			item1.setSiteName("BWAL");
+			item1.setColor("#90ed44");
+			siteItems.add(item2);	
+			
 			tx.commit();
 		}
 		return dto;
@@ -142,7 +156,12 @@ public class TimelineServiceBean implements TimelineService {
 			} else
 				return null;
 		});
-		dutyPeriodConfig.setItemLabelFunction((DutyPeriod e) -> e.getFunctionCategory().getCategoryName());
+		dutyPeriodConfig.setItemLabelFunction((DutyPeriod e) -> {
+			if (e.getFunctionCategory() != null) {
+				return e.getFunctionCategory().getCategoryName();
+			} else
+				return ".";
+		});
 		dutyPeriodConfig.setStyleFunction((DutyPeriod e) -> {
 			if (null != e.getSite()) {
 				String colorHex = getSiteColorPreference(e.getSite().getUuid());

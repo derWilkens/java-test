@@ -139,10 +139,10 @@ public class DutyPeriodRotaplan extends AbstractLookup {
 			rotaplan.refresh();
 		}
 		com.vaadin.ui.Layout box = (Layout) WebComponentsHelper.unwrap(timelineBox);
-		//box.setWidth("100%");
+		// box.setWidth("100%");
 		box.addComponent(rotaplan);
 		rotaplan.setListener(new InnerListener());
-		
+
 		/* Start generated Code */
 		/*
 		 * Adding {@link
@@ -307,72 +307,84 @@ public class DutyPeriodRotaplan extends AbstractLookup {
 		actionsPane.setVisible(enabled);
 		lookupBox.setEnabled(!enabled);
 	}
-	
-	class InnerListener implements RotaplandChangeListener{
+
+	class InnerListener implements RotaplandChangeListener {
 
 		@Override
 		public void itemAdded(JsonObject jsonItem) {
-			
-			DataSupplier dataservice = dutyPeriodDs.getDataSupplier();
-			DutyPeriod newItem = dataservice.newInstance(dutyPeriodDs.getMetaClass());
-			
-			dutyPeriodsTable.setSelected(Collections.emptyList());
-			dutyPeriodDs.setItem((DutyPeriod) newItem);
-			refreshOptionsForLookupFields();
-			enableEditControls(true);
-			
-			try {
-				newItem.setStart(jsonDateToDate(jsonItem.getString("start")));
-				newItem.setEnd(jsonDateToDate(jsonItem.getString("end")));
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			String userUuid = jsonItem.getString("group");
-			LoadContext<OffshoreUser> loadContext = LoadContext.create(OffshoreUser.class).setId(UUID.fromString(userUuid))
-					.setView("offshoreUser-browser-view");
-			newItem.setPersonOnDuty(dataManager.load(loadContext));
-			
-			@SuppressWarnings("rawtypes")
-			Collection items =  functionCategoriesDs.getItems();
+			if (!jsonItem.getString("content").equals("new item")) {
+				DataSupplier dataservice = dutyPeriodDs.getDataSupplier();
+				DutyPeriod newItem = dataservice.newInstance(dutyPeriodDs.getMetaClass());
 
-			for (Iterator iterator = items.iterator(); iterator.hasNext();) {
-				FunctionCategory cat = (FunctionCategory) iterator.next();
-				if(cat.getCategoryName().equals(jsonItem.getString("content"))){
-					newItem.setFunctionCategory(cat);
-					break;
+				dutyPeriodsTable.setSelected(Collections.emptyList());
+				dutyPeriodDs.setItem((DutyPeriod) newItem);
+				refreshOptionsForLookupFields();
+				enableEditControls(true);
+
+				try {
+					newItem.setStart(jsonDateToDate(jsonItem.getString("start")));
+					newItem.setEnd(jsonDateToDate(jsonItem.getString("end")));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-					
-			}
-			save();
-			
 
-			rotaplan.addDTO("rotaplan", timelineDTOService.getRotoplanDto());
-			rotaplan.refresh();
+				String userUuid = jsonItem.getString("group");
+				LoadContext<OffshoreUser> loadContext = LoadContext.create(OffshoreUser.class)
+						.setId(UUID.fromString(userUuid)).setView("offshoreUser-browser-view");
+				newItem.setPersonOnDuty(dataManager.load(loadContext));
+
+				@SuppressWarnings("rawtypes")
+				Collection items = functionCategoriesDs.getItems();
+
+				for (Iterator iterator = items.iterator(); iterator.hasNext();) {
+					FunctionCategory cat = (FunctionCategory) iterator.next();
+					if (cat.getCategoryName().equals(jsonItem.getString("content"))) {
+						newItem.setFunctionCategory(cat);
+						break;
+					}
+
+				}
+				save();
+
+				rotaplan.addDTO("rotaplan", timelineDTOService.getRotoplanDto());
+				rotaplan.refresh();
+			}
 		}
 
 		@Override
 		public void itemMoved(JsonObject jsonItem) {
 			enableEditControls(false);
-			
+
 			DutyPeriod dutyPeriod = dutyPeriodsDs.getItem(UUID.fromString(jsonItem.getString("id")));
-			
+
 			try {
-				
+
 				dutyPeriod.setStart(jsonDateToDate(jsonItem.getString("start")));
 				dutyPeriod.setEnd(jsonDateToDate(jsonItem.getString("end")));
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-					
+
 			dutyPeriodDs.setItem(dutyPeriod);
 			save();
-			
-			
+
 		}
+
+		@Override
+		public void itemDeleted(JsonObject jsonItem) {
+			DutyPeriod dutyPeriod = dutyPeriodsDs.getItem(UUID.fromString(jsonItem.getString("id")));
+			if (dutyPeriod != null) {
+				dutyPeriodsDs.removeItem(dutyPeriod);
+				getDsContext().commit();
+				rotaplan.addDTO("rotaplan", timelineDTOService.getRotoplanDto());
+				rotaplan.refresh();
+			}
+		}
+
 	}
+
 	private Date jsonDateToDate(String rawDate) throws ParseException {
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 		Date date;

@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import com.vaadin.shared.ui.JavaScriptComponentState;
 
+import local.paxbase.entity.dto.SiteItem;
 import local.paxbase.entity.dto.TimelineGroup;
 import local.paxbase.entity.dto.TimelineItem;
 
@@ -18,5 +19,6 @@ public class TimelineComponentState extends JavaScriptComponentState {
 	public String dataAttributes;
 	public Collection<TimelineGroup> timelineGroups; 
 	public Collection<TimelineItem> timelineItems;
+	public Collection<SiteItem> siteItems;
 	
 }

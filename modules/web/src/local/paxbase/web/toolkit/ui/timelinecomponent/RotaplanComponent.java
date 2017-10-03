@@ -3,14 +3,13 @@ package local.paxbase.web.toolkit.ui.timelinecomponent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 import com.vaadin.annotations.JavaScript;
 import com.vaadin.annotations.StyleSheet;
 import com.vaadin.ui.AbstractJavaScriptComponent;
 
-import elemental.json.JsonArray;
 import elemental.json.JsonObject;
+import local.paxbase.entity.dto.SiteItem;
 import local.paxbase.entity.dto.TimelineDTO;
 import local.paxbase.entity.dto.TimelineGroup;
 import local.paxbase.entity.dto.TimelineItem;
@@ -25,9 +24,9 @@ public class RotaplanComponent extends AbstractJavaScriptComponent {
 	private HashMap<String, TimelineDTO> dtoList;
 	
     public interface RotaplandChangeListener {
-        //void valueChanged(String[] newData);
-		void itemAdded(JsonObject obj);
-		void itemMoved(JsonObject obj);
+		void itemAdded(JsonObject jsonItem);
+		void itemMoved(JsonObject jsonItem);
+		void itemDeleted(JsonObject jsonItem);
     }
 
     private RotaplandChangeListener listener;
@@ -36,6 +35,7 @@ public class RotaplanComponent extends AbstractJavaScriptComponent {
 	public RotaplanComponent() {
 		getState().timelineItems = new ArrayList<TimelineItem>();
 		getState().timelineGroups = new ArrayList<TimelineGroup>();
+		getState().siteItems = new ArrayList<SiteItem>();
 		dtoList = new HashMap<String,TimelineDTO>();
 		
 		addFunction("itemAdded", arguments -> {
@@ -44,6 +44,10 @@ public class RotaplanComponent extends AbstractJavaScriptComponent {
 		addFunction("itemMoved", arguments -> {
             listener.itemMoved(arguments.getObject(0));
         });
+		addFunction("itemDeleted", arguments -> {
+            listener.itemDeleted(arguments.getObject(0));
+        });
+
 	}
 
     @Override
@@ -87,6 +91,12 @@ public class RotaplanComponent extends AbstractJavaScriptComponent {
 	public void setTimelineItems(Collection<TimelineItem> timelineItems) {
 		getState().timelineItems = timelineItems;
 	}
+	public Collection<SiteItem> getSiteItems() {
+		return getState().siteItems;
+	}
+	public void setSiteItems(Collection<SiteItem> siteItems) {
+		getState().siteItems = siteItems;
+	}	
     public RotaplandChangeListener getListener() {
         return listener;
     }
@@ -97,13 +107,14 @@ public class RotaplanComponent extends AbstractJavaScriptComponent {
 		dtoList.put(key, dto);
 	}
 	public void refresh(){
-		getState().timelineItems.clear();// = new ArrayList<TimelineItem>();
-		getState().timelineGroups.clear(); //= new ArrayList<TimelineGroup>();
+		getState().timelineItems.clear();
+		getState().timelineGroups.clear(); 
+		getState().siteItems.clear();
 		
 		for (TimelineDTO timelineDTO : dtoList.values()) {
 			getState().timelineItems.addAll(timelineDTO.getTimelineItemList());
 			getState().timelineGroups.addAll(timelineDTO.getGroupList());
-			//getState().timelineGroups.addAll(timelineDTO.getParentGroupList());
+			getState().siteItems.addAll(timelineDTO.getSiteItems());
 		}
 		
 	}

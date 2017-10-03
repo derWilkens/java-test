@@ -7,5 +7,6 @@
         <class>local.paxbase.entity.dto.TimelineDTO</class>
         <class>local.paxbase.entity.PeriodImportRecord</class>
         <class>local.paxbase.entity.dto.DutyPeriodDTO</class>
+        <class>local.paxbase.entity.dto.SiteItem</class>
     </metadata-model>
 </metadata>
