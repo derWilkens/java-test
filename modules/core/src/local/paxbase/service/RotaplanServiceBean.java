@@ -17,7 +17,7 @@ import local.paxbase.entity.UserPreferencesContext;
 import local.paxbase.entity.coredata.Site;
 
 @Service(RotaplanService.NAME)
-public class RotaplanServiceBean implements RotaplanService {
+public class RotaplanServiceBean extends PreferencesService implements RotaplanService {
 	
 	@Inject
 	private Persistence persistence;
@@ -38,7 +38,7 @@ public class RotaplanServiceBean implements RotaplanService {
 	}
 	public Collection<Site> getPreferredSites(){
 		EntityManager em = persistence.getEntityManager();
-		List<UserPreference> userPreferenceList = UserPreferencesDataService.getUserPreferences(em, UserPreferencesContext.Rotaplan);
+		List<UserPreference> userPreferenceList = getUserPreferences(em, UserPreferencesContext.Rotaplan);
 		
 		return null;
 	}

@@ -15,9 +15,9 @@ import local.paxbase.entity.UserPreference;
 import local.paxbase.entity.UserPreferencesContext;
 import local.paxbase.entity.coredata.Site;
 
-public class UserPreferencesDataService {
+public abstract class PreferencesService {
 	
-	public static List<UserPreference> getUserPreferences(EntityManager em, UserPreferencesContext context) {
+	protected List<UserPreference> getUserPreferences(EntityManager em, UserPreferencesContext context) {
 		List<UserPreference> userPreferenceList;
 
 		String queryString = "select e from paxbase$UserPreference e where e.userId = :userId and e.contextId=:context";
@@ -32,17 +32,17 @@ public class UserPreferencesDataService {
 		return userPreferenceList;
 	}
 	
-	public static List<Site> getPreferredSites(EntityManager em, UserPreferencesContext context){
+	protected List<Site> getPreferredSites(EntityManager em, UserPreferencesContext context){
 		List<UserPreference> userPreferenceList = getUserPreferences(em,context);
 		return loadPreferredSites(em, userPreferenceList);
 	}
-	public static List<OffshoreUser> getPersonsByPreferredDepartment(EntityManager em, UserPreferencesContext context){
+	protected List<OffshoreUser> getPersonsByPreferredDepartment(EntityManager em, UserPreferencesContext context){
 		List<UserPreference> userPreferenceList = getUserPreferences(em,context);
 		return loadPersonsByPreferredDepartment(em, userPreferenceList);
 	}
 	
 
-	private static List<Site> loadPreferredSites(EntityManager em, List<UserPreference> userPreferenceList) {
+	private List<Site> loadPreferredSites(EntityManager em, List<UserPreference> userPreferenceList) {
 		List<Site> entityList;
 
 		List<UUID> entityUUIDs = getEntityUUIDsFromList(userPreferenceList);
@@ -58,7 +58,7 @@ public class UserPreferencesDataService {
 		return entityList;
 	}
 	
-	private static List<OffshoreUser> loadPersonsByPreferredDepartment(EntityManager em, List<UserPreference> userPreferenceList) {
+	private List<OffshoreUser> loadPersonsByPreferredDepartment(EntityManager em, List<UserPreference> userPreferenceList) {
 		List<OffshoreUser> entityList;
 
 		List<UUID> entityUUIDs = getEntityUUIDsFromList(userPreferenceList);
@@ -74,7 +74,7 @@ public class UserPreferencesDataService {
 		return entityList;
 	}
 	
-	public static List<UUID> getEntityUUIDsFromList(List<UserPreference> userPreferenceList) {
+	public List<UUID> getEntityUUIDsFromList(List<UserPreference> userPreferenceList) {
 		List<UUID> periodTypeIds = new ArrayList<UUID>();
 		for (UserPreference userPreference : userPreferenceList) {
 			periodTypeIds.add(userPreference.getEntityUuid());
@@ -82,7 +82,7 @@ public class UserPreferencesDataService {
 		return periodTypeIds;
 	}
 	
-	public static List<UUID> getUUIDList(List<?> entityList) {
+	public List<UUID> getUUIDList(List<?> entityList) {
 		List<UUID> uuidList = new ArrayList<UUID>();
 		for (Object entity : entityList) {
 			uuidList.add(((StandardEntity) entity).getId());
