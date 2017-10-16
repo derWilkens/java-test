@@ -24,5 +24,9 @@
         <item screen="paxbase$CraftType.browse"/>
         <item screen="paxbase$DutyPeriod.browse"/>
         <item screen="paxbase$DutyPeriodRotaplan.browse"/>
+        <item screen="paxbase$Site.PreferredSiteBrowse"/>
     </menu>
+    <item insertBefore="bpm"
+          openType="NEW_TAB"
+          screen="PreferredSites"/>
 </menu-config>

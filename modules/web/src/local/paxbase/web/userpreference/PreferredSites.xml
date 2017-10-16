@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        class="local.paxbase.web.userpreference.Preferredsites"
+        messagesPack="local.paxbase.web.userpreference">
+    <dsContext>
+        <collectionDatasource id="sitesDs"
+                              class="local.paxbase.entity.coredata.Site">
+            <query>
+                <![CDATA[select e from paxbase$Site e where e.siteType.type like '%Platform']]>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout spacing="true">
+        <popupView id="popupView"
+                   hideOnMouseOut="false"
+                   minimizedValue="Minimized Value">
+            <vbox height="400px"
+                  width="300px">
+                <optionsGroup id="optionsGroup"
+                              multiselect="true"
+                              optionsDatasource="sitesDs"
+                              property="siteName"/>
+            </vbox>
+        </popupView>
+        <button caption="Open the popup programmatically"
+                invoke="openPopup"
+                width="367px"/>
+        <table height="100px"
+               width="607px">
+            <columns>
+                <column id="client"/>
+                <column id="siteName"/>
+                <column id="itemDesignation"/>
+                <column id="shortItemDesignation"/>
+            </columns>
+            <rows datasource="sitesDs"/>
+        </table>
+    </layout>
+</window>

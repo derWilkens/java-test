@@ -37,10 +37,7 @@ public class RotaplanServiceBean extends PreferencesService implements RotaplanS
 		}
 	}
 	public Collection<Site> getPreferredSites(){
-		EntityManager em = persistence.getEntityManager();
-		List<UserPreference> userPreferenceList = getUserPreferences(em, UserPreferencesContext.Rotaplan);
-		
-		return null;
+		return super.getPreferredSites(persistence.getEntityManager(), UserPreferencesContext.Rotaplan);
 	}
 	
 

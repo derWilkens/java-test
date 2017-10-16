@@ -127,7 +127,7 @@ public class CampaignOverview extends AbstractLookup {
 
 			for (UserPreference userPreference : userPreferencesDs.getItems()) {
 				if (entity.getId().equals(userPreference.getEntityUuid())
-						&& userPreference.getContext().equals("CampaignBrowse")) {
+						&& userPreference.getContextId().equals(UserPreferencesContext.CampaignBrowse)) {
 					checkBox.setValue(true);
 				}
 			}
@@ -140,7 +140,7 @@ public class CampaignOverview extends AbstractLookup {
 						final DataSupplier dataservice = userPreferencesDs.getDataSupplier();
 
 						final UserPreference newItem = dataservice.newInstance(userPreferencesDs.getMetaClass());
-						newItem.setContext("CampaignBrowse");
+						newItem.setContextId(UserPreferencesContext.CampaignBrowse);
 						newItem.setEntityUuid((UUID) functionCategoryUserSettings.getSingleSelected().getId());
 						userPreferencesDs.addItem((UserPreference) newItem);
 						userPreferencesDs.commit();
@@ -171,7 +171,7 @@ public class CampaignOverview extends AbstractLookup {
 			CheckBox checkBox = siteSelectedComponentsFactory.createComponent(CheckBox.class);
 			for (UserPreference userPreference : userPreferencesDs.getItems()) {
 				if (entity.getId().equals(userPreference.getEntityUuid())
-						&& userPreference.getContext().equals("CampaignBrowse")) {
+						&& userPreference.getContextId().equals(UserPreferencesContext.CampaignBrowse)) {
 					checkBox.setValue(true);
 				}
 			}
@@ -184,7 +184,7 @@ public class CampaignOverview extends AbstractLookup {
 					if (checkBox.isChecked()) {
 						final DataSupplier dataservice = userPreferencesDs.getDataSupplier();
 						final UserPreference newItem = dataservice.newInstance(userPreferencesDs.getMetaClass());
-						newItem.setContext("CampaignBrowse");
+						newItem.setContextId(UserPreferencesContext.CampaignBrowse);
 						newItem.setEntityUuid((UUID) siteUserSettings.getSingleSelected().getId());
 						userPreferencesDs.addItem((UserPreference) newItem);
 						userPreferencesDs.commit();
@@ -219,7 +219,7 @@ public class CampaignOverview extends AbstractLookup {
 			CheckBox checkBox = siteSelectedComponentsFactory.createComponent(CheckBox.class);
 			for (UserPreference userPreference : userPreferencesDs.getItems()) {
 				if (entity.getId().equals(userPreference.getEntityUuid())
-						&& userPreference.getContext().equals("CampaignBrowse")) {
+						&& userPreference.getContextId().equals(UserPreferencesContext.CampaignBrowse)) {
 					checkBox.setValue(true);
 				}
 			}
@@ -232,7 +232,7 @@ public class CampaignOverview extends AbstractLookup {
 					if (checkBox.isChecked()) {
 						final DataSupplier dataservice = userPreferencesDs.getDataSupplier();
 						final UserPreference newItem = dataservice.newInstance(userPreferencesDs.getMetaClass());
-						newItem.setContext("CampaignBrowse");
+						newItem.setContextId(UserPreferencesContext.CampaignBrowse);
 						newItem.setEntityUuid((UUID) personsOnDutyUserSettings.getSingleSelected().getId());
 						userPreferencesDs.addItem((UserPreference) newItem);
 						userPreferencesDs.commit();

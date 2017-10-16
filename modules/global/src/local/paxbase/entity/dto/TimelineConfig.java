@@ -10,6 +10,7 @@ public class TimelineConfig {
 	private Function<?, String> itemLabelFunction;
 	private Function<?, String> styleFunction;
 	private Function<?, Boolean> editableFunction;
+	private Function<?, String> typeFunction;
 	
 	public Function<?, String> getParentGroupIdFunction() {
 		return parentGroupIdFunction;
@@ -49,5 +50,11 @@ public class TimelineConfig {
 	}
 	public void setEditableFunction(Function<?, Boolean> editableFunction) {
 		this.editableFunction = editableFunction;
+	}
+	public Function<?, String> getTypeFunction() {
+		return typeFunction;
+	}
+	public void setTypeFunction(Function<?, String> typeFunction) {
+		this.typeFunction = typeFunction;
 	}
 }

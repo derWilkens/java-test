@@ -1,6 +1,5 @@
 package local.paxbase.service;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -15,7 +14,6 @@ import com.esotericsoftware.minlog.Log;
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.TypedQuery;
-import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.UserSessionSource;
 
@@ -143,6 +141,9 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 		dutyPeriodConfig.setEditableFunction((DutyPeriod e) -> {
 			return true;
 		});
+		dutyPeriodConfig.setTypeFunction((DutyPeriod e) -> {
+			return "range";
+		});
 		return dutyPeriodConfig;
 	}
 
@@ -174,7 +175,9 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 		dutyPeriodConfig.setEditableFunction((DutyPeriod e) -> {
 			return true;
 		});
-		
+		dutyPeriodConfig.setTypeFunction((DutyPeriod e) -> {
+			return "range";
+		});
 		return dutyPeriodConfig;
 	}
 
@@ -205,12 +208,12 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 	private String getSiteColorPreference(UUID siteId) {
 		UserPreference userPreference;
 
-		String queryString = "select e from paxbase$UserPreference e where e.userId = :userId and e.context=:context and e.entityUuid=:siteId";
+		String queryString = "select e from paxbase$UserPreference e where e.userId = :userId and e.contextId=:context and e.entityUuid=:siteId";
 		TypedQuery<UserPreference> query = persistence.getEntityManager().createQuery(queryString,
 				UserPreference.class);
 		UserSessionSource session = AppBeans.get(UserSessionSource.class);
 		query.setParameter("userId", session.getUserSession().getUser().getId());
-		query.setParameter("context", "SiteColors");
+		query.setParameter("context", UserPreferencesContext.SiteColors);
 		query.setParameter("siteId", siteId);
 		userPreference = query.getFirstResult();
 		if (userPreference != null) {

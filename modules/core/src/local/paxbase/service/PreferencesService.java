@@ -20,7 +20,7 @@ public abstract class PreferencesService {
 	protected List<UserPreference> getUserPreferences(EntityManager em, UserPreferencesContext context) {
 		List<UserPreference> userPreferenceList;
 
-		String queryString = "select e from paxbase$UserPreference e where e.userId = :userId and e.contextId=:context";
+		String queryString = "select e from paxbase$UserPreference e where e.userId = :userId and e.contextId=:contextId";
 		TypedQuery<UserPreference> query = em.createQuery(queryString,
 				UserPreference.class);
 		UserSessionSource session = AppBeans.get(UserSessionSource.class);

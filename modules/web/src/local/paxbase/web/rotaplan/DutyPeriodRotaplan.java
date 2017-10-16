@@ -39,7 +39,9 @@ import elemental.json.JsonObject;
 import local.paxbase.entity.DutyPeriod;
 import local.paxbase.entity.OffshoreUser;
 import local.paxbase.entity.coredata.FunctionCategory;
+import local.paxbase.entity.coredata.Site;
 import local.paxbase.entity.dto.TimelineDTO;
+import local.paxbase.service.RotaplanService;
 import local.paxbase.service.TimelineService;
 import local.paxbase.web.dutyperiod.DutyPeriodBrowse;
 import local.paxbase.web.toolkit.ui.timelinecomponent.RotaplanComponent;
@@ -49,6 +51,8 @@ public class DutyPeriodRotaplan extends AbstractLookup {
 	private RotaplanComponent rotaplan;
 	@Inject
 	private TimelineService timelineDTOService;
+	@Inject
+	private RotaplanService rotaplanService;
 	
 	private TimelineDTO dto;
 	@Inject
@@ -340,11 +344,17 @@ public class DutyPeriodRotaplan extends AbstractLookup {
 				Collection items = functionCategoriesDs.getItems();
 				String content = jsonItem.getString("content");
 				
-				for (Iterator iterator = items.iterator(); iterator.hasNext();) {
-					FunctionCategory cat = (FunctionCategory) iterator.next();
-					if (cat.getCategoryName().equals(jsonItem.getString("content"))) {
-						newItem.setFunctionCategory(cat);
-						break;
+				Site site = rotaplanService.getSiteByItemDesignation(content);
+				if(site != null){
+					newItem.setSite(site);
+					//newItem.setFunctionCategory(functionCategoriesDs.get );
+				} else {
+					for (Iterator iterator = items.iterator(); iterator.hasNext();) {
+						FunctionCategory cat = (FunctionCategory) iterator.next();
+						if (cat.getCategoryName().equals(content)) {
+							newItem.setFunctionCategory(cat);
+							break;
+						}
 					}
 				}
 				save();

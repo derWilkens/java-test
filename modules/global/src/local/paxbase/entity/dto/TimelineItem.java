@@ -56,18 +56,19 @@ public class TimelineItem extends AbstractNotPersistentStringIdEntity {
 	}
 
 	@SuppressWarnings("unchecked")
-	public TimelineItem(Period entity, TimelineConfig campaignTimelineConfig) {
+	public TimelineItem(Period entity, TimelineConfig timelineConfig) {
     	super();
     	this.id = entity.getId().toString();
-		this.content = ((Function<Period, String>) campaignTimelineConfig.getItemLabelFunction()).apply(entity);
+		this.content = ((Function<Period, String>) timelineConfig.getItemLabelFunction()).apply(entity);
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		this.start = entity.getStart() != null ? formatter.format(entity.getStart()):null;
 		this.end = entity.getEnd()!=null ? formatter.format(entity.getEnd()):null;
-		this.group = ((Function<Period, String>) campaignTimelineConfig.getGroupIdFunction()).apply(entity);
-		this.subgroupId = ((Function<Period, String>) campaignTimelineConfig.getParentGroupIdFunction()).apply(entity);
-		this.style = ((Function<Period, String>)campaignTimelineConfig.getStyleFunction()).apply(entity);
-		this.type = "range";
-		this.editable = ((Function<Period, Boolean>) campaignTimelineConfig.getEditableFunction()).apply(entity);
+		this.group = ((Function<Period, String>) timelineConfig.getGroupIdFunction()).apply(entity);
+		this.subgroupId = ((Function<Period, String>) timelineConfig.getParentGroupIdFunction()).apply(entity);
+		this.style = ((Function<Period, String>)timelineConfig.getStyleFunction()).apply(entity);
+		//this.type = "range";
+		this.type = ((Function<Period, String>)timelineConfig.getTypeFunction()).apply(entity);
+		this.editable = ((Function<Period, Boolean>) timelineConfig.getEditableFunction()).apply(entity);
 	}
 
 	public TimelineItem(Object array) {

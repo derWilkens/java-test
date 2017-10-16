@@ -242,4 +242,11 @@
         <property name="name"/>
         <property name="acronym"/>
     </view>
+    <view class="local.paxbase.entity.coredata.Site"
+          name="preferred-site-view">
+        <property name="siteName"/>
+        <property name="itemDesignation"/>
+        <property name="siteType"
+                  view="_minimal"/>
+    </view>
 </views>
