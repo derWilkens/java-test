@@ -31,7 +31,7 @@ public class UserpreferencesServiceBean extends PreferencesService implements Us
 	public UserPreference getPreference(UserPreferencesContext context, UUID entityUuid) {
 		UserPreference preference = null;
 		try (Transaction tx = persistence.createTransaction()) {
-			String queryString = "select e from paxbase$UserPreference e where e.contextId = :context and e.entityUuid = :entityUuid and e.userUuid = :userId";
+			String queryString = "select e from paxbase$UserPreference e where e.contextId = :contextId and e.entityUuid = :entityUuid and e.userId = :userId";
 
 			TypedQuery<UserPreference> query = persistence.getEntityManager().createQuery(queryString,
 					UserPreference.class);
@@ -76,6 +76,8 @@ public class UserpreferencesServiceBean extends PreferencesService implements Us
 		try (Transaction tx = persistence.createTransaction()) {
 			UserPreference item = getPreference(context, entityUUID);
 			persistence.getEntityManager().remove(item);
+			tx.commit();
+			
 		}
 	}
 

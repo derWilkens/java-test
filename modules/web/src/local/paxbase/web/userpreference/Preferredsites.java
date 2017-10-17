@@ -11,6 +11,7 @@ import java.util.UUID;
 import javax.inject.Inject;
 
 import com.haulmont.cuba.gui.components.AbstractFrame;
+import com.haulmont.cuba.gui.components.Frame;
 import com.haulmont.cuba.gui.components.OptionsGroup;
 import com.haulmont.cuba.gui.components.PopupView;
 import com.haulmont.cuba.gui.data.CollectionDatasource;
@@ -51,7 +52,7 @@ public class Preferredsites extends AbstractFrame {
 			}
 		}
 		optionsGroup.setValue(preferredSiteList);
-
+		
 		optionsGroup.addValueChangeListener(e -> {
 			@SuppressWarnings("rawtypes")
 			String selectedValue = e.getValue() == null ? "0" : String.valueOf(((Collection) e.getValue()).size());

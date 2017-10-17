@@ -14,11 +14,12 @@
                 width="800"/>
     <layout spacing="true">
         <popupView id="popupView"
+                   align="BOTTOM_LEFT"
                    hideOnMouseOut="false"
-                   minimizedValue="Minimized Value">
-            <vbox height="400px"
-                  width="300px">
+                   minimizedValue="Minimized Value 2137">
+            <vbox height="100%">
                 <optionsGroup id="optionsGroup"
+                              align="MIDDLE_CENTER"
                               multiselect="true"
                               optionsDatasource="sitesDs"
                               property="siteName"/>

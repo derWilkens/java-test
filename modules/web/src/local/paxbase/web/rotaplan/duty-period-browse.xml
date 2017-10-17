@@ -53,6 +53,7 @@
     <dialogMode height="600"
                 width="800"/>
     <layout>
+        <frame src="/local/paxbase/web/userpreference/PreferredSites.xml"/>
         <scrollBox id="timelineBox"
                    height="100%"
                    scrollBars="both"

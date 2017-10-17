@@ -25,7 +25,7 @@ public class StandardTestContainer  extends TestContainer {
 //        dbPassword = "";
         
         dbDriver = "com.mysql.jdbc.Driver";
-        dbUrl = "jjdbc:mysql://localhost/crewbase?useSSL=false&amp;allowMultiQueries=true";
+        dbUrl = "jdbc:mysql://localhost/crewbase?useSSL=false&amp;allowMultiQueries=true";
         dbUser = "crewbase";
         dbPassword = "1234";
         
