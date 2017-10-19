@@ -61,4 +61,6 @@
             template="local/paxbase/web/userpreference/PreferredSites.xml"/>
     <screen id="paxbase$Site.PreferredSiteBrowse"
             template="local/paxbase/web/site/preferred-site-browse.xml"/>
+    <screen id="rota-timeline"
+            template="local/paxbase/web/rotaplan/rota-timeline.xml"/>
 </screen-config>

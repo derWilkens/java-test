@@ -35,6 +35,7 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 	@Inject
 	private Persistence persistence;
 	
+	
 	@Override
 	public TimelineDTO getDto(UserPreferencesContext context) {
 
@@ -97,17 +98,18 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 			
 			dto.addItems(dutyPeriods, rotaplanConfig);
 			
-			/* @TODO
-			 * SiteItems aus der DB holen, entweder Benutzerspezifisch oder alle*/
 			Set<SiteItem> siteItems = dto.getSiteItems();
-			SiteItem item1 = new SiteItem();
-			item1.setSiteName("HWAL");
-			item1.setColor("#0b7eea");
-			siteItems.add(item1);
-			SiteItem item2 = new SiteItem();
-			item2.setSiteName("BWAL");
-			item2.setColor("#90ed44");
-			siteItems.add(item2);	
+			List<Site> preferredSites = getPreferredSites(persistence.getEntityManager(), UserPreferencesContext.SiteRotaplan);
+			
+			if(preferredSites.size()==0){
+				preferredSites = getSites(persistence.getEntityManager());
+			}
+			for(Site site:preferredSites){
+				SiteItem item1 = new SiteItem();
+				item1.setSiteName(site.getItemDesignation());
+				item1.setColor("#0b7eea");
+				siteItems.add(item1);				
+			}
 			
 			tx.commit();
 		}

@@ -25,6 +25,7 @@
         <item screen="paxbase$DutyPeriod.browse"/>
         <item screen="paxbase$DutyPeriodRotaplan.browse"/>
         <item screen="paxbase$Site.PreferredSiteBrowse"/>
+        <item screen="rota-timeline"/>
     </menu>
     <item insertBefore="bpm"
           openType="NEW_TAB"

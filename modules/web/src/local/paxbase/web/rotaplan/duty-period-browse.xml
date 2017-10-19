@@ -53,7 +53,21 @@
     <dialogMode height="600"
                 width="800"/>
     <layout>
-        <frame src="/local/paxbase/web/userpreference/PreferredSites.xml"/>
+        <popupView id="campaignSitePopupView"
+                   align="BOTTOM_LEFT"
+                   hideOnMouseOut="false"
+                   minimizedValue="Minimized Value 2137">
+            <vbox height="100%">
+                <optionsGroup id="campaignSiteOptionsGroup"
+                              align="MIDDLE_CENTER"
+                              multiselect="true"
+                              optionsDatasource="sitesDs"
+                              property="siteName"/>
+            </vbox>
+        </popupView>
+        <button caption="Kampagnen einblenden"
+                invoke="openPopup"
+                width="367px"/>
         <scrollBox id="timelineBox"
                    height="100%"
                    scrollBars="both"

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://caption"
+        class="local.paxbase.web.rotaplan.RotaTimeline"
+        messagesPack="local.paxbase.web.rotaplan">
+    <dsContext>
+        <datasource id="dutyPeriodDs"
+                    class="local.paxbase.entity.DutyPeriod"
+                    view="dutyPeriod-edit-view"/>
+        <collectionDatasource id="functionCategoriesDs"
+                              class="local.paxbase.entity.coredata.FunctionCategory"
+                              view="_minimal">
+            <query>
+                <![CDATA[select e from paxbase$FunctionCategory e]]>
+            </query>
+        </collectionDatasource>
+        <collectionDatasource id="sitesDs"
+                              class="local.paxbase.entity.coredata.Site"
+                              view="_minimal">
+            <query>
+                <![CDATA[select e from paxbase$Site e]]>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <actions>
+        <action id="openSiteCampaingChooser"
+                icon="font-icon:COGS"
+                invoke="openSiteCampaingChooser"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="timelineBox">
+        <popupView id="campaignSitePopupView"
+                   align="BOTTOM_LEFT"
+                   hideOnMouseOut="false"
+                   minimizedValue="Minimized Value 2256">
+            <vbox height="100%">
+                <optionsGroup id="campaignSiteOptionsGroup"
+                              align="MIDDLE_CENTER"
+                              multiselect="true"
+                              optionsDatasource="sitesDs"
+                              property="siteName"/>
+            </vbox>
+        </popupView>
+        <button id="siteCampaignChooser"
+                action="openSiteCampaingChooser"
+                caption="msg://chooseSitesForCampaign"/>
+        <scrollBox id="timelineBox"
+                   scrollBars="both"
+                   spacing="true"/>
+    </layout>
+</window>

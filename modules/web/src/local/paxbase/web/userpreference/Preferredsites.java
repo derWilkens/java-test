@@ -76,8 +76,6 @@ public class Preferredsites extends AbstractFrame {
 			if (addedSite != null) {
 				preferencesService.createPreference(UserPreferencesContext.SiteRotaplan, addedSite.getUuid(), null);
 			}
-			// delta von prevValue und Value bilden und entsprechend neue
-			// preference anlegen oder löschen
 		});
 	}
 

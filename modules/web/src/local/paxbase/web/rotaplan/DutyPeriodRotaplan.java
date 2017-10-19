@@ -22,6 +22,8 @@ import com.haulmont.cuba.gui.components.Component;
 import com.haulmont.cuba.gui.components.FieldGroup;
 import com.haulmont.cuba.gui.components.KeyCombination;
 import com.haulmont.cuba.gui.components.LookupField;
+import com.haulmont.cuba.gui.components.OptionsGroup;
+import com.haulmont.cuba.gui.components.PopupView;
 import com.haulmont.cuba.gui.components.ScrollBoxLayout;
 import com.haulmont.cuba.gui.components.SplitPanel;
 import com.haulmont.cuba.gui.components.Table;
@@ -49,6 +51,11 @@ import local.paxbase.web.toolkit.ui.timelinecomponent.RotaplanComponent.Rotaplan
 
 public class DutyPeriodRotaplan extends AbstractLookup {
 	private RotaplanComponent rotaplan;
+	@Inject
+	private PopupView campaignSitePopupView;
+	
+	@Inject
+	private OptionsGroup campaignSiteOptionsGroup;
 	@Inject
 	private TimelineService timelineDTOService;
 	@Inject
@@ -241,7 +248,10 @@ public class DutyPeriodRotaplan extends AbstractLookup {
 			}
 		}
 	}
-
+	
+	public void openPopup() {
+		campaignSitePopupView.setPopupVisible(true);
+	}
 	/**
 	 * Method that is invoked by clicking Ok button after editing an existing or
 	 * creating a new record

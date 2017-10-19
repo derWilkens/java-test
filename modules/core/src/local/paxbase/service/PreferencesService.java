@@ -57,7 +57,17 @@ public abstract class PreferencesService {
 
 		return entityList;
 	}
-	
+	protected List<Site> getSites(EntityManager em) {
+		List<Site> entityList;
+
+		String queryString = "select e from paxbase$Site e ";
+
+		TypedQuery<Site> query = em.createQuery(queryString, Site.class);
+
+		entityList = query.getResultList();
+
+		return entityList;
+	}	
 	private List<OffshoreUser> loadPersonsByPreferredDepartment(EntityManager em, List<UserPreference> userPreferenceList) {
 		List<OffshoreUser> entityList;
 
