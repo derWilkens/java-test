@@ -66,7 +66,6 @@ public class TimelineItem extends AbstractNotPersistentStringIdEntity {
 		this.group = ((Function<Period, String>) timelineConfig.getGroupIdFunction()).apply(entity);
 		this.subgroupId = ((Function<Period, String>) timelineConfig.getParentGroupIdFunction()).apply(entity);
 		this.style = ((Function<Period, String>)timelineConfig.getStyleFunction()).apply(entity);
-		//this.type = "range";
 		this.type = ((Function<Period, String>)timelineConfig.getTypeFunction()).apply(entity);
 		this.editable = ((Function<Period, Boolean>) timelineConfig.getEditableFunction()).apply(entity);
 	}

@@ -78,6 +78,7 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 
 		timeline.setGroups(new vis.DataSet(this.getState().timelineGroups));
 		timeline.setItems(new vis.DataSet(this.getState().timelineItems));
+		createSiteItemList();
 	}
 	
 	// Create a Timeline
@@ -86,21 +87,27 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 	timeline.setOptions(options);
 	timeline.setGroups(new vis.DataSet(this.getState().timelineGroups));
 	timeline.setItems(new vis.DataSet(this.getState().timelineItems));
-
+	createSiteItemList();
+	
 	function createSiteItemList() {
-		alert.show("asdasd")
-	}
-		var siteItems = this.getState().siteItems;
+		
+		var siteDutyNode = document.getElementById("siteDuties");
+		while (siteDutyNode.firstChild) {
+			siteDutyNode.removeChild(siteDutyNode.firstChild);
+		}
+		var state = connector.getState();
+		var siteItems = state.siteItems;
 		for (var i = siteItems.length - 1; i >= 0; i--) {
 			var node = document.createElement("LI"); // Create a <li> node
 			node.setAttribute("draggable", "true");
 			node.setAttribute("class", "siteItem");
 			node.setAttribute("style", "background-color: " + siteItems[i].color);
+			node.addEventListener('dragstart', handleDragStart.bind(this), false);
 			var textnode = document.createTextNode(siteItems[i].siteName); 
 			node.appendChild(textnode); // Append the text to <li>
 			document.getElementById("siteDuties").appendChild(node);
 		}
-	
+	}
 	function handleDragStart(event) {
 		dragSrcEl = event.target;
 

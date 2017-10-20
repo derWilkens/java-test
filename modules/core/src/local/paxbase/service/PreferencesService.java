@@ -18,18 +18,29 @@ import local.paxbase.entity.coredata.Site;
 public abstract class PreferencesService {
 	
 	protected List<UserPreference> getUserPreferences(EntityManager em, UserPreferencesContext context) {
-		List<UserPreference> userPreferenceList;
 
 		String queryString = "select e from paxbase$UserPreference e where e.userId = :userId and e.contextId=:contextId";
+		
 		TypedQuery<UserPreference> query = em.createQuery(queryString,
 				UserPreference.class);
 		UserSessionSource session = AppBeans.get(UserSessionSource.class);
 		query.setParameter("userId", session.getUserSession().getUser().getId());
 		query.setParameter("contextId", context);
 
-		userPreferenceList = query.getResultList();
+		return query.getResultList();
+	}
 
-		return userPreferenceList;
+	public UserPreference getPreference(EntityManager em, UserPreferencesContext context, UUID entityUuid) {
+		
+			String queryString = "select e from paxbase$UserPreference e where e.contextId = :contextId and e.entityUuid = :entityUuid and e.userId = :userId";
+
+			TypedQuery<UserPreference> query = em.createQuery(queryString,
+					UserPreference.class);
+			query.setParameter("contextId", context);
+			query.setParameter("entityUuid", entityUuid);
+			query.setParameter("userId", AppBeans.get(UserSessionSource.class).getUserSession().getUser().getId());
+	
+			return query.getFirstResult();
 	}
 	
 	protected List<Site> getPreferredSites(EntityManager em, UserPreferencesContext context){

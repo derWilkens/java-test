@@ -4,6 +4,10 @@ import java.util.function.Function;
 
 public class TimelineConfig {
 
+	/*
+	 * Die Konfiguration stellt Funktionen für das TimelineDTO zur Verfügung.
+	 * Abhängig von den unterschiedlichen PeriodItems werden die Attribute unterschiedlich interpretiert 
+	 */
 	private Function<?, String> groupIdFunction;
 	private Function<?, String> groupLabelFunction;
 	private Function<?, String> parentGroupIdFunction;

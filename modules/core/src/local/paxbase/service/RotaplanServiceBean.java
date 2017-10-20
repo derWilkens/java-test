@@ -24,17 +24,17 @@ public class RotaplanServiceBean extends PreferencesService implements RotaplanS
 	
 	@Override
 	public Site getSiteByItemDesignation(String itemDesignation) {
+		Site result = null;
 		try (Transaction tx = persistence.createTransaction()) {
 			
 			String queryString = "select e from paxbase$Site e where e.itemDesignation = :itemDesignation";
 
 			TypedQuery<Site> query = persistence.getEntityManager().createQuery(queryString, Site.class);
-
 			query.setParameter("itemDesignation", itemDesignation);
+			result = query.getSingleResult();
 			tx.commit();
-			
-			return query.getSingleResult();
 		}
+		return result;
 	}
 	public Collection<Site> getPreferredSites(){
 		return super.getPreferredSites(persistence.getEntityManager(), UserPreferencesContext.Rotaplan);

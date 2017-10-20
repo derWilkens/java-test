@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.gui.components.AbstractWindow;
+import com.haulmont.cuba.gui.components.CheckBox;
 import com.haulmont.cuba.gui.components.OptionsGroup;
 import com.haulmont.cuba.gui.components.PopupView;
 import com.haulmont.cuba.gui.components.ScrollBoxLayout;
@@ -55,6 +56,8 @@ public class RotaTimeline extends AbstractWindow {
 	private OptionsGroup campaignSiteOptionsGroup;
 	@Inject
 	private ScrollBoxLayout timelineBox;
+	@Inject
+	private CheckBox cbxDisplayCampaigns;
 
 	/*Services*/
 	@Inject
@@ -65,7 +68,7 @@ public class RotaTimeline extends AbstractWindow {
 	private UserpreferencesService preferencesService;
 	
 
-	
+	/*Datasources*/
 	@Inject
 	private Datasource<DutyPeriod> dutyPeriodDs;
 	@Inject
@@ -74,22 +77,29 @@ public class RotaTimeline extends AbstractWindow {
 	private CollectionDatasource<FunctionCategory, UUID> functionCategoriesDs;
 	@Inject
 	private CollectionDatasource<Site, UUID> sitesDs;
+	
 	@Override
 	public void init(Map<String, Object> params) {
 		
 		super.init(params);
+		dutyPeriodsDs.refresh();
 		// JS-UI-Komonente
 		rotaplan = new RotaplanComponent();
-		dto = timelineDTOService.getRotoplanDto();
-		if (dto != null) {
-			rotaplan.addDTO("rotaplan", dto);
-			rotaplan.refresh();
-		}
+		loadRotaplanDto();
 		com.vaadin.ui.Layout box = (Layout) WebComponentsHelper.unwrap(timelineBox);
 		// box.setWidth("100%");
 		box.addComponent(rotaplan);
 		rotaplan.setListener(new InnerListener());
 		initCampaignSiteOptionGroup();
+		initCheckBoxDisplayCampaigns();
+	}
+
+	private void loadRotaplanDto() {
+		dto = timelineDTOService.getRotoplanDto();
+		if (dto != null) {
+			rotaplan.addDTO("rotaplan", dto);
+			rotaplan.refresh();
+		}
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -108,9 +118,11 @@ public class RotaTimeline extends AbstractWindow {
 			}
 		}
 		campaignSiteOptionsGroup.setValue(preferredSiteList);
+		
+		/* Group EventListener */
 		campaignSiteOptionsGroup.addValueChangeListener(e -> {
-			String selectedValue = e.getValue() == null ? "0" : String.valueOf(((Collection) e.getValue()).size());
-			showNotification("selected: " + selectedValue, NotificationType.HUMANIZED);
+			//String selectedValue = e.getValue() == null ? "0" : String.valueOf(((Collection) e.getValue()).size());
+			//showNotification("selected: " + selectedValue, NotificationType.HUMANIZED);
 			LinkedHashSet<Site> currentVal = null;
 			LinkedHashSet<Site> prevVal = null;
 
@@ -130,7 +142,24 @@ public class RotaTimeline extends AbstractWindow {
 			if (addedSite != null) {
 				preferencesService.createPreference(UserPreferencesContext.SiteRotaplan, addedSite.getUuid(), null);
 			}
+			loadRotaplanDto();
 		});
+	}
+	private void initCheckBoxDisplayCampaigns(){
+		 UserPreference preferenceUUID = preferencesService.getPreference(UserPreferencesContext.RotaplanDisplayCampaigns, null);
+         if(preferenceUUID!=null){
+        	 cbxDisplayCampaigns.setValue(true);
+         }
+		cbxDisplayCampaigns.addValueChangeListener(event -> {
+	        if (Boolean.TRUE.equals(event.getValue())) {
+	        	preferencesService.createPreference(UserPreferencesContext.RotaplanDisplayCampaigns, null, "true");
+	            //showNotification("set", NotificationType.HUMANIZED);
+	        	
+	        } else {
+	            preferencesService.deletePreference(UserPreferencesContext.RotaplanDisplayCampaigns, null); 
+	        }
+	        loadRotaplanDto();
+	    });
 	}
 	
 	private Site getAddedItem(LinkedHashSet<Site> prevVal, LinkedHashSet<Site> currentVal) {
@@ -154,7 +183,9 @@ public class RotaTimeline extends AbstractWindow {
 	public void openSiteCampaingChooser() {
 		campaignSitePopupView.setPopupVisible(true);
 	}
-	
+	public void reloadDutyPeriods(){
+		
+	}
 	class InnerListener implements RotaplandChangeListener {
 
 		@SuppressWarnings("rawtypes")
@@ -182,13 +213,20 @@ public class RotaTimeline extends AbstractWindow {
 				LoadContext<OffshoreUser> loadContext = LoadContext.create(OffshoreUser.class)
 						.setId(UUID.fromString(userUuid)).setView("offshoreUser-browser-view");
 				newItem.setPersonOnDuty(dataManager.load(loadContext));
-
+				functionCategoriesDs.refresh();
 				Collection items = functionCategoriesDs.getItems();
 				String content = jsonItem.getString("content");
 				
 				Site site = rotaplanService.getSiteByItemDesignation(content);
 				if(site != null){
 					newItem.setSite(site);
+					for (Iterator iterator = items.iterator(); iterator.hasNext();) {
+						FunctionCategory cat = (FunctionCategory) iterator.next();
+						if (cat.getCategoryName().equals("Offshore")) {
+							newItem.setFunctionCategory(cat);
+							break;
+						}
+					}
 					//newItem.setFunctionCategory(functionCategoriesDs.get );
 				} else {
 					for (Iterator iterator = items.iterator(); iterator.hasNext();) {
@@ -200,9 +238,8 @@ public class RotaTimeline extends AbstractWindow {
 					}
 				}
 				dutyPeriodsDs.updateItem(newItem);
-
-				rotaplan.addDTO("rotaplan", timelineDTOService.getRotoplanDto());
-				rotaplan.refresh();
+				getDsContext().commit();
+		        loadRotaplanDto();
 			}
 		}
 
@@ -221,6 +258,7 @@ public class RotaTimeline extends AbstractWindow {
 			}
 
 			dutyPeriodDs.setItem(dutyPeriod);
+			getDsContext().commit();
 		}
 
 		@Override
@@ -229,8 +267,7 @@ public class RotaTimeline extends AbstractWindow {
 			if (dutyPeriod != null) {
 				dutyPeriodsDs.removeItem(dutyPeriod);
 				getDsContext().commit();
-				rotaplan.addDTO("rotaplan", timelineDTOService.getRotoplanDto());
-				rotaplan.refresh();
+		        loadRotaplanDto();
 			}
 		}
 		private Date jsonDateToDate(String rawDate) throws ParseException {

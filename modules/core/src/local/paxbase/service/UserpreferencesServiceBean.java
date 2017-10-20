@@ -9,11 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
-import com.haulmont.cuba.core.TypedQuery;
-import com.haulmont.cuba.core.global.AppBeans;
-import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.Metadata;
-import com.haulmont.cuba.core.global.UserSessionSource;
 
 import local.paxbase.entity.UserPreference;
 import local.paxbase.entity.UserPreferencesContext;
@@ -23,29 +19,12 @@ public class UserpreferencesServiceBean extends PreferencesService implements Us
 	@Inject
 	private Persistence persistence;
 	@Inject
-	private DataManager dataManager;
-	@Inject
 	private Metadata metadata;
 	
 	@Override
-	public UserPreference getPreference(UserPreferencesContext context, UUID entityUuid) {
-		UserPreference preference = null;
+	public UserPreference getPreference(UserPreferencesContext context, UUID id) {
 		try (Transaction tx = persistence.createTransaction()) {
-			String queryString = "select e from paxbase$UserPreference e where e.contextId = :contextId and e.entityUuid = :entityUuid and e.userId = :userId";
-
-			TypedQuery<UserPreference> query = persistence.getEntityManager().createQuery(queryString,
-					UserPreference.class);
-			query.setParameter("contextId", context);
-			query.setParameter("entityUuid", entityUuid);
-			query.setParameter("userId", AppBeans.get(UserSessionSource.class).getUserSession().getUser().getId());
-			try {
-				preference = query.getSingleResult();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			return preference;
+			return getPreference(persistence.getEntityManager(), context, id);
 		}
 	}
 
@@ -75,10 +54,11 @@ public class UserpreferencesServiceBean extends PreferencesService implements Us
 	public void deletePreference(UserPreferencesContext context, UUID entityUUID) {
 		try (Transaction tx = persistence.createTransaction()) {
 			UserPreference item = getPreference(context, entityUUID);
-			persistence.getEntityManager().remove(item);
+			if(item!=null){
+				persistence.getEntityManager().remove(item);
+			}
 			tx.commit();
 			
 		}
 	}
-
 }

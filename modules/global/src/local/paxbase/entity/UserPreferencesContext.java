@@ -11,7 +11,8 @@ public enum UserPreferencesContext implements EnumClass<Integer> {
     Rotaplan(20),
     SiteColors(30),
     SiteRotaplan(40),
-    SiteCampaign(50);
+    SiteCampaign(50),
+    RotaplanDisplayCampaigns(60);
 
     private Integer id;
 

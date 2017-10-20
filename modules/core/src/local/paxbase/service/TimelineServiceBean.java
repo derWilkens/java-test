@@ -1,5 +1,6 @@
 package local.paxbase.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -34,8 +35,7 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 
 	@Inject
 	private Persistence persistence;
-	
-	
+
 	@Override
 	public TimelineDTO getDto(UserPreferencesContext context) {
 
@@ -84,33 +84,42 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 
 	@Override
 	public TimelineDTO getRotoplanDto() {
-		
+
 		TimelineDTO dto = new TimelineDTO();
 		TimelineConfig rotaplanConfig = getDutyPeriodGroupedByUserConfig();
-		
+		TimelineConfig campaignConfig = getCampaignAsBackgroundConfig();
 		try (Transaction tx = persistence.createTransaction()) {
-			
+
 			// der angemeldete User darf seine MA einplanen, ein Admin darf
 			// alle?
-			// --> jeder MA sucht sich selbst die Departments			
-			List<OffshoreUser> personsOnDuty = getPersonsByPreferredDepartment(persistence.getEntityManager(), UserPreferencesContext.Rotaplan);
+			// --> jeder MA sucht sich selbst die Departments
+			List<OffshoreUser> personsOnDuty = getPersonsByPreferredDepartment(persistence.getEntityManager(),
+					UserPreferencesContext.Rotaplan);
 			List<DutyPeriod> dutyPeriods = getDutyPeriods(personsOnDuty, null, null);
-			
+
 			dto.addItems(dutyPeriods, rotaplanConfig);
-			
+
 			Set<SiteItem> siteItems = dto.getSiteItems();
-			List<Site> preferredSites = getPreferredSites(persistence.getEntityManager(), UserPreferencesContext.SiteRotaplan);
-			
-			if(preferredSites.size()==0){
+			List<Site> preferredSites = getPreferredSites(persistence.getEntityManager(),
+					UserPreferencesContext.SiteRotaplan);
+			if (getPreference(persistence.getEntityManager(),
+					UserPreferencesContext.RotaplanDisplayCampaigns, null) != null) {
+				List<FunctionCategory> functionCategories = new ArrayList<FunctionCategory>();
+				functionCategories = loadCampaignFunctionCategories();
+				List<Campaign> campaigns = getCampaigns(preferredSites, functionCategories);
+				// Die Campaigns müssen ins DTO
+				dto.addItems(campaigns, campaignConfig);
+			}
+			if (preferredSites.size() == 0) {
 				preferredSites = getSites(persistence.getEntityManager());
 			}
-			for(Site site:preferredSites){
+			for (Site site : preferredSites) {
 				SiteItem item1 = new SiteItem();
 				item1.setSiteName(site.getItemDesignation());
 				item1.setColor("#0b7eea");
-				siteItems.add(item1);				
+				siteItems.add(item1);
 			}
-			
+
 			tx.commit();
 		}
 		return dto;
@@ -118,7 +127,9 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 	}
 
 	private TimelineConfig getDutyPeriodGroupedBySiteConfig() {
+		
 		TimelineConfig dutyPeriodConfig = new TimelineConfig();
+		
 		dutyPeriodConfig.setGroupIdFunction((DutyPeriod e) -> e.getSite().getSiteName());
 		dutyPeriodConfig.setParentGroupIdFunction((DutyPeriod e) -> {
 			if (e.getSite().getParentSite() != null) {
@@ -160,10 +171,14 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 				return null;
 		});
 		dutyPeriodConfig.setItemLabelFunction((DutyPeriod e) -> {
+			String result = "";
+			if (e.getSite() != null){
+				result = e.getSite().getItemDesignation();
+			}
 			if (e.getFunctionCategory() != null) {
-				return e.getFunctionCategory().getCategoryName();
-			} else
-				return ".";
+				result = result + " " + e.getFunctionCategory().getCategoryName();
+			} 
+			return result;
 		});
 		dutyPeriodConfig.setStyleFunction((DutyPeriod e) -> {
 			if (null != e.getSite()) {
@@ -179,6 +194,32 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 		});
 		dutyPeriodConfig.setTypeFunction((DutyPeriod e) -> {
 			return "range";
+		});
+		return dutyPeriodConfig;
+	}
+
+	private TimelineConfig getCampaignAsBackgroundConfig() {
+		TimelineConfig dutyPeriodConfig = new TimelineConfig();
+		dutyPeriodConfig.setGroupIdFunction((Campaign e) -> null);
+		dutyPeriodConfig.setGroupLabelFunction((Campaign e) -> null);
+		dutyPeriodConfig.setParentGroupIdFunction((Campaign e) -> null);
+		dutyPeriodConfig.setItemLabelFunction((Campaign e) -> {
+			return e.getSite().getItemDesignation() + "<BR>" + e.getCampaignNumber();
+		});
+		dutyPeriodConfig.setStyleFunction((Campaign e) -> {
+			if (null != e.getSite()) {
+				String colorHex = getSiteColorPreference(e.getSite().getUuid());
+				if (colorHex != null) {
+					return "background-color: #" + colorHex + ";";
+				}
+			}
+			return "";
+		});
+		dutyPeriodConfig.setEditableFunction((Campaign e) -> {
+			return false;
+		});
+		dutyPeriodConfig.setTypeFunction((Campaign e) -> {
+			return "background";
 		});
 		return dutyPeriodConfig;
 	}
@@ -235,17 +276,17 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 		queryString = "select e from paxbase$DutyPeriod e ";
 
 		if (personOnDutyList != null && personOnDutyList.size() > 0) {
-			queryConcatenator = queryConcatenator.equals("") ?  "" : "where";
+			queryConcatenator = queryConcatenator.equals("") ? "" : "where";
 			queryString = queryString + "e.personOnDuty.id in :personsIdList ";
 			queryConcatenator = "AND ";
 		}
 		if (siteList != null && siteList.size() > 0) {
-			queryConcatenator = queryConcatenator.equals("") ?  "" : "where";
+			queryConcatenator = queryConcatenator.equals("") ? "" : "where";
 			queryString = queryString + queryConcatenator + "e.site.id in :siteIdList ";
 			queryConcatenator = "AND ";
 		}
 		if (preferredFunctionCategories != null && preferredFunctionCategories.size() > 0) {
-			queryConcatenator = queryConcatenator.equals("") ?  "" : "where";
+			queryConcatenator = queryConcatenator.equals("") ? "" : "where";
 			queryString = queryString + queryConcatenator + "e.functionCategory.id in :catIdList ";
 			queryConcatenator = "AND ";
 		}
@@ -280,10 +321,6 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 		return campaigns;
 	}
 
-
-
-
-
 	/**
 	 * @param userPreferenceList
 	 *            UUIDs der Typen die als Präferencen gesetzt wurden
@@ -301,6 +338,18 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 				FunctionCategory.class);
 
 		query.setParameter("entityUUIDs", functionCategoryIds);
+
+		return query.getResultList();
+	}
+
+	private List<FunctionCategory> loadCampaignFunctionCategories() {
+
+		String queryString = "select e from paxbase$FunctionCategory e where e.periodSubClass = :periodSubClass";
+
+		TypedQuery<FunctionCategory> query = persistence.getEntityManager().createQuery(queryString,
+				FunctionCategory.class);
+
+		query.setParameter("periodSubClass", PeriodSubClass.Campaign);
 
 		return query.getResultList();
 	}
