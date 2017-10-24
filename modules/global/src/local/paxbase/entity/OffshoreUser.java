@@ -30,7 +30,7 @@ import local.paxbase.entity.coredata.Department;
  * @author christian
  */
 
-@Listeners("paxbase_OffshoreUserEntityListener")
+@Listeners({"paxbase_OffshoreUserEntityListener", "paxbase_UserEntityListener"})
 @NamePattern(" %s, %s|lastName,firstName")
 @Entity(name = "paxbase$OffshoreUser")
 public class OffshoreUser extends AppUser {

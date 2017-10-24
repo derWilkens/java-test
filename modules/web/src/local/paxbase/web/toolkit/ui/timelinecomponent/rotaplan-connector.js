@@ -21,7 +21,7 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 					+ "Abwesend"
 					+ "</li>" 
 					+ "</ul>"
-					+ "<button onclick='createSiteItemList()'>Sites generieren</button>"
+					+ "<button id='genSites'>Sites generieren</button>"
 					+ "</div>");
 	$(element).css("padding", "5px 10px");
 	$(element).css("width", "95%");
@@ -87,7 +87,7 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 	timeline.setOptions(options);
 	timeline.setGroups(new vis.DataSet(this.getState().timelineGroups));
 	timeline.setItems(new vis.DataSet(this.getState().timelineItems));
-	createSiteItemList();
+	//createSiteItemList();
 	
 	function createSiteItemList() {
 		
@@ -123,7 +123,7 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 		};
 		event.dataTransfer.setData("text", JSON.stringify(item));
 	}
-
+	 $("#genSites").click(createSiteItemList);
 	var items = document.querySelectorAll('.items .item .siteItems');
 
 	//an jedes Item den DragHandler setzen, damit dieses vorm Hinzufügen parametrisiert werden kann 

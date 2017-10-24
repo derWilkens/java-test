@@ -55,6 +55,7 @@
         <property name="lastName"/>
         <property name="department"
                   view="_minimal"/>
+        <property name="email"/>
     </view>
     <view class="local.paxbase.entity.OffshoreUser"
           name="offshoreUser-edit-view">
@@ -204,10 +205,11 @@
           name="department-treeview">
         <property name="parentDepartment"
                   view="_minimal">
-            <property name="name"/>
         </property>
         <property name="leader"
-                  view="_minimal"/>
+                  view="_minimal">
+            <property name="email"/>
+        </property>
         <property name="deputyLeader"
                   view="_minimal"/>
     </view>
@@ -237,16 +239,42 @@
         <property name="functionCategory"
                   view="_minimal"/>
     </view>
-    <view class="local.paxbase.entity.coredata.Department"
-          name="department-view">
-        <property name="name"/>
-        <property name="acronym"/>
-    </view>
     <view class="local.paxbase.entity.coredata.Site"
           name="preferred-site-view">
         <property name="siteName"/>
         <property name="itemDesignation"/>
         <property name="siteType"
                   view="_minimal"/>
+    </view>
+    <view class="local.paxbase.entity.OffshoreUser"
+          extends="_minimal"
+          name="offshoreUser-view">
+        <property name="department"
+                  view="_minimal">
+            <property name="parentDepartment"
+                      view="_minimal">
+                <property name="acronym"/>
+            </property>
+            <property name="acronym"/>
+        </property>
+    </view>
+    <view class="local.paxbase.entity.coredata.Department"
+          name="department-view">
+        <property name="parentDepartment"
+                  view="_minimal">
+            <property name="acronym"/>
+        </property>
+        <property name="leader"
+                  view="_minimal">
+            <property name="department"
+                      view="_minimal"/>
+        </property>
+        <property name="deputyLeader"
+                  view="_minimal">
+            <property name="department"
+                      view="_minimal"/>
+        </property>
+        <property name="name"/>
+        <property name="acronym"/>
     </view>
 </views>

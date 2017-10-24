@@ -19,7 +19,7 @@ public class OffshoreUserEntityListener implements BeforeInsertEntityListener<Of
     		entity.setPassword(getRandomPassword());
     		entity.setChangePasswordAtNextLogon(true);
     	}
-    	if (entity.getLogin() == null ){
+    	if (entity.getLogin() == null){
     		entity.setLogin(entity.getEmail());
     		entity.setLoginLowerCase(entity.getLogin().toLowerCase());
     	}

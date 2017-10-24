@@ -245,7 +245,7 @@ public class RotaTimeline extends AbstractWindow {
 
 		@Override
 		public void itemMoved(JsonObject jsonItem) {
-			
+			dutyPeriodsDs.refresh();
 			DutyPeriod dutyPeriod = dutyPeriodsDs.getItem(UUID.fromString(jsonItem.getString("id")));
 
 			try {

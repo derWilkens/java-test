@@ -43,8 +43,6 @@
             template="local/paxbase/web/userpreference/userpreference-sitecolors.xml"/>
     <screen id="paxbase$Certificate.edit"
             template="local/paxbase/web/certificate/certificate-edit.xml"/>
-    <screen id="paxbase$Department.browse"
-            template="local/paxbase/web/department/department-browse.xml"/>
     <screen id="paxbase$OffshoreUser.browse"
             template="local/paxbase/web/offshoreuser/offshore-user-browse.xml"/>
     <screen id="paxbase$AppUser.browse"
@@ -63,4 +61,6 @@
             template="local/paxbase/web/site/preferred-site-browse.xml"/>
     <screen id="rota-timeline"
             template="local/paxbase/web/rotaplan/rota-timeline.xml"/>
+    <screen id="paxbase$Department.browse"
+            template="local/paxbase/web/department/department-browse.xml"/>
 </screen-config>

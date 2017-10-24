@@ -91,7 +91,6 @@
                     <fieldGroup id="fieldGroup"
                                 datasource="departmentDs">
                         <column width="250px">
-                            <field property="client"/>
                             <field property="name"/>
                             <field optionsDatasource="parentDepartmentsDs"
                                    property="parentDepartment"/>

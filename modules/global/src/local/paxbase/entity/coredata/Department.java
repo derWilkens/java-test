@@ -10,6 +10,12 @@ import com.haulmont.cuba.core.entity.annotation.Lookup;
 import com.haulmont.cuba.core.entity.annotation.LookupType;
 import local.paxbase.entity.OffshoreUser;
 import com.haulmont.chile.core.annotations.NamePattern;
+import com.haulmont.cuba.core.entity.annotation.OnDelete;
+import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
+import com.haulmont.cuba.core.global.DeletePolicy;
+import java.util.List;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 @NamePattern("%s|name")
 @Table(name = "PAXBASE_DEPARTMENT")
@@ -37,6 +43,21 @@ public class Department extends StandardClientEntity {
 
     @Column(name = "ACRONYM", length = 15)
     protected String acronym;
+
+    @OrderBy("members.lastname asc")
+    @OnDeleteInverse(DeletePolicy.UNLINK)
+    @OnDelete(DeletePolicy.UNLINK)
+    @OneToMany(mappedBy = "department")
+    protected List<OffshoreUser> members;
+
+    public void setMembers(List<OffshoreUser> members) {
+        this.members = members;
+    }
+
+    public List<OffshoreUser> getMembers() {
+        return members;
+    }
+
 
     public void setAcronym(String acronym) {
         this.acronym = acronym;

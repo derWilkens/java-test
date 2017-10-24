@@ -104,6 +104,7 @@
                                    property="company"/>
                             <field optionsDatasource="departmentsDs"
                                    property="department"/>
+                            <field property="email"/>
                         </column>
                     </fieldGroup>
                 </vbox>
