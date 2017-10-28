@@ -1,6 +1,7 @@
 package local.paxbase.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,6 +14,7 @@ import com.haulmont.cuba.core.global.UserSessionSource;
 import local.paxbase.entity.OffshoreUser;
 import local.paxbase.entity.UserPreference;
 import local.paxbase.entity.UserPreferencesContext;
+import local.paxbase.entity.coredata.Department;
 import local.paxbase.entity.coredata.Site;
 
 public abstract class PreferencesService {
@@ -48,8 +50,8 @@ public abstract class PreferencesService {
 		return loadPreferredSites(em, userPreferenceList);
 	}
 	protected List<OffshoreUser> getPersonsByPreferredDepartment(EntityManager em, UserPreferencesContext context){
-		List<UserPreference> userPreferenceList = getUserPreferences(em,context);
-		return loadPersonsByPreferredDepartment(em, userPreferenceList);
+		List<UserPreference> preferredDepartemtPreferenceList = getUserPreferences(em,context);
+		return loadPersonsByPreferredDepartment(em, preferredDepartemtPreferenceList);
 	}
 	
 
@@ -82,13 +84,13 @@ public abstract class PreferencesService {
 	private List<OffshoreUser> loadPersonsByPreferredDepartment(EntityManager em, List<UserPreference> userPreferenceList) {
 		List<OffshoreUser> entityList;
 
-		List<UUID> entityUUIDs = getEntityUUIDsFromList(userPreferenceList);
+		List<String> entityUUIDs = getUUIDsToStringFromList(userPreferenceList);
 
-		String queryString = "select e from paxbase$OffshoreUser e where e.departmend.Id in :entityUUIDs";
+		String queryString = "select e from paxbase$OffshoreUser e where e.department.id IN :entityUUIDs";
 
 		TypedQuery<OffshoreUser> query = em.createQuery(queryString, OffshoreUser.class);
-
-		query.setParameter("entityUUIDs", getUUIDList(entityUUIDs));
+		
+		query.setParameter("entityUUIDs", entityUUIDs);
 
 		entityList = query.getResultList();
 
@@ -102,11 +104,18 @@ public abstract class PreferencesService {
 		}
 		return periodTypeIds;
 	}
+	public List<String> getUUIDsToStringFromList(List<UserPreference> userPreferenceList){
+		List<String> ids = new ArrayList<String>();
+		for (UserPreference userPreference : userPreferenceList) {
+			ids.add(userPreference.getEntityUuid().toString());
+		}
+		return ids;
+	}
 	
-	public List<UUID> getUUIDList(List<?> entityList) {
-		List<UUID> uuidList = new ArrayList<UUID>();
+	public List<String> getUUIDList(List<?> entityList) {
+		List<String> uuidList = new ArrayList<String>();
 		for (Object entity : entityList) {
-			uuidList.add(((StandardEntity) entity).getId());
+			uuidList.add(((StandardEntity) entity).getId().toString());
 		}
 		return uuidList;
 	}

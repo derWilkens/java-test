@@ -16,11 +16,13 @@ import javax.inject.Inject;
 
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
+import com.haulmont.cuba.gui.WindowManager;
 import com.haulmont.cuba.gui.components.AbstractWindow;
 import com.haulmont.cuba.gui.components.CheckBox;
 import com.haulmont.cuba.gui.components.OptionsGroup;
 import com.haulmont.cuba.gui.components.PopupView;
 import com.haulmont.cuba.gui.components.ScrollBoxLayout;
+import com.haulmont.cuba.gui.components.Window;
 import com.haulmont.cuba.gui.data.CollectionDatasource;
 import com.haulmont.cuba.gui.data.DataSupplier;
 import com.haulmont.cuba.gui.data.Datasource;
@@ -183,6 +185,17 @@ public class RotaTimeline extends AbstractWindow {
 	public void openSiteCampaingChooser() {
 		campaignSitePopupView.setPopupVisible(true);
 	}
+	public void openDepartmentChooser(){
+		Window departmentChoose = openWindow("paxbase$DepartmentUser.choose", WindowManager.OpenType.DIALOG);
+		departmentChoose.addCloseListener(new CloseListener() {
+			
+			@Override
+			public void windowClosed(String actionId) {
+				loadRotaplanDto();
+			}
+		});
+	}
+	
 	public void reloadDutyPeriods(){
 		
 	}

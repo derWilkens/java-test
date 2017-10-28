@@ -63,4 +63,8 @@
             template="local/paxbase/web/rotaplan/rota-timeline.xml"/>
     <screen id="paxbase$Department.browse"
             template="local/paxbase/web/department/department-browse.xml"/>
+    <screen id="paxbase$DepartmentUser.choose"
+            template="local/paxbase/web/department/department-user-choose.xml"/>
+    <screen id="paxbase$Department.edit"
+            template="local/paxbase/web/department/department-edit.xml"/>
 </screen-config>

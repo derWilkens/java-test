@@ -277,4 +277,13 @@
         <property name="name"/>
         <property name="acronym"/>
     </view>
+    <view class="local.paxbase.entity.coredata.Department"
+          name="department-user-choose-view">
+        <property name="name"/>
+        <property name="parentDepartment"
+                  view="_minimal">
+            <property name="acronym"/>
+        </property>
+        <property name="acronym"/>
+    </view>
 </views>

@@ -9,6 +9,7 @@ import com.haulmont.chile.core.annotations.MetaClass;
 import com.haulmont.chile.core.annotations.MetaProperty;
 
 import local.paxbase.entity.AbstractNotPersistentStringIdEntity;
+import local.paxbase.entity.OffshoreUser;
 import local.paxbase.entity.Period;
 
 @MetaClass(name = "paxbase$TimelineGroup")
@@ -58,6 +59,8 @@ public class TimelineGroup extends AbstractNotPersistentStringIdEntity {
 //			this.showNestedGroups = true;
 //		}
 	}
+
+	
 
 	public void addSubgroup(String group) {
 		if (this.nestedGroups == null) {

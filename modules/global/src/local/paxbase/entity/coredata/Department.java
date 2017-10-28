@@ -44,11 +44,24 @@ public class Department extends StandardClientEntity {
     @Column(name = "ACRONYM", length = 15)
     protected String acronym;
 
-    @OrderBy("members.lastname asc")
     @OnDeleteInverse(DeletePolicy.UNLINK)
     @OnDelete(DeletePolicy.UNLINK)
     @OneToMany(mappedBy = "department")
     protected List<OffshoreUser> members;
+
+    @OnDeleteInverse(DeletePolicy.UNLINK)
+    @OnDelete(DeletePolicy.UNLINK)
+    @OneToMany(mappedBy = "parentDepartment")
+    protected List<Department> subDepartment;
+
+    public void setSubDepartment(List<Department> subDepartment) {
+        this.subDepartment = subDepartment;
+    }
+
+    public List<Department> getSubDepartment() {
+        return subDepartment;
+    }
+
 
     public void setMembers(List<OffshoreUser> members) {
         this.members = members;

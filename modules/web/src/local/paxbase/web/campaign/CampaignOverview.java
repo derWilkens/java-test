@@ -89,7 +89,7 @@ public class CampaignOverview extends AbstractLookup {
 	@Inject
 	private TimelineService timelineDTOService;
 	private TimelineDTO dto;
-
+	
 	@Override
 	public void init(Map<String, Object> params) {
 

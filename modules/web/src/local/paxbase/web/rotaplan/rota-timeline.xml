@@ -53,7 +53,7 @@
         </popupView>
         <hbox spacing="true">
             <button id="departmentChooser"
-                    action="openTeamChooser"
+                    action="openDepartmentChooser"
                     caption="msg://departmentChooser"
                     icon="icons/user-group-ok.png"/>
             <button id="siteCampaignChooser"

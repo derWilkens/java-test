@@ -22,10 +22,11 @@
         <item screen="paxbase$ModeOfTransfer.browse"/>
         <item screen="paxbase$CraftType.browse"/>
         <item screen="paxbase$DutyPeriod.browse"/>
-        <item screen="paxbase$DutyPeriodRotaplan.browse"/>
         <item screen="paxbase$Site.PreferredSiteBrowse"/>
         <item screen="rota-timeline"/>
         <item screen="paxbase$Department.browse"/>
+        <item icon="icons/user-group-ok.png"
+              screen="paxbase$DepartmentUser.choose"/>
     </menu>
     <item insertBefore="bpm"
           openType="NEW_TAB"

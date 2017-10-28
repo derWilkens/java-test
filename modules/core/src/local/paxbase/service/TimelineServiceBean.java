@@ -29,6 +29,7 @@ import local.paxbase.entity.coredata.Site;
 import local.paxbase.entity.dto.SiteItem;
 import local.paxbase.entity.dto.TimelineConfig;
 import local.paxbase.entity.dto.TimelineDTO;
+import local.paxbase.entity.dto.TimelineGroup;
 
 @Service(TimelineService.NAME)
 public class TimelineServiceBean extends PreferencesService implements TimelineService {
@@ -90,16 +91,22 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 		TimelineConfig campaignConfig = getCampaignAsBackgroundConfig();
 		try (Transaction tx = persistence.createTransaction()) {
 
-			// der angemeldete User darf seine MA einplanen, ein Admin darf
-			// alle?
-			// --> jeder MA sucht sich selbst die Departments
-			List<OffshoreUser> personsOnDuty = getPersonsByPreferredDepartment(persistence.getEntityManager(),
-					UserPreferencesContext.Rotaplan);
-			List<DutyPeriod> dutyPeriods = getDutyPeriods(personsOnDuty, null, null);
+			// Alle User der preferred Departements holen
+			List<OffshoreUser> preferredPersons = getPersonsByPreferredDepartment(persistence.getEntityManager(),
+					UserPreferencesContext.RotaplanDepartments);
+			List<TimelineGroup> groups = new ArrayList<TimelineGroup>();
+			for (OffshoreUser user : preferredPersons) {
+				groups.add(new TimelineGroup(user.getUuid().toString(), user.getInstanceName()));
+			}
+			dto.getGroupList().addAll(groups);
+			
+			//Periods der preferred User holen
+			List<DutyPeriod> dutyPeriods = getDutyPeriods(preferredPersons, null, null);
 
 			dto.addItems(dutyPeriods, rotaplanConfig);
 
-			Set<SiteItem> siteItems = dto.getSiteItems();
+			//preferred Sites holen, hierfür werden die Kampagnen angezeigt und die
+			//und die Buttons angezeigt
 			List<Site> preferredSites = getPreferredSites(persistence.getEntityManager(),
 					UserPreferencesContext.SiteRotaplan);
 			if (getPreference(persistence.getEntityManager(),
@@ -117,7 +124,7 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 				SiteItem item1 = new SiteItem();
 				item1.setSiteName(site.getItemDesignation());
 				item1.setColor("#0b7eea");
-				siteItems.add(item1);
+				dto.getSiteItems().add(item1);
 			}
 
 			tx.commit();
@@ -268,26 +275,23 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 	// Drei Kriterien: (implizit Type), Site, ServiceUser;
 	private List<DutyPeriod> getDutyPeriods(List<OffshoreUser> personOnDutyList, List<Site> siteList,
 			List<FunctionCategory> preferredFunctionCategories) {
-		List<DutyPeriod> DutyPeriods;
+		List<DutyPeriod> dutyPeriods;
 
 		String queryString;
-		String queryConcatenator = "";
+		String queryConcatenator = "where ";
 
 		queryString = "select e from paxbase$DutyPeriod e ";
 
 		if (personOnDutyList != null && personOnDutyList.size() > 0) {
-			queryConcatenator = queryConcatenator.equals("") ? "" : "where";
-			queryString = queryString + "e.personOnDuty.id in :personsIdList ";
+			queryString = queryString + queryConcatenator + "e.personOnDuty.id IN :personsIdList ";
 			queryConcatenator = "AND ";
 		}
 		if (siteList != null && siteList.size() > 0) {
-			queryConcatenator = queryConcatenator.equals("") ? "" : "where";
-			queryString = queryString + queryConcatenator + "e.site.id in :siteIdList ";
+			queryString = queryString + queryConcatenator + "e.site.id IN :siteIdList ";
 			queryConcatenator = "AND ";
 		}
 		if (preferredFunctionCategories != null && preferredFunctionCategories.size() > 0) {
-			queryConcatenator = queryConcatenator.equals("") ? "" : "where";
-			queryString = queryString + queryConcatenator + "e.functionCategory.id in :catIdList ";
+			queryString = queryString + queryConcatenator + "e.functionCategory.id IN :catIdList ";
 			queryConcatenator = "AND ";
 		}
 
@@ -302,9 +306,9 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 			query.setParameter("catIdList", getUUIDList(preferredFunctionCategories));
 		}
 
-		DutyPeriods = query.getResultList();
+		dutyPeriods = query.getResultList();
 
-		return DutyPeriods;
+		return dutyPeriods;
 	}
 
 	private List<Campaign> getCampaigns(List<Site> siteList, List<FunctionCategory> preferredFunctionCategories) {
