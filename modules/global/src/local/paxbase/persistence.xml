@@ -28,5 +28,6 @@
         <class>local.paxbase.entity.cap.coredata.Role</class>
         <class>local.paxbase.entity.cap.coredata.Jobfunction</class>
         <class>local.paxbase.entity.cap.Certificate</class>
+        <class>local.paxbase.entity.UserImportStage</class>
     </persistence-unit>
 </persistence>

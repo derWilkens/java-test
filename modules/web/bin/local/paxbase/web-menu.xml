@@ -1,34 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <menu-config xmlns="http://schemas.haulmont.com/cuba/menu.xsd">
-    <menu id="application"
-          insertBefore="administration">
-        <item screen="paxbase$Certificate.edit"/>
-        <item id="paxbase$Campaign.campaignOverview"/>
-        <item screen="importPeriods"/>
-        <item id="paxbase$Site.browse"/>
-        <item id="paxbase$Company.browse"/>
+    <menu id="crewChange"
+          icon="font-icon:ARROWS_ALT"
+          insertBefore="bpm">
         <item id="paxbase$Transfer.browse"/>
         <item id="paxbase$CrewChange.browse"/>
         <item id="paxbase$Waypoint.browse"/>
-        <item id="paxbase$UserPreference.browse"/>
+    </menu>
+    <menu id="lineUp"
+          icon="font-icon:GROUP"
+          insertBefore="bpm">
+        <item screen="rota-timeline"/>
+        <item id="paxbase$Campaign.campaignOverview"/>
         <item id="paxbase$FunctionCategory.browse"/>
-        <item id="paxbase$SiteType.browse"/>
         <item id="paxbase$ContractorDutyPeriod.browse"/>
-        <item id="paxbase$Campaign.browse"/>
-        <item screen="paxbase$PeriodImportStage.browse"/>
-        <item screen="userpreference-sitecolors"/>
+        <item screen="paxbase$DutyPeriod.browse"/>
+    </menu>
+    <menu id="capDB"
+          icon="font-icon:GRADUATION_CAP"
+          insertBefore="bpm">
+        <item screen="paxbase$Certificate.edit"/>
         <item screen="paxbase$OffshoreUser.browse"/>
         <item screen="paxbase$AppUser.browse"/>
-        <item screen="paxbase$ModeOfTransfer.browse"/>
-        <item screen="paxbase$CraftType.browse"/>
-        <item screen="paxbase$DutyPeriod.browse"/>
-        <item screen="paxbase$Site.PreferredSiteBrowse"/>
-        <item screen="rota-timeline"/>
-        <item screen="paxbase$Department.browse"/>
+    </menu>
+    <menu id="favorites"
+          icon="font-icon:STAR"
+          insertBefore="bpm">
         <item icon="icons/user-group-ok.png"
               screen="paxbase$DepartmentUser.choose"/>
+        <item screen="userpreference-sitecolors"/>
+        <item screen="paxbase$Site.PreferredSiteBrowse"/>
+        <item id="paxbase$UserPreference.browse"/>
     </menu>
-    <item insertBefore="bpm"
-          openType="NEW_TAB"
-          screen="PreferredSites"/>
+    <menu id="admintools"
+          icon="font-icon:COGS"
+          insertBefore="bpm">
+        <item icon="font-icon:USER_PLUS"
+              screen="importUsers"/>
+        <item screen="importPeriods"/>
+        <item screen="paxbase$PeriodImportStage.browse"/>
+        <item screen="paxbase$UserImportStage.browse"/>
+    </menu>
+    <menu id="masterdata"
+          icon="font-icon:TABLE"
+          insertBefore="bpm">
+        <item id="paxbase$Site.browse"/>
+        <item id="paxbase$Company.browse"/>
+        <item id="paxbase$SiteType.browse"/>
+        <item id="paxbase$Campaign.browse"/>
+        <item screen="paxbase$ModeOfTransfer.browse"/>
+        <item screen="paxbase$CraftType.browse"/>
+        <item screen="paxbase$Department.browse"/>
+    </menu>
 </menu-config>

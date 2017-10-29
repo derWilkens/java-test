@@ -69,4 +69,8 @@
             template="local/paxbase/web/department/department-edit.xml"/>
     <screen id="paxbase$DutyPeriod.edit"
             template="local/paxbase/web/dutyperiod/duty-period-edit.xml"/>
+    <screen id="importUsers"
+            template="local/paxbase/gui/screens/importUsers.xml"/>
+    <screen id="paxbase$UserImportStage.browse"
+            template="local/paxbase/web/userimportstage/user-import-stage-browse.xml"/>
 </screen-config>

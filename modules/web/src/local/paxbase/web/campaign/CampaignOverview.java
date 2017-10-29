@@ -93,7 +93,7 @@ public class CampaignOverview extends AbstractLookup {
 	@Override
 	public void init(Map<String, Object> params) {
 
-		userPreferencesDs.refresh();
+		//userPreferencesDs.refresh();
 
 		campaignsDs.refresh();
 

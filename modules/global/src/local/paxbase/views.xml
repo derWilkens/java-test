@@ -289,4 +289,13 @@
     <view class="local.paxbase.entity.DutyPeriod"
           extends="_local"
           name="dutyPeriod-view_1"/>
+    <view class="local.paxbase.entity.OffshoreUser"
+          extends="_minimal"
+          name="offshoreUser-template">
+        <property name="department">
+            <property name="acronym"/>
+        </property>
+        <property name="position"/>
+        <property name="email"/>
+    </view>
 </views>
