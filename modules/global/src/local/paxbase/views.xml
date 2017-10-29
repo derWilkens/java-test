@@ -286,4 +286,7 @@
         </property>
         <property name="acronym"/>
     </view>
+    <view class="local.paxbase.entity.DutyPeriod"
+          extends="_local"
+          name="dutyPeriod-view_1"/>
 </views>

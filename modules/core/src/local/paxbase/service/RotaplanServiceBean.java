@@ -31,7 +31,7 @@ public class RotaplanServiceBean extends PreferencesService implements RotaplanS
 
 			TypedQuery<Site> query = persistence.getEntityManager().createQuery(queryString, Site.class);
 			query.setParameter("itemDesignation", itemDesignation);
-			result = query.getSingleResult();
+			result = query.getFirstResult();
 			tx.commit();
 		}
 		return result;

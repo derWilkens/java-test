@@ -9,6 +9,7 @@ import com.vaadin.annotations.StyleSheet;
 import com.vaadin.ui.AbstractJavaScriptComponent;
 
 import elemental.json.JsonObject;
+import elemental.json.impl.JreJsonNull;
 import local.paxbase.entity.dto.SiteItem;
 import local.paxbase.entity.dto.TimelineDTO;
 import local.paxbase.entity.dto.TimelineGroup;
@@ -27,6 +28,7 @@ public class RotaplanComponent extends AbstractJavaScriptComponent {
 		void itemAdded(JsonObject jsonItem);
 		void itemMoved(JsonObject jsonItem);
 		void itemDeleted(JsonObject jsonItem);
+		void editItem(String id);
     }
 
     private RotaplandChangeListener listener;
@@ -47,7 +49,9 @@ public class RotaplanComponent extends AbstractJavaScriptComponent {
 		addFunction("itemDeleted", arguments -> {
             listener.itemDeleted(arguments.getObject(0));
         });
-
+		addFunction("editItem", arguments -> {
+            listener.editItem(arguments.getString(0));
+        });
 	}
 
     @Override

@@ -16,6 +16,7 @@ import javax.inject.Named;
 import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
+import com.haulmont.cuba.gui.WindowManager;
 import com.haulmont.cuba.gui.components.AbstractLookup;
 import com.haulmont.cuba.gui.components.BoxLayout;
 import com.haulmont.cuba.gui.components.Component;
@@ -405,6 +406,21 @@ public class DutyPeriodRotaplan extends AbstractLookup {
 			}
 		}
 
+		@Override
+		public void editItem(String id) {
+			DutyPeriod dutyPeriod = dutyPeriodsDs.getItem(UUID.fromString(id));
+			if (dutyPeriod != null) {
+				openEditor(dutyPeriod, WindowManager.OpenType.DIALOG);
+			}
+		}
+
+//		@Override
+//		public void newItem(String userId) {
+//			DutyPeriod dutyPeriod = dutyPeriodsDs.getItem(UUID.fromString(id));
+//			if (dutyPeriod != null) {
+//				openEditor(dutyPeriod, WindowManager.OpenType.DIALOG);
+//			}
+//		}
 	}
 
 	private Date jsonDateToDate(String rawDate) throws ParseException {

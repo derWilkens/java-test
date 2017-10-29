@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://editorCaption"
+        class="local.paxbase.web.dutyperiod.DutyPeriodEdit"
+        datasource="dutyPeriodDs"
+        focusComponent="fieldGroup"
+        messagesPack="local.paxbase.web.dutyperiod">
+    <dsContext>
+        <datasource id="dutyPeriodDs"
+                    class="local.paxbase.entity.DutyPeriod"
+                    view="dutyPeriod-view"/>
+        <collectionDatasource id="sitesDs"
+                              class="local.paxbase.entity.coredata.Site"
+                              view="_minimal">
+            <query>
+                <![CDATA[select e from paxbase$Site e]]>
+            </query>
+        </collectionDatasource>
+        <collectionDatasource id="contractorsDs"
+                              class="local.paxbase.entity.coredata.Company"
+                              view="_minimal">
+            <query>
+                <![CDATA[select e from paxbase$Company e]]>
+            </query>
+        </collectionDatasource>
+        <collectionDatasource id="functionCategoriesDs"
+                              class="local.paxbase.entity.coredata.FunctionCategory"
+                              view="_minimal">
+            <query>
+                <![CDATA[select e from paxbase$FunctionCategory e]]>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <dialogMode forceDialog="true"
+                height="AUTO"
+                modal="true"
+                width="600"/>
+    <layout expand="windowActions"
+            spacing="true">
+        <fieldGroup id="fieldGroup"
+                    datasource="dutyPeriodDs"
+                    width="437px">
+            <column width="250px">
+                <field property="personOnDuty"/>
+                <field optionsDatasource="functionCategoriesDs"
+                       property="functionCategory"/>
+                <field optionsDatasource="sitesDs"
+                       property="site"/>
+                <field property="start"/>
+                <field property="end"/>
+                <field optionsDatasource="contractorsDs"
+                       property="contractor"/>
+            </column>
+        </fieldGroup>
+        <frame id="windowActions"
+               screen="extendedEditWindowActions"/>
+    </layout>
+</window>

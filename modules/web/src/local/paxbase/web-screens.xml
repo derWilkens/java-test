@@ -67,4 +67,6 @@
             template="local/paxbase/web/department/department-user-choose.xml"/>
     <screen id="paxbase$Department.edit"
             template="local/paxbase/web/department/department-edit.xml"/>
+    <screen id="paxbase$DutyPeriod.edit"
+            template="local/paxbase/web/dutyperiod/duty-period-edit.xml"/>
 </screen-config>
