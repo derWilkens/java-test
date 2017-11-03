@@ -1,8 +1,5 @@
 package local.paxbase.web.department;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -11,19 +8,13 @@ import javax.inject.Inject;
 
 import com.haulmont.cuba.gui.components.AbstractWindow;
 import com.haulmont.cuba.gui.components.CheckBox;
-import com.haulmont.cuba.gui.components.Tree;
 import com.haulmont.cuba.gui.components.TreeTable;
-import com.haulmont.cuba.gui.components.Component.ValueChangeEvent;
-import com.haulmont.cuba.gui.components.Component.ValueChangeListener;
-import com.haulmont.cuba.gui.data.CollectionDatasource;
-import com.haulmont.cuba.gui.data.DataSupplier;
 import com.haulmont.cuba.gui.data.HierarchicalDatasource;
 import com.haulmont.cuba.gui.xml.layout.ComponentsFactory;
 
 import local.paxbase.entity.UserPreference;
 import local.paxbase.entity.UserPreferencesContext;
 import local.paxbase.entity.coredata.Department;
-import local.paxbase.entity.coredata.Site;
 import local.paxbase.service.UserpreferencesService;
 
 public class DepartmentUserChoose extends AbstractWindow {

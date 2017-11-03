@@ -128,6 +128,7 @@ create table PAXBASE_WAYPOINT (
     START_ datetime(3),
     END_ datetime(3),
     FUNCTION_CATEGORY_ID varchar(32),
+    REMARK varchar(255),
     --
     PERSON_ON_DUTY_ID varchar(32),
     SITE_ID varchar(32),
@@ -221,6 +222,7 @@ create table PAXBASE_CAMPAIGN (
     START_ datetime(3),
     END_ datetime(3),
     FUNCTION_CATEGORY_ID varchar(32),
+    REMARK varchar(255),
     --
     CAMPAIGN_NUMBER varchar(10),
     SHUTDOWN_ boolean,
@@ -303,6 +305,7 @@ create table PAXBASE_CONTRACTOR_DUTY_PERIOD (
     START_ datetime(3),
     END_ datetime(3),
     FUNCTION_CATEGORY_ID varchar(32),
+    REMARK varchar(255),
     DTYPE varchar(31),
     --
     CONTRACTOR_ID varchar(32),

@@ -77,13 +77,13 @@ public class TimelineComponent extends AbstractJavaScriptComponent {
 	public Collection<TimelineGroup> getTimelineGroups() {
 		return getState().timelineGroups;
 	}
-	public void setTimelineGroups(Collection<TimelineGroup> timelineGroups) {
+	public void setTimelineGroups(List<TimelineGroup> timelineGroups) {
 		getState().timelineGroups = timelineGroups;
 	}
 	public Collection<TimelineItem> getTimelineItems() {
 		return getState().timelineItems;
 	}
-	public void setTimelineItems(Collection<TimelineItem> timelineItems) {
+	public void setTimelineItems(List<TimelineItem> timelineItems) {
 		getState().timelineItems = timelineItems;
 	}
 	

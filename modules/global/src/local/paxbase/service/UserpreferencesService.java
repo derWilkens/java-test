@@ -13,4 +13,5 @@ public interface UserpreferencesService {
     List<UserPreference> getPreferences(UserPreferencesContext context);
     UserPreference createPreference(UserPreferencesContext context, UUID entityId, String userValue);
     void deletePreference(UserPreferencesContext context, UUID preferenceUUID);
+	String getSiteColorPreference(UUID siteId);
 }

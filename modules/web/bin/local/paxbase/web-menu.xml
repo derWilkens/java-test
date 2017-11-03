@@ -6,14 +6,13 @@
         <item id="paxbase$Transfer.browse"/>
         <item id="paxbase$CrewChange.browse"/>
         <item id="paxbase$Waypoint.browse"/>
+        <item screen="paxbase$FunctionCategory.browse"/>
     </menu>
     <menu id="lineUp"
           icon="font-icon:GROUP"
           insertBefore="bpm">
         <item screen="rota-timeline"/>
         <item id="paxbase$Campaign.campaignOverview"/>
-        <item id="paxbase$FunctionCategory.browse"/>
-        <item id="paxbase$ContractorDutyPeriod.browse"/>
         <item screen="paxbase$DutyPeriod.browse"/>
     </menu>
     <menu id="capDB"
@@ -26,6 +25,7 @@
     <menu id="favorites"
           icon="font-icon:STAR"
           insertBefore="bpm">
+        <item screen="paxbase$FunctionCategory.choose"/>
         <item icon="icons/user-group-ok.png"
               screen="paxbase$DepartmentUser.choose"/>
         <item screen="userpreference-sitecolors"/>

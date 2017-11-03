@@ -8,5 +8,6 @@
         <class>local.paxbase.entity.PeriodImportRecord</class>
         <class>local.paxbase.entity.dto.DutyPeriodDTO</class>
         <class>local.paxbase.entity.dto.SiteItem</class>
+        <class>local.paxbase.entity.dto.FunctionCategoryDTO</class>
     </metadata-model>
 </metadata>

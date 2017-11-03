@@ -50,6 +50,7 @@
                 <field property="end"/>
                 <field optionsDatasource="contractorsDs"
                        property="contractor"/>
+                <field property="remark"/>
             </column>
         </fieldGroup>
         <frame id="windowActions"

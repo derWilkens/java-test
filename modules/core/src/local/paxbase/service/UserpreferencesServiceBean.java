@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
+import com.haulmont.cuba.core.TypedQuery;
+import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.Metadata;
+import com.haulmont.cuba.core.global.UserSessionSource;
 
 import local.paxbase.entity.UserPreference;
 import local.paxbase.entity.UserPreferencesContext;
@@ -60,5 +63,22 @@ public class UserpreferencesServiceBean extends PreferencesService implements Us
 			tx.commit();
 			
 		}
+	}
+	@Override
+	public String getSiteColorPreference(UUID siteId) {
+		UserPreference userPreference;
+
+		String queryString = "select e from paxbase$UserPreference e where e.userId = :userId and e.contextId=:context and e.entityUuid=:siteId";
+		TypedQuery<UserPreference> query = persistence.getEntityManager().createQuery(queryString,
+				UserPreference.class);
+		UserSessionSource session = AppBeans.get(UserSessionSource.class);
+		query.setParameter("userId", session.getUserSession().getUser().getId());
+		query.setParameter("context", UserPreferencesContext.SiteColors);
+		query.setParameter("siteId", siteId);
+		userPreference = query.getFirstResult();
+		if (userPreference != null) {
+			return userPreference.getUserValue();
+		}
+		return null;
 	}
 }

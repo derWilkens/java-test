@@ -73,6 +73,7 @@
                         <column id="end"/>
                         <column id="functionCategory"/>
                         <column id="contractor"/>
+                        <column id="remark"/>
                     </columns>
                     <rows datasource="contractorDutyPeriodsDs"/>
                     <rowsCount/>
@@ -103,6 +104,7 @@
                                    optionsDatasource="functionCategoriesDs"/>
                             <field id="contractor"
                                    optionsDatasource="contractorsDs"/>
+                            <field property="remark"/>
                         </column>
                     </fieldGroup>
                 </vbox>

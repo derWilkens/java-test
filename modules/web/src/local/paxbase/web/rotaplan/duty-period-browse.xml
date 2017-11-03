@@ -101,6 +101,7 @@
                         <column id="personOnDuty"/>
                         <column id="site"/>
                         <column id="contractor"/>
+                        <column id="remark"/>
                     </columns>
                     <rows datasource="dutyPeriodsDs"/>
                     <rowsCount/>
@@ -134,6 +135,7 @@
                                    property="site"/>
                             <field optionsDatasource="contractorsDs"
                                    property="contractor"/>
+                            <field property="remark"/>
                         </column>
                     </fieldGroup>
                 </vbox>

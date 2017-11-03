@@ -37,6 +37,18 @@ public class Period extends StandardClientEntity {
     @JoinColumn(name = "FUNCTION_CATEGORY_ID")
     protected FunctionCategory functionCategory;
 
+    @Column(name = "REMARK")
+    protected String remark;
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+
     public void setFunctionCategory(FunctionCategory functionCategory) {
         this.functionCategory = functionCategory;
     }

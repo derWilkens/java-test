@@ -39,19 +39,19 @@
     <dialogMode height="600"
                 width="800"/>
     <layout expand="timelineBox">
-        <popupView id="campaignSitePopupView"
-                   align="BOTTOM_LEFT"
-                   hideOnMouseOut="false"
-                   minimizedValue="Minimized Value 1615">
-            <vbox height="100%">
-                <optionsGroup id="campaignSiteOptionsGroup"
-                              align="MIDDLE_CENTER"
-                              multiselect="true"
-                              optionsDatasource="sitesDs"
-                              property="siteName"/>
-            </vbox>
-        </popupView>
         <hbox spacing="true">
+            <popupView id="campaignSitePopupView"
+                       align="BOTTOM_LEFT"
+                       hideOnMouseOut="false"
+                       visible="false">
+                <vbox height="100%">
+                    <optionsGroup id="campaignSiteOptionsGroup"
+                                  align="MIDDLE_CENTER"
+                                  multiselect="true"
+                                  optionsDatasource="sitesDs"
+                                  property="siteName"/>
+                </vbox>
+            </popupView>
             <button id="departmentChooser"
                     action="openDepartmentChooser"
                     caption="msg://departmentChooser"

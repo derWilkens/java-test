@@ -39,7 +39,9 @@ import local.paxbase.entity.UserPreference;
 import local.paxbase.entity.UserPreferencesContext;
 import local.paxbase.entity.coredata.FunctionCategory;
 import local.paxbase.entity.coredata.Site;
+import local.paxbase.entity.dto.TimelineConfig;
 import local.paxbase.entity.dto.TimelineDTO;
+import local.paxbase.entity.dto.TimelineItem;
 import local.paxbase.service.RotaplanService;
 import local.paxbase.service.TimelineService;
 import local.paxbase.service.UserpreferencesService;
@@ -94,6 +96,7 @@ public class RotaTimeline extends AbstractWindow {
 		// box.setWidth("100%");
 		box.addComponent(rotaplan);
 		rotaplan.setListener(new InnerListener());
+		
 		initCampaignSiteOptionGroup();
 		initCheckBoxDisplayCampaigns();
 	}
@@ -102,7 +105,7 @@ public class RotaTimeline extends AbstractWindow {
 		dto = timelineDTOService.getRotoplanDto();
 		if (dto != null) {
 			rotaplan.addDTO("rotaplan", dto);
-			rotaplan.refresh();
+			//rotaplan.refresh();
 		}
 	}
 
@@ -125,10 +128,6 @@ public class RotaTimeline extends AbstractWindow {
 
 		/* Group EventListener */
 		campaignSiteOptionsGroup.addValueChangeListener(e -> {
-			// String selectedValue = e.getValue() == null ? "0" :
-			// String.valueOf(((Collection) e.getValue()).size());
-			// showNotification("selected: " + selectedValue,
-			// NotificationType.HUMANIZED);
 			LinkedHashSet<Site> currentVal = null;
 			LinkedHashSet<Site> prevVal = null;
 
@@ -206,19 +205,53 @@ public class RotaTimeline extends AbstractWindow {
 	public void reloadDutyPeriods() {
 
 	}
-
+	public TimelineConfig getDutyPeriodGroupedByUserConfig() {
+		TimelineConfig dutyPeriodConfig = new TimelineConfig();
+		dutyPeriodConfig.setGroupIdFunction((DutyPeriod e) -> e.getPersonOnDuty().getUuid().toString());
+		dutyPeriodConfig.setGroupLabelFunction((DutyPeriod e) -> e.getPersonOnDuty().getInstanceName());
+		dutyPeriodConfig.setParentGroupIdFunction((DutyPeriod e) -> null);
+		dutyPeriodConfig.setItemLabelFunction((DutyPeriod e) -> {
+			String result = "";
+			if (e.getSite() != null){
+				result = e.getSite().getItemDesignation();
+			}
+			if (e.getFunctionCategory() != null) {
+				result = result + " " + e.getFunctionCategory().getCategoryName();
+			} 
+			return result;
+		});
+		dutyPeriodConfig.setStyleFunction((DutyPeriod e) -> {
+			if (null != e.getSite()) {
+				String colorHex = preferencesService.getSiteColorPreference(e.getSite().getUuid());
+				if (colorHex != null) {
+					return "background-color: #" + colorHex + ";";
+				}
+			}
+			return "";
+		});
+		dutyPeriodConfig.setEditableFunction((DutyPeriod e) -> {
+			return true;
+		});
+		dutyPeriodConfig.setTypeFunction((DutyPeriod e) -> {
+			return "range";
+		});
+		return dutyPeriodConfig;
+	}
 	class InnerListener implements RotaplandChangeListener {
 		boolean isCalledAlready;
 
 		@SuppressWarnings("rawtypes")
 		@Override
 		public void itemAdded(JsonObject jsonItem) {
+//			hier belassen
+//			wie wird im Backend aus einem DetachedObject ein AttachedObject?
+//			Wenn es unvollständig ist, muss der editor geöffnet werden und es darf vorher nicht gespeichert sein
+//			das TimelineItem muss auch zurückgegeben werden
+			
 			if (isCalledAlready)
 				return;
 			isCalledAlready = true;
 			boolean itemIncomplete = false;
-			// if (jsonItem != null && jsonItem.getString("content") != null &&
-			// !jsonItem.getString("content").equals("new item")) {
 
 			// Neues Objekt erzeugen im dem DS hinzufügen
 			DataSupplier dataservice = dutyPeriodDs.getDataSupplier();
@@ -249,9 +282,7 @@ public class RotaTimeline extends AbstractWindow {
 
 			// Person über dataManager laden (Item field: group)
 			if (jsonItem.hasKey("group")) {
-				LoadContext<OffshoreUser> loadContext = LoadContext.create(OffshoreUser.class)
-						.setId(UUID.fromString(jsonItem.getString("group"))).setView("offshoreUser-browser-view");
-				newItem.setPersonOnDuty(dataManager.load(loadContext));
+				newItem.setPersonOnDuty(getUserById(jsonItem.getString("group")));
 			} else {
 				itemIncomplete = true;
 			}
@@ -285,28 +316,38 @@ public class RotaTimeline extends AbstractWindow {
 
 					@Override
 					public void windowClosed(String actionId) {
-						loadRotaplanDto();
+						TimelineItem timelineItem = timelineDTOService.periodToTimelineItem(newItem, UserPreferencesContext.Rotaplan);
+						rotaplan.addTimelineItem(timelineItem);
 						isCalledAlready = false;
 					}
 				});
 				;
 			} else {
+				
 				dutyPeriodDs.setItem((DutyPeriod) newItem);
 				dutyPeriodsDs.updateItem(newItem);
 				getDsContext().commit();
-				loadRotaplanDto();
+				TimelineItem timelineItem = timelineDTOService.periodToTimelineItem(newItem, UserPreferencesContext.Rotaplan);
+				rotaplan.addTimelineItem(timelineItem);
 				isCalledAlready = false;
 			}
-			// }
 		}
-
+		private OffshoreUser getUserById(String id){
+			LoadContext<OffshoreUser> loadContext = LoadContext.create(OffshoreUser.class)
+					.setId(UUID.fromString(id)).setView("offshoreUser-browser-view");
+			return dataManager.load(loadContext);
+		}
 		@Override
 		public void itemMoved(JsonObject jsonItem) {
 			dutyPeriodsDs.refresh();
 			DutyPeriod dutyPeriod = dutyPeriodsDs.getItem(UUID.fromString(jsonItem.getString("id")));
-
+			if(jsonItem.hasKey("group")){
+				//wenn die Person geändert wurde
+				if(!dutyPeriod.getPersonOnDuty().getId().toString().equals(jsonItem.getString("group"))){
+					dutyPeriod.setPersonOnDuty(getUserById(jsonItem.getString("group")));
+				}
+			}
 			try {
-
 				dutyPeriod.setStart(jsonDateToDate(jsonItem.getString("start")));
 				dutyPeriod.setEnd(jsonDateToDate(jsonItem.getString("end")));
 			} catch (ParseException e) {
@@ -316,23 +357,6 @@ public class RotaTimeline extends AbstractWindow {
 
 			dutyPeriodDs.setItem(dutyPeriod);
 			getDsContext().commit();
-		}
-
-		@Override
-		public void itemDeleted(JsonObject jsonItem) {
-			DutyPeriod dutyPeriod = dutyPeriodsDs.getItem(UUID.fromString(jsonItem.getString("id")));
-			if (dutyPeriod != null) {
-				dutyPeriodsDs.removeItem(dutyPeriod);
-				getDsContext().commit();
-				loadRotaplanDto();
-			}
-		}
-
-		private Date jsonDateToDate(String rawDate) throws ParseException {
-			DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
-			Date date;
-			date = format.parse(rawDate);
-			return date;
 		}
 
 		@Override
@@ -346,11 +370,36 @@ public class RotaTimeline extends AbstractWindow {
 
 					@Override
 					public void windowClosed(String actionId) {
-						loadRotaplanDto();
+						dutyPeriodsDs.refresh();
+						DutyPeriod editedDutyPeriod = dutyPeriodsDs.getItem(UUID.fromString(id));
+						TimelineItem timelineItem = timelineDTOService.periodToTimelineItem(editedDutyPeriod, UserPreferencesContext.Rotaplan);
+						rotaplan.addTimelineItem(timelineItem);
 					}
 				});
 			}
 		}
-
+		
+		@Override
+		public void itemDeleted(JsonObject jsonItem) {
+			DutyPeriod dutyPeriod = dutyPeriodsDs.getItem(UUID.fromString(jsonItem.getString("id")));
+			if (dutyPeriod != null) {
+				dutyPeriodsDs.removeItem(dutyPeriod);
+				getDsContext().commit();
+				//Das Item ist im Frontend schon entfernt worden. Aber was ist, wenn das programmatisch gemacht wird?
+				//rotaplan.removeItem(dutyPeriod);
+			}
+		}
+		
+		private Date jsonDateToDate(String rawDate) throws ParseException {
+			DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+			Date date;
+			date = format.parse(rawDate);
+			return date;
+		}
+		@Override
+		public void addSubItem(JsonObject jsonItem) {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 }

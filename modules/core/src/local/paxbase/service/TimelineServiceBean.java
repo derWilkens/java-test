@@ -2,10 +2,12 @@ package local.paxbase.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -15,27 +17,32 @@ import com.esotericsoftware.minlog.Log;
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.TypedQuery;
-import com.haulmont.cuba.core.global.AppBeans;
-import com.haulmont.cuba.core.global.UserSessionSource;
 
 import local.paxbase.entity.Campaign;
 import local.paxbase.entity.DutyPeriod;
 import local.paxbase.entity.OffshoreUser;
+import local.paxbase.entity.Period;
 import local.paxbase.entity.UserPreference;
 import local.paxbase.entity.UserPreferencesContext;
+import local.paxbase.entity.coredata.Department;
 import local.paxbase.entity.coredata.FunctionCategory;
 import local.paxbase.entity.coredata.PeriodSubClass;
 import local.paxbase.entity.coredata.Site;
+import local.paxbase.entity.dto.FunctionCategoryDTO;
 import local.paxbase.entity.dto.SiteItem;
 import local.paxbase.entity.dto.TimelineConfig;
 import local.paxbase.entity.dto.TimelineDTO;
 import local.paxbase.entity.dto.TimelineGroup;
+import local.paxbase.entity.dto.TimelineItem;
 
 @Service(TimelineService.NAME)
 public class TimelineServiceBean extends PreferencesService implements TimelineService {
 
 	@Inject
 	private Persistence persistence;
+
+	@Inject
+	private UserpreferencesService userPreferenceSerivce;
 
 	@Override
 	public TimelineDTO getDto(UserPreferencesContext context) {
@@ -91,26 +98,59 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 		TimelineConfig campaignConfig = getCampaignAsBackgroundConfig();
 		try (Transaction tx = persistence.createTransaction()) {
 
+			List<TimelineGroup> groups = new ArrayList<TimelineGroup>();
+			// Alle preferred Departments holen
+			List<Department> preferredDepartments = getPreferredDepartments(persistence.getEntityManager(),
+					UserPreferencesContext.RotaplanDepartments);
+			for (Department department : preferredDepartments) {
+				TimelineGroup group = new TimelineGroup(department.getUuid().toString(), department.getAcronym(),  department.getAcronym());
+				group.setSubgroupOrder("content");
+				Comparator<OffshoreUser> byLastName = Comparator.comparing(
+						u -> u.getLastName()
+//						OffshoreUser::getLastName);
+						);
+				List<OffshoreUser> members = department.getMembers().stream().sorted(byLastName).collect(Collectors.toList());
+				int counter = 0;
+				for (OffshoreUser user : members) {
+					// der parentGroup eine nested hinzufügen
+					group.addSubgroup(user.getUuid().toString());
+					// NestedGroup einzel erzeugen und auch noch der Liste
+					// hinzufügen
+					
+					TimelineGroup subGroup = new TimelineGroup(user.getUuid().toString(), user.getInstanceName(), String.valueOf(counter));
+					subGroup.setShowNestedGroups(false);
+					groups.add(subGroup);
+					//counter++;
+				}
+				groups.add(group);
+			}
+
 			// Alle User der preferred Departements holen
+			// List<OffshoreUser> preferredPersons =
+			// getPersonsByPreferredDepartment(persistence.getEntityManager(),
+			// UserPreferencesContext.RotaplanDepartments);
+
+			// for (OffshoreUser user : preferredPersons) {
+			// groups.add(new TimelineGroup(user.getUuid().toString(),
+			// user.getInstanceName()));
+			// }
+
+			dto.getGroupList().addAll(groups);
+
 			List<OffshoreUser> preferredPersons = getPersonsByPreferredDepartment(persistence.getEntityManager(),
 					UserPreferencesContext.RotaplanDepartments);
-			List<TimelineGroup> groups = new ArrayList<TimelineGroup>();
-			for (OffshoreUser user : preferredPersons) {
-				groups.add(new TimelineGroup(user.getUuid().toString(), user.getInstanceName()));
-			}
-			dto.getGroupList().addAll(groups);
-			
-			//Periods der preferred User holen
+			// Periods der preferred User holen
 			List<DutyPeriod> dutyPeriods = getDutyPeriods(preferredPersons, null, null);
 
 			dto.addItems(dutyPeriods, rotaplanConfig);
 
-			//preferred Sites holen, hierfür werden die Kampagnen angezeigt und die
-			//und die Buttons angezeigt
+			// preferred Sites holen, hierfür werden die Kampagnen angezeigt und
+			// die
+			// und die Buttons angezeigt
 			List<Site> preferredSites = getPreferredSites(persistence.getEntityManager(),
 					UserPreferencesContext.SiteRotaplan);
-			if (getPreference(persistence.getEntityManager(),
-					UserPreferencesContext.RotaplanDisplayCampaigns, null) != null) {
+			if (getPreference(persistence.getEntityManager(), UserPreferencesContext.RotaplanDisplayCampaigns,
+					null) != null) {
 				List<FunctionCategory> functionCategories = new ArrayList<FunctionCategory>();
 				functionCategories = loadCampaignFunctionCategories();
 				List<Campaign> campaigns = getCampaigns(preferredSites, functionCategories);
@@ -126,7 +166,12 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 				item1.setColor("#0b7eea");
 				dto.getSiteItems().add(item1);
 			}
-
+			//preferred StandardDuties holen
+			List<UserPreference> preferredDuties = getUserPreferences(persistence.getEntityManager(), UserPreferencesContext.Rotaplan);
+			List<FunctionCategory> loadPreferredFunctionCategories = loadPreferredFunctionCategories(preferredDuties);
+			for(FunctionCategory category: loadPreferredFunctionCategories){
+				dto.getStandardDutyItems().add(new FunctionCategoryDTO(category.getId(), category.getCategoryName(), category.getPeriodSubClass()));
+			}
 			tx.commit();
 		}
 		return dto;
@@ -134,9 +179,9 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 	}
 
 	private TimelineConfig getDutyPeriodGroupedBySiteConfig() {
-		
+
 		TimelineConfig dutyPeriodConfig = new TimelineConfig();
-		
+
 		dutyPeriodConfig.setGroupIdFunction((DutyPeriod e) -> e.getSite().getSiteName());
 		dutyPeriodConfig.setParentGroupIdFunction((DutyPeriod e) -> {
 			if (e.getSite().getParentSite() != null) {
@@ -152,7 +197,7 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 				return e.getPersonOnDuty().getCaption() + " " + e.getFunctionCategory().getCategoryName();
 		});
 		dutyPeriodConfig.setStyleFunction((DutyPeriod e) -> {
-			String colorHex = getSiteColorPreference(e.getSite().getUuid());
+			String colorHex = userPreferenceSerivce.getSiteColorPreference(e.getSite().getUuid());
 			if (colorHex != null) {
 				return "background-color: #" + colorHex + ";";
 			}
@@ -171,25 +216,20 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 		TimelineConfig dutyPeriodConfig = new TimelineConfig();
 		dutyPeriodConfig.setGroupIdFunction((DutyPeriod e) -> e.getPersonOnDuty().getUuid().toString());
 		dutyPeriodConfig.setGroupLabelFunction((DutyPeriod e) -> e.getPersonOnDuty().getInstanceName());
-		dutyPeriodConfig.setParentGroupIdFunction((DutyPeriod e) -> {
-			if (e.getPersonOnDuty().getDepartment() != null) {
-				return e.getPersonOnDuty().getDepartment().getName();
-			} else
-				return null;
-		});
+		dutyPeriodConfig.setParentGroupIdFunction((DutyPeriod e) -> null);
 		dutyPeriodConfig.setItemLabelFunction((DutyPeriod e) -> {
 			String result = "";
-			if (e.getSite() != null){
+			if (e.getSite() != null) {
 				result = e.getSite().getItemDesignation();
 			}
 			if (e.getFunctionCategory() != null) {
 				result = result + " " + e.getFunctionCategory().getCategoryName();
-			} 
+			}
 			return result;
 		});
 		dutyPeriodConfig.setStyleFunction((DutyPeriod e) -> {
 			if (null != e.getSite()) {
-				String colorHex = getSiteColorPreference(e.getSite().getUuid());
+				String colorHex = userPreferenceSerivce.getSiteColorPreference(e.getSite().getUuid());
 				if (colorHex != null) {
 					return "background-color: #" + colorHex + ";";
 				}
@@ -215,7 +255,7 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 		});
 		dutyPeriodConfig.setStyleFunction((Campaign e) -> {
 			if (null != e.getSite()) {
-				String colorHex = getSiteColorPreference(e.getSite().getUuid());
+				String colorHex = userPreferenceSerivce.getSiteColorPreference(e.getSite().getUuid());
 				if (colorHex != null) {
 					return "background-color: #" + colorHex + ";";
 				}
@@ -246,30 +286,13 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 			return e.getCampaignNumber();
 		});
 		campaignTimelineConfig.setStyleFunction((Campaign e) -> {
-			String colorHex = getSiteColorPreference(e.getSite().getUuid());
+			String colorHex = userPreferenceSerivce.getSiteColorPreference(e.getSite().getUuid());
 			if (colorHex != null) {
 				return "background-color: #" + colorHex + ";";
 			}
 			return "";
 		});
 		return campaignTimelineConfig;
-	}
-
-	private String getSiteColorPreference(UUID siteId) {
-		UserPreference userPreference;
-
-		String queryString = "select e from paxbase$UserPreference e where e.userId = :userId and e.contextId=:context and e.entityUuid=:siteId";
-		TypedQuery<UserPreference> query = persistence.getEntityManager().createQuery(queryString,
-				UserPreference.class);
-		UserSessionSource session = AppBeans.get(UserSessionSource.class);
-		query.setParameter("userId", session.getUserSession().getUser().getId());
-		query.setParameter("context", UserPreferencesContext.SiteColors);
-		query.setParameter("siteId", siteId);
-		userPreference = query.getFirstResult();
-		if (userPreference != null) {
-			return userPreference.getUserValue();
-		}
-		return null;
 	}
 
 	// Drei Kriterien: (implizit Type), Site, ServiceUser;
@@ -363,7 +386,7 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 
 		List<UUID> entityUUIDs = getEntityUUIDsFromList(userPreferenceList);
 
-		String queryString = "select e from paxbase$OffshoreUser e where e.id in :entityUUIDs";
+		String queryString = "select e from paxbase$OffshoreUser e where e.id in :entityUUIDs order by e.lastName asc";
 
 		TypedQuery<OffshoreUser> query = persistence.getEntityManager().createQuery(queryString, OffshoreUser.class);
 
@@ -391,6 +414,25 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 			tx.commit();
 		}
 		return userList;
+	}
+
+	@Override
+	public TimelineItem periodToTimelineItem(Period period, UserPreferencesContext context) {
+		TimelineConfig timelineConfig = null;
+		TimelineItem item = null;
+		if (context.equals(UserPreferencesContext.CampaignBrowse)) {
+			timelineConfig = getCampaignConfig();
+
+		} else if (context.equals(UserPreferencesContext.Rotaplan)) {
+			timelineConfig = getDutyPeriodGroupedByUserConfig();
+		}
+		
+		try (Transaction tx = persistence.createTransaction()) {
+			period = persistence.getEntityManager().merge(period);
+			item = new TimelineItem(period, timelineConfig);
+			tx.commit();
+		}
+		return item;
 	}
 
 }

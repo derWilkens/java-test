@@ -55,6 +55,7 @@ order by e.site.itemDesignation, e.campaignNumber]]>
                     </column>
                     <column id="shutdown"
                             caption="Abschaltkampagne"/>
+                    <column id="remark"/>
                 </columns>
                 <rows datasource="campaignTemplateDs"/>
             </table>

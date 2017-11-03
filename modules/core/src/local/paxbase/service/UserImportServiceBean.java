@@ -83,34 +83,26 @@ public class UserImportServiceBean implements UserImportService {
 	@Override
 	public OffshoreUser getUserByEmail(String email) {
 		OffshoreUser user;
-		try (Transaction tx = persistence.createTransaction()) {
+		String queryString = "select e from paxbase$OffshoreUser e where e.email = :email ";
 
-			String queryString = "select e from paxbase$OffshoreUser e where e.email = :email ";
+		TypedQuery<OffshoreUser> query = persistence.getEntityManager().createQuery(queryString, OffshoreUser.class);
+		query.setParameter("email", email);
 
-			TypedQuery<OffshoreUser> query = persistence.getEntityManager().createQuery(queryString,
-					OffshoreUser.class);
-			query.setParameter("email", email);
+		user = query.getFirstResult();
 
-			user = query.getFirstResult();
-
-			tx.commit();
-		}
 		return user;
 	}
 
 	private Department getDepartmentByAcronym(String acronym) {
 		Department department;
-		
 
-			String queryString = "select e from paxbase$Department e where e.acronym = :acronym ";
+		String queryString = "select e from paxbase$Department e where e.acronym = :acronym ";
 
-			TypedQuery<Department> query = persistence.getEntityManager().createQuery(queryString, Department.class);
-			query.setParameter("acronym", acronym);
+		TypedQuery<Department> query = persistence.getEntityManager().createQuery(queryString, Department.class);
+		query.setParameter("acronym", acronym);
 
-			department = query.getFirstResult();
+		department = query.getFirstResult();
 
-			
-		
 		return department;
 	}
 

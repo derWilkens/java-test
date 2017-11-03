@@ -68,6 +68,7 @@
                         <column id="campaignNumber"/>
                         <column id="shutdown"/>
                         <column id="site"/>
+                        <column id="remark"/>
                     </columns>
                     <rows datasource="campaignsDs"/>
                     <rowsCount/>
@@ -99,6 +100,7 @@
                             <field id="campaignNumber"/>
                             <field id="shutdown"/>
                             <field id="site"/>
+                            <field property="remark"/>
                         </column>
                     </fieldGroup>
                 </vbox>

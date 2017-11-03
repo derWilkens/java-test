@@ -18,7 +18,10 @@ public class TimelineGroup extends AbstractNotPersistentStringIdEntity {
 
 	@MetaProperty
 	protected String content;
-
+	
+	@MetaProperty
+	protected String opsData;
+	
 	@MetaProperty
 	protected String subgroupOrder;
 
@@ -40,9 +43,10 @@ public class TimelineGroup extends AbstractNotPersistentStringIdEntity {
 	@MetaProperty
 	protected Boolean showNestedGroups;
 
-	public TimelineGroup(String entityId, String content) {
+	public TimelineGroup(String entityId, String content, String opsData) {
 		this.id = entityId;
 		this.content = content;
+		this.opsData = opsData;
 		visible = true;
 	}
 
@@ -50,21 +54,24 @@ public class TimelineGroup extends AbstractNotPersistentStringIdEntity {
 	public TimelineGroup(Period entity, TimelineConfig timelineConfig) {
 		this.showNestedGroups = false;
 		this.id = ((Function<Period, String>) timelineConfig.getGroupIdFunction()).apply(entity);
-		this.content = ((Function<Period, String>) timelineConfig.getGroupLabelFunction()).apply(entity);
+		this.content = ((Function<Period, String>) timelineConfig.getParentGroupIdFunction()).apply(entity);
+		this.opsData = this.content;
 		// NestedGroups sind subGroups
-//		String nestedGroupId = ((Function<Period, String>) timelineConfig.getParentGroupIdFunction()).apply(entity);
-//		if (nestedGroupId != null && this.nestedGroups != null && !this.nestedGroups.contains(nestedGroupId)) {
-//			this.addSubgroup(nestedGroupId);
-//			// nestedGroups.add(nestedGroupId);
-//			this.showNestedGroups = true;
-//		}
+		String nestedGroupId = ((Function<Period, String>) timelineConfig.getGroupLabelFunction()).apply(entity);
+		if (nestedGroupId != null  && !this.nestedGroups.contains(nestedGroupId)) {
+			this.addSubgroup(nestedGroupId);
+			nestedGroups.add(nestedGroupId);
+			this.showNestedGroups = true;
+			this.subgroupOrder="function (c, d) {return c.content - d.content;}";
+		}
+		
 	}
-
-	
 
 	public void addSubgroup(String group) {
 		if (this.nestedGroups == null) {
 			this.nestedGroups = new ArrayList<String>();
+			this.showNestedGroups = true;
+			//this.subgroupOrder="function (a, b) {return a.opsData - b.opsData;}";
 		}
 		if (group != null) {
 			this.nestedGroups.add(group);
@@ -86,7 +93,15 @@ public class TimelineGroup extends AbstractNotPersistentStringIdEntity {
 	public String getContent() {
 		return content;
 	}
+	
+	public String getOpsData() {
+		return opsData;
+	}
 
+	public void setOpsData(String opsData) {
+		this.opsData = opsData;
+	}
+	
 	public void setSubgroupOrder(String subgroupOrder) {
 		this.subgroupOrder = subgroupOrder;
 	}
@@ -134,4 +149,5 @@ public class TimelineGroup extends AbstractNotPersistentStringIdEntity {
 	public Boolean getShowNestedGroups() {
 		return showNestedGroups;
 	}
+	
 }

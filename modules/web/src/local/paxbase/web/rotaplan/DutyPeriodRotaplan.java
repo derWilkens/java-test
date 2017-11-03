@@ -149,7 +149,7 @@ public class DutyPeriodRotaplan extends AbstractLookup {
 		dto = timelineDTOService.getRotoplanDto();
 		if (dto != null) {
 			rotaplan.addDTO("rotaplan", dto);
-			rotaplan.refresh();
+			//rotaplan.refresh();
 		}
 		com.vaadin.ui.Layout box = (Layout) WebComponentsHelper.unwrap(timelineBox);
 		// box.setWidth("100%");
@@ -371,7 +371,7 @@ public class DutyPeriodRotaplan extends AbstractLookup {
 				save();
 
 				rotaplan.addDTO("rotaplan", timelineDTOService.getRotoplanDto());
-				rotaplan.refresh();
+				//rotaplan.refresh();
 			}
 		}
 
@@ -402,7 +402,7 @@ public class DutyPeriodRotaplan extends AbstractLookup {
 				dutyPeriodsDs.removeItem(dutyPeriod);
 				getDsContext().commit();
 				rotaplan.addDTO("rotaplan", timelineDTOService.getRotoplanDto());
-				rotaplan.refresh();
+				//rotaplan.refresh();
 			}
 		}
 
@@ -412,6 +412,11 @@ public class DutyPeriodRotaplan extends AbstractLookup {
 			if (dutyPeriod != null) {
 				openEditor(dutyPeriod, WindowManager.OpenType.DIALOG);
 			}
+		}
+
+		@Override
+		public void addSubItem(JsonObject jsonItem) {
+			
 		}
 
 //		@Override

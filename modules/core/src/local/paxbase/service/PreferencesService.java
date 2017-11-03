@@ -44,7 +44,12 @@ public abstract class PreferencesService {
 	
 			return query.getFirstResult();
 	}
-	
+	protected List<Department> getPreferredDepartments(EntityManager em, UserPreferencesContext context){
+		List<UserPreference> preferredDepartemtPreferenceList = getUserPreferences(em,context);
+		return loadDepartments(em, preferredDepartemtPreferenceList);
+	}
+
+
 	protected List<Site> getPreferredSites(EntityManager em, UserPreferencesContext context){
 		List<UserPreference> userPreferenceList = getUserPreferences(em,context);
 		return loadPreferredSites(em, userPreferenceList);
@@ -70,6 +75,7 @@ public abstract class PreferencesService {
 
 		return entityList;
 	}
+	
 	protected List<Site> getSites(EntityManager em) {
 		List<Site> entityList;
 
@@ -81,19 +87,34 @@ public abstract class PreferencesService {
 
 		return entityList;
 	}	
+	
 	private List<OffshoreUser> loadPersonsByPreferredDepartment(EntityManager em, List<UserPreference> userPreferenceList) {
 		List<OffshoreUser> entityList;
 
 		List<String> entityUUIDs = getUUIDsToStringFromList(userPreferenceList);
 
-		String queryString = "select e from paxbase$OffshoreUser e where e.department.id IN :entityUUIDs";
+		String queryString = "select e from paxbase$OffshoreUser e where e.department.id IN :entityUUIDs order by e.department.acronym, e.lastName asc";
 
 		TypedQuery<OffshoreUser> query = em.createQuery(queryString, OffshoreUser.class);
 		
 		query.setParameter("entityUUIDs", entityUUIDs);
 
 		entityList = query.getResultList();
+		return entityList;
+	}
+	private List<Department> loadDepartments(EntityManager em, List<UserPreference> userPreferenceList) {
+		
+		List<Department> entityList;
+		
+		List<String> entityUUIDs = getUUIDsToStringFromList(userPreferenceList);
 
+		String queryString = "select e from paxbase$Department e where e.id IN :entityUUIDs order by e.acronym";
+
+		TypedQuery<Department> query = em.createQuery(queryString, Department.class);
+		
+		query.setParameter("entityUUIDs", entityUUIDs);
+
+		entityList = query.getResultList();
 		return entityList;
 	}
 	
