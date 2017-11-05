@@ -96,7 +96,7 @@ public class RotaTimeline extends AbstractWindow {
 		// box.setWidth("100%");
 		box.addComponent(rotaplan);
 		rotaplan.setListener(new InnerListener());
-		
+
 		initCampaignSiteOptionGroup();
 		initCheckBoxDisplayCampaigns();
 	}
@@ -105,7 +105,7 @@ public class RotaTimeline extends AbstractWindow {
 		dto = timelineDTOService.getRotoplanDto();
 		if (dto != null) {
 			rotaplan.addDTO("rotaplan", dto);
-			//rotaplan.refresh();
+			// rotaplan.refresh();
 		}
 	}
 
@@ -205,6 +205,7 @@ public class RotaTimeline extends AbstractWindow {
 	public void reloadDutyPeriods() {
 
 	}
+
 	public TimelineConfig getDutyPeriodGroupedByUserConfig() {
 		TimelineConfig dutyPeriodConfig = new TimelineConfig();
 		dutyPeriodConfig.setGroupIdFunction((DutyPeriod e) -> e.getPersonOnDuty().getUuid().toString());
@@ -212,12 +213,12 @@ public class RotaTimeline extends AbstractWindow {
 		dutyPeriodConfig.setParentGroupIdFunction((DutyPeriod e) -> null);
 		dutyPeriodConfig.setItemLabelFunction((DutyPeriod e) -> {
 			String result = "";
-			if (e.getSite() != null){
+			if (e.getSite() != null) {
 				result = e.getSite().getItemDesignation();
 			}
 			if (e.getFunctionCategory() != null) {
 				result = result + " " + e.getFunctionCategory().getCategoryName();
-			} 
+			}
 			return result;
 		});
 		dutyPeriodConfig.setStyleFunction((DutyPeriod e) -> {
@@ -237,17 +238,19 @@ public class RotaTimeline extends AbstractWindow {
 		});
 		return dutyPeriodConfig;
 	}
+
 	class InnerListener implements RotaplandChangeListener {
 		boolean isCalledAlready;
 
 		@SuppressWarnings("rawtypes")
 		@Override
 		public void itemAdded(JsonObject jsonItem) {
-//			hier belassen
-//			wie wird im Backend aus einem DetachedObject ein AttachedObject?
-//			Wenn es unvollständig ist, muss der editor geöffnet werden und es darf vorher nicht gespeichert sein
-//			das TimelineItem muss auch zurückgegeben werden
-			
+			// hier belassen
+			// wie wird im Backend aus einem DetachedObject ein AttachedObject?
+			// Wenn es unvollständig ist, muss der editor geöffnet werden und es
+			// darf vorher nicht gespeichert sein
+			// das TimelineItem muss auch zurückgegeben werden
+
 			if (isCalledAlready)
 				return;
 			isCalledAlready = true;
@@ -265,13 +268,18 @@ public class RotaTimeline extends AbstractWindow {
 					newItem.setStart(Utils.clearDate(new Date()));
 					itemIncomplete = true;
 				}
-
+				
+				int duration = 1; //entweder das gelieferte Endedatum nehmen, oder die Duration oder 1
 				if (jsonItem.hasKey("end")) {
 					newItem.setEnd(jsonDateToDate(jsonItem.getString("end")));
-				} else {
+				}
+				else if (jsonItem.hasKey("duration")) {
+					duration = Integer.getInteger(jsonItem.getString("duration"));
+				} 
+				else {
 					Calendar c = Calendar.getInstance();
 					c.setTime(Utils.clearDate(newItem.getStart()));
-					c.add(Calendar.DAY_OF_YEAR, 1);
+					c.add(Calendar.DAY_OF_YEAR, duration);
 					newItem.setEnd(c.getTime());
 					itemIncomplete = true;
 				}
@@ -280,70 +288,68 @@ public class RotaTimeline extends AbstractWindow {
 				itemIncomplete = true;
 			}
 
-			// Person über dataManager laden (Item field: group)
-			if (jsonItem.hasKey("group")) {
-				newItem.setPersonOnDuty(getUserById(jsonItem.getString("group")));
+			// Person über dataManager laden
+			if (jsonItem.hasKey("userId")) {
+				newItem.setPersonOnDuty(getUserById(jsonItem.getString("userId")));
 			} else {
 				itemIncomplete = true;
 			}
 			
-			functionCategoriesDs.refresh();
-			Collection items = functionCategoriesDs.getItems();
-			// Wenn eine Site gesetzt ist, dann ist der Typ "Offshore"
-			// TODO: kann ja auch ne Onshore-Site sein...
-			String content = null;
-			if (jsonItem.hasKey("content")) {
-				content = jsonItem.getString("content");
-				Site site = rotaplanService.getSiteByItemDesignation(content);
-				if (site != null) {
-					newItem.setSite(site);
-					for (Iterator iterator = items.iterator(); iterator.hasNext();) {
-						FunctionCategory cat = (FunctionCategory) iterator.next();
-						if (cat.getCategoryName().equals("Offshore")) {
-							newItem.setFunctionCategory(cat);
-							break;
-						}
-					}
-				} else {
-					itemIncomplete = true;
-				}
+			// Site über dataManager laden 
+			if (jsonItem.hasKey("siteId")) {
+				sitesDs.refresh();
+				newItem.setSite(sitesDs.getItem(UUID.fromString(jsonItem.getString("userId"))));
 			} else {
 				itemIncomplete = true;
 			}
 			
+			// FunctionCategory über dataManager laden 
+			if (jsonItem.hasKey("functionCategoryId")) {
+				functionCategoriesDs.refresh();
+				newItem.setFunctionCategory(functionCategoriesDs.getItem(UUID.fromString(jsonItem.getString("functionCategoryId"))));
+			} else {
+				itemIncomplete = true;
+			}	
+			
+
+
 			if (itemIncomplete) {
 				openEditor(newItem, OpenType.DIALOG).addCloseListener(new CloseListener() {
 
 					@Override
 					public void windowClosed(String actionId) {
-						TimelineItem timelineItem = timelineDTOService.periodToTimelineItem(newItem, UserPreferencesContext.Rotaplan);
+						TimelineItem timelineItem = timelineDTOService.periodToTimelineItem(newItem,
+								UserPreferencesContext.Rotaplan);
 						rotaplan.addTimelineItem(timelineItem);
 						isCalledAlready = false;
 					}
 				});
 				;
 			} else {
-				
+
 				dutyPeriodDs.setItem((DutyPeriod) newItem);
 				dutyPeriodsDs.updateItem(newItem);
 				getDsContext().commit();
-				TimelineItem timelineItem = timelineDTOService.periodToTimelineItem(newItem, UserPreferencesContext.Rotaplan);
+				TimelineItem timelineItem = timelineDTOService.periodToTimelineItem(newItem,
+						UserPreferencesContext.Rotaplan);
 				rotaplan.addTimelineItem(timelineItem);
 				isCalledAlready = false;
 			}
 		}
-		private OffshoreUser getUserById(String id){
-			LoadContext<OffshoreUser> loadContext = LoadContext.create(OffshoreUser.class)
-					.setId(UUID.fromString(id)).setView("offshoreUser-browser-view");
+
+		private OffshoreUser getUserById(String id) {
+			LoadContext<OffshoreUser> loadContext = LoadContext.create(OffshoreUser.class).setId(UUID.fromString(id))
+					.setView("offshoreUser-browser-view");
 			return dataManager.load(loadContext);
 		}
+
 		@Override
 		public void itemMoved(JsonObject jsonItem) {
 			dutyPeriodsDs.refresh();
 			DutyPeriod dutyPeriod = dutyPeriodsDs.getItem(UUID.fromString(jsonItem.getString("id")));
-			if(jsonItem.hasKey("group")){
-				//wenn die Person geändert wurde
-				if(!dutyPeriod.getPersonOnDuty().getId().toString().equals(jsonItem.getString("group"))){
+			if (jsonItem.hasKey("group")) {
+				// wenn die Person geändert wurde
+				if (!dutyPeriod.getPersonOnDuty().getId().toString().equals(jsonItem.getString("group"))) {
 					dutyPeriod.setPersonOnDuty(getUserById(jsonItem.getString("group")));
 				}
 			}
@@ -372,34 +378,37 @@ public class RotaTimeline extends AbstractWindow {
 					public void windowClosed(String actionId) {
 						dutyPeriodsDs.refresh();
 						DutyPeriod editedDutyPeriod = dutyPeriodsDs.getItem(UUID.fromString(id));
-						TimelineItem timelineItem = timelineDTOService.periodToTimelineItem(editedDutyPeriod, UserPreferencesContext.Rotaplan);
+						TimelineItem timelineItem = timelineDTOService.periodToTimelineItem(editedDutyPeriod,
+								UserPreferencesContext.Rotaplan);
 						rotaplan.addTimelineItem(timelineItem);
 					}
 				});
 			}
 		}
-		
+
 		@Override
 		public void itemDeleted(JsonObject jsonItem) {
 			DutyPeriod dutyPeriod = dutyPeriodsDs.getItem(UUID.fromString(jsonItem.getString("id")));
 			if (dutyPeriod != null) {
 				dutyPeriodsDs.removeItem(dutyPeriod);
 				getDsContext().commit();
-				//Das Item ist im Frontend schon entfernt worden. Aber was ist, wenn das programmatisch gemacht wird?
-				//rotaplan.removeItem(dutyPeriod);
+				// Das Item ist im Frontend schon entfernt worden. Aber was ist,
+				// wenn das programmatisch gemacht wird?
+				// rotaplan.removeItem(dutyPeriod);
 			}
 		}
-		
+
 		private Date jsonDateToDate(String rawDate) throws ParseException {
 			DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 			Date date;
 			date = format.parse(rawDate);
 			return date;
 		}
+
 		@Override
 		public void addSubItem(JsonObject jsonItem) {
 			// TODO Auto-generated method stub
-			
+
 		}
 	}
 }

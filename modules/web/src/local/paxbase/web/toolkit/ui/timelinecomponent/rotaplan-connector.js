@@ -3,10 +3,8 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 	var element = connector.getElement();
 	$(element)
 			.html(
-					
 							 "<div>"
-							+ "<ul id='siteDuties' class='siteItems'/>"
-							+ "<ul id='standardDuties' class='items'/>"
+							+ "<ul id='dutyItems' class='items'/>"
 							+ "<button id='genSites'>Sites generieren</button>"
 							+ "</div>"
 							+ "<div class='cbTimeline' height='600px' overflow-y='scroll' overflow-x='hidden' id='visualization'/>"
@@ -41,10 +39,12 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 				var newItem = {};
 				newItem.start = item.start;
 				newItem.end = item.end;
-				newItem.content = item.content;
-				newItem.group = item.group;
+				newItem.siteId = item.siteId;
+				newItem.functionCategoryId = item.functionCategoryId;
+				newItem.duration = item.duration;
+				newItem.userId = item.group;
 				connector.itemAdded(newItem);
-				//callback(null); // send back adjusted new item 0918
+				//callback(null); // send back adjusted new item 0918 RotaplanComponent
 			} else {
 				callback(null); // cancel item creation
 			}
@@ -65,14 +65,15 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 			}
 		},
 
-		onDropObjectOnItemX : function(objectData, item) {
-			if (item) {
-				// item.content = value;
+		onDropObjectOnItem : function(objectData, item) {
+			if (objectData) {
 				var newItem = {};
-				newItem.start = item.start;
-				newItem.end = item.end;
-				newItem.content = item.content;
-				newItem.group = item.group;
+				newItem.start = objectData.start;
+				newItem.end = objectData.end;
+				newItem.siteId = objectData.siteId;
+				newItem.functionCategoryId = objectData.functionCategoryId;
+				newItem.duration = objectData.duration;
+				newItem.userId = objectData.group;
 				connector.itemAdded(newItem);
 			} 
 		}
@@ -87,8 +88,7 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 
 		timeline.setGroups(new vis.DataSet(this.getState().timelineGroups));
 		timeline.setItems(new vis.DataSet(this.getState().timelineItems));
-		createSiteItemList();
-		createStandardDuties();
+		createItemList();
 	}
 
 	// Create a Timeline
@@ -104,7 +104,7 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 		} else if (props.what = "background" && props.group) {
 			var newItem = {};
 			newItem.start = props.time;
-			newItem.group = props.group;
+			newItem.userId = props.group;
 			connector.itemAdded(newItem);
 		} else {
 			var newItem = {};
@@ -115,44 +115,38 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 		props.event.preventDefault();
 	});
 
-	function createSiteItemList() {
-
-		var siteDutyNode = document.getElementById("siteDuties");
+	function createItemList() {
+		dutyItems
+		var siteDutyNode = document.getElementById("dutyItems");
 		while (siteDutyNode.firstChild) {
 			siteDutyNode.removeChild(siteDutyNode.firstChild);
 		}
 		var state = connector.getState();
-		var siteItems = state.siteItems;
-		for (var i = siteItems.length - 1; i >= 0; i--) {
+		var templateItems = state.dutyPeriodTemplates;
+		for (var i = templateItems.length - 1; i >= 0; i--) {
 			var node = document.createElement("LI"); // Create a <li> node
 			node.setAttribute("draggable", "true");
-			node.setAttribute("class", "siteItem");
+			node.setAttribute("class", "templateItem");
 			node.setAttribute("style", "background-color: "
-					+ siteItems[i].color);
+					+ templateItems[i].color);
+			
+			node.setAttribute("data-functionCategoryId", templateItems[i].functionCategoryId);
+			node.setAttribute("data-siteId", templateItems[i].siteId);
+			node.setAttribute("data-defaultDuration", templateItems[i].duration);
+			
 			node.addEventListener('dragstart', handleDragStart.bind(this),
 					false);
-			var textnode = document.createTextNode(siteItems[i].siteName);
+			
+			var label = "≣ ";
+			if(templateItems[i].itemDesignation){
+				label = label + templateItems[i].itemDesignation;
+			} else if(templateItems[i].categoryName){
+				label = label + templateItems[i].categoryName
+			}
+			
+			var textnode = document.createTextNode(label);
 			node.appendChild(textnode); // Append the text to <li>
-			document.getElementById("siteDuties").appendChild(node);
-		}
-	}
-	function createStandardDuties(){
-		var standardDutyNode = document.getElementById("standardDuties");
-		while (standardDutyNode.firstChild) {
-			standardDutyNode.removeChild(standardDutyNode.firstChild);
-		}
-		var state = connector.getState();
-		var standardDutyItems = state.standardDutyItems;
-		for (var i = standardDutyItems.length - 1; i >= 0; i--) {
-			var node = document.createElement("LI"); // Create a <li> node
-			node.setAttribute("draggable", "true");
-			node.setAttribute("class", "siteItem");
-			//node.setAttribute("style", "background-color: " + standardDutyItems[i].color);
-			node.addEventListener('dragstart', handleDragStart.bind(this),
-					false);
-			var textnode = document.createTextNode(standardDutyItems[i].categoryName);
-			node.appendChild(textnode); // Append the text to <li>
-			document.getElementById("standardDuties").appendChild(node);
+			dutyItems.appendChild(node); // Append the text to <ul>
 		}
 	}
 	
@@ -160,17 +154,19 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 		dragSrcEl = event.target;
 
 		event.dataTransfer.effectAllowed = 'move';
-		var itemType = "range"
 		var item = {
 			id : new Date(),
-			type : itemType,
-			target:'item',
+			type : 'range',
+			//target:'item',
+			functionCategoryId:event.target.getAttribute('data-functionCategoryId'),
+			siteId:event.target.getAttribute('data-siteid'),
+			defaultDuration:event.target.getAttribute('data-defaultDuration'),
 			content : event.target.innerHTML.trim()
 		};
 		event.dataTransfer.setData("text", JSON.stringify(item));
 	}
 
-	$("#genSites").click(createSiteItemList);
+	$("#genSites").click(createItemList);
 	var items = document.querySelectorAll('.items .item .siteItems');
 
 	// an jedes Item den DragHandler setzen, damit dieses vorm Hinzufügen

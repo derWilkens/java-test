@@ -29,5 +29,6 @@
         <class>local.paxbase.entity.cap.coredata.Jobfunction</class>
         <class>local.paxbase.entity.cap.Certificate</class>
         <class>local.paxbase.entity.UserImportStage</class>
+        <class>local.paxbase.entity.coredata.DutyPeriodTemplate</class>
     </persistence-unit>
 </persistence>

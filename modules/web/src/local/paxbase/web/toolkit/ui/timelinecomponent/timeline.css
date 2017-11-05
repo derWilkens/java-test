@@ -4,31 +4,12 @@ cbTimeline {
     overflow-y: scroll;
     overflow-x:hidden;
 }
-ul#siteDuties li {
+ul#dutyItems li {
     display:inline;
     width: 150px;
 }
-ul#standardDuties li {
-    display:inline;
-    width: 150px;
-}
-  li.siteItem {
-      list-style: none;
-      width: 150px;
-      color: #1A1A1A;
-      border: 1px solid #97B0F8;
-      border-radius: 2px;
-      margin-bottom: 5px;
-      padding: 5px 12px;
-    }
-     li.siteItem:before {
-      content: "≣";
-      font-family: Arial, sans-serif;
-      display: inline-block;
-      font-size: inherit;
-      cursor: move;
-    }
-    li.item {
+
+    li.templateItem {
       list-style: none;
       width: 150px;
       color: #1A1A1A;
@@ -38,8 +19,8 @@ ul#standardDuties li {
       margin-bottom: 5px;
       padding: 5px 12px;
     }
-    li.item:before {
-      content: "≣";
+    li.templateItem.before {
+      content: "≣ ";
       font-family: Arial, sans-serif;
       display: inline-block;
       font-size: inherit;

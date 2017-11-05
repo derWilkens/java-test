@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://editorCaption"
+        class="local.paxbase.web.dutyperiodtemplate.DutyPeriodTemplateEdit"
+        datasource="dutyPeriodTemplateDs"
+        focusComponent="fieldGroup"
+        messagesPack="local.paxbase.web.dutyperiodtemplate">
+    <dsContext>
+        <datasource id="dutyPeriodTemplateDs"
+                    class="local.paxbase.entity.coredata.DutyPeriodTemplate"
+                    view="dutyPeriodTemplate-view"/>
+        <collectionDatasource id="sitesDs"
+                              class="local.paxbase.entity.coredata.Site"
+                              view="_minimal">
+            <query>
+                <![CDATA[select e from paxbase$Site e]]>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="windowActions"
+            spacing="true">
+        <fieldGroup id="fieldGroup"
+                    datasource="dutyPeriodTemplateDs">
+            <column width="250px">
+                <field property="functionCategory"/>
+                <field property="defaultDuration"/>
+                <field optionsDatasource="sitesDs"
+                       property="site"/>
+            </column>
+        </fieldGroup>
+        <frame id="windowActions"
+               screen="editWindowActions"/>
+    </layout>
+</window>

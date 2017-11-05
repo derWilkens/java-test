@@ -77,4 +77,8 @@
             template="local/paxbase/web/functioncategory/function-category-edit.xml"/>
     <screen id="paxbase$FunctionCategory.browse"
             template="local/paxbase/web/functioncategory/function-category-browse.xml"/>
+    <screen id="paxbase$DutyPeriodTemplate.browse"
+            template="local/paxbase/web/dutyperiodtemplate/duty-period-template-browse.xml"/>
+    <screen id="paxbase$DutyPeriodTemplate.edit"
+            template="local/paxbase/web/dutyperiodtemplate/duty-period-template-edit.xml"/>
 </screen-config>

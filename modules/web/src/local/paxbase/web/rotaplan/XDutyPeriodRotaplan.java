@@ -50,7 +50,7 @@ import local.paxbase.web.dutyperiod.DutyPeriodBrowse;
 import local.paxbase.web.toolkit.ui.timelinecomponent.RotaplanComponent;
 import local.paxbase.web.toolkit.ui.timelinecomponent.RotaplanComponent.RotaplandChangeListener;
 
-public class DutyPeriodRotaplan extends AbstractLookup {
+public class XDutyPeriodRotaplan extends AbstractLookup {
 	private RotaplanComponent rotaplan;
 	@Inject
 	private PopupView campaignSitePopupView;
@@ -330,14 +330,16 @@ public class DutyPeriodRotaplan extends AbstractLookup {
 		public void itemAdded(JsonObject jsonItem) {
 			if (!jsonItem.getString("content").equals("new item")) {
 				
+				//Das newItem vorbereiten
 				DataSupplier dataservice = dutyPeriodDs.getDataSupplier();
 				DutyPeriod newItem = dataservice.newInstance(dutyPeriodDs.getMetaClass());
 
-				dutyPeriodsTable.setSelected(Collections.emptyList());
+				dutyPeriodsTable.setSelected(Collections.emptyList()); //TODO: was passiert hier?
 				dutyPeriodDs.setItem((DutyPeriod) newItem);
 				refreshOptionsForLookupFields();
 				enableEditControls(true);
 
+				//Das newItem füllen
 				try {
 					newItem.setStart(jsonDateToDate(jsonItem.getString("start")));
 					newItem.setEnd(jsonDateToDate(jsonItem.getString("end")));
@@ -346,7 +348,7 @@ public class DutyPeriodRotaplan extends AbstractLookup {
 					e.printStackTrace();
 				}
 
-				String userUuid = jsonItem.getString("group");
+				String userUuid = jsonItem.getString("userId");
 				LoadContext<OffshoreUser> loadContext = LoadContext.create(OffshoreUser.class)
 						.setId(UUID.fromString(userUuid)).setView("offshoreUser-browser-view");
 				newItem.setPersonOnDuty(dataManager.load(loadContext));

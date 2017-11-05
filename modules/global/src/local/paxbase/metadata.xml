@@ -4,10 +4,8 @@
                     root-package="local.paxbase">
         <class>local.paxbase.entity.dto.TimelineItem</class>
         <class>local.paxbase.entity.dto.TimelineGroup</class>
-        <class>local.paxbase.entity.dto.TimelineDTO</class>
         <class>local.paxbase.entity.PeriodImportRecord</class>
+        <class>local.paxbase.entity.dto.TimelineDTO</class>
         <class>local.paxbase.entity.dto.DutyPeriodDTO</class>
-        <class>local.paxbase.entity.dto.SiteItem</class>
-        <class>local.paxbase.entity.dto.FunctionCategoryDTO</class>
     </metadata-model>
 </metadata>

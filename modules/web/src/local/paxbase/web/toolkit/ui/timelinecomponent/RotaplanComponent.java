@@ -11,8 +11,7 @@ import com.vaadin.ui.AbstractJavaScriptComponent;
 
 import elemental.json.JsonObject;
 import local.paxbase.entity.Period;
-import local.paxbase.entity.dto.FunctionCategoryDTO;
-import local.paxbase.entity.dto.SiteItem;
+import local.paxbase.entity.dto.DutyPeriodDTO;
 import local.paxbase.entity.dto.TimelineDTO;
 import local.paxbase.entity.dto.TimelineGroup;
 import local.paxbase.entity.dto.TimelineItem;
@@ -39,8 +38,7 @@ public class RotaplanComponent extends AbstractJavaScriptComponent {
 	public RotaplanComponent() {
 		getState().timelineItems = new ArrayList<TimelineItem>();
 		getState().timelineGroups = new ArrayList<TimelineGroup>();
-		getState().siteItems = new ArrayList<SiteItem>();
-		getState().standardDutyItems = new ArrayList<FunctionCategoryDTO>();
+		getState().dutyPeriodTemplates = new ArrayList<DutyPeriodDTO>();
 		
 		dtoList = new HashMap<String,TimelineDTO>();
 		
@@ -99,17 +97,11 @@ public class RotaplanComponent extends AbstractJavaScriptComponent {
 	public void setTimelineItems(List<TimelineItem> timelineItems) {
 		getState().timelineItems = timelineItems;
 	}
-	public Collection<SiteItem> getSiteItems() {
-		return getState().siteItems;
+	public Collection<DutyPeriodDTO> getDutyPeriodTemplate() {
+		return getState().dutyPeriodTemplates;
 	}
-	public void setSiteItems(List<SiteItem> siteItems) {
-		getState().siteItems = siteItems;
-	}
-	public Collection<FunctionCategoryDTO> getStandardDutyItems() {
-		return getState().standardDutyItems;
-	}
-	public void setStandardDutyItems(List<FunctionCategoryDTO> standardDutyItems) {
-		getState().standardDutyItems = standardDutyItems;
+	public void setDutyPeriodTemplate(List<DutyPeriodDTO> dutyPeriodTemplates) {
+		getState().dutyPeriodTemplates = dutyPeriodTemplates;
 	}	
     public RotaplandChangeListener getListener() {
         return listener;
@@ -121,15 +113,14 @@ public class RotaplanComponent extends AbstractJavaScriptComponent {
 	public void addDTO(String key, TimelineDTO dto) {
 		getState().timelineItems.clear();
 		getState().timelineGroups.clear(); 
-		getState().siteItems.clear();
-		getState().standardDutyItems.clear();
+		getState().dutyPeriodTemplates.clear();
+
 		
 		dtoList.put(key, dto);
 		for (TimelineDTO timelineDTO : dtoList.values()) {
 			getState().timelineItems.addAll(timelineDTO.getTimelineItemList());
 			getState().timelineGroups.addAll(timelineDTO.getGroupList());
-			getState().siteItems.addAll(timelineDTO.getSiteItems());
-			getState().standardDutyItems.addAll(timelineDTO.getStandardDutyItems());
+			getState().dutyPeriodTemplates.addAll(timelineDTO.getDutyPeriodTemplates());
 		}
 	}
 

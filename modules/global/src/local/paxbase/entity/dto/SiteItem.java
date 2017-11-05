@@ -2,12 +2,12 @@ package local.paxbase.entity.dto;
 
 import com.haulmont.chile.core.annotations.MetaClass;
 import com.haulmont.chile.core.annotations.MetaProperty;
-import com.haulmont.cuba.core.entity.AbstractNotPersistentEntity;
 import com.haulmont.chile.core.annotations.NamePattern;
+import com.haulmont.cuba.core.entity.BaseUuidEntity;
 
 @NamePattern("%s|siteName")
 @MetaClass(name = "paxbase$SiteItem")
-public class SiteItem extends AbstractNotPersistentEntity {
+public class SiteItem extends BaseUuidEntity {
     private static final long serialVersionUID = 2094335111974906805L;
 
     @MetaProperty

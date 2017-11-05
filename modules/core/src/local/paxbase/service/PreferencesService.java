@@ -25,8 +25,7 @@ public abstract class PreferencesService {
 		
 		TypedQuery<UserPreference> query = em.createQuery(queryString,
 				UserPreference.class);
-		UserSessionSource session = AppBeans.get(UserSessionSource.class);
-		query.setParameter("userId", session.getUserSession().getUser().getId());
+		query.setParameter("userId", AppBeans.get(UserSessionSource.class).getUserSession().getUser().getId());
 		query.setParameter("contextId", context);
 
 		return query.getResultList();

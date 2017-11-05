@@ -51,5 +51,6 @@
         <item screen="paxbase$ModeOfTransfer.browse"/>
         <item screen="paxbase$CraftType.browse"/>
         <item screen="paxbase$Department.browse"/>
+        <item screen="paxbase$DutyPeriodTemplate.browse"/>
     </menu>
 </menu-config>

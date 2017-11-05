@@ -298,4 +298,19 @@
         <property name="position"/>
         <property name="email"/>
     </view>
+    <view class="local.paxbase.entity.coredata.DutyPeriodTemplate"
+          name="dutyPeriodTemplate-view">
+        <property name="functionCategory">
+            <property name="categoryName"/>
+        </property>
+        <property name="defaultDuration"/>
+        <property name="site">
+            <property name="siteName"/>
+        </property>
+        <property name="user">
+            <property name="login"/>
+            <property name="name"/>
+        </property>
+        <property name="color"/>
+    </view>
 </views>

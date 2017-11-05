@@ -5,13 +5,13 @@ import java.util.UUID;
 import com.haulmont.chile.core.annotations.MetaClass;
 import com.haulmont.chile.core.annotations.MetaProperty;
 import com.haulmont.chile.core.annotations.NamePattern;
-import com.haulmont.cuba.core.entity.AbstractNotPersistentEntity;
+import com.haulmont.cuba.core.entity.BaseUuidEntity;
 
 import local.paxbase.entity.coredata.PeriodSubClass;
 
 @NamePattern("%s|categoryName")
 @MetaClass(name = "paxbase$FunctionCategoryDTO")
-public class FunctionCategoryDTO extends AbstractNotPersistentEntity {
+public class FunctionCategoryDTO extends BaseUuidEntity {
     private static final long serialVersionUID = -966432658714943535L;
 
     @MetaProperty
