@@ -5,10 +5,11 @@
               maxTotal="20"
               maxWaitMillis="5000"
               name="jdbc/CubaDS"
-              password="1234"
+              password="Wilkens:)"
               type="javax.sql.DataSource"
-              url="jdbc:mysql://localhost/crewbase?useSSL=false&amp;allowMultiQueries=true"
-              username="crewbase"/>
+              url="jdbc:mysql://localhost/paxbase?useSSL=false&amp;allowMultiQueries=true"
+              username="ng2"/>
+
     <!-- Switch off session serialization -->
     <Manager pathname=""/>
     <!--Data store 'crewBase_test' connection-->
