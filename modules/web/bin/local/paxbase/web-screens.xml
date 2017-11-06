@@ -51,12 +51,8 @@
             template="local/paxbase/web/crafttype/craft-type-browse.xml"/>
     <screen id="paxbase$DutyPeriod.browse"
             template="local/paxbase/web/dutyperiod/duty-period-browse.xml"/>
-    <screen id="paxbase$DutyPeriodRotaplan.browse"
-            template="local/paxbase/web/rotaplan/duty-period-browse.xml"/>
     <screen id="PreferredSites"
             template="local/paxbase/web/userpreference/PreferredSites.xml"/>
-    <screen id="paxbase$Site.PreferredSiteBrowse"
-            template="local/paxbase/web/site/preferred-site-browse.xml"/>
     <screen id="rota-timeline"
             template="local/paxbase/web/rotaplan/rota-timeline.xml"/>
     <screen id="paxbase$Department.browse"
@@ -81,4 +77,6 @@
             template="local/paxbase/web/dutyperiodtemplate/duty-period-template-browse.xml"/>
     <screen id="paxbase$DutyPeriodTemplate.edit"
             template="local/paxbase/web/dutyperiodtemplate/duty-period-template-edit.xml"/>
+    <screen id="paxbase$CampaignSite.choose"
+            template="local/paxbase/web/site/campaign-site-choose.xml"/>
 </screen-config>

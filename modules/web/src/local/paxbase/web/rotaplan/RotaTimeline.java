@@ -3,13 +3,8 @@ package local.paxbase.web.rotaplan;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -21,8 +16,6 @@ import com.haulmont.cuba.gui.WindowManager;
 import com.haulmont.cuba.gui.WindowManager.OpenType;
 import com.haulmont.cuba.gui.components.AbstractWindow;
 import com.haulmont.cuba.gui.components.CheckBox;
-import com.haulmont.cuba.gui.components.OptionsGroup;
-import com.haulmont.cuba.gui.components.PopupView;
 import com.haulmont.cuba.gui.components.ScrollBoxLayout;
 import com.haulmont.cuba.gui.components.Window;
 import com.haulmont.cuba.gui.data.CollectionDatasource;
@@ -42,7 +35,6 @@ import local.paxbase.entity.coredata.Site;
 import local.paxbase.entity.dto.TimelineConfig;
 import local.paxbase.entity.dto.TimelineDTO;
 import local.paxbase.entity.dto.TimelineItem;
-import local.paxbase.service.RotaplanService;
 import local.paxbase.service.TimelineService;
 import local.paxbase.service.UserpreferencesService;
 import local.paxbase.web.toolkit.ui.timelinecomponent.RotaplanComponent;
@@ -58,10 +50,6 @@ public class RotaTimeline extends AbstractWindow {
 
 	/* UI-Components */
 	@Inject
-	private PopupView campaignSitePopupView;
-	@Inject
-	private OptionsGroup campaignSiteOptionsGroup;
-	@Inject
 	private ScrollBoxLayout timelineBox;
 	@Inject
 	private CheckBox cbxDisplayCampaigns;
@@ -69,8 +57,6 @@ public class RotaTimeline extends AbstractWindow {
 	/* Services */
 	@Inject
 	private TimelineService timelineDTOService;
-	@Inject
-	private RotaplanService rotaplanService;
 	@Inject
 	private UserpreferencesService preferencesService;
 
@@ -89,15 +75,12 @@ public class RotaTimeline extends AbstractWindow {
 
 		super.init(params);
 		dutyPeriodsDs.refresh();
-		// JS-UI-Komonente
 		rotaplan = new RotaplanComponent();
 		loadRotaplanDto();
 		com.vaadin.ui.Layout box = (Layout) WebComponentsHelper.unwrap(timelineBox);
-		// box.setWidth("100%");
 		box.addComponent(rotaplan);
 		rotaplan.setListener(new InnerListener());
 
-		initCampaignSiteOptionGroup();
 		initCheckBoxDisplayCampaigns();
 	}
 
@@ -105,50 +88,7 @@ public class RotaTimeline extends AbstractWindow {
 		dto = timelineDTOService.getRotoplanDto();
 		if (dto != null) {
 			rotaplan.addDTO("rotaplan", dto);
-			// rotaplan.refresh();
 		}
-	}
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void initCampaignSiteOptionGroup() {
-		sitesDs.refresh();
-		List<Site> preferredSiteList = new ArrayList<Site>();
-		List<UserPreference> preferredSitesRotaplan = preferencesService
-				.getPreferences(UserPreferencesContext.SiteRotaplan);
-
-		for (UserPreference userPreference : preferredSitesRotaplan) {
-			for (Iterator iterator = sitesDs.getItemIds().iterator(); iterator.hasNext();) {
-				UUID uuid = (UUID) iterator.next();
-				if (userPreference.getEntityUuid().equals(uuid)) {
-					preferredSiteList.add((Site) campaignSiteOptionsGroup.getOptionsDatasource().getItem(uuid));
-				}
-			}
-		}
-		campaignSiteOptionsGroup.setValue(preferredSiteList);
-
-		/* Group EventListener */
-		campaignSiteOptionsGroup.addValueChangeListener(e -> {
-			LinkedHashSet<Site> currentVal = null;
-			LinkedHashSet<Site> prevVal = null;
-
-			currentVal = (LinkedHashSet<Site>) e.getValue();
-
-			if (e.getPrevValue() instanceof LinkedHashSet) {
-				prevVal = (LinkedHashSet<Site>) e.getPrevValue();
-			}
-			if (prevVal != null) {
-				Site removedSite = getRemovedItem(prevVal, currentVal);
-				if (removedSite != null) {
-					preferencesService.deletePreference(UserPreferencesContext.SiteRotaplan, removedSite.getUuid());
-				}
-			}
-			Site addedSite = getAddedItem(prevVal, currentVal);
-
-			if (addedSite != null) {
-				preferencesService.createPreference(UserPreferencesContext.SiteRotaplan, addedSite.getUuid(), null);
-			}
-			loadRotaplanDto();
-		});
 	}
 
 	private void initCheckBoxDisplayCampaigns() {
@@ -160,35 +100,12 @@ public class RotaTimeline extends AbstractWindow {
 		cbxDisplayCampaigns.addValueChangeListener(event -> {
 			if (Boolean.TRUE.equals(event.getValue())) {
 				preferencesService.createPreference(UserPreferencesContext.RotaplanDisplayCampaigns, null, "true");
-				// showNotification("set", NotificationType.HUMANIZED);
 
 			} else {
 				preferencesService.deletePreference(UserPreferencesContext.RotaplanDisplayCampaigns, null);
 			}
 			loadRotaplanDto();
 		});
-	}
-
-	private Site getAddedItem(LinkedHashSet<Site> prevVal, LinkedHashSet<Site> currentVal) {
-		for (Site site : currentVal) {
-			if (prevVal == null || !prevVal.contains(site)) {
-				return site;
-			}
-		}
-		return null;
-	}
-
-	private Site getRemovedItem(LinkedHashSet<Site> prevVal, LinkedHashSet<Site> currentVal) {
-		for (Site site : prevVal) {
-			if (!currentVal.contains(site)) {
-				return site;
-			}
-		}
-		return null;
-	}
-
-	public void openSiteCampaingChooser() {
-		campaignSitePopupView.setPopupVisible(true);
 	}
 
 	public void openDepartmentChooser() {
@@ -202,8 +119,15 @@ public class RotaTimeline extends AbstractWindow {
 		});
 	}
 
-	public void reloadDutyPeriods() {
+	public void openCampaignSiteChooser() {
+		Window departmentChoose = openWindow("paxbase$CampaignSite.choose", WindowManager.OpenType.DIALOG);
+		departmentChoose.addCloseListener(new CloseListener() {
 
+			@Override
+			public void windowClosed(String actionId) {
+				loadRotaplanDto();
+			}
+		});
 	}
 
 	public TimelineConfig getDutyPeriodGroupedByUserConfig() {
@@ -242,7 +166,6 @@ public class RotaTimeline extends AbstractWindow {
 	class InnerListener implements RotaplandChangeListener {
 		boolean isCalledAlready;
 
-		@SuppressWarnings("rawtypes")
 		@Override
 		public void itemAdded(JsonObject jsonItem) {
 			// hier belassen
@@ -263,26 +186,27 @@ public class RotaTimeline extends AbstractWindow {
 			// Datum
 			try {
 				if (jsonItem.hasKey("start")) {
-					newItem.setStart(jsonDateToDate(jsonItem.getString("start")));
+					newItem.setStart(jsonDateToDateWoTime(jsonItem.getString("start")));
 				} else {
 					newItem.setStart(Utils.clearDate(new Date()));
 					itemIncomplete = true;
 				}
-				
-				int duration = 1; //entweder das gelieferte Endedatum nehmen, oder die Duration oder 1
-				if (jsonItem.hasKey("end")) {
-					newItem.setEnd(jsonDateToDate(jsonItem.getString("end")));
+
+				int duration = 1; // entweder das gelieferte Endedatum nehmen,
+									// oder die Duration oder 1
+				// if (jsonItem.hasKey("end")) {
+				// newItem.setEnd(jsonDateToDate(jsonItem.getString("end")));
+				// }
+				// else
+				if (jsonItem.hasKey("duration") && !jsonItem.getString("duration").equals("null")) {
+					duration = Integer.parseInt(jsonItem.getString("duration"));
 				}
-				else if (jsonItem.hasKey("duration")) {
-					duration = Integer.getInteger(jsonItem.getString("duration"));
-				} 
-				else {
-					Calendar c = Calendar.getInstance();
-					c.setTime(Utils.clearDate(newItem.getStart()));
-					c.add(Calendar.DAY_OF_YEAR, duration);
-					newItem.setEnd(c.getTime());
-					itemIncomplete = true;
-				}
+
+				Calendar c = Calendar.getInstance();
+				c.setTime(newItem.getStart());
+				c.add(Calendar.DAY_OF_YEAR, duration);
+				newItem.setEnd(c.getTime());
+
 			} catch (Exception e) {
 				e.printStackTrace();
 				itemIncomplete = true;
@@ -294,24 +218,24 @@ public class RotaTimeline extends AbstractWindow {
 			} else {
 				itemIncomplete = true;
 			}
-			
-			// Site über dataManager laden 
-			if (jsonItem.hasKey("siteId")) {
+
+			// Site über dataManager laden
+			if (jsonItem.hasKey("siteId") && !jsonItem.getString("siteId").equals("null")) {
 				sitesDs.refresh();
-				newItem.setSite(sitesDs.getItem(UUID.fromString(jsonItem.getString("userId"))));
+				newItem.setSite(sitesDs.getItem(UUID.fromString(jsonItem.getString("siteId"))));
+			} else {
+				// itemIncomplete = true; nicht jeder Dienst braucht eine Site,
+				// wenn doch kann manuell nachgepflegt werden.
+			}
+
+			// FunctionCategory über dataManager laden
+			if (jsonItem.hasKey("functionCategoryId")) {
+				functionCategoriesDs.refresh();
+				newItem.setFunctionCategory(
+						functionCategoriesDs.getItem(UUID.fromString(jsonItem.getString("functionCategoryId"))));
 			} else {
 				itemIncomplete = true;
 			}
-			
-			// FunctionCategory über dataManager laden 
-			if (jsonItem.hasKey("functionCategoryId")) {
-				functionCategoriesDs.refresh();
-				newItem.setFunctionCategory(functionCategoriesDs.getItem(UUID.fromString(jsonItem.getString("functionCategoryId"))));
-			} else {
-				itemIncomplete = true;
-			}	
-			
-
 
 			if (itemIncomplete) {
 				openEditor(newItem, OpenType.DIALOG).addCloseListener(new CloseListener() {
@@ -361,8 +285,12 @@ public class RotaTimeline extends AbstractWindow {
 				e.printStackTrace();
 			}
 
+			// getDsContext().commit();//den Context vorher committen, sonst
+			// wird beim schließen gefragt.
 			dutyPeriodDs.setItem(dutyPeriod);
+			// dutyPeriodDs.commit();
 			getDsContext().commit();
+
 		}
 
 		@Override
@@ -399,10 +327,17 @@ public class RotaTimeline extends AbstractWindow {
 		}
 
 		private Date jsonDateToDate(String rawDate) throws ParseException {
-			DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
-			Date date;
-			date = format.parse(rawDate);
-			return date;
+			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+			return formatter.parse(rawDate);
+		}
+
+		private Date jsonDateToDateWoTime(String rawDate) throws ParseException {
+			return dateToDateWoTime(jsonDateToDate(rawDate));
+		}
+
+		private Date dateToDateWoTime(Date date) throws ParseException {
+			DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			return formatter.parse(formatter.format(date));
 		}
 
 		@Override

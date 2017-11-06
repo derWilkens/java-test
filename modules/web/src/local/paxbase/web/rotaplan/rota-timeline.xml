@@ -30,9 +30,9 @@
         </collectionDatasource>
     </dsContext>
     <actions>
-        <action id="openSiteCampaingChooser"
+        <action id="openCampaignSiteChooser"
                 icon="font-icon:COGS"
-                invoke="openSiteCampaingChooser"/>
+                invoke="openCampaignSiteChooser"/>
         <action id="openDepartmentChooser"
                 invoke="openDepartmentChooser"/>
     </actions>
@@ -56,8 +56,8 @@
                     action="openDepartmentChooser"
                     caption="msg://departmentChooser"
                     icon="icons/user-group-ok.png"/>
-            <button id="siteCampaignChooser"
-                    action="openSiteCampaingChooser"
+            <button id="campaignSiteChooser"
+                    action="openCampaignSiteChooser"
                     caption="msg://chooseSitesForCampaign"/>
             <checkBox id="cbxDisplayCampaigns"
                       align="MIDDLE_CENTER"

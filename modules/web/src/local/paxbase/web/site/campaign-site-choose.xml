@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://browseCaption"
+        class="local.paxbase.web.site.CampaignSiteChoose"
+        focusComponent="sitesTable"
+        lookupComponent="sitesTable"
+        messagesPack="local.paxbase.web.site">
+    <dsContext>
+        <collectionDatasource id="sitesDs"
+                              class="local.paxbase.entity.coredata.Site"
+                              view="campaing-site-choose">
+            <query>
+                <![CDATA[select e from paxbase$Site e]]>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <actions>
+        <action id="closeWindow"
+                invoke="closeWindow"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="sitesTable"
+            spacing="true">
+        <table id="sitesTable"
+               width="100%">
+            <columns>
+                <column id="siteName"/>
+                <column id="itemDesignation"/>
+            </columns>
+            <rows datasource="sitesDs"/>
+            <rowsCount/>
+        </table>
+        <hbox align="TOP_RIGHT"
+              spacing="true">
+            <button id="closeWindow"
+                    action="closeWindow"
+                    caption="msg://closeWindow"/>
+        </hbox>
+    </layout>
+</window>

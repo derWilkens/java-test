@@ -100,62 +100,74 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 		
 		try (Transaction tx = persistence.createTransaction()) {
 
-			List<TimelineGroup> groups = new ArrayList<TimelineGroup>();
-			// Alle preferred Departments holen
-			List<Department> preferredDepartments = getPreferredDepartments(persistence.getEntityManager(),
-					UserPreferencesContext.RotaplanDepartments);
-			for (Department department : preferredDepartments) {
-				TimelineGroup group = new TimelineGroup(department.getUuid().toString(), department.getAcronym(),  department.getAcronym());
-				group.setSubgroupOrder("content");
-				Comparator<OffshoreUser> byLastName = Comparator.comparing(
-						u -> u.getLastName()
-//						OffshoreUser::getLastName);
-						);
-				List<OffshoreUser> members = department.getMembers().stream().sorted(byLastName).collect(Collectors.toList());
-				int counter = 0;
-				for (OffshoreUser user : members) {
-					// der parentGroup eine nested hinzufügen
-					group.addSubgroup(user.getUuid().toString());
-					// NestedGroup einzel erzeugen und auch noch der Liste
-					// hinzufügen
-					
-					TimelineGroup subGroup = new TimelineGroup(user.getUuid().toString(), user.getInstanceName(), String.valueOf(counter));
-					subGroup.setShowNestedGroups(false);
-					groups.add(subGroup);
-					//counter++;
-				}
-				groups.add(group);
-			}
-
-			dto.getGroupList().addAll(groups);
-
+			//Alle Teams mit Members holen
+			dto.getGroupList().addAll(getTimelineGroups());
+			
+			// Periods der preferred User holen
 			List<OffshoreUser> preferredPersons = getPersonsByPreferredDepartment(persistence.getEntityManager(),
 					UserPreferencesContext.RotaplanDepartments);
-			// Periods der preferred User holen
 			List<DutyPeriod> dutyPeriods = getDutyPeriods(preferredPersons, null, null);
-
 			dto.addItems(dutyPeriods, rotaplanConfig);
 
+			// preferred Sites holen, hierfür die Drag-Buttons angezeigt
+			dto.setDutyPeriodTemplates(getDutyPeriodTemplatesDTO());
 			
-			// preferred Sites holen, hierfür die Buttons angezeigt
-			dto.setDutyPeriodTemplates(new ArrayList<DutyPeriodDTO>());
-			for(DutyPeriodTemplate template:getDutyPeriodTemplates()){
-				DutyPeriodDTO templateDTO = new DutyPeriodDTO();
-				templateDTO.setPersonId(template.getUser().getId().toString());
-				if(template.getSite()!=null){
-					templateDTO.setSiteId(template.getSite().getId().toString());
-					templateDTO.setItemDesignation(template.getSite().getItemDesignation());
-				}
-				templateDTO.setFunctionCategoryId(template.getFunctionCategory().getId().toString());
-				templateDTO.setCategoryName(template.getFunctionCategory().getCategoryName());
-				templateDTO.setDuration(template.getDefaultDuration());
-				dto.getDutyPeriodTemplates().add(templateDTO);
-			}
 			
 			tx.commit();
 		}
 		return dto;
 
+	}
+
+	private List<DutyPeriodDTO> getDutyPeriodTemplatesDTO() {
+		List<DutyPeriodDTO>  dutyPeriodTemplates = new ArrayList<DutyPeriodDTO>();
+		for(DutyPeriodTemplate template:getDutyPeriodTemplates()){
+			DutyPeriodDTO templateDTO = new DutyPeriodDTO();
+			templateDTO.setPersonId(template.getUser().getId().toString());
+			if(template.getSite()!=null){
+				templateDTO.setSiteId(template.getSite().getId().toString());
+				templateDTO.setItemDesignation(template.getSite().getItemDesignation());
+				String colorHex = userPreferenceSerivce.getSiteColorPreference(template.getSite().getUuid());
+				if (colorHex != null) {
+					templateDTO.setColor("#"+colorHex);
+				}
+			}
+			templateDTO.setFunctionCategoryId(template.getFunctionCategory().getId().toString());
+			templateDTO.setCategoryName(template.getFunctionCategory().getCategoryName());
+			templateDTO.setDuration(template.getDefaultDuration());
+			dutyPeriodTemplates.add(templateDTO);
+		}
+		return dutyPeriodTemplates;
+	}
+
+	private List<TimelineGroup> getTimelineGroups() {
+		List<TimelineGroup> groups = new ArrayList<TimelineGroup>();
+		// Alle preferred Departments holen
+		List<Department> preferredDepartments = getPreferredDepartments(persistence.getEntityManager(),
+				UserPreferencesContext.RotaplanDepartments);
+		for (Department department : preferredDepartments) {
+			TimelineGroup group = new TimelineGroup(department.getUuid().toString(), department.getAcronym(),  department.getAcronym());
+			group.setSubgroupOrder("content");
+			Comparator<OffshoreUser> byLastName = Comparator.comparing(
+					u -> u.getLastName()
+//						OffshoreUser::getLastName);
+					);
+			List<OffshoreUser> members = department.getMembers().stream().sorted(byLastName).collect(Collectors.toList());
+			int counter = 0;
+			for (OffshoreUser user : members) {
+				// der parentGroup eine nested hinzufügen
+				group.addSubgroup(user.getUuid().toString());
+				// NestedGroup einzel erzeugen und auch noch der Liste
+				// hinzufügen
+				
+				TimelineGroup subGroup = new TimelineGroup(user.getUuid().toString(), user.getInstanceName(), String.valueOf(counter));
+				subGroup.setShowNestedGroups(false);
+				groups.add(subGroup);
+				//counter++;
+			}
+			groups.add(group);
+		}
+		return groups;
 	}
 
 	private List<DutyPeriodTemplate> getDutyPeriodTemplates() {
@@ -214,7 +226,10 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 				result = e.getSite().getItemDesignation();
 			}
 			if (e.getFunctionCategory() != null) {
-				result = result + " " + e.getFunctionCategory().getCategoryName();
+				result = result + " - " + e.getFunctionCategory().getCategoryName();
+			}
+			if(e.getRemark() != null){
+				result = result + " - " + e.getRemark();
 			}
 			return result;
 		});
@@ -286,7 +301,7 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 		return campaignTimelineConfig;
 	}
 
-	// Drei Kriterien: (implizit Type), Site, ServiceUser;
+	// drei Kriterien: (implizit Type), Site, ServiceUser;
 	private List<DutyPeriod> getDutyPeriods(List<OffshoreUser> personOnDutyList, List<Site> siteList,
 			List<FunctionCategory> preferredFunctionCategories) {
 		List<DutyPeriod> dutyPeriods;

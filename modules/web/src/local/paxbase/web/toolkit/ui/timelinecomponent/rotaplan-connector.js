@@ -25,6 +25,16 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 		orientation: 'top',
 		width: '1800px', // 100% funktioniert nicht, auf der Komponente
 							// gesetzt, verschwindet dass nach itemAdded
+		snap: function (date, scale, step) {
+		      var day = 24 * 60 * 60 * 1000 ;
+		      var tmp =  Math.round(date / day) * day ;
+		      var res =  vis.moment(date).startOf('day');
+		      return res;
+		      
+		},
+		moment: function(date) {
+		    return vis.moment(date).utc();
+		  },
 		groupOrder: function(a, b) {
 			if (a.content < b.content)
 				return -1;
@@ -41,7 +51,7 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 				newItem.end = item.end;
 				newItem.siteId = item.siteId;
 				newItem.functionCategoryId = item.functionCategoryId;
-				newItem.duration = item.duration;
+				newItem.duration = item.defaultDuration;
 				newItem.userId = item.group;
 				connector.itemAdded(newItem);
 				//callback(null); // send back adjusted new item 0918 RotaplanComponent

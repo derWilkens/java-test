@@ -313,4 +313,9 @@
         </property>
         <property name="color"/>
     </view>
+    <view class="local.paxbase.entity.coredata.Site"
+          name="campaing-site-choose">
+        <property name="siteName"/>
+        <property name="itemDesignation"/>
+    </view>
 </views>

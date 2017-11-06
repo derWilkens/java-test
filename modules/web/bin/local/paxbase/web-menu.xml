@@ -29,8 +29,8 @@
         <item icon="icons/user-group-ok.png"
               screen="paxbase$DepartmentUser.choose"/>
         <item screen="userpreference-sitecolors"/>
-        <item screen="paxbase$Site.PreferredSiteBrowse"/>
         <item id="paxbase$UserPreference.browse"/>
+        <item screen="paxbase$CampaignSite.choose"/>
     </menu>
     <menu id="admintools"
           icon="font-icon:COGS"

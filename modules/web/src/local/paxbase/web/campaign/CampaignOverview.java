@@ -257,15 +257,4 @@ public class CampaignOverview extends AbstractLookup {
 		});
 	}
 
-	@SuppressWarnings("unused")
-	private void initPersonsOnDuty() {
-		/*
-		 * Die Datasource wird deklarativ erzeugt...
-		 */
-		// personsOnDutyDs = new PersonOnDutyDs();
-		// //personsOnDutyDs.setup(getDsContext(), dataSupplier,
-		// "personsOnDutyDs", metaClass, view);
-		// personsOnDutyUserSettings.setDatasource(personsOnDutyDs);
-	}
-
 }
