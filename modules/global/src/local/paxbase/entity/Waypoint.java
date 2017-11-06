@@ -40,18 +40,6 @@ public class Waypoint extends StandardClientEntity {
     @Column(name = "TRANSFER_DURATION")
     protected Date transferDuration;
 
-    @OnDeleteInverse(DeletePolicy.UNLINK)
-    @OnDelete(DeletePolicy.UNLINK)
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PREV_WAYPOINT_ID")
-    protected Waypoint prevWaypoint;
-
-    @OnDeleteInverse(DeletePolicy.UNLINK)
-    @OnDelete(DeletePolicy.UNLINK)
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "NEXT_WAYPOINT_ID")
-    protected Waypoint nextWaypoint;
-
     @OnDeleteInverse(DeletePolicy.CASCADE)
     @OnDelete(DeletePolicy.UNLINK)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -64,20 +52,17 @@ public class Waypoint extends StandardClientEntity {
     @JoinColumn(name = "SITE_ID")
     protected Site site;
 
-    @JoinTable(name = "PAXBASE_TRANSFER_WAYPOINT_LINK",
-        joinColumns = @JoinColumn(name = "WAYPOINT_ID"),
-        inverseJoinColumns = @JoinColumn(name = "TRANSFER_ID"))
-    @OnDelete(DeletePolicy.UNLINK)
-    @ManyToMany
-    protected Set<Transfer> transfers;
+    @Column(name = "ORDER_NO")
+    protected Integer orderNo;
 
-    public void setTransfers(Set<Transfer> transfers) {
-        this.transfers = transfers;
+    public void setOrderNo(Integer orderNo) {
+        this.orderNo = orderNo;
     }
 
-    public Set<Transfer> getTransfers() {
-        return transfers;
+    public Integer getOrderNo() {
+        return orderNo;
     }
+
 
 
     public Site getSite() {
@@ -110,22 +95,6 @@ public class Waypoint extends StandardClientEntity {
 
 
 
-    public Waypoint getPrevWaypoint() {
-        return prevWaypoint;
-    }
-
-    public void setPrevWaypoint(Waypoint prevWaypoint) {
-        this.prevWaypoint = prevWaypoint;
-    }
-
-
-    public Waypoint getNextWaypoint() {
-        return nextWaypoint;
-    }
-
-    public void setNextWaypoint(Waypoint nextWaypoint) {
-        this.nextWaypoint = nextWaypoint;
-    }
 
 
     public void setTakeOff(Date takeOff) {

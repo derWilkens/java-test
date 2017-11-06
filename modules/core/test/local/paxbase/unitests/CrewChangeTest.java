@@ -1,9 +1,12 @@
 package local.paxbase.unitests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
-
+import java.util.Set;
 
 import org.junit.After;
 import org.junit.Before;
@@ -15,12 +18,30 @@ import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.TypedQuery;
 import com.haulmont.cuba.security.entity.User;
 
+import local.paxbase.entity.CrewChange;
+import local.paxbase.entity.Transfer;
+import local.paxbase.entity.Waypoint;
+import local.paxbase.entity.coredata.Company;
+import local.paxbase.entity.coredata.ModeOfTransfer;
+import local.paxbase.entity.coredata.Site;
+
 
 public class CrewChangeTest {
 
-	private User user;
-	
 
+	private User user;
+	private CrewChange crewChange;
+	private Company operatedBy;
+	private ModeOfTransfer modeOfTransfer;
+	private ArrayList<Waypoint> waypointList;
+	private Site hus;
+	private Site sw1;
+	
+	
+	
+	/**
+	 * Kompletten CrewChange anlegen
+	 */
 	@ClassRule
 	public static StandardTestContainer cont = StandardTestContainer.Common.INSTANCE;
 	
@@ -33,6 +54,60 @@ public class CrewChangeTest {
 			em.persist(user);
 			return user;
 		});
+		operatedBy = cont.persistence().createTransaction().execute(em ->{
+			Company comp = new Company();
+			comp.setClient(1);
+			comp.setCompanyName("CompName");
+			comp.setContactPerson("SinglePointOfContactInComp");
+			comp.setEmail("operatorComp@derWilkens.de");
+			return comp;
+		});
+			
+		modeOfTransfer = cont.persistence().createTransaction().execute(em ->{
+			ModeOfTransfer modeOfTransfer = new ModeOfTransfer();
+			modeOfTransfer.setMode("Helicopter");
+			return modeOfTransfer;
+		});
+		
+		
+		crewChange = cont.persistence().createTransaction().execute(em ->{
+			CrewChange crewChange = new CrewChange();
+			crewChange.setClient(1);
+			crewChange.setFlightDate(new Date());
+			return crewChange;
+		});
+		
+		Transfer transfer1 = cont.persistence().createTransaction().execute(em ->{
+			Transfer transfer = new Transfer();
+			transfer.setClient(1);
+			transfer.setModeOfTransfer(modeOfTransfer);
+			transfer.setOperatedBy(operatedBy);
+			transfer.setTransferOrderNo(1);
+			//transfer.setWaypointList(waypointList);
+			return transfer;
+		});
+		crewChange.setTransfers(new ArrayList<>());
+		crewChange.getTransfers().add(transfer1);
+		
+		waypointList = new ArrayList<Waypoint>();
+		waypointList.add(cont.persistence().createTransaction().execute(em ->{
+			Waypoint wp = new Waypoint();
+			wp.setClient(1);
+			wp.setSite(hus);
+			return wp;
+		}));
+		waypointList.add(cont.persistence().createTransaction().execute(em ->{
+			Waypoint wp = new Waypoint();
+			wp.setClient(1);
+			wp.setSite(sw1);
+			return wp;
+		}));
+		waypointList.add(cont.persistence().createTransaction().execute(em ->{
+			Waypoint wp = new Waypoint();
+			wp.setClient(1);
+			wp.setSite(hus);
+			return wp;
+		}));
 	}
     @After
     public void tearDown() throws Exception {
@@ -42,6 +117,14 @@ public class CrewChangeTest {
     
     @Test
     public void test() {
+    	
+    	List<Transfer> transfers = crewChange.getTransfers();
+    	assertTrue(transfers.size() == 1);
+    	Transfer transfer1 = transfers.iterator().next();
+    	transfer1.addWaypoint(hus,null);
+    	transfer1.getWaypointList();
+    	
+    		
         try (Transaction tx = cont.persistence().createTransaction()) {
             EntityManager em = cont.persistence().getEntityManager();
             TypedQuery<User> query = em.createQuery(
@@ -51,4 +134,5 @@ public class CrewChangeTest {
             assertTrue(list.size() > 0);
         }
     }
+    
 }

@@ -11,3 +11,5 @@ test-run
 /.classpath
 /.project
 deploy/*
+modules/core/db/init/hsql/10.create-db.sql
+build.gradle

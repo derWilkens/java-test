@@ -3,7 +3,7 @@
  */
 package local.paxbase.entity;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,18 +11,22 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import com.haulmont.chile.core.annotations.Composition;
 import com.haulmont.chile.core.annotations.NamePattern;
+import com.haulmont.cuba.core.entity.annotation.Lookup;
+import com.haulmont.cuba.core.entity.annotation.LookupType;
 import com.haulmont.cuba.core.entity.annotation.OnDelete;
 import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
 import com.haulmont.cuba.core.global.DeletePolicy;
 
-import local.paxbase.entity.coredata.StandardClientEntity;
 import local.paxbase.entity.coredata.Company;
 import local.paxbase.entity.coredata.ModeOfTransfer;
-import com.haulmont.cuba.core.entity.annotation.Lookup;
-import com.haulmont.cuba.core.entity.annotation.LookupType;
+import local.paxbase.entity.coredata.Site;
+import local.paxbase.entity.coredata.StandardClientEntity;
+
 
 /**
  * @author christian
@@ -33,8 +37,8 @@ import com.haulmont.cuba.core.entity.annotation.LookupType;
 public class Transfer extends StandardClientEntity {
     private static final long serialVersionUID = -5709533341256299692L;
 
-    @Column(name = "TRANSFER_ORDER_NO", length = 50)
-    protected String transferOrderNo;
+    @Column(name = "TRANSFER_ORDER_NO", nullable = false)
+    protected Integer transferOrderNo;
 
     @OnDeleteInverse(DeletePolicy.CASCADE)
     @OnDelete(DeletePolicy.UNLINK)
@@ -48,10 +52,12 @@ public class Transfer extends StandardClientEntity {
     @JoinColumn(name = "OPERATED_BY_ID")
     protected Company operatedBy;
 
+    @OrderBy("orderNo")
+    @Composition
     @OnDeleteInverse(DeletePolicy.UNLINK)
     @OnDelete(DeletePolicy.CASCADE)
     @OneToMany(mappedBy = "transfer")
-    protected Set<Waypoint> waypointList;
+    protected List<Waypoint> waypointList;
 
     @Lookup(type = LookupType.DROPDOWN, actions = {"clear"})
     @OnDeleteInverse(DeletePolicy.UNLINK)
@@ -59,6 +65,26 @@ public class Transfer extends StandardClientEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MODE_OF_TRANSFER_ID")
     protected ModeOfTransfer modeOfTransfer;
+
+
+    public Integer getTransferOrderNo() {
+        return transferOrderNo;
+    }
+
+    public void setTransferOrderNo(Integer transferOrderNo) {
+        this.transferOrderNo = transferOrderNo;
+    }
+
+
+    public List<Waypoint> getWaypointList() {
+        return waypointList;
+    }
+
+    public void setWaypointList(List<Waypoint> waypointList) {
+        this.waypointList = waypointList;
+    }
+
+
 
     public void setModeOfTransfer(ModeOfTransfer modeOfTransfer) {
         this.modeOfTransfer = modeOfTransfer;
@@ -79,22 +105,6 @@ public class Transfer extends StandardClientEntity {
 
 
 
-    public void setTransferOrderNo(String transferOrderNo) {
-        this.transferOrderNo = transferOrderNo;
-    }
-
-    public String getTransferOrderNo() {
-        return transferOrderNo;
-    }
-
-
-    public void setWaypointList(Set<Waypoint> waypointList) {
-        this.waypointList = waypointList;
-    }
-
-    public Set<Waypoint> getWaypointList() {
-        return waypointList;
-    }
 
 
 
@@ -106,6 +116,12 @@ public class Transfer extends StandardClientEntity {
     public CrewChange getCrewChange() {
         return crewChange;
     }
+
+	public void addWaypoint(Site site, Integer position) {
+		Waypoint wp = new Waypoint();
+		//wp.setClient(1);
+		wp.setSite(site);
+	}
 
 
 

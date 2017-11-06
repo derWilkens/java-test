@@ -35,6 +35,7 @@
                 <column id="takeOff"/>
                 <column id="transferDuration"/>
                 <column id="site"/>
+                <column id="orderNo"/>
             </columns>
             <rows datasource="waypointsDs"/>
             <rowsCount/>
