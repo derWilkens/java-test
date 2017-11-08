@@ -29,7 +29,7 @@ create table PAXBASE_TRANSFER (
     DELETED_BY varchar(50),
     CLIENT integer not null,
     --
-    TRANSFER_ORDER_NO varchar(50),
+    TRANSFER_ORDER_NO integer not null,
     CREW_CHANGE_ID varchar(32) not null,
     OPERATED_BY_ID varchar(32),
     MODE_OF_TRANSFER_ID varchar(32),
@@ -88,13 +88,13 @@ create table PAXBASE_WAYPOINT (
     --
     TAKE_OFF time(3) not null,
     TRANSFER_DURATION time(3),
-    PREV_WAYPOINT_ID varchar(32),
-    NEXT_WAYPOINT_ID varchar(32),
     TRANSFER_ID varchar(32),
     SITE_ID varchar(32),
+    ORDER_NO integer,
     --
     primary key (ID)
-)^-- end PAXBASE_WAYPOINT
+)^
+-- end PAXBASE_WAYPOINT
 
 -- begin PAXBASE_PAYLOADcreate table PAXBASE_PAYLOAD (
     ID varchar(32),
@@ -201,13 +201,7 @@ update SEC_USER set DTYPE = 'sec$User' where DTYPE is null ^
     primary key (ID)
 )^
 -- end PAXBASE_SITE_TYPE
--- begin PAXBASE_TRANSFER_WAYPOINT_LINK
-create table PAXBASE_TRANSFER_WAYPOINT_LINK (
-    WAYPOINT_ID varchar(32),
-    TRANSFER_ID varchar(32),
-    primary key (WAYPOINT_ID, TRANSFER_ID)
-)^
--- end PAXBASE_TRANSFER_WAYPOINT_LINK
+
 -- begin PAXBASE_CAMPAIGN
 create table PAXBASE_CAMPAIGN (
     ID varchar(32),

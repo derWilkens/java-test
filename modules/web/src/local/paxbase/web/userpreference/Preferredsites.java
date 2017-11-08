@@ -68,7 +68,7 @@ public class Preferredsites extends AbstractFrame {
 			if (prevVal != null) {
 				Site removedSite = getRemovedItem(prevVal, currentVal);
 				if(removedSite != null){
-					preferencesService.deletePreference(UserPreferencesContext.SiteRotaplan, removedSite.getUuid());
+					preferencesService.deletePreferenceByEntity(UserPreferencesContext.SiteRotaplan, removedSite.getUuid());
 				}
 			}
 			Site addedSite = getAddedItem(prevVal, currentVal);

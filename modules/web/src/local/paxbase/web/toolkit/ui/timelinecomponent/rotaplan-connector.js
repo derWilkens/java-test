@@ -18,7 +18,7 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 	var options = {
 
 			locale: 'de',
-		stack: true,
+		stack: false,
 		start: new Date(),
 		end: new Date(1000 * 60 * 60 * 24 * 14 + (new Date()).valueOf()),
 		editable: true,
@@ -54,7 +54,7 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 				newItem.duration = item.defaultDuration;
 				newItem.userId = item.group;
 				connector.itemAdded(newItem);
-				//callback(null); // send back adjusted new item 0918 RotaplanComponent
+				//callback(item); // send back adjusted new item 0918 RotaplanComponent
 			} else {
 				callback(null); // cancel item creation
 			}

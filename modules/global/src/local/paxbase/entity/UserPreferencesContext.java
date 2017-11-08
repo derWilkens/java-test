@@ -9,7 +9,8 @@ public enum UserPreferencesContext implements EnumClass<Integer> {
 
     CampaignBrowse(10),
     Rotaplan(20),
-    SiteColors(30),
+    SiteColor(30),
+    SiteBackgroundColor(35),
     SiteRotaplan(40),
     SiteCampaign(50),
     RotaplanDisplayCampaigns(60),

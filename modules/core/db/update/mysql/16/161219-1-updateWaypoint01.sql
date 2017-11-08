@@ -1,1 +1,0 @@
-alter table PAXBASE_WAYPOINT drop foreign key FK_PAXBASE_WAYPOINT_NEXT_WAYPOINT;

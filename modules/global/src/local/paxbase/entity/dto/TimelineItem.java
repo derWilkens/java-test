@@ -38,6 +38,10 @@ public class TimelineItem extends AbstractNotPersistentStringIdEntity {
     protected Boolean editable;
     
     @MetaProperty
+    protected Boolean stack;
+    
+
+	@MetaProperty
     protected String subgroupId;
 
 	public TimelineItem(Period entity, String content, String groupId, String subgroupId, String style) {
@@ -52,6 +56,7 @@ public class TimelineItem extends AbstractNotPersistentStringIdEntity {
 		this.style = style;
 		this.type = "range";
 		this.editable = true;
+		this.stack = false;
 		
 	}
 
@@ -144,6 +149,13 @@ public class TimelineItem extends AbstractNotPersistentStringIdEntity {
 
 	public void setSubgroupId(String subgroupId) {
 		this.subgroupId = subgroupId;
+	}
+    public Boolean getStack() {
+		return stack;
+	}
+
+	public void setStack(Boolean stacked) {
+		this.stack = stacked;
 	}
 
 }

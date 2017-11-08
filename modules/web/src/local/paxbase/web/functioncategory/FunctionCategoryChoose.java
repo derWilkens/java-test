@@ -30,14 +30,14 @@ public class FunctionCategoryChoose extends AbstractLookup {
 
 	@Inject
 	protected HierarchicalDatasource<FunctionCategory, UUID> functionCategoriesDs;
-
+	private static UserPreferencesContext context = UserPreferencesContext.Rotaplan;
 	@Override
 	public void init(Map<String, Object> params) {
 		
 		functionCategoriesDs.refresh();
 		
 		List<UserPreference> preferredRotaplanFunctionCategories = preferencesService
-				.getPreferences(UserPreferencesContext.Rotaplan);
+				.getPreferences(context);
 		functionCategoriesTable.expandAll();
 
 	
@@ -53,10 +53,10 @@ public class FunctionCategoryChoose extends AbstractLookup {
 				e.getValue();
 				
 				if (checkBox.isChecked()) {
-					preferencesService.createPreference(UserPreferencesContext.Rotaplan,
+					preferencesService.createPreference(context,
 							functionCategoriesTable.getSingleSelected().getId(), null);
 				} else {
-					preferencesService.deletePreference(UserPreferencesContext.Rotaplan,
+					preferencesService.deletePreferenceByEntity(context,
 							functionCategoriesTable.getSingleSelected().getId());
 				}
 			}

@@ -23,7 +23,7 @@ public class UserpreferencesServiceBean extends PreferencesService implements Us
 	private Persistence persistence;
 	@Inject
 	private Metadata metadata;
-	
+
 	@Override
 	public UserPreference getPreference(UserPreferencesContext context, UUID id) {
 		try (Transaction tx = persistence.createTransaction()) {
@@ -40,6 +40,8 @@ public class UserpreferencesServiceBean extends PreferencesService implements Us
 
 	@Override
 	public UserPreference createPreference(UserPreferencesContext context, UUID entityId, String userValue) {
+		deletePreferenceByEntity(context, entityId);
+		
 		final UserPreference newItem = metadata.create(UserPreference.class);
 		try (Transaction tx = persistence.createTransaction()) {
 			newItem.setContextId(context);
@@ -52,33 +54,45 @@ public class UserpreferencesServiceBean extends PreferencesService implements Us
 		}
 		return newItem;
 	}
-
+	
 	@Override
-	public void deletePreference(UserPreferencesContext context, UUID entityUUID) {
+	public void deletePreferenceByEntity(UserPreferencesContext context, UUID entityId) {
 		try (Transaction tx = persistence.createTransaction()) {
-			UserPreference item = getPreference(context, entityUUID);
-			if(item!=null){
+			UserPreference item = getPreference(context, entityId);
+			if (item != null) {
 				persistence.getEntityManager().remove(item);
 			}
 			tx.commit();
-			
+
 		}
 	}
+
 	@Override
 	public String getSiteColorPreference(UUID siteId) {
+		return getPreference(siteId, UserPreferencesContext.SiteColor);
+	}
+
+	@Override
+	public String getSiteBackgroundColorPreferrence(UUID siteId) {
+		return getPreference(siteId, UserPreferencesContext.SiteBackgroundColor);
+	}
+
+	private String getPreference(UUID entityId, UserPreferencesContext contex) {
 		UserPreference userPreference;
 
-		String queryString = "select e from paxbase$UserPreference e where e.userId = :userId and e.contextId=:context and e.entityUuid=:siteId";
+		String queryString = "select e from paxbase$UserPreference e where e.userId = :userId and e.contextId=:context and e.entityUuid=:entityId";
 		TypedQuery<UserPreference> query = persistence.getEntityManager().createQuery(queryString,
 				UserPreference.class);
 		UserSessionSource session = AppBeans.get(UserSessionSource.class);
 		query.setParameter("userId", session.getUserSession().getUser().getId());
-		query.setParameter("context", UserPreferencesContext.SiteColors);
-		query.setParameter("siteId", siteId);
+		query.setParameter("context", contex);
+		query.setParameter("entityId", entityId);
 		userPreference = query.getFirstResult();
 		if (userPreference != null) {
 			return userPreference.getUserValue();
 		}
 		return null;
 	}
+
+
 }

@@ -102,7 +102,7 @@ public class RotaTimeline extends AbstractWindow {
 				preferencesService.createPreference(UserPreferencesContext.RotaplanDisplayCampaigns, null, "true");
 
 			} else {
-				preferencesService.deletePreference(UserPreferencesContext.RotaplanDisplayCampaigns, null);
+				preferencesService.deletePreferenceByEntity(UserPreferencesContext.RotaplanDisplayCampaigns, null);
 			}
 			loadRotaplanDto();
 		});
@@ -290,7 +290,10 @@ public class RotaTimeline extends AbstractWindow {
 			dutyPeriodDs.setItem(dutyPeriod);
 			// dutyPeriodDs.commit();
 			getDsContext().commit();
-
+			dutyPeriod = dutyPeriodsDs.getItem(dutyPeriod.getId());
+			TimelineItem timelineItem = timelineDTOService.periodToTimelineItem(dutyPeriod,
+					UserPreferencesContext.Rotaplan);
+			rotaplan.addTimelineItem(timelineItem);
 		}
 
 		@Override
@@ -316,13 +319,14 @@ public class RotaTimeline extends AbstractWindow {
 
 		@Override
 		public void itemDeleted(JsonObject jsonItem) {
+			dutyPeriodsDs.refresh();
 			DutyPeriod dutyPeriod = dutyPeriodsDs.getItem(UUID.fromString(jsonItem.getString("id")));
 			if (dutyPeriod != null) {
 				dutyPeriodsDs.removeItem(dutyPeriod);
 				getDsContext().commit();
 				// Das Item ist im Frontend schon entfernt worden. Aber was ist,
 				// wenn das programmatisch gemacht wird?
-				// rotaplan.removeItem(dutyPeriod);
+				rotaplan.removeItem(dutyPeriod);
 			}
 		}
 

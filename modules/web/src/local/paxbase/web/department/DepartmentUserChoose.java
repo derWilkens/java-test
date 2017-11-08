@@ -54,7 +54,7 @@ public class DepartmentUserChoose extends AbstractWindow {
 						preferencesService.createPreference(UserPreferencesContext.RotaplanDepartments,
 								depTreeTable.getSingleSelected().getId(), null);
 					} else {
-						preferencesService.deletePreference(UserPreferencesContext.RotaplanDepartments,
+						preferencesService.deletePreferenceByEntity(UserPreferencesContext.RotaplanDepartments,
 								depTreeTable.getSingleSelected().getId());
 					}
 				}

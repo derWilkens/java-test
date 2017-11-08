@@ -1,1 +1,0 @@
-drop table PAXBASE_TRANSFER_WAYPOINT_LINK cascade ;
