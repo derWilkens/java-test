@@ -125,12 +125,20 @@ public class RotaplanComponent extends AbstractJavaScriptComponent {
 	}
 
 	public void addTimelineItem(TimelineItem timelineItem) {
-		getState().timelineItems.removeIf(i -> i.getId().equals(timelineItem.getId()));
+		getState().timelineItems.removeIf(i -> i.getId().equals(timelineItem.getId().toString()));
 		getState().timelineItems.add(timelineItem);
 	}
 
 	public void removeItem(Period period) {
-		getState().timelineItems.removeIf(i -> i.getId().equals(period.getId()));
+		boolean removed = getState().timelineItems.removeIf(i -> i.getId().equals(period.getId().toString()));
+		if(!removed){
+		TimelineItem removeItem = null;
+		for(TimelineItem item:getState().timelineItems){
+			if(item.getId().equals(period.getId().toString())){
+				removeItem = item;
+			}
+		}
+		}
 		
 	}
 }

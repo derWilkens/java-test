@@ -109,8 +109,8 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 			List<DutyPeriod> dutyPeriods = getDutyPeriods(preferredPersons, null, null);
 			dto.addItems(dutyPeriods, rotaplanConfig);
 
-			if (getUserPreferences(persistence.getEntityManager(),
-					UserPreferencesContext.RotaplanDisplayCampaigns) != null) {
+			if (!getUserPreferences(persistence.getEntityManager(),
+					UserPreferencesContext.RotaplanDisplayCampaigns).isEmpty()) {
 				// Campaigns werden anhand der preferred Sites und preferred
 				// FunctionCategories vom SubClassTyp Campaign(!) geholt
 				List<UserPreference> preferredRotaplanFunctionCategories = getUserPreferences(
@@ -461,7 +461,7 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 		}
 
 		try (Transaction tx = persistence.createTransaction()) {
-			period = persistence.getEntityManager().find(Period.class, period.getId()); // war
+			period = persistence.getEntityManager().find(DutyPeriod.class, period.getId()); // war
 																						// mal
 																						// merge,
 																						// aber
