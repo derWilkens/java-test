@@ -30,5 +30,6 @@
         <class>local.paxbase.entity.cap.Certificate</class>
         <class>local.paxbase.entity.UserImportStage</class>
         <class>local.paxbase.entity.coredata.DutyPeriodTemplate</class>
+        <class>local.paxbase.entity.cap.coredata.RoleQualificationType</class>
     </persistence-unit>
 </persistence>

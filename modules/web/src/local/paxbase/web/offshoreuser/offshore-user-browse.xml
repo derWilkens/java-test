@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  ~ Copyright (c) 2017 Haulmont Technology Ltd. All Rights Reserved.
+  ~ Haulmont Technology proprietary and confidential.
+  ~ Use is subject to license terms.
+  -->
 <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
         caption="msg://caption"
         class="local.paxbase.web.offshoreuser.OffshoreUserBrowse"
-        focusComponent="offshoreUsersTable"
-        lookupComponent="offshoreUsersTable"
+        focusComponent="table"
+        lookupComponent="table"
         messagesPack="local.paxbase.web.offshoreuser">
     <dsContext>
         <datasource id="offshoreUserDs"
                     class="local.paxbase.entity.OffshoreUser"
-                    view="offshoreUser-browser-view"/>
+                    view="offshoreUser-browser-view">
+            <collectionDatasource id="jobfunctionDs"
+                                  property="jobfunction"/>
+        </datasource>
         <groupDatasource id="offshoreUsersDs"
                          class="local.paxbase.entity.OffshoreUser"
                          view="offshoreUser-browser-view">
@@ -52,16 +60,16 @@
                reversePosition="true"
                width="100%">
             <vbox id="lookupBox"
-                  expand="offshoreUsersTable"
+                  expand="table"
                   height="100%"
                   margin="false,true,false,false"
                   spacing="true">
                 <filter id="filter"
-                        applyTo="offshoreUsersTable"
+                        applyTo="table"
                         datasource="offshoreUsersDs">
                     <properties include=".*"/>
                 </filter>
-                <groupTable id="offshoreUsersTable"
+                <groupTable id="table"
                             width="100%">
                     <actions>
                         <action id="create"/>
@@ -72,6 +80,7 @@
                         <column id="firstName"/>
                         <column id="lastName"/>
                         <column id="position"/>
+                        <column id="email"/>
                         <column id="company"/>
                         <column id="department"/>
                     </columns>
@@ -80,33 +89,61 @@
                     <buttonsPanel id="buttonsPanel"
                                   alwaysVisible="true">
                         <button id="createBtn"
-                                action="offshoreUsersTable.create"/>
+                                action="table.create"/>
                         <button id="editBtn"
-                                action="offshoreUsersTable.edit"/>
+                                action="table.edit"/>
                         <button id="removeBtn"
-                                action="offshoreUsersTable.remove"/>
+                                action="table.remove"/>
                     </buttonsPanel>
                 </groupTable>
             </vbox>
             <vbox id="editBox"
-                  expand="fieldGroupBox"
+                  expand="tabSheetBox"
                   height="100%"
                   margin="false,false,false,true"
                   spacing="true">
-                <vbox id="fieldGroupBox">
-                    <fieldGroup id="fieldGroup"
-                                datasource="offshoreUserDs">
-                        <column width="250px">
-                            <field property="firstName"/>
-                            <field property="lastName"/>
-                            <field property="position"/>
-                            <field optionsDatasource="companiesDs"
-                                   property="company"/>
-                            <field optionsDatasource="departmentsDs"
-                                   property="department"/>
-                            <field property="email"/>
-                        </column>
-                    </fieldGroup>
+                <vbox id="tabSheetBox">
+                    <tabSheet id="tabSheet"
+                              height="100%">
+                        <tab id="mainTab"
+                             caption="msg://mainTab"
+                             margin="true">
+                            <fieldGroup id="fieldGroup"
+                                        datasource="offshoreUserDs">
+                                <column width="250px">
+                                    <field property="firstName"/>
+                                    <field property="lastName"/>
+                                    <field property="position"/>
+                                    <field property="email"/>
+                                    <field optionsDatasource="companiesDs"
+                                           property="company"/>
+                                    <field optionsDatasource="departmentsDs"
+                                           property="department"/>
+                                </column>
+                            </fieldGroup>
+                        </tab>
+                        <tab id="jobfunctionTab"
+                             caption="msg://local.paxbase.entity/OffshoreUser.jobfunction"
+                             margin="true,false,false,false">
+                            <table id="jobfunctionTable"
+                                   height="200px"
+                                   width="100%">
+                                <actions>
+                                    <action id="add"/>
+                                    <action id="remove"/>
+                                </actions>
+                                <columns>
+                                    <column id="name"/>
+                                    <column id="role"/>
+                                </columns>
+                                <rows datasource="jobfunctionDs"/>
+                                <buttonsPanel>
+                                    <button action="jobfunctionTable.add"/>
+                                    <button action="jobfunctionTable.remove"/>
+                                </buttonsPanel>
+                            </table>
+                        </tab>
+                    </tabSheet>
                 </vbox>
                 <hbox id="actionsPane"
                       spacing="true"

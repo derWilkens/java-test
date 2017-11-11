@@ -6,22 +6,22 @@
   -->
 <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
         caption="msg://caption"
-        class="local.paxbase.web.appuser.AppUserBrowse"
+        class="local.paxbase.web.jobfunction.JobfunctionBrowse"
         focusComponent="table"
         lookupComponent="table"
-        messagesPack="local.paxbase.web.appuser">
+        messagesPack="local.paxbase.web.jobfunction">
     <dsContext>
-        <datasource id="appUserDs"
-                    class="local.paxbase.entity.coredata.AppUser"
-                    view="appUser-view">
-            <collectionDatasource id="jobfunctionDs"
-                                  property="jobfunction"/>
+        <datasource id="jobfunctionDs"
+                    class="local.paxbase.entity.cap.coredata.Jobfunction"
+                    view="jobfunction-view">
+            <collectionDatasource id="roleDs"
+                                  property="role"/>
         </datasource>
-        <groupDatasource id="appUsersDs"
-                         class="local.paxbase.entity.coredata.AppUser"
-                         view="appUser-view">
+        <groupDatasource id="jobfunctionsDs"
+                         class="local.paxbase.entity.cap.coredata.Jobfunction"
+                         view="_local">
             <query>
-                <![CDATA[select e from paxbase$AppUser e]]>
+                <![CDATA[select e from paxbase$Jobfunction e]]>
             </query>
         </groupDatasource>
     </dsContext>
@@ -52,7 +52,7 @@
                   spacing="true">
                 <filter id="filter"
                         applyTo="table"
-                        datasource="appUsersDs">
+                        datasource="jobfunctionsDs">
                     <properties include=".*"/>
                 </filter>
                 <groupTable id="table"
@@ -63,11 +63,9 @@
                         <action id="remove"/>
                     </actions>
                     <columns>
-                        <column id="firstName"/>
-                        <column id="lastName"/>
-                        <column id="email"/>
+                        <column id="name"/>
                     </columns>
-                    <rows datasource="appUsersDs"/>
+                    <rows datasource="jobfunctionsDs"/>
                     <rowsCount/>
                     <buttonsPanel id="buttonsPanel"
                                   alwaysVisible="true">
@@ -92,18 +90,16 @@
                              caption="msg://mainTab"
                              margin="true">
                             <fieldGroup id="fieldGroup"
-                                        datasource="appUserDs">
+                                        datasource="jobfunctionDs">
                                 <column width="250px">
-                                    <field property="firstName"/>
-                                    <field property="lastName"/>
-                                    <field property="email"/>
+                                    <field property="name"/>
                                 </column>
                             </fieldGroup>
                         </tab>
-                        <tab id="jobfunctionTab"
-                             caption="msg://local.paxbase.entity.coredata/AppUser.jobfunction"
+                        <tab id="roleTab"
+                             caption="msg://local.paxbase.entity.cap.coredata/Jobfunction.role"
                              margin="true,false,false,false">
-                            <table id="jobfunctionTable"
+                            <table id="roleTable"
                                    height="200px"
                                    width="100%">
                                 <actions>
@@ -113,10 +109,10 @@
                                 <columns>
                                     <column id="name"/>
                                 </columns>
-                                <rows datasource="jobfunctionDs"/>
+                                <rows datasource="roleDs"/>
                                 <buttonsPanel>
-                                    <button action="jobfunctionTable.add"/>
-                                    <button action="jobfunctionTable.remove"/>
+                                    <button action="roleTable.add"/>
+                                    <button action="roleTable.remove"/>
                                 </buttonsPanel>
                             </table>
                         </tab>

@@ -61,6 +61,11 @@
         <property name="department"
                   view="_minimal"/>
         <property name="email"/>
+        <property name="jobfunction"
+                  view="_minimal">
+            <property name="role"
+                      view="_minimal"/>
+        </property>
     </view>
     <view class="local.paxbase.entity.OffshoreUser"
           name="offshoreUser-edit-view">
@@ -223,6 +228,8 @@
         <property name="firstName"/>
         <property name="lastName"/>
         <property name="email"/>
+        <property name="jobfunction"
+                  view="_local"/>
     </view>
     <view class="local.paxbase.entity.coredata.CraftType"
           extends="_local"
@@ -322,5 +329,28 @@
           name="campaing-site-choose">
         <property name="siteName"/>
         <property name="itemDesignation"/>
+    </view>
+    <view class="local.paxbase.entity.cap.coredata.Jobfunction"
+          extends="_local"
+          name="jobfunction-view">
+        <property name="role"
+                  view="_minimal"/>
+    </view>
+    <view class="local.paxbase.entity.cap.coredata.Role"
+          name="role-view">
+        <property name="name"/>
+    </view>
+    <view class="local.paxbase.entity.cap.coredata.RoleQualificationType"
+          extends="_local"
+          name="roleQualificationType-view">
+        <property name="qualificationType"
+                  view="_minimal"/>
+        <property name="role"
+                  view="_minimal"/>
+    </view>
+    <view class="local.paxbase.entity.cap.coredata.QualificationType"
+          name="qualificationType-view">
+        <property name="name"/>
+        <property name="validity"/>
     </view>
 </views>

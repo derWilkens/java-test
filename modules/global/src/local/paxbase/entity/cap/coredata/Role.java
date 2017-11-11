@@ -16,6 +16,7 @@ import javax.persistence.OrderBy;
 import local.paxbase.entity.cap.coredata.Jobfunction;
 
 import local.paxbase.entity.cap.coredata.QualificationType;
+import javax.persistence.OneToMany;
 
 @NamePattern("%s|name")
 @Table(name = "PAXBASE_ROLE")
@@ -26,7 +27,6 @@ public class Role extends StandardClientEntity {
     @Column(name = "NAME", length = 30)
     protected String name;
 
-    @OrderBy("name")
     @JoinTable(name = "PAXBASE_FUNCTION_ROLE_LINK",
         joinColumns = @JoinColumn(name = "ROLE_ID"),
         inverseJoinColumns = @JoinColumn(name = "FUNCTION_ID"))
@@ -35,22 +35,21 @@ public class Role extends StandardClientEntity {
     @ManyToMany
     protected List<Jobfunction> functions;
 
-    @JoinTable(name = "PAXBASE_ROLE_QUALIFICATION_TYPE_LINK",
-        joinColumns = @JoinColumn(name = "ROLE_ID"),
-        inverseJoinColumns = @JoinColumn(name = "QUALIFICATION_TYPE_ID"))
-    @OnDeleteInverse(DeletePolicy.UNLINK)
-    @OnDelete(DeletePolicy.UNLINK)
-    @ManyToMany
-    protected List<QualificationType> qualificationTypes;
 
-    public List<QualificationType> getQualificationTypes() {
-        return qualificationTypes;
+
+
+
+
+    @OneToMany(mappedBy = "role")
+    protected List<RoleQualificationType> roleQualificationType;
+
+    public void setRoleQualificationType(List<RoleQualificationType> roleQualificationType) {
+        this.roleQualificationType = roleQualificationType;
     }
 
-    public void setQualificationTypes(List<QualificationType> qualificationTypes) {
-        this.qualificationTypes = qualificationTypes;
+    public List<RoleQualificationType> getRoleQualificationType() {
+        return roleQualificationType;
     }
-
 
 
     public List<Jobfunction> getFunctions() {

@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @NamePattern("%s|name")
 @Table(name = "PAXBASE_QUALIFICATION_TYPE")
@@ -21,19 +22,31 @@ public class QualificationType extends StandardClientEntity {
     @Column(name = "NAME")
     protected String name;
 
-    @JoinTable(name = "PAXBASE_ROLE_QUALIFICATION_TYPE_LINK",
-        joinColumns = @JoinColumn(name = "QUALIFICATION_TYPE_ID"),
-        inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
-    @OnDelete(DeletePolicy.UNLINK)
-    @ManyToMany
-    protected List<Role> roles;
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+
+
+
+    @Column(name = "VALIDITY")
+    protected Integer validity;
+
+    @OneToMany(mappedBy = "qualificationType")
+    protected List<RoleQualificationType> roleQualificationType;
+
+    public void setValidity(Integer validity) {
+        this.validity = validity;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public Integer getValidity() {
+        return validity;
+    }
+
+
+    public void setRoleQualificationType(List<RoleQualificationType> roleQualificationType) {
+        this.roleQualificationType = roleQualificationType;
+    }
+
+    public List<RoleQualificationType> getRoleQualificationType() {
+        return roleQualificationType;
     }
 
 

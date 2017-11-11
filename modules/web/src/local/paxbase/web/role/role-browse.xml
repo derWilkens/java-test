@@ -6,22 +6,19 @@
   -->
 <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
         caption="msg://caption"
-        class="local.paxbase.web.appuser.AppUserBrowse"
+        class="local.paxbase.web.role.RoleBrowse"
         focusComponent="table"
         lookupComponent="table"
-        messagesPack="local.paxbase.web.appuser">
+        messagesPack="local.paxbase.web.role">
     <dsContext>
-        <datasource id="appUserDs"
-                    class="local.paxbase.entity.coredata.AppUser"
-                    view="appUser-view">
-            <collectionDatasource id="jobfunctionDs"
-                                  property="jobfunction"/>
-        </datasource>
-        <groupDatasource id="appUsersDs"
-                         class="local.paxbase.entity.coredata.AppUser"
-                         view="appUser-view">
+        <datasource id="roleDs"
+                    class="local.paxbase.entity.cap.coredata.Role"
+                    view="role-view"/>
+        <groupDatasource id="rolesDs"
+                         class="local.paxbase.entity.cap.coredata.Role"
+                         view="role-view">
             <query>
-                <![CDATA[select e from paxbase$AppUser e]]>
+                <![CDATA[select e from paxbase$Role e]]>
             </query>
         </groupDatasource>
     </dsContext>
@@ -52,7 +49,7 @@
                   spacing="true">
                 <filter id="filter"
                         applyTo="table"
-                        datasource="appUsersDs">
+                        datasource="rolesDs">
                     <properties include=".*"/>
                 </filter>
                 <groupTable id="table"
@@ -63,11 +60,9 @@
                         <action id="remove"/>
                     </actions>
                     <columns>
-                        <column id="firstName"/>
-                        <column id="lastName"/>
-                        <column id="email"/>
+                        <column id="name"/>
                     </columns>
-                    <rows datasource="appUsersDs"/>
+                    <rows datasource="rolesDs"/>
                     <rowsCount/>
                     <buttonsPanel id="buttonsPanel"
                                   alwaysVisible="true">
@@ -81,46 +76,17 @@
                 </groupTable>
             </vbox>
             <vbox id="editBox"
-                  expand="tabSheetBox"
+                  expand="fieldGroupBox"
                   height="100%"
                   margin="false,false,false,true"
                   spacing="true">
-                <vbox id="tabSheetBox">
-                    <tabSheet id="tabSheet"
-                              height="100%">
-                        <tab id="mainTab"
-                             caption="msg://mainTab"
-                             margin="true">
-                            <fieldGroup id="fieldGroup"
-                                        datasource="appUserDs">
-                                <column width="250px">
-                                    <field property="firstName"/>
-                                    <field property="lastName"/>
-                                    <field property="email"/>
-                                </column>
-                            </fieldGroup>
-                        </tab>
-                        <tab id="jobfunctionTab"
-                             caption="msg://local.paxbase.entity.coredata/AppUser.jobfunction"
-                             margin="true,false,false,false">
-                            <table id="jobfunctionTable"
-                                   height="200px"
-                                   width="100%">
-                                <actions>
-                                    <action id="add"/>
-                                    <action id="remove"/>
-                                </actions>
-                                <columns>
-                                    <column id="name"/>
-                                </columns>
-                                <rows datasource="jobfunctionDs"/>
-                                <buttonsPanel>
-                                    <button action="jobfunctionTable.add"/>
-                                    <button action="jobfunctionTable.remove"/>
-                                </buttonsPanel>
-                            </table>
-                        </tab>
-                    </tabSheet>
+                <vbox id="fieldGroupBox">
+                    <fieldGroup id="fieldGroup"
+                                datasource="roleDs">
+                        <column width="250px">
+                            <field property="name"/>
+                        </column>
+                    </fieldGroup>
                 </vbox>
                 <hbox id="actionsPane"
                       spacing="true"

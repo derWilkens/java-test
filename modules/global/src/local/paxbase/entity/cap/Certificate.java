@@ -49,7 +49,7 @@ public class Certificate extends StandardEntity {
     @JoinColumn(name = "QUALIFICATION_TYPE_ID")
     protected QualificationType qualificationType;
 
-    @Lookup(type = LookupType.SCREEN, actions = {"clear", "lookup"})
+    @Lookup(type = LookupType.SCREEN, actions = {"lookup", "clear"})
     @OnDeleteInverse(DeletePolicy.UNLINK)
     @OnDelete(DeletePolicy.UNLINK)
     @ManyToOne(fetch = FetchType.LAZY)

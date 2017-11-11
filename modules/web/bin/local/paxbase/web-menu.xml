@@ -7,6 +7,12 @@
         <item id="paxbase$CrewChange.browse"/>
         <item id="paxbase$Waypoint.browse"/>
         <item screen="paxbase$FunctionCategory.browse"/>
+        <item screen="paxbase$AppUser.browse"/>
+        <item screen="paxbase$Jobfunction.browse"/>
+        <item screen="paxbase$QualificationType.browse"/>
+        <item screen="paxbase$Role.browse"/>
+        <item screen="paxbase$RoleQualificationType.browse"/>
+        <item screen="paxbase$OffshoreUser.browse"/>
     </menu>
     <menu id="lineUp"
           icon="font-icon:GROUP"
@@ -19,8 +25,6 @@
           icon="font-icon:GRADUATION_CAP"
           insertBefore="bpm">
         <item screen="paxbase$Certificate.edit"/>
-        <item screen="paxbase$OffshoreUser.browse"/>
-        <item screen="paxbase$AppUser.browse"/>
     </menu>
     <menu id="favorites"
           icon="font-icon:STAR"

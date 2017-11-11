@@ -41,10 +41,6 @@
             template="local/paxbase/web/userpreference/userpreference-sitecolors.xml"/>
     <screen id="paxbase$Certificate.edit"
             template="local/paxbase/web/certificate/certificate-edit.xml"/>
-    <screen id="paxbase$OffshoreUser.browse"
-            template="local/paxbase/web/offshoreuser/offshore-user-browse.xml"/>
-    <screen id="paxbase$AppUser.browse"
-            template="local/paxbase/web/appuser/app-user-browse.xml"/>
     <screen id="paxbase$ModeOfTransfer.browse"
             template="local/paxbase/web/modeoftransfer/mode-of-transfer-browse.xml"/>
     <screen id="paxbase$CraftType.browse"
@@ -79,4 +75,16 @@
             template="local/paxbase/web/dutyperiodtemplate/duty-period-template-edit.xml"/>
     <screen id="paxbase$CampaignSite.choose"
             template="local/paxbase/web/site/campaign-site-choose.xml"/>
+    <screen id="paxbase$AppUser.browse"
+            template="local/paxbase/web/appuser/app-user-browse.xml"/>
+    <screen id="paxbase$Jobfunction.browse"
+            template="local/paxbase/web/jobfunction/jobfunction-browse.xml"/>
+    <screen id="paxbase$QualificationType.browse"
+            template="local/paxbase/web/qualificationtype/qualification-type-browse.xml"/>
+    <screen id="paxbase$Role.browse"
+            template="local/paxbase/web/role/role-browse.xml"/>
+    <screen id="paxbase$RoleQualificationType.browse"
+            template="local/paxbase/web/rolequalificationtype/role-qualification-type-browse.xml"/>
+    <screen id="paxbase$OffshoreUser.browse"
+            template="local/paxbase/web/offshoreuser/offshore-user-browse.xml"/>
 </screen-config>

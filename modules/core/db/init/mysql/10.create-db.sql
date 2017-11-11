@@ -340,6 +340,7 @@ create table PAXBASE_QUALIFICATION_TYPE (
     CLIENT integer not null,
     --
     NAME varchar(255),
+    VALIDITY integer,
     --
     primary key (ID)
 )^
@@ -407,13 +408,7 @@ create table PAXBASE_FUNCTION_ROLE_LINK (
     primary key (FUNCTION_ID, ROLE_ID)
 )^
 -- end PAXBASE_FUNCTION_ROLE_LINK
--- begin PAXBASE_ROLE_QUALIFICATION_TYPE_LINK
-create table PAXBASE_ROLE_QUALIFICATION_TYPE_LINK (
-    ROLE_ID varchar(32),
-    QUALIFICATION_TYPE_ID varchar(32),
-    primary key (ROLE_ID, QUALIFICATION_TYPE_ID)
-)^
--- end PAXBASE_ROLE_QUALIFICATION_TYPE_LINK
+
 -- begin PAXBASE_DEPARTMENT
 create table PAXBASE_DEPARTMENT (
     ID varchar(32),
@@ -474,3 +469,28 @@ create table PAXBASE_DUTY_PERIOD_TEMPLATE (
     primary key (ID)
 )^
 -- end PAXBASE_DUTY_PERIOD_TEMPLATE
+-- begin PAXBASE_ROLE_QUALIFICATION_TYPE
+create table PAXBASE_ROLE_QUALIFICATION_TYPE (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    --
+    MANDATORY boolean,
+    QUALIFICATION_TYPE_ID varchar(32) not null,
+    ROLE_ID varchar(32),
+    --
+    primary key (ID)
+)^
+-- end PAXBASE_ROLE_QUALIFICATION_TYPE
+-- begin PAXBASE_APP_USER_JOBFUNCTION_LINK
+create table PAXBASE_APP_USER_JOBFUNCTION_LINK (
+    JOBFUNCTION_ID varchar(32),
+    APP_USER_ID varchar(32),
+    primary key (JOBFUNCTION_ID, APP_USER_ID)
+)^
+-- end PAXBASE_APP_USER_JOBFUNCTION_LINK
