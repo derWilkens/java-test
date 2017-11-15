@@ -1,6 +1,6 @@
 package local.paxbase.web.site;
 
-import com.haulmont.cuba.gui.components.AbstractLookup;
+import com.haulmont.cuba.gui.components.EntityCombinedScreen;
 
-public class SiteBrowse extends AbstractLookup {
+public class SiteBrowse extends EntityCombinedScreen {
 }

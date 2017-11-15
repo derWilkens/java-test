@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import local.paxbase.entity.UserPreference;
 import local.paxbase.entity.UserPreferencesContext;
+import local.paxbase.entity.coredata.Site;
 
 public interface UserpreferencesService {
     String NAME = "paxbase_UserpreferencesService";
@@ -15,5 +16,6 @@ public interface UserpreferencesService {
     void deletePreferenceByEntity(UserPreferencesContext context, UUID entityId);
 	String getSiteColorPreference(UUID siteId);
 	String getSiteBackgroundColorPreferrence(UUID siteId);
+	List<Site> getSites(UserPreferencesContext context);
 	
 }

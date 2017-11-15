@@ -8,12 +8,12 @@
         <param-name>appPropertiesConfig</param-name>
         <param-value>classpath:local/paxbase/app.properties
             /WEB-INF/local.app.properties
-            "file:${catalina.home}/conf/app-core/local.app.properties"</param-value>
+            "file:${catalina.base}/conf/app-core/local.app.properties"</param-value>
     </context-param>
     <!--Application components-->
     <context-param>
         <param-name>appComponents</param-name>
-        <param-value>com.haulmont.cuba com.haulmont.bpm</param-value>
+        <param-value>com.haulmont.cuba</param-value>
     </context-param>
     <listener>
         <listener-class>com.haulmont.cuba.core.sys.AppContextLoader</listener-class>

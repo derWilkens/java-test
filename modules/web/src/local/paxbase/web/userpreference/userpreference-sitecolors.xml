@@ -26,6 +26,7 @@
                width="100%">
             <columns>
                 <column id="siteName"/>
+                <column id="category"/>
             </columns>
             <rows datasource="sitesDs"/>
         </table>

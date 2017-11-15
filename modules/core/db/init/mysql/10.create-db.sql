@@ -69,6 +69,7 @@ create table PAXBASE_CREW_CHANGE (
     ITEM_DESIGNATION varchar(7),
     PARENT_SITE_ID varchar(32),
     SHORT_ITEM_DESIGNATION varchar(4),
+    CATEGORY_ID varchar(32),
     SITE_TYPE_ID varchar(32),
     --
     primary key (ID)
@@ -494,3 +495,56 @@ create table PAXBASE_APP_USER_JOBFUNCTION_LINK (
     primary key (JOBFUNCTION_ID, APP_USER_ID)
 )^
 -- end PAXBASE_APP_USER_JOBFUNCTION_LINK
+-- begin PAXBASE_SITE_CATEGORY
+create table PAXBASE_SITE_CATEGORY (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    --
+    NAME varchar(50),
+    --
+    primary key (ID)
+)^
+-- end PAXBASE_SITE_CATEGORY
+
+-- begin PAXBASE_SITE_ROLE_RULE
+create table PAXBASE_SITE_ROLE_RULE (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    --
+    SITE_ID varchar(32),
+    ROLE_ID varchar(32),
+    --
+    primary key (ID)
+)^
+-- end PAXBASE_SITE_ROLE_RULE
+-- begin PAXBASE_NUMBER_RANGE_RULE
+create table PAXBASE_NUMBER_RANGE_RULE (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    --
+    AMOUNT_FROM integer,
+    AMOUNT_TO integer,
+    REQUIRED_NUMBER integer,
+    SITE_ROLE_RULE_ID varchar(32),
+    --
+    primary key (ID)
+)^
+-- end PAXBASE_NUMBER_RANGE_RULE

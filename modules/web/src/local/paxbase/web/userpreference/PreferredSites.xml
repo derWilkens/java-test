@@ -35,6 +35,7 @@
                 <column id="siteName"/>
                 <column id="itemDesignation"/>
                 <column id="shortItemDesignation"/>
+                <column id="category"/>
             </columns>
             <rows datasource="sitesDs"/>
         </table>

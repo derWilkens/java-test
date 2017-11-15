@@ -43,7 +43,7 @@ public class CrewChangeTest {
 	 * Kompletten CrewChange anlegen
 	 */
 	@ClassRule
-	public static StandardTestContainer cont = StandardTestContainer.Common.INSTANCE;
+	public static StandardTestContainer cont = new StandardTestContainer();
 	
 	@Before
 	public void setUp() throws Exception {

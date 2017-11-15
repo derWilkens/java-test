@@ -16,6 +16,7 @@ import com.haulmont.cuba.core.global.UserSessionSource;
 
 import local.paxbase.entity.UserPreference;
 import local.paxbase.entity.UserPreferencesContext;
+import local.paxbase.entity.coredata.Site;
 
 @Service(UserpreferencesService.NAME)
 public class UserpreferencesServiceBean extends PreferencesService implements UserpreferencesService {
@@ -41,7 +42,7 @@ public class UserpreferencesServiceBean extends PreferencesService implements Us
 	@Override
 	public UserPreference createPreference(UserPreferencesContext context, UUID entityId, String userValue) {
 		deletePreferenceByEntity(context, entityId);
-		
+
 		final UserPreference newItem = metadata.create(UserPreference.class);
 		try (Transaction tx = persistence.createTransaction()) {
 			newItem.setContextId(context);
@@ -54,7 +55,7 @@ public class UserpreferencesServiceBean extends PreferencesService implements Us
 		}
 		return newItem;
 	}
-	
+
 	@Override
 	public void deletePreferenceByEntity(UserPreferencesContext context, UUID entityId) {
 		try (Transaction tx = persistence.createTransaction()) {
@@ -69,12 +70,24 @@ public class UserpreferencesServiceBean extends PreferencesService implements Us
 
 	@Override
 	public String getSiteColorPreference(UUID siteId) {
-		return getPreference(siteId, UserPreferencesContext.SiteColor);
+		try (Transaction tx = persistence.createTransaction()) {
+			return getPreference(siteId, UserPreferencesContext.SiteColor);
+
+		}
 	}
 
 	@Override
 	public String getSiteBackgroundColorPreferrence(UUID siteId) {
-		return getPreference(siteId, UserPreferencesContext.SiteBackgroundColor);
+		try (Transaction tx = persistence.createTransaction()) {
+			return getPreference(siteId, UserPreferencesContext.SiteBackgroundColor);
+		}
+	}
+
+	@Override
+	public List<Site> getSites(UserPreferencesContext context) {
+		try (Transaction tx = persistence.createTransaction()) {
+			return getPreferredSites(persistence.getEntityManager(), context);
+		}
 	}
 
 	private String getPreference(UUID entityId, UserPreferencesContext contex) {
@@ -93,6 +106,5 @@ public class UserpreferencesServiceBean extends PreferencesService implements Us
 		}
 		return null;
 	}
-
 
 }

@@ -8,7 +8,15 @@
     <dsContext>
         <datasource id="siteDs"
                     class="local.paxbase.entity.coredata.Site"
-                    view="site-browser-view"/>
+                    view="site-browser-view">
+            <collectionDatasource id="rolesDs"
+                                  property="roles"/>
+        </datasource>
+        <collectionDatasource id="categoriesDs"
+                              class="local.paxbase.entity.coredata.SiteCategory"
+                              view="_minimal">
+            <![CDATA[select e from paxbase$SiteCategory e]]>
+        </collectionDatasource>
     </dsContext>
     <dialogMode height="600"
                 width="800"/>
@@ -23,8 +31,30 @@
                 <field id="parentSite"/>
                 <field id="shortItemDesignation"/>
                 <field id="siteType"/>
+                <field optionsDatasource="categoriesDs"
+                       property="category"/>
             </column>
         </fieldGroup>
+        <groupBox id="rolesBox"
+                  caption="msg://local.paxbase.entity.coredata/Site.roles">
+            <table id="rolesTable"
+                   height="200px"
+                   width="100%">
+                <actions>
+                    <action id="add"/>
+                    <action id="remove"/>
+                </actions>
+                <columns>
+                    <column id="name"/>
+                    <column id="client"/>
+                </columns>
+                <rows datasource="rolesDs"/>
+                <buttonsPanel>
+                    <button action="rolesTable.add"/>
+                    <button action="rolesTable.remove"/>
+                </buttonsPanel>
+            </table>
+        </groupBox>
         <frame id="windowActions"
                screen="editWindowActions"/>
     </layout>

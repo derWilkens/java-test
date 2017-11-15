@@ -13,7 +13,10 @@
     <dsContext>
         <datasource id="roleDs"
                     class="local.paxbase.entity.cap.coredata.Role"
-                    view="role-view"/>
+                    view="role-view">
+            <collectionDatasource id="siteRoleRulesDs"
+                                  property="siteRoleRules"/>
+        </datasource>
         <groupDatasource id="rolesDs"
                          class="local.paxbase.entity.cap.coredata.Role"
                          view="role-view">
@@ -76,17 +79,46 @@
                 </groupTable>
             </vbox>
             <vbox id="editBox"
-                  expand="fieldGroupBox"
+                  expand="tabSheetBox"
                   height="100%"
                   margin="false,false,false,true"
                   spacing="true">
-                <vbox id="fieldGroupBox">
-                    <fieldGroup id="fieldGroup"
-                                datasource="roleDs">
-                        <column width="250px">
-                            <field property="name"/>
-                        </column>
-                    </fieldGroup>
+                <vbox id="tabSheetBox">
+                    <tabSheet id="tabSheet"
+                              height="100%">
+                        <tab id="mainTab"
+                             caption="msg://mainTab"
+                             margin="true">
+                            <fieldGroup id="fieldGroup"
+                                        datasource="roleDs">
+                                <column width="250px">
+                                    <field property="name"/>
+                                </column>
+                            </fieldGroup>
+                        </tab>
+                        <tab id="siteRoleRulesTab"
+                             caption="msg://local.paxbase.entity.cap.coredata/Role.siteRoleRules"
+                             margin="true,false,false,false">
+                            <table id="siteRoleRulesTable"
+                                   height="200px"
+                                   width="100%">
+                                <actions>
+                                    <action id="add"/>
+                                    <action id="remove"/>
+                                </actions>
+                                <columns>
+                                    <column id="site"/>
+                                    <column id="role"/>
+                                    <column id="rangeRule"/>
+                                </columns>
+                                <rows datasource="siteRoleRulesDs"/>
+                                <buttonsPanel>
+                                    <button action="siteRoleRulesTable.add"/>
+                                    <button action="siteRoleRulesTable.remove"/>
+                                </buttonsPanel>
+                            </table>
+                        </tab>
+                    </tabSheet>
                 </vbox>
                 <hbox id="actionsPane"
                       spacing="true"

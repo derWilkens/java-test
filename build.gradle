@@ -2,6 +2,7 @@
 buildscript {
     ext.cubaVersion = '6.7.2'
     repositories {
+        
         maven {
             url 'https://repo.cuba-platform.com/content/groups/work'
             credentials {
@@ -9,23 +10,16 @@ buildscript {
                 password(rootProject.hasProperty('repoPass') ? rootProject['repoPass'] : 'cuba123')
             }
         }
-        maven {
-            url 'https://repo.cuba-platform.com/content/groups/premium'
-            credentials {
-                username(rootProject.hasProperty('premiumRepoUser') ? rootProject['premiumRepoUser'] : System.getenv('CUBA_PREMIUM_USER'))
-                password(rootProject.hasProperty('premiumRepoPass') ? rootProject['premiumRepoPass'] : System.getenv('CUBA_PREMIUM_PASSWORD'))
-            }
-        }
         
+        maven {
+         	url  'https://dl.bintray.com/mariodavid/cuba-components'
+     }
         
     }
     dependencies {
         classpath "com.haulmont.gradle:cuba-plugin:$cubaVersion"
-
-        
     }
 }
-
 
 def globalModule = project(':app-global')
 def coreModule = project(':app-core')
@@ -33,8 +27,10 @@ def guiModule = project(':app-gui')
 def webModule = project(':app-web')
 
 def servletApi = 'org.apache.tomcat:tomcat-servlet-api:8.0.26'
-apply(plugin: 'eclipse')
+
+
 apply(plugin: 'java')
+apply(plugin: 'eclipse')
 apply(plugin: 'cuba')
 
 cuba {
@@ -47,15 +43,15 @@ cuba {
         dir = "$project.rootDir/build/tomcat"
     }
     ide {
+         
         vcs = 'Git'
     }
 }
 
 dependencies {
     appComponent("com.haulmont.cuba:cuba-global:$cubaVersion")
-    appComponent("com.haulmont.bpm:bpm-global:$cubaVersion")
-}
 
+}
 
 def mysql = 'mysql:mysql-connector-java:5.1.38'
 
@@ -63,7 +59,7 @@ configure([globalModule, coreModule, guiModule, webModule]) {
     apply(plugin: 'java')
     apply(plugin: 'maven')
     apply(plugin: 'eclipse')
-	apply(plugin: 'cuba')
+    apply(plugin: 'cuba')
 
     dependencies {
         testCompile('junit:junit:4.12')
@@ -81,6 +77,8 @@ configure([globalModule, coreModule, guiModule, webModule]) {
 
 configure(globalModule) {
     task enhance(type: CubaEnhancing)
+
+    
 }
 
 configure(coreModule) {
@@ -94,14 +92,17 @@ configure(coreModule) {
         compile(globalModule)
         provided(servletApi)
         jdbc(mysql)
-		testRuntime(mysql)
+        testRuntime(mysql)
+
     }
 
-    task cleanConf(description: 'Cleans up conf directory') << {
-        def dir = new File(cuba.tomcat.dir, '/conf/app-core')
-        if (dir.isDirectory()) {
-            ant.delete(includeemptydirs: true) {
-                fileset(dir: dir, includes: '**/*', excludes: 'local.app.properties')
+    task cleanConf(description: 'Cleans up conf directory') {
+        doLast {
+            def dir = new File(cuba.tomcat.dir, '/conf/app-core')
+            if (dir.isDirectory()) {
+                ant.delete(includeemptydirs: true) {
+                    fileset(dir: dir, includes: '**/*', excludes: 'local.app.properties')
+                }
             }
         }
     }
@@ -112,36 +113,22 @@ configure(coreModule) {
     }
 
     task createDb(dependsOn: assembleDbScripts, description: 'Creates local database', type: CubaDbCreation) {
-        connectionParams = '?useSSL=false&allowMultiQueries=true'
         dbms = 'mysql'
         host = 'localhost'
         dbName = 'crewbase'
         dbUser = 'crewbase'
         dbPassword = '1234'
+        connectionParams = '?useSSL=false&allowMultiQueries=true'
     }
 
     task updateDb(dependsOn: assembleDbScripts, description: 'Updates local database', type: CubaDbUpdate) {
-        connectionParams = '?useSSL=false&allowMultiQueries=true'
         dbms = 'mysql'
         host = 'localhost'
         dbName = 'crewbase'
         dbUser = 'crewbase'
         dbPassword = '1234'
+        connectionParams = '?useSSL=false&allowMultiQueries=true'
     }
-    
-    task startTestDb(type: CubaHsqlStart) {
-        dbPort = 9002 // should be different from the default port 9001 used by Studio HSQLDB server
-        dbName = 'crewBase_test'
-    }
-
-    task createTestDb(dependsOn: assemble, description: 'Creates local database for tests', type: CubaDbCreation) {
-        dbms = 'hsql'
-        host = 'localhost:9002'
-        dbName = 'crewBase_test'
-        dbUser = 'sa'
-        dbPassword = ''
-    }
-    
 }
 
 configure(guiModule) {
@@ -189,11 +176,13 @@ configure(webModule) {
     }
     deployConf.dependsOn clearMessagesCache
 
-    task cleanConf(description: 'Cleans up conf directory') << {
-        def dir = new File(cuba.tomcat.dir, '/conf/app')
-        if (dir.isDirectory()) {
-            ant.delete(includeemptydirs: true) {
-                fileset(dir: dir, includes: '**/*', excludes: 'local.app.properties')
+    task cleanConf(description: 'Cleans up conf directory') {
+        doLast {
+            def dir = new File(cuba.tomcat.dir, '/conf/app')
+            if (dir.isDirectory()) {
+                ant.delete(includeemptydirs: true) {
+                    fileset(dir: dir, includes: '**/*', excludes: 'local.app.properties')
+                }
             }
         }
     }
@@ -207,19 +196,22 @@ configure(webModule) {
 
 
 
+
 task undeploy(type: Delete, dependsOn: ':app-web:cleanConf') {
     delete("$cuba.tomcat.dir/shared")
     delete("$cuba.tomcat.dir/webapps/app-core")
     delete("$cuba.tomcat.dir/webapps/app")
 }
 
-task restart(dependsOn: ['stop', ':app-core:deploy', ':app-web:deploy'], description: 'Redeploys applications and restarts local Tomcat') << {
-    ant.waitfor(maxwait: 6, maxwaitunit: 'second', checkevery: 2, checkeveryunit: 'second') {
-        not {
-            socket(server: 'localhost', port: '8787')
+task restart(dependsOn: ['stop', ':app-core:deploy', ':app-web:deploy'], description: 'Redeploys applications and restarts local Tomcat') {
+    doLast {
+        ant.waitfor(maxwait: 6, maxwaitunit: 'second', checkevery: 2, checkeveryunit: 'second') {
+            not {
+                socket(server: 'localhost', port: '8787')
+            }
         }
+        start.execute()
     }
-    start.execute()
 }
 
 task wrapper(type: Wrapper) {

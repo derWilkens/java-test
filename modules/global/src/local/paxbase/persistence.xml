@@ -31,5 +31,8 @@
         <class>local.paxbase.entity.UserImportStage</class>
         <class>local.paxbase.entity.coredata.DutyPeriodTemplate</class>
         <class>local.paxbase.entity.cap.coredata.RoleQualificationType</class>
+        <class>local.paxbase.entity.coredata.SiteCategory</class>
+        <class>local.paxbase.entity.coredata.SiteRoleRule</class>
+        <class>local.paxbase.entity.coredata.NumberRangeRule</class>
     </persistence-unit>
 </persistence>

@@ -3,6 +3,7 @@ package local.paxbase.service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,11 +27,14 @@ import local.paxbase.entity.OffshoreUser;
 import local.paxbase.entity.Period;
 import local.paxbase.entity.UserPreference;
 import local.paxbase.entity.UserPreferencesContext;
+import local.paxbase.entity.cap.coredata.Role;
 import local.paxbase.entity.coredata.Department;
 import local.paxbase.entity.coredata.DutyPeriodTemplate;
 import local.paxbase.entity.coredata.FunctionCategory;
+import local.paxbase.entity.coredata.NumberRangeRule;
 import local.paxbase.entity.coredata.PeriodSubClass;
 import local.paxbase.entity.coredata.Site;
+import local.paxbase.entity.coredata.SiteRoleRule;
 import local.paxbase.entity.dto.DutyPeriodDTO;
 import local.paxbase.entity.dto.TimelineConfig;
 import local.paxbase.entity.dto.TimelineDTO;
@@ -45,6 +49,7 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 
 	@Inject
 	private UserpreferencesService userPreferenceSerivce;
+
 
 	@Override
 	public TimelineDTO getDto(UserPreferencesContext context) {
@@ -109,8 +114,8 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 			List<DutyPeriod> dutyPeriods = getDutyPeriods(preferredPersons, null, null);
 			dto.addItems(dutyPeriods, rotaplanConfig);
 
-			if (!getUserPreferences(persistence.getEntityManager(),
-					UserPreferencesContext.RotaplanDisplayCampaigns).isEmpty()) {
+			if (!getUserPreferences(persistence.getEntityManager(), UserPreferencesContext.RotaplanDisplayCampaigns)
+					.isEmpty()) {
 				// Campaigns werden anhand der preferred Sites und preferred
 				// FunctionCategories vom SubClassTyp Campaign(!) geholt
 				List<UserPreference> preferredRotaplanFunctionCategories = getUserPreferences(
@@ -129,14 +134,6 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 				dto.addItems(getCampaigns(preferredSites, preferredFunctionCategories),
 						getCampaignAsBackgroundConfig());
 			}
-			// for (PeriodSubClass periodSubClass : preferredSubClassList) {
-			//
-			// if (periodSubClass.equals(PeriodSubClass.Campaign)) {
-			// dto.addItems(getCampaigns(preferredSites,
-			// preferredFunctionCategories), rotaplanConfig);
-			// }
-			//
-			// }
 
 			// preferred Sites holen, hierfür die Drag-Buttons angezeigt
 			dto.setDutyPeriodTemplates(getDutyPeriodTemplatesDTO());
@@ -145,6 +142,33 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 		}
 		return dto;
 
+	}
+
+	@Override
+	public TimelineDTO getEmlDto() {
+		TimelineDTO dto = new TimelineDTO();
+		TimelineConfig emlConfig = getDutyPeriodGroupedByUserConfig();
+		try (Transaction tx = persistence.createTransaction()) {
+			List<UserPreference> userPreferences = getUserPreferences(persistence.getEntityManager(),
+					UserPreferencesContext.EmlDisplaySite);
+			if (!userPreferences.isEmpty()) {
+				UUID siteId = userPreferences.get(0).getEntityUuid();
+				DutyPeriod lastPeriod = getLastPeriod(siteId);
+				//theoretisch muss pro Tag die POB gezählt werden und auf der Basis die Rollen bestimmt werden
+				int pob = getPobForDate(siteId, new Date());
+				//getRolesForSite(siteId);
+			}
+			tx.commit();
+		}
+		// Gruppen sind die Rollen, die in der Maximalausprägung zu besetzen sind
+		
+		// alle Dummy-Periods gehören in die oberste Gruppe
+		// beim Drag auf die Rolle wird nur die Site gesetzt
+		// Alternativ kann auch per Doppelklick die Zuordnung gemacht werden
+		// das Datum des Einsatzes zu verschieben ist nicht sinnvoll, kann aber
+		// schnell passieren
+
+		return null;
 	}
 
 	private List<DutyPeriodDTO> getDutyPeriodTemplatesDTO() {
@@ -462,14 +486,65 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 
 		try (Transaction tx = persistence.createTransaction()) {
 			period = persistence.getEntityManager().find(DutyPeriod.class, period.getId()); // war
-																						// mal
-																						// merge,
-																						// aber
-																						// warum?
+			// mal
+			// merge,
+			// aber
+			// warum?
 			item = new TimelineItem(period, timelineConfig);
 			tx.commit();
 		}
 		return item;
 	}
 
+	/*
+	 * für den definierten Zeitraum in der Zukunft werden sämtliche Dutyperiods ausgewertet.
+	 * Daraus ergibt sich tagesscharf die POB 
+	 * Map mit Datum - Anzahl
+	 * 
+	 */
+	private List<Role> getRoleDutyPeriodsForSite(UUID siteId) {
+		
+		Collection<Role> userList;
+		int pob = 0;
+		try (Transaction tx = persistence.createTransaction()) {
+			Site tmpSite = null;
+			//über aller SitRoleRules 
+			for (SiteRoleRule rule : tmpSite.getSiteRoleRules()) {
+				int requiredNumberOfRoles;
+				for (NumberRangeRule rangeRule: rule.getRangeRule()) {
+					if(pob > rangeRule.getAmountFrom() && pob <= rangeRule.getAmountTo()){
+						requiredNumberOfRoles = rangeRule.getRequiredNumber();
+					}
+				} 
+				rule.getRole();
+			}
+			String queryString = "select e.roles from paxbase$Site e ";
+
+			TypedQuery<OffshoreUser> query = persistence.getEntityManager().createQuery(queryString,
+					OffshoreUser.class);
+
+			// userList = query.getResultList();
+
+			tx.commit();
+		}
+		return null;
+	}
+	
+	private int getPobForDate(UUID siteId, Date date) {
+		//select period where siteId, periodType = "Anwesend" and start <= date and end <= date
+		return persistence.getEntityManager()
+		.createNativeQuery("SELECT e from paxbase$DutyPeriod e where e.site.id = :siteId and e.functionCategory.periodSubClass = :periodType")
+		.setParameter("siteId", siteId)
+		.setParameter("periodType", PeriodSubClass.DutyPeriod).getResultList().size();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public DutyPeriod getLastPeriod(UUID siteId){
+		
+		return (DutyPeriod)persistence.getEntityManager()
+		.createNativeQuery("SELECT e from paxbase$DutyPeriod e where e.site.id = :siteId")
+		.setParameter("siteId", siteId)
+		.getResultList()
+		.stream().max(Comparator.comparing(DutyPeriod::getEnd)).get();
+	}
 }

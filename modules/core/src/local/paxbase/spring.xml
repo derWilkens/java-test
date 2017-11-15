@@ -5,14 +5,14 @@
        xmlns:context="http://www.springframework.org/schema/context">
     <!-- Annotation-based beans -->
     <context:component-scan base-package="local.paxbase"/>
-    <bean id="cubaDataSource_crewBase_test"
+<!--     <bean id="cubaDataSource_crewBase_test"
           class="com.haulmont.cuba.core.sys.CubaJndiObjectFactoryBean">
         <property name="jndiNameAppProperty"
                   value="cuba.dataSourceJndiName_crewBase_test"/>
         <property name="resourceRef"
                   value="true"/>
-    </bean>
-    <bean id="entityManagerFactory_crewBase_test"
+    </bean> -->
+<!--     <bean id="entityManagerFactory_crewBase_test"
           class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
           lazy-init="false">
         <property name="persistenceXmlLocation"
@@ -30,5 +30,5 @@
                   ref="cubaDataSource_crewBase_test"/>
         <qualifier type="org.springframework.beans.factory.annotation.Qualifier"
                    value="crewBase_test"/>
-    </bean>
+    </bean> -->
 </beans>

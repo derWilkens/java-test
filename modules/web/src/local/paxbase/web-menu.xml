@@ -6,25 +6,31 @@
         <item id="paxbase$Transfer.browse"/>
         <item id="paxbase$CrewChange.browse"/>
         <item id="paxbase$Waypoint.browse"/>
-        <item screen="paxbase$FunctionCategory.browse"/>
-        <item screen="paxbase$AppUser.browse"/>
-        <item screen="paxbase$Jobfunction.browse"/>
-        <item screen="paxbase$QualificationType.browse"/>
+        <item screen="paxbase$SiteRoleRules.browse"/>
         <item screen="paxbase$Role.browse"/>
-        <item screen="paxbase$RoleQualificationType.browse"/>
-        <item screen="paxbase$OffshoreUser.browse"/>
+        <item screen="paxbase$NumberRangeRule.browse"/>
+        <item screen="paxbase$Site.browse"/>
+        <item screen="paxbase$SiteRoleRule.browse"/>
+        <item screen="screen"/>
     </menu>
     <menu id="lineUp"
           icon="font-icon:GROUP"
           insertBefore="bpm">
         <item screen="rota-timeline"/>
-        <item id="paxbase$Campaign.campaignOverview"/>
         <item screen="paxbase$DutyPeriod.browse"/>
+        <item id="emlTime"
+              screen="eml-timeline"/>
     </menu>
     <menu id="capDB"
           icon="font-icon:GRADUATION_CAP"
           insertBefore="bpm">
+        <item screen="paxbase$OffshoreUser.browse"/>
+        <item screen="paxbase$AppUser.browse"/>
+        <item screen="paxbase$QualificationType.browse"/>
+        <item screen="paxbase$FunctionCategory.browse"/>
+        <item screen="paxbase$Jobfunction.browse"/>
         <item screen="paxbase$Certificate.edit"/>
+        <item screen="paxbase$RoleQualificationType.browse"/>
     </menu>
     <menu id="favorites"
           icon="font-icon:STAR"
@@ -35,6 +41,7 @@
         <item screen="userpreference-sitecolors"/>
         <item id="paxbase$UserPreference.browse"/>
         <item screen="paxbase$CampaignSite.choose"/>
+        <item screen="paxbase$EmlSite.choose"/>
     </menu>
     <menu id="admintools"
           icon="font-icon:COGS"
@@ -48,7 +55,6 @@
     <menu id="masterdata"
           icon="font-icon:TABLE"
           insertBefore="bpm">
-        <item id="paxbase$Site.browse"/>
         <item id="paxbase$Company.browse"/>
         <item id="paxbase$SiteType.browse"/>
         <item id="paxbase$Campaign.browse"/>

@@ -3,8 +3,6 @@
     <include file="local/paxbase/screens.xml"/>
     <screen id="paxbase$Site.edit"
             template="local/paxbase/web/site/site-edit.xml"/>
-    <screen id="paxbase$Site.browse"
-            template="local/paxbase/web/site/site-browse.xml"/>
     <screen id="paxbase$Company.browse"
             template="local/paxbase/web/company/company-browse.xml"/>
     <screen id="paxbase$Company.edit"
@@ -81,10 +79,26 @@
             template="local/paxbase/web/jobfunction/jobfunction-browse.xml"/>
     <screen id="paxbase$QualificationType.browse"
             template="local/paxbase/web/qualificationtype/qualification-type-browse.xml"/>
-    <screen id="paxbase$Role.browse"
-            template="local/paxbase/web/role/role-browse.xml"/>
     <screen id="paxbase$RoleQualificationType.browse"
             template="local/paxbase/web/rolequalificationtype/role-qualification-type-browse.xml"/>
     <screen id="paxbase$OffshoreUser.browse"
             template="local/paxbase/web/offshoreuser/offshore-user-browse.xml"/>
+    <screen id="eml-timeline"
+            template="local/paxbase/web/rotaplan/eml-timeline.xml"/>
+    <screen id="paxbase$EmlSite.choose"
+            template="local/paxbase/web/site/eml-site-choose.xml"/>
+    <screen id="paxbase$SiteRoleRules.browse"
+            template="local/paxbase/web/siterolerules/site-role-rules-browse.xml"/>
+    <screen id="paxbase$Role.browse"
+            template="local/paxbase/web/role/role-browse.xml"/>
+    <screen id="paxbase$NumberRangeRule.browse"
+            template="local/paxbase/web/numberrangerule/number-range-rule-browse.xml"/>
+    <screen id="paxbase$NumberRangeRule.edit"
+            template="local/paxbase/web/numberrangerule/number-range-rule-edit.xml"/>
+    <screen id="paxbase$Site.browse"
+            template="local/paxbase/web/site/site-browse.xml"/>
+    <screen id="paxbase$SiteRoleRule.browse"
+            template="local/paxbase/web/siterolerule/site-role-rule-browse.xml"/>
+    <screen id="screen"
+            template="local/paxbase/web/dutyperiod/screen.xml"/>
 </screen-config>

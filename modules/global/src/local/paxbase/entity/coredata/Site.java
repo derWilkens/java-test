@@ -3,7 +3,7 @@
  */
 package local.paxbase.entity.coredata;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,8 +19,6 @@ import com.haulmont.cuba.core.entity.annotation.LookupType;
 import com.haulmont.cuba.core.entity.annotation.OnDelete;
 import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
 import com.haulmont.cuba.core.global.DeletePolicy;
-
-import local.paxbase.entity.Campaign;
 
 /**
  * @author christian
@@ -50,11 +48,40 @@ public class Site extends StandardClientEntity {
     @Column(name = "SHORT_ITEM_DESIGNATION", length = 4)
     protected String shortItemDesignation;
 
+    @Lookup(type = LookupType.DROPDOWN)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CATEGORY_ID")
+    protected SiteCategory category;
+
     @OnDeleteInverse(DeletePolicy.UNLINK)
     @OnDelete(DeletePolicy.UNLINK)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SITE_TYPE_ID")
     protected SiteType siteType;
+
+
+
+
+
+    @OneToMany(mappedBy = "site")
+    protected List<SiteRoleRule> siteRoleRules;
+
+    public void setSiteRoleRules(List<SiteRoleRule> siteRoleRules) {
+        this.siteRoleRules = siteRoleRules;
+    }
+
+    public List<SiteRoleRule> getSiteRoleRules() {
+        return siteRoleRules;
+    }
+
+
+    public void setCategory(SiteCategory category) {
+        this.category = category;
+    }
+
+    public SiteCategory getCategory() {
+        return category;
+    }
 
 
     public void setSiteName(String siteName) {

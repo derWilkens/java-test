@@ -1,7 +1,6 @@
 package local.paxbase.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -63,13 +62,13 @@ public abstract class PreferencesService {
 		List<Site> entityList;
 
 		List<UUID> entityUUIDs = getEntityUUIDsFromList(userPreferenceList);
-
-		String queryString = "select e from paxbase$Site e where e.id in :entityUUIDs";
+		Boolean loadAll = entityUUIDs.isEmpty();
+		String queryString = "select e from paxbase$Site e where e.id in :entityUUIDs or 1=:loadAll ORDER BY e.itemDesignation";
 
 		TypedQuery<Site> query = em.createQuery(queryString, Site.class);
 
 		query.setParameter("entityUUIDs", entityUUIDs);
-
+		query.setParameter("loadAll", loadAll?1:0);
 		entityList = query.getResultList();
 
 		return entityList;

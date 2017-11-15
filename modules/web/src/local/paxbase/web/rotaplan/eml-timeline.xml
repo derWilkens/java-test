@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://caption"
+        class="local.paxbase.web.rotaplan.EmlTimeline"
+        messagesPack="local.paxbase.web.emlplan">
+    <dsContext>
+        <datasource id="dutyPeriodDs"
+                    class="local.paxbase.entity.DutyPeriod"
+                    view="dutyPeriod-edit-view"/>
+        <collectionDatasource id="dutyPeriodsDs"
+                              class="local.paxbase.entity.DutyPeriod"
+                              view="dutyPeriod-edit-view">
+            <query>
+                <![CDATA[select e from paxbase$DutyPeriod e]]>
+            </query>
+        </collectionDatasource>
+        <collectionDatasource id="functionCategoriesDs"
+                              class="local.paxbase.entity.coredata.FunctionCategory"
+                              view="_minimal">
+            <query>
+                <![CDATA[select e from paxbase$FunctionCategory e]]>
+            </query>
+        </collectionDatasource>
+        <collectionDatasource id="sitesDs"
+                              class="local.paxbase.entity.coredata.Site"
+                              view="_minimal">
+            <query>
+                <![CDATA[select e from paxbase$Site e]]>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="timelineBox">
+        <hbox id="radioBtnBox"
+              spacing="true">
+            <optionsGroup id="siteChooser"
+                          orientation="horizontal"/>
+        </hbox>
+        <scrollBox id="timelineBox"
+                   scrollBars="both"
+                   spacing="true"/>
+    </layout>
+</window>

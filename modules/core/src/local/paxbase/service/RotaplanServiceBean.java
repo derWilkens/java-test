@@ -1,18 +1,15 @@
 package local.paxbase.service;
 
 import java.util.Collection;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
-import com.haulmont.cuba.core.EntityManager;
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.TypedQuery;
 
-import local.paxbase.entity.UserPreference;
 import local.paxbase.entity.UserPreferencesContext;
 import local.paxbase.entity.coredata.Site;
 

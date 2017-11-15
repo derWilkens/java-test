@@ -17,6 +17,9 @@ import local.paxbase.entity.cap.coredata.Jobfunction;
 
 import local.paxbase.entity.cap.coredata.QualificationType;
 import javax.persistence.OneToMany;
+import local.paxbase.entity.coredata.Site;
+
+import local.paxbase.entity.coredata.SiteRoleRule;
 
 @NamePattern("%s|name")
 @Table(name = "PAXBASE_ROLE")
@@ -42,6 +45,10 @@ public class Role extends StandardClientEntity {
 
     @OneToMany(mappedBy = "role")
     protected List<RoleQualificationType> roleQualificationType;
+
+
+
+
 
     public void setRoleQualificationType(List<RoleQualificationType> roleQualificationType) {
         this.roleQualificationType = roleQualificationType;

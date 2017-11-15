@@ -37,6 +37,12 @@
                   view="_minimal"/>
         <property name="siteType"
                   view="_minimal"/>
+        <property name="category"
+                  view="_minimal"/>
+        <property name="siteRoleRules">
+            <property name="role"
+                      view="_minimal"/>
+        </property>
     </view>
     <view class="local.paxbase.entity.DutyPeriod"
           extends="_local"
@@ -113,7 +119,10 @@
     </view>
     <view class="local.paxbase.entity.coredata.Site"
           extends="_local"
-          name="siteSelect"/>
+          name="siteSelect">
+        <property name="category"
+                  view="_minimal"/>
+    </view>
     <view class="local.paxbase.entity.UserPreference"
           extends="_local"
           name="userPreference-view"/>
@@ -329,6 +338,8 @@
           name="campaing-site-choose">
         <property name="siteName"/>
         <property name="itemDesignation"/>
+        <property name="category"
+                  view="_minimal"/>
     </view>
     <view class="local.paxbase.entity.cap.coredata.Jobfunction"
           extends="_local"
@@ -353,4 +364,17 @@
         <property name="name"/>
         <property name="validity"/>
     </view>
+    <view class="local.paxbase.entity.coredata.SiteRoleRule"
+          extends="_local"
+          name="siteRoleRules-view">
+        <property name="site"
+                  view="_minimal"/>
+        <property name="rangeRule"
+                  view="_local"/>
+        <property name="role"
+                  view="_minimal"/>
+    </view>
+    <view class="local.paxbase.entity.coredata.NumberRangeRule"
+          extends="_local"
+          name="numberRangeRule-view"/>
 </views>

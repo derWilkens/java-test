@@ -14,4 +14,5 @@ public interface TimelineService {
     TimelineDTO getRotoplanDto();
     Collection<OffshoreUser> getPersonsOnDuty();
     TimelineItem periodToTimelineItem(Period period, UserPreferencesContext context);
+	TimelineDTO getEmlDto();
 }
