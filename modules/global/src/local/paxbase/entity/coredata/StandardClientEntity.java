@@ -17,12 +17,12 @@
 package local.paxbase.entity.coredata;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+
 import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.UserSessionSource;
-
-import javax.persistence.Column;
 
 @MappedSuperclass
 public class StandardClientEntity extends StandardEntity {

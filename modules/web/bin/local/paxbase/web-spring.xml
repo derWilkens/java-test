@@ -20,6 +20,8 @@
                        value="local.paxbase.service.RotaplanService"/>
                 <entry key="paxbase_UserImportService"
                        value="local.paxbase.service.UserImportService"/>
+                <entry key="paxbase_EntityService"
+                       value="local.paxbase.service.EntityService"/>
             </map>
         </property>
     </bean>

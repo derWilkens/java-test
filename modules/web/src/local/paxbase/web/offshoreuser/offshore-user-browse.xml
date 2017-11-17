@@ -13,29 +13,15 @@
     <dsContext>
         <datasource id="offshoreUserDs"
                     class="local.paxbase.entity.OffshoreUser"
-                    view="offshoreUser-browser-view">
+                    view="offshoreUser-view">
             <collectionDatasource id="jobfunctionDs"
                                   property="jobfunction"/>
         </datasource>
-        <groupDatasource id="offshoreUsersDs"
-                         class="local.paxbase.entity.OffshoreUser"
-                         view="offshoreUser-browser-view">
+        <collectionDatasource id="offshoreUsersDs"
+                              class="local.paxbase.entity.OffshoreUser"
+                              view="offshoreUser-view">
             <query>
                 <![CDATA[select e from paxbase$OffshoreUser e]]>
-            </query>
-        </groupDatasource>
-        <collectionDatasource id="companiesDs"
-                              class="local.paxbase.entity.coredata.Company"
-                              view="_minimal">
-            <query>
-                <![CDATA[select e from paxbase$Company e]]>
-            </query>
-        </collectionDatasource>
-        <collectionDatasource id="departmentsDs"
-                              class="local.paxbase.entity.coredata.Department"
-                              view="_minimal">
-            <query>
-                <![CDATA[select e from paxbase$Department e]]>
             </query>
         </collectionDatasource>
     </dsContext>
@@ -69,20 +55,22 @@
                         datasource="offshoreUsersDs">
                     <properties include=".*"/>
                 </filter>
-                <groupTable id="table"
-                            width="100%">
+                <table id="table"
+                       width="100%">
                     <actions>
                         <action id="create"/>
                         <action id="edit"/>
                         <action id="remove"/>
                     </actions>
                     <columns>
-                        <column id="firstName"/>
-                        <column id="lastName"/>
-                        <column id="position"/>
+                        <column id="client"/>
+                        <column id="lastname"/>
+                        <column id="firstname"/>
                         <column id="email"/>
                         <column id="company"/>
                         <column id="department"/>
+                        <column id="weight"/>
+                        <column id="weightChangeDate"/>
                     </columns>
                     <rows datasource="offshoreUsersDs"/>
                     <rowsCount/>
@@ -95,7 +83,7 @@
                         <button id="removeBtn"
                                 action="table.remove"/>
                     </buttonsPanel>
-                </groupTable>
+                </table>
             </vbox>
             <vbox id="editBox"
                   expand="tabSheetBox"
@@ -111,14 +99,14 @@
                             <fieldGroup id="fieldGroup"
                                         datasource="offshoreUserDs">
                                 <column width="250px">
-                                    <field property="firstName"/>
-                                    <field property="lastName"/>
-                                    <field property="position"/>
+                                    <field property="client"/>
+                                    <field property="lastname"/>
+                                    <field property="firstname"/>
                                     <field property="email"/>
-                                    <field optionsDatasource="companiesDs"
-                                           property="company"/>
-                                    <field optionsDatasource="departmentsDs"
-                                           property="department"/>
+                                    <field property="company"/>
+                                    <field property="department"/>
+                                    <field property="weight"/>
+                                    <field property="weightChangeDate"/>
                                 </column>
                             </fieldGroup>
                         </tab>
@@ -134,7 +122,6 @@
                                 </actions>
                                 <columns>
                                     <column id="name"/>
-                                    <column id="role"/>
                                 </columns>
                                 <rows datasource="jobfunctionDs"/>
                                 <buttonsPanel>

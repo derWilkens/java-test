@@ -1,5 +1,6 @@
 package local.paxbase.web.rotaplan;
 
+import java.awt.Color;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,8 +11,6 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-import com.haulmont.cuba.core.global.DataManager;
-import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.gui.WindowManager;
 import com.haulmont.cuba.gui.WindowManager.OpenType;
 import com.haulmont.cuba.gui.components.AbstractWindow;
@@ -27,23 +26,21 @@ import com.vaadin.ui.Layout;
 import elemental.json.JsonObject;
 import local.paxbase.Utils;
 import local.paxbase.entity.DutyPeriod;
-import local.paxbase.entity.OffshoreUser;
 import local.paxbase.entity.UserPreference;
 import local.paxbase.entity.UserPreferencesContext;
+import local.paxbase.entity.coredata.AppUser;
 import local.paxbase.entity.coredata.FunctionCategory;
 import local.paxbase.entity.coredata.Site;
 import local.paxbase.entity.dto.TimelineConfig;
 import local.paxbase.entity.dto.TimelineDTO;
 import local.paxbase.entity.dto.TimelineItem;
+import local.paxbase.service.EntityService;
 import local.paxbase.service.TimelineService;
 import local.paxbase.service.UserpreferencesService;
 import local.paxbase.web.toolkit.ui.timelinecomponent.RotaplanComponent;
 import local.paxbase.web.toolkit.ui.timelinecomponent.RotaplanComponent.RotaplandChangeListener;
 
 public class RotaTimeline extends AbstractWindow {
-
-	@Inject
-	private DataManager dataManager;
 
 	private RotaplanComponent rotaplan;
 	private TimelineDTO dto;
@@ -59,6 +56,8 @@ public class RotaTimeline extends AbstractWindow {
 	private TimelineService timelineDTOService;
 	@Inject
 	private UserpreferencesService preferencesService;
+	@Inject
+	private EntityService entityService;
 
 	/* Datasources */
 	@Inject
@@ -130,7 +129,7 @@ public class RotaTimeline extends AbstractWindow {
 		});
 	}
 
-	public TimelineConfig getDutyPeriodGroupedByUserConfig() {
+	public TimelineConfig getDutyPeriodGroupedByUserConfigX() {
 		TimelineConfig dutyPeriodConfig = new TimelineConfig();
 		dutyPeriodConfig.setGroupIdFunction((DutyPeriod e) -> e.getPersonOnDuty().getUuid().toString());
 		dutyPeriodConfig.setGroupLabelFunction((DutyPeriod e) -> e.getPersonOnDuty().getInstanceName());
@@ -148,9 +147,9 @@ public class RotaTimeline extends AbstractWindow {
 		dutyPeriodConfig.setStyleFunction((DutyPeriod e) -> {
 			if (null != e.getSite()) {
 				String colorHex = preferencesService.getSiteColorPreference(e.getSite().getUuid());
-				if (colorHex != null) {
-					return "background-color: #" + colorHex + ";";
-				}
+				String rgb = String.valueOf(Color.decode("0x"+colorHex).getRGB());
+				return "background-color: rgba("+rgb+", 0.6);";
+				//return "background-color: #" + colorHex + ";";
 			}
 			return "";
 		});
@@ -214,7 +213,7 @@ public class RotaTimeline extends AbstractWindow {
 
 			// Person über dataManager laden
 			if (jsonItem.hasKey("userId")) {
-				newItem.setPersonOnDuty(getUserById(jsonItem.getString("userId")));
+				newItem.setPersonOnDuty(entityService.getById(AppUser.class, UUID.fromString(jsonItem.getString("userId"))));
 			} else {
 				itemIncomplete = true;
 			}
@@ -261,11 +260,6 @@ public class RotaTimeline extends AbstractWindow {
 			}
 		}
 
-		private OffshoreUser getUserById(String id) {
-			LoadContext<OffshoreUser> loadContext = LoadContext.create(OffshoreUser.class).setId(UUID.fromString(id))
-					.setView("offshoreUser-browser-view");
-			return dataManager.load(loadContext);
-		}
 
 		@Override
 		public void itemMoved(JsonObject jsonItem) {
@@ -274,7 +268,7 @@ public class RotaTimeline extends AbstractWindow {
 			if (jsonItem.hasKey("group")) {
 				// wenn die Person geändert wurde
 				if (!dutyPeriod.getPersonOnDuty().getId().toString().equals(jsonItem.getString("group"))) {
-					dutyPeriod.setPersonOnDuty(getUserById(jsonItem.getString("group")));
+					dutyPeriod.setPersonOnDuty(entityService.getById(AppUser.class, UUID.fromString(jsonItem.getString("group"))));
 				}
 			}
 			try {

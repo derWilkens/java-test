@@ -133,7 +133,6 @@ create table PAXBASE_WAYPOINT (
     --
     PERSON_ON_DUTY_ID varchar(32),
     SITE_ID varchar(32),
-    CONTRACTOR_ID varchar(32),
     --
     primary key (ID)
 )^
@@ -157,18 +156,7 @@ create table PAXBASE_CRAFT_TYPE (
     primary key (ID)
 )^
 -- end PAXBASE_CRAFT_TYPE
--- begin SEC_USERalter table SEC_USER add column WEIGHT integer ^
-alter table SEC_USER add column WEIGHT_CHANGE_DATE date ^
-alter table SEC_USER add column COMPANY_ID varchar(32) ^
-alter table SEC_USER add column DEPARTMENT_ID varchar(32) ^
-alter table SEC_USER add column CLIENT integer ^
-alter table SEC_USER add column WEIGHT integer ^
-alter table SEC_USER add column WEIGHT_CHANGE_DATE date ^
-alter table SEC_USER add column COMPANY_ID varchar(32) ^
-alter table SEC_USER add column DEPARTMENT_ID varchar(32) ^
-alter table SEC_USER add column DTYPE varchar(100) ^
-update SEC_USER set DTYPE = 'sec$User' where DTYPE is null ^
--- end SEC_USER
+
 -- begin PAXBASE_MODE_OF_TRANSFERcreate table PAXBASE_MODE_OF_TRANSFER (
     ID varchar(32),
     VERSION integer not null,
@@ -548,3 +536,29 @@ create table PAXBASE_NUMBER_RANGE_RULE (
     primary key (ID)
 )^
 -- end PAXBASE_NUMBER_RANGE_RULE
+-- begin PAXBASE_APP_USER
+create table PAXBASE_APP_USER (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    DTYPE varchar(100),
+    --
+    CLIENT integer,
+    LASTNAME varchar(50),
+    FIRSTNAME varchar(50),
+    EMAIL varchar(100),
+    COMPANY_ID varchar(32),
+    DEPARTMENT_ID varchar(32),
+    --
+    -- from paxbase$OffshoreUser
+    WEIGHT integer,
+    WEIGHT_CHANGE_DATE date,
+    --
+    primary key (ID)
+)^
+-- end PAXBASE_APP_USER

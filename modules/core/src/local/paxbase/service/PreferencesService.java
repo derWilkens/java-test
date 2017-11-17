@@ -10,9 +10,9 @@ import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.UserSessionSource;
 
-import local.paxbase.entity.OffshoreUser;
 import local.paxbase.entity.UserPreference;
 import local.paxbase.entity.UserPreferencesContext;
+import local.paxbase.entity.coredata.AppUser;
 import local.paxbase.entity.coredata.Department;
 import local.paxbase.entity.coredata.Site;
 
@@ -52,7 +52,7 @@ public abstract class PreferencesService {
 		List<UserPreference> userPreferenceList = getUserPreferences(em,context);
 		return loadPreferredSites(em, userPreferenceList);
 	}
-	protected List<OffshoreUser> getPersonsByPreferredDepartment(EntityManager em, UserPreferencesContext context){
+	protected List<AppUser> getPersonsByPreferredDepartment(EntityManager em, UserPreferencesContext context){
 		List<UserPreference> preferredDepartemtPreferenceList = getUserPreferences(em,context);
 		return loadPersonsByPreferredDepartment(em, preferredDepartemtPreferenceList);
 	}
@@ -86,14 +86,14 @@ public abstract class PreferencesService {
 		return entityList;
 	}	
 	
-	private List<OffshoreUser> loadPersonsByPreferredDepartment(EntityManager em, List<UserPreference> userPreferenceList) {
-		List<OffshoreUser> entityList;
+	private List<AppUser> loadPersonsByPreferredDepartment(EntityManager em, List<UserPreference> userPreferenceList) {
+		List<AppUser> entityList;
 
 		List<String> entityUUIDs = getUUIDsToStringFromList(userPreferenceList);
 
-		String queryString = "select e from paxbase$OffshoreUser e where e.department.id IN :entityUUIDs order by e.department.acronym, e.lastName asc";
+		String queryString = "select e from paxbase$AppUser e where e.department.id IN :entityUUIDs order by e.department.acronym, e.lastname asc";
 
-		TypedQuery<OffshoreUser> query = em.createQuery(queryString, OffshoreUser.class);
+		TypedQuery<AppUser> query = em.createQuery(queryString, AppUser.class);
 		
 		query.setParameter("entityUUIDs", entityUUIDs);
 

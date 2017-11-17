@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
 
 public enum PeriodSubClass implements EnumClass<String> {
 
-    Campaign("1"),
+    ModeOfOperation("1"),
     Administration("2"),
     DutyPeriod("3");
 	

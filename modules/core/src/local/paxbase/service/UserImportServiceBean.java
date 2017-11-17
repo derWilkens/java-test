@@ -1,6 +1,5 @@
 package local.paxbase.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -11,10 +10,9 @@ import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.TypedQuery;
 import com.haulmont.cuba.core.global.Metadata;
-import com.haulmont.cuba.security.entity.UserRole;
 
-import local.paxbase.entity.OffshoreUser;
 import local.paxbase.entity.UserImportStage;
+import local.paxbase.entity.coredata.AppUser;
 import local.paxbase.entity.coredata.Department;
 
 @Service(UserImportService.NAME)
@@ -81,11 +79,11 @@ public class UserImportServiceBean implements UserImportService {
 	}
 
 	@Override
-	public OffshoreUser getUserByEmail(String email) {
-		OffshoreUser user;
-		String queryString = "select e from paxbase$OffshoreUser e where e.email = :email ";
+	public AppUser getUserByEmail(String email) {
+		AppUser user;
+		String queryString = "select e from paxbase$AppUser e where e.email = :email ";
 
-		TypedQuery<OffshoreUser> query = persistence.getEntityManager().createQuery(queryString, OffshoreUser.class);
+		TypedQuery<AppUser> query = persistence.getEntityManager().createQuery(queryString, AppUser.class);
 		query.setParameter("email", email);
 
 		user = query.getFirstResult();
@@ -118,17 +116,16 @@ public class UserImportServiceBean implements UserImportService {
 
 			for (UserImportStage importItem : importItemList) {
 				boolean error = false;
-				OffshoreUser tmpUser;
+				AppUser tmpUser;
 				tmpUser = getUserByEmail(importItem.getEmail());
 
 				if (tmpUser == null) {
-					tmpUser = metadata.create(OffshoreUser.class);
+					tmpUser = metadata.create(AppUser.class);
 					tmpUser.setEmail(importItem.getEmail());
-					tmpUser.setUserRoles(new ArrayList<UserRole>());
 				}
-				tmpUser.setLastName(importItem.getLastname());
-				tmpUser.setFirstName(importItem.getFirstname());
-				tmpUser.setPosition(importItem.getPosition());
+				tmpUser.setLastname(importItem.getLastname());
+				tmpUser.setFirstname(importItem.getFirstname());
+				//tmpUser.setPosition(importItem.getPosition());
 				try {
 					tmpUser.setDepartment(getDepartmentByAcronym(importItem.getDepartment()));
 				} catch (Exception e) {

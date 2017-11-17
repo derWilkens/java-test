@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  ~ Copyright (c) 2017 Haulmont Technology Ltd. All Rights Reserved.
+  ~ Haulmont Technology proprietary and confidential.
+  ~ Use is subject to license terms.
+  -->
 <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
         caption="msg://caption"
         class="local.paxbase.web.dutyperiod.DutyPeriodBrowse"
-        focusComponent="dutyPeriodsTable"
-        lookupComponent="dutyPeriodsTable"
+        focusComponent="table"
+        lookupComponent="table"
         messagesPack="local.paxbase.web.dutyperiod">
     <dsContext>
         <datasource id="dutyPeriodDs"
                     class="local.paxbase.entity.DutyPeriod"
-                    view="dutyPeriod-edit-view"/>
+                    view="dutyPeriod-view"/>
         <groupDatasource id="dutyPeriodsDs"
                          class="local.paxbase.entity.DutyPeriod"
-                         view="dutyPeriod-edit-view">
+                         view="dutyPeriod-view">
             <query>
                 <![CDATA[select e from paxbase$DutyPeriod e]]>
             </query>
@@ -21,13 +26,6 @@
                               view="_minimal">
             <query>
                 <![CDATA[select e from paxbase$Site e]]>
-            </query>
-        </collectionDatasource>
-        <collectionDatasource id="contractorsDs"
-                              class="local.paxbase.entity.coredata.Company"
-                              view="_minimal">
-            <query>
-                <![CDATA[select e from paxbase$Company e]]>
             </query>
         </collectionDatasource>
         <collectionDatasource id="functionCategoriesDs"
@@ -59,45 +57,41 @@
                reversePosition="true"
                width="100%">
             <vbox id="lookupBox"
-                  expand="dutyPeriodsTable"
+                  expand="table"
                   height="100%"
                   margin="false,true,false,false"
                   spacing="true">
                 <filter id="filter"
-                        applyTo="dutyPeriodsTable"
+                        applyTo="table"
                         datasource="dutyPeriodsDs">
                     <properties include=".*"/>
                 </filter>
-                <groupTable id="dutyPeriodsTable"
+                <groupTable id="table"
                             width="100%">
                     <actions>
                         <action id="create"/>
                         <action id="edit"/>
                         <action id="remove"/>
-                        <action id="refresh"/>
                     </actions>
                     <columns>
                         <column id="client"/>
                         <column id="start"/>
                         <column id="end"/>
                         <column id="functionCategory"/>
+                        <column id="remark"/>
                         <column id="personOnDuty"/>
                         <column id="site"/>
-                        <column id="contractor"/>
-                        <column id="remark"/>
                     </columns>
                     <rows datasource="dutyPeriodsDs"/>
                     <rowsCount/>
                     <buttonsPanel id="buttonsPanel"
                                   alwaysVisible="true">
                         <button id="createBtn"
-                                action="dutyPeriodsTable.create"/>
+                                action="table.create"/>
                         <button id="editBtn"
-                                action="dutyPeriodsTable.edit"/>
+                                action="table.edit"/>
                         <button id="removeBtn"
-                                action="dutyPeriodsTable.remove"/>
-                        <button id="refreshBtn"
-                                action="dutyPeriodsTable.refresh"/>
+                                action="table.remove"/>
                     </buttonsPanel>
                 </groupTable>
             </vbox>
@@ -115,12 +109,10 @@
                             <field property="end"/>
                             <field optionsDatasource="functionCategoriesDs"
                                    property="functionCategory"/>
+                            <field property="remark"/>
                             <field property="personOnDuty"/>
                             <field optionsDatasource="sitesDs"
                                    property="site"/>
-                            <field optionsDatasource="contractorsDs"
-                                   property="contractor"/>
-                            <field property="remark"/>
                         </column>
                     </fieldGroup>
                 </vbox>

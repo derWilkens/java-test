@@ -15,14 +15,14 @@ public class OffshoreUserEntityListener implements BeforeInsertEntityListener<Of
 
     @Override
     public void onBeforeInsert(OffshoreUser entity, EntityManager entityManager) {
-    	if (entity.getPassword() == null){
-    		entity.setPassword(getRandomPassword());
-    		entity.setChangePasswordAtNextLogon(true);
-    	}
-    	if (entity.getLogin() == null){
-    		entity.setLogin(entity.getEmail());
-    		entity.setLoginLowerCase(entity.getLogin().toLowerCase());
-    	}
+//    	if (entity.getPassword() == null){
+//    		entity.setPassword(getRandomPassword());
+//    		entity.setChangePasswordAtNextLogon(true);
+//    	}
+//    	if (entity.getLogin() == null){
+//    		entity.setLogin(entity.getEmail());
+//    		entity.setLoginLowerCase(entity.getLogin().toLowerCase());
+//    	}
     	
     }
 

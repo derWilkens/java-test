@@ -43,8 +43,6 @@
             template="local/paxbase/web/modeoftransfer/mode-of-transfer-browse.xml"/>
     <screen id="paxbase$CraftType.browse"
             template="local/paxbase/web/crafttype/craft-type-browse.xml"/>
-    <screen id="paxbase$DutyPeriod.browse"
-            template="local/paxbase/web/dutyperiod/duty-period-browse.xml"/>
     <screen id="PreferredSites"
             template="local/paxbase/web/userpreference/PreferredSites.xml"/>
     <screen id="rota-timeline"
@@ -55,8 +53,6 @@
             template="local/paxbase/web/department/department-user-choose.xml"/>
     <screen id="paxbase$Department.edit"
             template="local/paxbase/web/department/department-edit.xml"/>
-    <screen id="paxbase$DutyPeriod.edit"
-            template="local/paxbase/web/dutyperiod/duty-period-edit.xml"/>
     <screen id="importUsers"
             template="local/paxbase/gui/screens/importUsers.xml"/>
     <screen id="paxbase$UserImportStage.browse"
@@ -73,16 +69,12 @@
             template="local/paxbase/web/dutyperiodtemplate/duty-period-template-edit.xml"/>
     <screen id="paxbase$CampaignSite.choose"
             template="local/paxbase/web/site/campaign-site-choose.xml"/>
-    <screen id="paxbase$AppUser.browse"
-            template="local/paxbase/web/appuser/app-user-browse.xml"/>
     <screen id="paxbase$Jobfunction.browse"
             template="local/paxbase/web/jobfunction/jobfunction-browse.xml"/>
     <screen id="paxbase$QualificationType.browse"
             template="local/paxbase/web/qualificationtype/qualification-type-browse.xml"/>
     <screen id="paxbase$RoleQualificationType.browse"
             template="local/paxbase/web/rolequalificationtype/role-qualification-type-browse.xml"/>
-    <screen id="paxbase$OffshoreUser.browse"
-            template="local/paxbase/web/offshoreuser/offshore-user-browse.xml"/>
     <screen id="eml-timeline"
             template="local/paxbase/web/rotaplan/eml-timeline.xml"/>
     <screen id="paxbase$EmlSite.choose"
@@ -99,6 +91,10 @@
             template="local/paxbase/web/site/site-browse.xml"/>
     <screen id="paxbase$SiteRoleRule.browse"
             template="local/paxbase/web/siterolerule/site-role-rule-browse.xml"/>
-    <screen id="screen"
-            template="local/paxbase/web/dutyperiod/screen.xml"/>
+    <screen id="paxbase$DutyPeriod.browse"
+            template="local/paxbase/web/dutyperiod/duty-period-browse.xml"/>
+    <screen id="paxbase$AppUser.browse"
+            template="local/paxbase/web/appuser/app-user-browse.xml"/>
+    <screen id="paxbase$OffshoreUser.browse"
+            template="local/paxbase/web/offshoreuser/offshore-user-browse.xml"/>
 </screen-config>

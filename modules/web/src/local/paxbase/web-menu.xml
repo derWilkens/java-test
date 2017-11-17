@@ -1,40 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <menu-config xmlns="http://schemas.haulmont.com/cuba/menu.xsd">
-    <menu id="crewChange"
-          icon="font-icon:ARROWS_ALT"
-          insertBefore="bpm">
-        <item id="paxbase$Transfer.browse"/>
-        <item id="paxbase$CrewChange.browse"/>
-        <item id="paxbase$Waypoint.browse"/>
-        <item screen="paxbase$SiteRoleRules.browse"/>
-        <item screen="paxbase$Role.browse"/>
-        <item screen="paxbase$NumberRangeRule.browse"/>
-        <item screen="paxbase$Site.browse"/>
-        <item screen="paxbase$SiteRoleRule.browse"/>
-        <item screen="screen"/>
-    </menu>
     <menu id="lineUp"
           icon="font-icon:GROUP"
-          insertBefore="bpm">
+          insertBefore="administration">
         <item screen="rota-timeline"/>
-        <item screen="paxbase$DutyPeriod.browse"/>
         <item id="emlTime"
               screen="eml-timeline"/>
     </menu>
+    <menu id="crewChange"
+          icon="font-icon:ARROWS_ALT"
+          insertBefore="administration">
+        <item screen="paxbase$NumberRangeRule.browse"/>
+        <item screen="paxbase$Site.browse"/>
+        <item screen="paxbase$SiteRoleRule.browse"/>
+        <item screen="paxbase$DutyPeriod.browse"/>
+    </menu>
     <menu id="capDB"
           icon="font-icon:GRADUATION_CAP"
-          insertBefore="bpm">
-        <item screen="paxbase$OffshoreUser.browse"/>
-        <item screen="paxbase$AppUser.browse"/>
+          insertBefore="administration">
         <item screen="paxbase$QualificationType.browse"/>
-        <item screen="paxbase$FunctionCategory.browse"/>
         <item screen="paxbase$Jobfunction.browse"/>
         <item screen="paxbase$Certificate.edit"/>
         <item screen="paxbase$RoleQualificationType.browse"/>
     </menu>
     <menu id="favorites"
           icon="font-icon:STAR"
-          insertBefore="bpm">
+          insertBefore="administration">
         <item screen="paxbase$FunctionCategory.choose"/>
         <item icon="icons/user-group-ok.png"
               screen="paxbase$DepartmentUser.choose"/>
@@ -45,7 +36,7 @@
     </menu>
     <menu id="admintools"
           icon="font-icon:COGS"
-          insertBefore="bpm">
+          insertBefore="administration">
         <item icon="font-icon:USER_PLUS"
               screen="importUsers"/>
         <item screen="importPeriods"/>
@@ -54,13 +45,16 @@
     </menu>
     <menu id="masterdata"
           icon="font-icon:TABLE"
-          insertBefore="bpm">
+          insertBefore="administration">
         <item id="paxbase$Company.browse"/>
         <item id="paxbase$SiteType.browse"/>
+        <item screen="paxbase$FunctionCategory.browse"/>
         <item id="paxbase$Campaign.browse"/>
         <item screen="paxbase$ModeOfTransfer.browse"/>
         <item screen="paxbase$CraftType.browse"/>
         <item screen="paxbase$Department.browse"/>
         <item screen="paxbase$DutyPeriodTemplate.browse"/>
+        <item screen="paxbase$AppUser.browse"/>
+        <item screen="paxbase$OffshoreUser.browse"/>
     </menu>
 </menu-config>

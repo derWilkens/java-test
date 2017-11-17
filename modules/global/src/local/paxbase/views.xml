@@ -49,48 +49,9 @@
           name="dutyPeriod-edit-view">
         <property name="site"
                   view="_minimal"/>
-        <property name="contractor"
-                  view="_minimal"/>
         <property name="personOnDuty"
                   view="_minimal"/>
         <property name="functionCategory"
-                  view="_minimal"/>
-    </view>
-    <view class="local.paxbase.entity.OffshoreUser"
-          name="offshoreUser-browser-view">
-        <property name="company"
-                  view="_minimal">
-        </property>
-        <property name="position"/>
-        <property name="firstName"/>
-        <property name="lastName"/>
-        <property name="department"
-                  view="_minimal"/>
-        <property name="email"/>
-        <property name="jobfunction"
-                  view="_minimal">
-            <property name="role"
-                      view="_minimal"/>
-        </property>
-    </view>
-    <view class="local.paxbase.entity.OffshoreUser"
-          name="offshoreUser-edit-view">
-        <property name="company"
-                  view="_minimal">
-        </property>
-        <property name="login"/>
-        <property name="password"/>
-        <property name="firstName"/>
-        <property name="lastName"/>
-        <property name="position"/>
-        <property name="email"/>
-        <property name="language"/>
-        <property name="active"/>
-        <property name="changePasswordAtNextLogon"/>
-        <property name="group"
-                  view="_minimal"/>
-        <property name="client"/>
-        <property name="department"
                   view="_minimal"/>
     </view>
     <view class="local.paxbase.entity.Waypoint"
@@ -168,27 +129,6 @@
         <property name="functionCategory"
                   view="_minimal"/>
     </view>
-    <view class="local.paxbase.entity.OffshoreUser"
-          extends="_minimal"
-          name="offshoreUser-treeview">
-        <property name="company"
-                  view="_minimal"/>
-        <property name="department"
-                  view="_minimal">
-            <property name="parentDepartment"
-                      view="_minimal"/>
-        </property>
-    </view>
-    <view class="local.paxbase.entity.OffshoreUser"
-          extends="_minimal"
-          name="offshoreUser-treeview2">
-        <property name="department"
-                  view="_minimal">
-            <property name="name"/>
-            <property name="parentDepartment"
-                      view="_minimal"/>
-        </property>
-    </view>
     <view class="local.paxbase.entity.Campaign"
           name="campaign-templateView"
           overwrite="true">
@@ -200,6 +140,7 @@
         <property name="start"/>
         <property name="end"/>
         <property name="campaignNumber"/>
+        <property name="remark"/>
     </view>
     <view class="local.paxbase.entity.UserPreference"
           name="userPreference-SiteColors">
@@ -227,18 +168,21 @@
         </property>
         <property name="leader"
                   view="_minimal">
-            <property name="email"/>
         </property>
         <property name="deputyLeader"
                   view="_minimal"/>
     </view>
     <view class="local.paxbase.entity.coredata.AppUser"
           name="appUser-view">
-        <property name="firstName"/>
-        <property name="lastName"/>
-        <property name="email"/>
         <property name="jobfunction"
                   view="_local"/>
+        <property name="firstname"/>
+        <property name="department"
+                  view="_minimal"/>
+        <property name="email"/>
+        <property name="company"
+                  view="_minimal"/>
+        <property name="lastname"/>
     </view>
     <view class="local.paxbase.entity.coredata.CraftType"
           extends="_local"
@@ -255,8 +199,6 @@
                   view="_minimal">
             <property name="itemDesignation"/>
         </property>
-        <property name="contractor"
-                  view="_minimal"/>
         <property name="functionCategory"
                   view="_minimal"/>
     </view>
@@ -267,18 +209,6 @@
         <property name="siteType"
                   view="_minimal"/>
     </view>
-    <view class="local.paxbase.entity.OffshoreUser"
-          extends="_minimal"
-          name="offshoreUser-view">
-        <property name="department"
-                  view="_minimal">
-            <property name="parentDepartment"
-                      view="_minimal">
-                <property name="acronym"/>
-            </property>
-            <property name="acronym"/>
-        </property>
-    </view>
     <view class="local.paxbase.entity.coredata.Department"
           name="department-view">
         <property name="parentDepartment"
@@ -287,13 +217,9 @@
         </property>
         <property name="leader"
                   view="_minimal">
-            <property name="department"
-                      view="_minimal"/>
         </property>
         <property name="deputyLeader"
                   view="_minimal">
-            <property name="department"
-                      view="_minimal"/>
         </property>
         <property name="name"/>
         <property name="acronym"/>
@@ -306,18 +232,6 @@
             <property name="acronym"/>
         </property>
         <property name="acronym"/>
-    </view>
-    <view class="local.paxbase.entity.DutyPeriod"
-          extends="_local"
-          name="dutyPeriod-view_1"/>
-    <view class="local.paxbase.entity.OffshoreUser"
-          extends="_minimal"
-          name="offshoreUser-template">
-        <property name="department">
-            <property name="acronym"/>
-        </property>
-        <property name="position"/>
-        <property name="email"/>
     </view>
     <view class="local.paxbase.entity.coredata.DutyPeriodTemplate"
           name="dutyPeriodTemplate-view">
@@ -377,4 +291,31 @@
     <view class="local.paxbase.entity.coredata.NumberRangeRule"
           extends="_local"
           name="numberRangeRule-view"/>
+    <view class="local.paxbase.entity.coredata.AppUser"
+          extends="_local"
+          name="appUser-template-view">
+        <property name="jobfunction"
+                  view="_minimal"/>
+        <property name="company"
+                  view="_minimal"/>
+        <property name="department"
+                  view="_minimal"/>
+    </view>
+    <view class="local.paxbase.entity.UserImportStage"
+          name="userImportStage-view">
+        <property name="firstname"/>
+        <property name="lastname"/>
+        <property name="email"/>
+        <property name="department"/>
+    </view>
+    <view class="local.paxbase.entity.OffshoreUser"
+          extends="_local"
+          name="offshoreUser-view">
+        <property name="jobfunction"
+                  view="_minimal"/>
+        <property name="company"
+                  view="_minimal"/>
+        <property name="department"
+                  view="_minimal"/>
+    </view>
 </views>

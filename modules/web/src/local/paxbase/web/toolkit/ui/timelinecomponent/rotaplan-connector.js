@@ -5,7 +5,7 @@ local_paxbase_web_toolkit_ui_timelinecomponent_RotaplanComponent = function() {
 			.html(
 							 "<div>"
 							+ "<ul id='dutyItems' class='items'/>"
-							+ "<button id='genSites'>Sites generieren</button>"
+							//+ "<button id='genSites'>Sites generieren</button>"
 							+ "</div>"
 							+ "<div class='cbTimeline' height='600px' overflow-y='scroll' overflow-x='hidden' id='visualization'/>"
 							);

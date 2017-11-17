@@ -56,6 +56,10 @@
                     <columns>
                         <column id="name"/>
                         <column id="login"/>
+                        <column id="lastname"/>
+                        <column id="firstname"/>
+                        <column id="email"/>
+                        <column id="company"/>
                     </columns>
                     <rows datasource="offshoreUsersDs"/>
                 </table>

@@ -86,8 +86,10 @@
                    height="100%"
                    width="100%">
                 <columns>
-                    <column id="lastName"/>
-                    <column id="firstName"/>
+                    <column id="lastname"/>
+                    <column id="firstname"/>
+                    <column id="email"/>
+                    <column id="company"/>
                 </columns>
                 <rows datasource="offshoreUsersDs"/>
             </table>

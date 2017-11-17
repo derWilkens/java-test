@@ -1,21 +1,21 @@
 package local.paxbase.entity.coredata;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import java.util.List;
+
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.haulmont.chile.core.annotations.NamePattern;
 import com.haulmont.cuba.core.entity.annotation.Lookup;
 import com.haulmont.cuba.core.entity.annotation.LookupType;
-import local.paxbase.entity.OffshoreUser;
-import com.haulmont.chile.core.annotations.NamePattern;
 import com.haulmont.cuba.core.entity.annotation.OnDelete;
 import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
 import com.haulmont.cuba.core.global.DeletePolicy;
-import java.util.List;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 
 @NamePattern("%s|name")
 @Table(name = "PAXBASE_DEPARTMENT")
@@ -34,25 +34,51 @@ public class Department extends StandardClientEntity {
     @Lookup(type = LookupType.SCREEN, actions = {"lookup", "open", "clear"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LEADER_ID")
-    protected OffshoreUser leader;
+    protected AppUser leader;
 
     @Lookup(type = LookupType.SCREEN)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DEPUTY_LEADER_ID")
-    protected OffshoreUser deputyLeader;
+    protected AppUser deputyLeader;
 
     @Column(name = "ACRONYM", length = 15)
     protected String acronym;
 
-    @OnDeleteInverse(DeletePolicy.UNLINK)
-    @OnDelete(DeletePolicy.UNLINK)
-    @OneToMany(mappedBy = "department")
-    protected List<OffshoreUser> members;
 
     @OnDeleteInverse(DeletePolicy.UNLINK)
     @OnDelete(DeletePolicy.UNLINK)
     @OneToMany(mappedBy = "parentDepartment")
     protected List<Department> subDepartment;
+
+    @OneToMany(mappedBy = "department")
+    protected List<AppUser> members;
+
+    public void setMembers(List<AppUser> members) {
+        this.members = members;
+    }
+
+    public List<AppUser> getMembers() {
+        return members;
+    }
+
+
+    public AppUser getLeader() {
+        return leader;
+    }
+
+    public void setLeader(AppUser leader) {
+        this.leader = leader;
+    }
+
+    public AppUser getDeputyLeader() {
+        return deputyLeader;
+    }
+
+    public void setDeputyLeader(AppUser deputyLeader) {
+        this.deputyLeader = deputyLeader;
+    }
+
+
 
     public void setSubDepartment(List<Department> subDepartment) {
         this.subDepartment = subDepartment;
@@ -63,13 +89,7 @@ public class Department extends StandardClientEntity {
     }
 
 
-    public void setMembers(List<OffshoreUser> members) {
-        this.members = members;
-    }
 
-    public List<OffshoreUser> getMembers() {
-        return members;
-    }
 
 
     public void setAcronym(String acronym) {
@@ -91,21 +111,9 @@ public class Department extends StandardClientEntity {
 
 
 
-    public void setLeader(OffshoreUser leader) {
-        this.leader = leader;
-    }
 
-    public OffshoreUser getLeader() {
-        return leader;
-    }
 
-    public void setDeputyLeader(OffshoreUser deputyLeader) {
-        this.deputyLeader = deputyLeader;
-    }
 
-    public OffshoreUser getDeputyLeader() {
-        return deputyLeader;
-    }
 
 
 

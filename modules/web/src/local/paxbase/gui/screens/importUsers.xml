@@ -4,12 +4,12 @@
         class="local.paxbase.gui.screens.ImportUsers"
         messagesPack="local.paxbase.gui.screens">
     <dsContext>
-        <collectionDatasource id="offshoreUsersTemplateDs"
-                              class="local.paxbase.entity.OffshoreUser"
+        <collectionDatasource id="userImportTemplateDs"
+                              class="local.paxbase.entity.UserImportStage"
                               maxResults="01"
-                              view="offshoreUser-template">
+                              view="userImportStage-view">
             <query>
-                <![CDATA[select e from paxbase$OffshoreUser e]]>
+                <![CDATA[select e from paxbase$UserImportStage e]]>
             </query>
         </collectionDatasource>
         <collectionDatasource id="userImportStagesDs"
@@ -43,9 +43,12 @@
                     <column id="firstName"/>
                     <column id="position"/>
                     <column id="email"/>
-                    <column id="department.acronym"/>
+                    <column id="lastname"/>
+                    <column id="firstname"/>
+                    <column id="email"/>
+                    <column id="company"/>
                 </columns>
-                <rows datasource="offshoreUsersTemplateDs"/>
+                <rows datasource="userImportTemplateDs"/>
             </table>
             <button id="btnTemplateDownload"
                     action="tblOffshoreUsers.excel"
@@ -70,7 +73,6 @@
                     <column id="lastname"/>
                     <column id="firstname"/>
                     <column id="email"/>
-                    <column id="department"/>
                     <column id="position"/>
                     <column id="importLog"/>
                 </columns>

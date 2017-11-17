@@ -17,13 +17,13 @@
             <collectionDatasource id="jobfunctionDs"
                                   property="jobfunction"/>
         </datasource>
-        <groupDatasource id="appUsersDs"
-                         class="local.paxbase.entity.coredata.AppUser"
-                         view="appUser-view">
+        <collectionDatasource id="appUsersDs"
+                              class="local.paxbase.entity.coredata.AppUser"
+                              view="appUser-view">
             <query>
                 <![CDATA[select e from paxbase$AppUser e]]>
             </query>
-        </groupDatasource>
+        </collectionDatasource>
     </dsContext>
     <actions>
         <action id="save"
@@ -55,17 +55,19 @@
                         datasource="appUsersDs">
                     <properties include=".*"/>
                 </filter>
-                <groupTable id="table"
-                            width="100%">
+                <table id="table"
+                       width="100%">
                     <actions>
                         <action id="create"/>
                         <action id="edit"/>
                         <action id="remove"/>
                     </actions>
                     <columns>
-                        <column id="firstName"/>
-                        <column id="lastName"/>
+                        <column id="lastname"/>
+                        <column id="firstname"/>
                         <column id="email"/>
+                        <column id="company"/>
+                        <column id="department"/>
                     </columns>
                     <rows datasource="appUsersDs"/>
                     <rowsCount/>
@@ -78,7 +80,7 @@
                         <button id="removeBtn"
                                 action="table.remove"/>
                     </buttonsPanel>
-                </groupTable>
+                </table>
             </vbox>
             <vbox id="editBox"
                   expand="tabSheetBox"
@@ -94,9 +96,11 @@
                             <fieldGroup id="fieldGroup"
                                         datasource="appUserDs">
                                 <column width="250px">
-                                    <field property="firstName"/>
-                                    <field property="lastName"/>
+                                    <field property="lastname"/>
+                                    <field property="firstname"/>
                                     <field property="email"/>
+                                    <field property="company"/>
+                                    <field property="department"/>
                                 </column>
                             </fieldGroup>
                         </tab>

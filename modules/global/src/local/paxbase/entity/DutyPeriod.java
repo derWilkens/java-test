@@ -13,7 +13,7 @@ import com.haulmont.cuba.core.entity.annotation.OnDelete;
 import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
 import com.haulmont.cuba.core.global.DeletePolicy;
 
-import local.paxbase.entity.coredata.Company;
+import local.paxbase.entity.coredata.AppUser;
 import local.paxbase.entity.coredata.Site;
 
 @NamePattern(" - , %s|site")
@@ -30,7 +30,7 @@ public class DutyPeriod extends Period {
     @OnDelete(DeletePolicy.UNLINK)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PERSON_ON_DUTY_ID")
-    protected OffshoreUser personOnDuty;
+    protected AppUser personOnDuty;
 
     @Lookup(type = LookupType.DROPDOWN)
     @OnDeleteInverse(DeletePolicy.UNLINK)
@@ -38,24 +38,21 @@ public class DutyPeriod extends Period {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SITE_ID")
     protected Site site;
+    public AppUser getPersonOnDuty() {
+        return personOnDuty;
+    }
 
-
-
-
-    @Lookup(type = LookupType.DROPDOWN)
-    @OnDeleteInverse(DeletePolicy.UNLINK)
-    @OnDelete(DeletePolicy.UNLINK)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CONTRACTOR_ID")
-    protected Company contractor;
-
-    public void setPersonOnDuty(OffshoreUser personOnDuty) {
+    public void setPersonOnDuty(AppUser personOnDuty) {
         this.personOnDuty = personOnDuty;
     }
 
-    public OffshoreUser getPersonOnDuty() {
-        return personOnDuty;
-    }
+
+
+
+
+
+
+
 
 
     public Site getSite() {
@@ -66,13 +63,7 @@ public class DutyPeriod extends Period {
         this.site = site;
     }
 
-    public Company getContractor() {
-        return contractor;
-    }
 
-    public void setContractor(Company contractor) {
-        this.contractor = contractor;
-    }
 
 
 
