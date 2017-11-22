@@ -22,6 +22,10 @@
                        value="local.paxbase.service.UserImportService"/>
                 <entry key="paxbase_EntityService"
                        value="local.paxbase.service.EntityService"/>
+                <entry key="paxbase_CapService"
+                       value="local.paxbase.service.CapService"/>
+                <entry key="paxbase_EmlService"
+                       value="local.paxbase.service.EmlService"/>
             </map>
         </property>
     </bean>

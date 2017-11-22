@@ -10,11 +10,6 @@ buildscript {
                 password(rootProject.hasProperty('repoPass') ? rootProject['repoPass'] : 'cuba123')
             }
         }
-        
-        maven {
-         	url  'https://dl.bintray.com/mariodavid/cuba-components'
-     }
-        
     }
     dependencies {
         classpath "com.haulmont.gradle:cuba-plugin:$cubaVersion"
@@ -40,7 +35,7 @@ cuba {
         isSnapshot = true
     }
     tomcat {
-        dir = "$project.rootDir/build/tomcat"
+        dir = "$project.rootDir/deploy/tomcat"
     }
     ide {
          

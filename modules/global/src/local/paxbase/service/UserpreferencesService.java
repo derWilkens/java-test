@@ -17,5 +17,6 @@ public interface UserpreferencesService {
 	String getSiteColorPreference(UUID siteId);
 	String getSiteBackgroundColorPreferrence(UUID siteId);
 	List<Site> getSites(UserPreferencesContext context);
+	String getRoleColorPreference(UUID roleId);
 	
 }

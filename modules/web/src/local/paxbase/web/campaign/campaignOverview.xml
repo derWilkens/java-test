@@ -4,11 +4,10 @@
         class="local.paxbase.web.campaign.CampaignOverview"
         messagesPack="local.paxbase.web.campaign">
     <dsContext>
-        <collectionDatasource id="campaignsDs"
-                              class="local.paxbase.entity.Campaign"
-                              view="campaignOverview">
+        <collectionDatasource id="maintenanceCampaignsDs"
+                              class="local.paxbase.entity.period.MaintenanceCampaign">
             <query>
-                <![CDATA[select e from paxbase$Campaign e]]>
+                <![CDATA[select e from paxbase$MaintenanceCampaign e]]>
             </query>
         </collectionDatasource>
         <collectionDatasource id="sitesDs"
@@ -32,14 +31,14 @@
                 <![CDATA[select e from paxbase$FunctionCategory e]]>
             </query>
         </collectionDatasource>
-        <collectionDatasource id="dutyPeriodsDs"
-                              class="local.paxbase.entity.DutyPeriod">
+        <collectionDatasource id="attendencePeriodsDs"
+                              class="local.paxbase.entity.period.AttendencePeriod">
             <query>
-                <![CDATA[select e from paxbase$DutyPeriod e]]>
+                <![CDATA[select e from paxbase$AttendencePeriod e]]>
             </query>
         </collectionDatasource>
         <collectionDatasource id="offshoreUsersDs"
-                              class="local.paxbase.entity.OffshoreUser"
+                              class="local.paxbase.entity.coredata.OffshoreUser"
                               datasourceClass="local.paxbase.web.campaign.PersonOnDutyDs"
                               view="_minimal"/>
     </dsContext>

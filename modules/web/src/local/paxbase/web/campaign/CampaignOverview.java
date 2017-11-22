@@ -18,12 +18,12 @@ import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.web.gui.components.WebComponentsHelper;
 import com.vaadin.ui.Layout;
 
-import local.paxbase.entity.Period;
 import local.paxbase.entity.UserPreference;
 import local.paxbase.entity.UserPreferencesContext;
 import local.paxbase.entity.coredata.FunctionCategory;
 import local.paxbase.entity.coredata.Site;
 import local.paxbase.entity.dto.TimelineDTO;
+import local.paxbase.entity.period.Period;
 import local.paxbase.service.TimelineService;
 import local.paxbase.web.toolkit.ui.timelinecomponent.TimelineComponent;
 

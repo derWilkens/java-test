@@ -377,12 +377,13 @@ create table PAXBASE_CERTIFICATE (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
+    CLIENT integer not null,
     --
     ISSUING_DATE date,
     EXPIRATION_DATE date,
     VERFIED_BY_ID varchar(32),
     QUALIFICATION_TYPE_ID varchar(32),
-    OFFSHORE_USER_ID varchar(32),
+    APP_USER_ID varchar(32),
     FILE_DATA_ID varchar(32),
     CERTIFICATE_TYPE_ID varchar(32),
     STATE varchar(255),
@@ -468,10 +469,11 @@ create table PAXBASE_ROLE_QUALIFICATION_TYPE (
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
     DELETED_BY varchar(50),
+    CLIENT integer not null,
     --
-    MANDATORY boolean,
-    QUALIFICATION_TYPE_ID varchar(32) not null,
     ROLE_ID varchar(32),
+    QUALIFICATION_TYPE_ID varchar(32) not null,
+    MANDATORY boolean,
     --
     primary key (ID)
 )^
@@ -513,6 +515,7 @@ create table PAXBASE_SITE_ROLE_RULE (
     --
     SITE_ID varchar(32),
     ROLE_ID varchar(32),
+    FUNCTION_CATEGORY_ID varchar(32),
     --
     primary key (ID)
 )^

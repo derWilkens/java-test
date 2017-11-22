@@ -60,9 +60,6 @@ public class Site extends StandardClientEntity {
     protected SiteType siteType;
 
 
-
-
-
     @OneToMany(mappedBy = "site")
     protected List<SiteRoleRule> siteRoleRules;
 
@@ -74,7 +71,6 @@ public class Site extends StandardClientEntity {
         return siteRoleRules;
     }
 
-
     public void setCategory(SiteCategory category) {
         this.category = category;
     }
@@ -82,7 +78,6 @@ public class Site extends StandardClientEntity {
     public SiteCategory getCategory() {
         return category;
     }
-
 
     public void setSiteName(String siteName) {
         this.siteName = siteName;
@@ -100,7 +95,6 @@ public class Site extends StandardClientEntity {
     public SiteType getSiteType() {
         return siteType;
     }
-
 
     public void setShortItemDesignation(String shortItemDesignation) {
         this.shortItemDesignation = shortItemDesignation;
@@ -127,10 +121,5 @@ public class Site extends StandardClientEntity {
     public Site getParentSite() {
         return parentSite;
     }
-
-
-
-
-
 
 }

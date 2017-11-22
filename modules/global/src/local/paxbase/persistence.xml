@@ -4,7 +4,7 @@
     <persistence-unit name="paxBase"
                       transaction-type="RESOURCE_LOCAL">
         <class>local.paxbase.entity.coredata.StandardClientEntity</class>
-        <class>local.paxbase.entity.OffshoreUser</class>
+        <class>local.paxbase.entity.coredata.OffshoreUser</class>
         <class>local.paxbase.entity.coredata.AppUser</class>
         <class>local.paxbase.entity.coredata.Company</class>
         <class>local.paxbase.entity.Transfer</class>
@@ -13,17 +13,17 @@
         <class>local.paxbase.entity.Waypoint</class>
         <class>local.paxbase.entity.coredata.CraftType</class>
         <class>local.paxbase.entity.coredata.Payload</class>
-        <class>local.paxbase.entity.DutyPeriod</class>
+        <class>local.paxbase.entity.period.DutyPeriod</class>
         <class>local.paxbase.entity.coredata.ModeOfTransfer</class>
         <class>local.paxbase.entity.coredata.SiteType</class>
-        <class>local.paxbase.entity.Campaign</class>
-        <class>local.paxbase.entity.Period</class>
+        <class>local.paxbase.entity.period.MaintenanceCampaign</class>
+        <class>local.paxbase.entity.period.Period</class>
         <class>local.paxbase.entity.UserPreference</class>
         <class>local.paxbase.entity.coredata.PeriodType</class>
         <class>local.paxbase.entity.coredata.FunctionCategory</class>
-        <class>local.paxbase.entity.ContractorDutyPeriod</class>
+        <class>local.paxbase.entity.period.ContractorDutyPeriod</class>
         <class>local.paxbase.entity.coredata.Department</class>
-        <class>local.paxbase.entity.PeriodImportStage</class>
+        <class>local.paxbase.entity.period.PeriodImportStage</class>
         <class>local.paxbase.entity.cap.coredata.QualificationType</class>
         <class>local.paxbase.entity.cap.coredata.Role</class>
         <class>local.paxbase.entity.cap.coredata.Jobfunction</class>
@@ -34,5 +34,9 @@
         <class>local.paxbase.entity.coredata.SiteCategory</class>
         <class>local.paxbase.entity.coredata.SiteRoleRule</class>
         <class>local.paxbase.entity.coredata.NumberRangeRule</class>
+        <class>local.paxbase.entity.period.SitePeriod</class>
+        <class>local.paxbase.entity.period.OperationPeriod</class>
+        <class>local.paxbase.entity.period.AttendencePeriod</class>
+        <class>local.paxbase.entity.period.AbsencePeriod</class>
     </persistence-unit>
 </persistence>

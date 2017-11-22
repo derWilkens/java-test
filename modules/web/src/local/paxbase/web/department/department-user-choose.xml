@@ -14,7 +14,7 @@
             </query>
         </hierarchicalDatasource>
         <collectionDatasource id="offshoreUsersDs"
-                              class="local.paxbase.entity.OffshoreUser"
+                              class="local.paxbase.entity.coredata.OffshoreUser"
                               maxResults="50">
             <query>
                 <![CDATA[select e from paxbase$OffshoreUser e where e.department.id = :ds$departmentsDs]]>

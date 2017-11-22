@@ -16,10 +16,10 @@ import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.TypedQuery;
 import com.haulmont.cuba.core.global.Metadata;
 
-import local.paxbase.entity.Campaign;
-import local.paxbase.entity.PeriodImportStage;
 import local.paxbase.entity.coredata.FunctionCategory;
 import local.paxbase.entity.coredata.Site;
+import local.paxbase.entity.period.MaintenanceCampaign;
+import local.paxbase.entity.period.PeriodImportStage;
 
 @Service(PeriodImportService.NAME)
 public class PeriodImportServiceBean implements PeriodImportService {
@@ -29,7 +29,6 @@ public class PeriodImportServiceBean implements PeriodImportService {
 	@Inject
 	private Metadata metadata;
 
-	@SuppressWarnings("resource")
 	public int parseCsv(String rawPeriods) {
 		int counter = 0;
 		clearStageTable();
@@ -119,11 +118,11 @@ public class PeriodImportServiceBean implements PeriodImportService {
 	}
 
 	@Override
-	public Campaign getCampaignByIdAndItemDesignation(String campaignNumber, String itemDesignation) {
-		Campaign campaign;
+	public MaintenanceCampaign getCampaignByIdAndItemDesignation(String campaignNumber, String itemDesignation) {
+		MaintenanceCampaign campaign;
 
-		String queryString = "select e from paxbase$Campaign e where e.campaignNumber = :campaignNumber and e.site.itemDesignation = :itemDesignation";
-		TypedQuery<Campaign> query = persistence.getEntityManager().createQuery(queryString, Campaign.class);
+		String queryString = "select e from paxbase$MaintenanceCampaign e where e.campaignNumber = :campaignNumber and e.site.itemDesignation = :itemDesignation";
+		TypedQuery<MaintenanceCampaign> query = persistence.getEntityManager().createQuery(queryString, MaintenanceCampaign.class);
 		query.setParameter("campaignNumber", campaignNumber);
 		query.setParameter("itemDesignation", itemDesignation);
 		campaign = query.getFirstResult();
@@ -146,12 +145,12 @@ public class PeriodImportServiceBean implements PeriodImportService {
 
 			for (PeriodImportStage importItem : importItemList) {
 				boolean error = false;
-				Campaign tmpCampaign;
+				MaintenanceCampaign tmpCampaign;
 				tmpCampaign = getCampaignByIdAndItemDesignation(importItem.getCampaignNumber(),
 						importItem.getItemDesignation());
 
 				if (tmpCampaign == null) {
-					tmpCampaign = metadata.create(Campaign.class);
+					tmpCampaign = metadata.create(MaintenanceCampaign.class);
 
 					try {
 						tmpCampaign.setSite(getSiteByItemDesignation(importItem.getItemDesignation()));
@@ -168,7 +167,6 @@ public class PeriodImportServiceBean implements PeriodImportService {
 						tmpCampaign.setFunctionCategory(kampagne);
 					}
 				}
-				tmpCampaign.setShutdown(importItem.getShutdown());
 				tmpCampaign.setStart(importItem.getStartDate());
 				tmpCampaign.setEnd(importItem.getEndDate());
 

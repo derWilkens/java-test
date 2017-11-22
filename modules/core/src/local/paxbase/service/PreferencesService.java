@@ -29,7 +29,11 @@ public abstract class PreferencesService {
 
 		return query.getResultList();
 	}
+	protected UserPreference getUserPreference(EntityManager em, UserPreferencesContext context){
+		List<UserPreference> prefList = getUserPreferences(em, context);
 
+		return prefList.get(0);
+	}
 	public UserPreference getPreference(EntityManager em, UserPreferencesContext context, UUID entityUuid) {
 		
 			String queryString = "select e from paxbase$UserPreference e where e.contextId = :contextId and e.entityUuid = :entityUuid and e.userId = :userId";

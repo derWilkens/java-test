@@ -1,6 +1,5 @@
 package local.paxbase.web.rotaplan;
 
-import java.awt.Color;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,15 +24,15 @@ import com.vaadin.ui.Layout;
 
 import elemental.json.JsonObject;
 import local.paxbase.Utils;
-import local.paxbase.entity.DutyPeriod;
 import local.paxbase.entity.UserPreference;
 import local.paxbase.entity.UserPreferencesContext;
 import local.paxbase.entity.coredata.AppUser;
 import local.paxbase.entity.coredata.FunctionCategory;
 import local.paxbase.entity.coredata.Site;
-import local.paxbase.entity.dto.TimelineConfig;
 import local.paxbase.entity.dto.TimelineDTO;
 import local.paxbase.entity.dto.TimelineItem;
+import local.paxbase.entity.period.AttendencePeriod;
+import local.paxbase.entity.period.DutyPeriod;
 import local.paxbase.service.EntityService;
 import local.paxbase.service.TimelineService;
 import local.paxbase.service.UserpreferencesService;
@@ -129,38 +128,6 @@ public class RotaTimeline extends AbstractWindow {
 		});
 	}
 
-	public TimelineConfig getDutyPeriodGroupedByUserConfigX() {
-		TimelineConfig dutyPeriodConfig = new TimelineConfig();
-		dutyPeriodConfig.setGroupIdFunction((DutyPeriod e) -> e.getPersonOnDuty().getUuid().toString());
-		dutyPeriodConfig.setGroupLabelFunction((DutyPeriod e) -> e.getPersonOnDuty().getInstanceName());
-		dutyPeriodConfig.setParentGroupIdFunction((DutyPeriod e) -> null);
-		dutyPeriodConfig.setItemLabelFunction((DutyPeriod e) -> {
-			String result = "";
-			if (e.getSite() != null) {
-				result = e.getSite().getItemDesignation();
-			}
-			if (e.getFunctionCategory() != null) {
-				result = result + " " + e.getFunctionCategory().getCategoryName();
-			}
-			return result;
-		});
-		dutyPeriodConfig.setStyleFunction((DutyPeriod e) -> {
-			if (null != e.getSite()) {
-				String colorHex = preferencesService.getSiteColorPreference(e.getSite().getUuid());
-				String rgb = String.valueOf(Color.decode("0x"+colorHex).getRGB());
-				return "background-color: rgba("+rgb+", 0.6);";
-				//return "background-color: #" + colorHex + ";";
-			}
-			return "";
-		});
-		dutyPeriodConfig.setEditableFunction((DutyPeriod e) -> {
-			return true;
-		});
-		dutyPeriodConfig.setTypeFunction((DutyPeriod e) -> {
-			return "range";
-		});
-		return dutyPeriodConfig;
-	}
 
 	class InnerListener implements RotaplandChangeListener {
 		boolean isCalledAlready;
@@ -180,7 +147,7 @@ public class RotaTimeline extends AbstractWindow {
 
 			// Neues Objekt erzeugen im dem DS hinzufügen
 			DataSupplier dataservice = dutyPeriodDs.getDataSupplier();
-			DutyPeriod newItem = dataservice.newInstance(dutyPeriodDs.getMetaClass());
+			AttendencePeriod newItem = dataservice.newInstance(dutyPeriodDs.getMetaClass());
 
 			// Datum
 			try {
@@ -221,7 +188,7 @@ public class RotaTimeline extends AbstractWindow {
 			// Site über dataManager laden
 			if (jsonItem.hasKey("siteId") && !jsonItem.getString("siteId").equals("null")) {
 				sitesDs.refresh();
-				newItem.setSite(sitesDs.getItem(UUID.fromString(jsonItem.getString("siteId"))));
+				newItem.getOperationPeriod().setSite(sitesDs.getItem(UUID.fromString(jsonItem.getString("siteId"))));
 			} else {
 				// itemIncomplete = true; nicht jeder Dienst braucht eine Site,
 				// wenn doch kann manuell nachgepflegt werden.

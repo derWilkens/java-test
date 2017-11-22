@@ -4,12 +4,12 @@
         class="local.paxbase.web.rotaplan.EmlTimeline"
         messagesPack="local.paxbase.web.emlplan">
     <dsContext>
-        <datasource id="dutyPeriodDs"
-                    class="local.paxbase.entity.DutyPeriod"
-                    view="dutyPeriod-edit-view"/>
-        <collectionDatasource id="dutyPeriodsDs"
-                              class="local.paxbase.entity.DutyPeriod"
-                              view="dutyPeriod-edit-view">
+        <datasource id="attendencePeriodDs"
+                    class="local.paxbase.entity.period.AttendencePeriodDs"
+                    view="attendencePeriod-edit-view"/>
+        <collectionDatasource id="attendencePeriodsDs"
+                              class="local.paxbase.entity.period.AttendencePeriod"
+                              view="attendencePeriod-edit-view">
             <query>
                 <![CDATA[select e from paxbase$DutyPeriod e]]>
             </query>

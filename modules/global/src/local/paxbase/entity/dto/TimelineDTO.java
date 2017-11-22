@@ -7,7 +7,7 @@ import com.haulmont.chile.core.annotations.MetaClass;
 import com.haulmont.chile.core.annotations.MetaProperty;
 import com.haulmont.cuba.core.entity.BaseUuidEntity;
 
-import local.paxbase.entity.Period;
+import local.paxbase.entity.period.Period;
 
 @MetaClass(name = "paxbase$TimelineDTO")
 public class TimelineDTO extends BaseUuidEntity {

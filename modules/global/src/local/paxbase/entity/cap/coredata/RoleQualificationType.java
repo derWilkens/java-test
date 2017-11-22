@@ -14,11 +14,12 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.chile.core.annotations.NamePattern;
+import local.paxbase.entity.coredata.StandardClientEntity;
 
 @NamePattern("%s %s|role,qualificationType")
 @Table(name = "PAXBASE_ROLE_QUALIFICATION_TYPE")
 @Entity(name = "paxbase$RoleQualificationType")
-public class RoleQualificationType extends StandardEntity {
+public class RoleQualificationType extends StandardClientEntity {
     private static final long serialVersionUID = -31684618227061457L;
 
     @Lookup(type = LookupType.DROPDOWN)

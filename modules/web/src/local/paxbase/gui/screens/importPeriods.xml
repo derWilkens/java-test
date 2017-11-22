@@ -5,7 +5,7 @@
         messagesPack="local.paxbase.gui.screens">
     <dsContext>
         <collectionDatasource id="campaignTemplateDs"
-                              class="local.paxbase.entity.Campaign"
+                              class="local.paxbase.entity.period.Campaign"
                               view="campaign-templateView">
             <query>
                 <![CDATA[select e from paxbase$Campaign e 
@@ -13,7 +13,7 @@ order by e.site.itemDesignation, e.campaignNumber]]>
             </query>
         </collectionDatasource>
         <collectionDatasource id="periodImportStagesDs"
-                              class="local.paxbase.entity.PeriodImportStage"
+                              class="local.paxbase.entity.period.PeriodImportStage"
                               view="_local">
             <query>
                 <![CDATA[select e from paxbase$PeriodImportStage e]]>
@@ -53,8 +53,6 @@ order by e.site.itemDesignation, e.campaignNumber]]>
                         <formatter class="com.haulmont.cuba.gui.components.formatters.DateFormatter"
                                    format="dd.MM.yyyy"/>
                     </column>
-                    <column id="shutdown"
-                            caption="Abschaltkampagne"/>
                     <column id="remark"/>
                 </columns>
                 <rows datasource="campaignTemplateDs"/>
@@ -81,7 +79,6 @@ order by e.site.itemDesignation, e.campaignNumber]]>
                     <column id="campaignNumber"/>
                     <column id="startDate"/>
                     <column id="endDate"/>
-                    <column id="shutdown"/>
                     <column id="importLog"/>
                 </columns>
                 <rows datasource="periodImportStagesDs"/>

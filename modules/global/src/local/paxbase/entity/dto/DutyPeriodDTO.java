@@ -1,10 +1,9 @@
 package local.paxbase.entity.dto;
 
+import java.util.Date;
+
 import com.haulmont.chile.core.annotations.MetaClass;
 import com.haulmont.chile.core.annotations.MetaProperty;
-import java.util.Date;
-import com.haulmont.cuba.core.entity.AbstractNotPersistentEntity;
-import com.haulmont.chile.core.annotations.NamePattern;
 import com.haulmont.cuba.core.entity.BaseUuidEntity;
 
 @MetaClass(name = "paxbase$DutyPeriodDTO")

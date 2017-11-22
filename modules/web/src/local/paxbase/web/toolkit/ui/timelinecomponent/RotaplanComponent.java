@@ -10,11 +10,11 @@ import com.vaadin.annotations.StyleSheet;
 import com.vaadin.ui.AbstractJavaScriptComponent;
 
 import elemental.json.JsonObject;
-import local.paxbase.entity.Period;
 import local.paxbase.entity.dto.DutyPeriodDTO;
 import local.paxbase.entity.dto.TimelineDTO;
 import local.paxbase.entity.dto.TimelineGroup;
 import local.paxbase.entity.dto.TimelineItem;
+import local.paxbase.entity.period.Period;
 
 
 @JavaScript({"rotaplan-connector.js", "vis.js"})

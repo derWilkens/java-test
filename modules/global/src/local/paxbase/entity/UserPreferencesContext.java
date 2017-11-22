@@ -18,7 +18,8 @@ public enum UserPreferencesContext implements EnumClass<Integer> {
     RotaplanDepartments(70),
     RotaplanUsers(80),
     RotaplanStandardDuties(90),
-    EmlDisplaySite(100);
+    EmlDisplaySite(100), 
+    RoleBackgroundColor(110);
 	
 
     private Integer id;

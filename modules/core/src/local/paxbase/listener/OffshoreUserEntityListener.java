@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import com.haulmont.cuba.core.EntityManager;
 import com.haulmont.cuba.core.listener.BeforeInsertEntityListener;
 
-import local.paxbase.entity.OffshoreUser;
+import local.paxbase.entity.coredata.OffshoreUser;
 
 @Component("paxbase_OffshoreUserEntityListener")
 public class OffshoreUserEntityListener implements BeforeInsertEntityListener<OffshoreUser> {

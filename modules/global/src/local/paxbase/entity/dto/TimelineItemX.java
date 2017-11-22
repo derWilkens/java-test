@@ -2,7 +2,7 @@ package local.paxbase.entity.dto;
 
 import java.text.SimpleDateFormat;
 
-import local.paxbase.entity.Period;
+import local.paxbase.entity.period.Period;
 
 
 public class TimelineItemX  {

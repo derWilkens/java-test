@@ -7,7 +7,7 @@ import com.haulmont.chile.core.annotations.MetaClass;
 import com.haulmont.chile.core.annotations.MetaProperty;
 
 import local.paxbase.entity.AbstractNotPersistentStringIdEntity;
-import local.paxbase.entity.Period;
+import local.paxbase.entity.period.Period;
 
 @MetaClass(name = "paxbase$TimelineItem")
 public class TimelineItem extends AbstractNotPersistentStringIdEntity {

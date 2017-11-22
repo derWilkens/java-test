@@ -13,14 +13,10 @@
         <item screen="paxbase$NumberRangeRule.browse"/>
         <item screen="paxbase$Site.browse"/>
         <item screen="paxbase$SiteRoleRule.browse"/>
-        <item screen="paxbase$DutyPeriod.browse"/>
     </menu>
     <menu id="capDB"
           icon="font-icon:GRADUATION_CAP"
           insertBefore="administration">
-        <item screen="paxbase$QualificationType.browse"/>
-        <item screen="paxbase$Jobfunction.browse"/>
-        <item screen="paxbase$Certificate.edit"/>
         <item screen="paxbase$RoleQualificationType.browse"/>
     </menu>
     <menu id="favorites"
@@ -47,14 +43,9 @@
           icon="font-icon:TABLE"
           insertBefore="administration">
         <item id="paxbase$Company.browse"/>
-        <item id="paxbase$SiteType.browse"/>
         <item screen="paxbase$FunctionCategory.browse"/>
-        <item id="paxbase$Campaign.browse"/>
-        <item screen="paxbase$ModeOfTransfer.browse"/>
-        <item screen="paxbase$CraftType.browse"/>
         <item screen="paxbase$Department.browse"/>
         <item screen="paxbase$DutyPeriodTemplate.browse"/>
         <item screen="paxbase$AppUser.browse"/>
-        <item screen="paxbase$OffshoreUser.browse"/>
     </menu>
 </menu-config>

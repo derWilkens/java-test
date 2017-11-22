@@ -43,6 +43,7 @@ public class StandardClientEntity extends StandardEntity {
     protected void init() {
         Integer client = AppBeans.get(UserSessionSource.class).getUserSession().getAttribute("client_id");
         if (client == null) {
+        	
             throw new IllegalStateException("'client_id' user session attribute is absent. Log in as a client's user.");
         }
         setClient(client);

@@ -82,7 +82,12 @@ public class UserpreferencesServiceBean extends PreferencesService implements Us
 			return getPreference(siteId, UserPreferencesContext.SiteBackgroundColor);
 		}
 	}
-
+	@Override
+	public String getRoleColorPreference(UUID roleId) {
+		try (Transaction tx = persistence.createTransaction()) {
+			return getPreference(roleId, UserPreferencesContext.RoleBackgroundColor);
+		}
+	}
 	@Override
 	public List<Site> getSites(UserPreferencesContext context) {
 		try (Transaction tx = persistence.createTransaction()) {
@@ -106,5 +111,7 @@ public class UserpreferencesServiceBean extends PreferencesService implements Us
 		}
 		return null;
 	}
+
+
 
 }

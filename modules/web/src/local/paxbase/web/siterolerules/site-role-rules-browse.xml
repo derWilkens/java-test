@@ -33,6 +33,11 @@
                 <![CDATA[select e from paxbase$Site e]]>
             </query>
         </collectionDatasource>
+        <collectionDatasource id="functionCategoriesDs"
+                              class="local.paxbase.entity.coredata.FunctionCategory"
+                              view="_minimal">
+            <![CDATA[select e from paxbase$FunctionCategory e]]>
+        </collectionDatasource>
     </dsContext>
     <actions>
         <action id="save"
@@ -73,6 +78,7 @@
                     </actions>
                     <columns>
                         <column id="site"/>
+                        <column id="functionCategory"/>
                     </columns>
                     <rows datasource="siteRoleRulesesDs"/>
                     <rowsCount/>
@@ -103,6 +109,8 @@
                                 <column width="250px">
                                     <field optionsDatasource="sitesDs"
                                            property="site"/>
+                                    <field optionsDatasource="functionCategoriesDs"
+                                           property="functionCategory"/>
                                 </column>
                             </fieldGroup>
                             <groupBox id="rangeRuleBox"

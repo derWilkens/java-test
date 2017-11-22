@@ -32,16 +32,31 @@ public class SiteRoleRule extends StandardEntity {
     @JoinColumn(name = "SITE_ID")
     protected Site site;
 
+    @Lookup(type = LookupType.DROPDOWN)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ROLE_ID")
     protected Role role;
 
 
 
+    @Lookup(type = LookupType.DROPDOWN)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "FUNCTION_CATEGORY_ID")
+    protected FunctionCategory functionCategory;
+
     @Composition
     @OnDelete(DeletePolicy.CASCADE)
     @OneToMany(mappedBy = "siteRoleRule")
     protected List<NumberRangeRule> rangeRule;
+
+    public void setFunctionCategory(FunctionCategory functionCategory) {
+        this.functionCategory = functionCategory;
+    }
+
+    public FunctionCategory getFunctionCategory() {
+        return functionCategory;
+    }
+
 
     public Role getRole() {
         return role;
@@ -69,6 +84,27 @@ public class SiteRoleRule extends StandardEntity {
     public Site getSite() {
         return site;
     }
+    
+	/**
+	 * für den definierten Zeitraum in der Zukunft werden sämtliche Dutyperiods
+	 * ausgewertet. Daraus ergibt sich tagesscharf die POB Map mit Datum -
+	 * Anzahl
+	 */
+	public int getRequiredNumberOfRoles(int maxPob) {
+		int requiredNumberOfRoles = 0;
+		boolean ruleHit = false;
+		for (NumberRangeRule rangeRule : this.getRangeRule()) {
+			if (maxPob > rangeRule.getAmountFrom() && maxPob <= rangeRule.getAmountTo()) {
+				requiredNumberOfRoles = rangeRule.getRequiredNumber();
+				ruleHit = true;
+			}
+		}
+		if (!ruleHit) {
+			throw new RuntimeException("Die Regeln für die Rolle " + this.getRole().getInstanceName()
+					+ " liefern für " + maxPob + " POB keinen Treffer. Bitte Regel in den Stammdaten für den Standort "+ this.getSite().getInstanceName()+" prüfen");
+		}
+		return requiredNumberOfRoles;
+	}
 
 
 }
