@@ -2,7 +2,6 @@ package local.paxbase.service;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
@@ -23,9 +22,6 @@ import com.haulmont.cuba.core.TypedQuery;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.UserSessionSource;
 
-import local.paxbase.entity.Campaign;
-import local.paxbase.entity.DutyPeriod;
-import local.paxbase.entity.Period;
 import local.paxbase.entity.UserPreference;
 import local.paxbase.entity.UserPreferencesContext;
 import local.paxbase.entity.cap.coredata.Role;
@@ -42,6 +38,11 @@ import local.paxbase.entity.dto.TimelineConfig;
 import local.paxbase.entity.dto.TimelineDTO;
 import local.paxbase.entity.dto.TimelineGroup;
 import local.paxbase.entity.dto.TimelineItem;
+import local.paxbase.entity.period.AttendencePeriod;
+import local.paxbase.entity.period.DutyPeriod;
+import local.paxbase.entity.period.MaintenanceCampaign;
+import local.paxbase.entity.period.Period;
+import local.paxbase.entity.period.SitePeriod;
 
 @Service(TimelineService.NAME)
 public class TimelineServiceBean extends PreferencesService implements TimelineService {
@@ -58,9 +59,9 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 
 		TimelineDTO dto = new TimelineDTO();
 
-		TimelineConfig campaignTimelineConfig = getCampaignConfig();
+		TimelineConfig campaignTimelineConfig = getSitePeriodConfig(); 
 
-		TimelineConfig dutyPeriodConfig = getDutyPeriodGroupedBySiteConfig();
+		TimelineConfig dutyPeriodConfig = getAttendencePeriodGroupedBySiteConfig();
 
 		try (Transaction tx = persistence.createTransaction()) {
 			// preferences des Users für den context laden
@@ -103,7 +104,7 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 	public TimelineDTO getRotoplanDto() {
 
 		TimelineDTO dto = new TimelineDTO();
-		TimelineConfig rotaplanConfig = getDutyPeriodGroupedByUserConfig();
+		TimelineConfig rotaplanConfig = getAttendencePeriodGroupedByUserConfig();
 
 		try (Transaction tx = persistence.createTransaction()) {
 
@@ -134,7 +135,7 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 					}
 				}
 				dto.addItems(getCampaigns(preferredSites, preferredFunctionCategories),
-						getCampaignAsBackgroundConfig());
+						getSitePeriodAsBackgroundConfig());
 			}
 
 			// preferred Sites holen, hierfür die Drag-Buttons angezeigt
@@ -144,33 +145,6 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 		}
 		return dto;
 
-	}
-
-	@Override
-	public TimelineDTO getEmlDto() {
-		TimelineDTO dto = new TimelineDTO();
-		TimelineConfig emlConfig = getDutyPeriodGroupedByUserConfig();
-		try (Transaction tx = persistence.createTransaction()) {
-			List<UserPreference> userPreferences = getUserPreferences(persistence.getEntityManager(),
-					UserPreferencesContext.EmlDisplaySite);
-			if (!userPreferences.isEmpty()) {
-				UUID siteId = userPreferences.get(0).getEntityUuid();
-				DutyPeriod lastPeriod = getLastPeriod(siteId);
-				//theoretisch muss pro Tag die POB gezählt werden und auf der Basis die Rollen bestimmt werden
-				int pob = getPobForDate(siteId, new Date());
-				//getRolesForSite(siteId);
-			}
-			tx.commit();
-		}
-		// Gruppen sind die Rollen, die in der Maximalausprägung zu besetzen sind
-		
-		// alle Dummy-Periods gehören in die oberste Gruppe
-		// beim Drag auf die Rolle wird nur die Site gesetzt
-		// Alternativ kann auch per Doppelklick die Zuordnung gemacht werden
-		// das Datum des Einsatzes zu verschieben ist nicht sinnvoll, kann aber
-		// schnell passieren
-
-		return null;
 	}
 
 	private List<DutyPeriodDTO> getDutyPeriodTemplatesDTO() {
@@ -212,7 +186,8 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 			for (AppUser user : members) {
 				// der parentGroup eine nested hinzufügen
 				group.addSubgroup(user.getUuid().toString());
-				// NestedGroup einzel erzeugen und auch noch der Liste
+				
+				// NestedGroup einzeln erzeugen und auch noch der Liste
 				// hinzufügen
 
 				TimelineGroup subGroup = new TimelineGroup(user.getUuid().toString(), user.getInstanceName(),
@@ -238,17 +213,17 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 		return query.getResultList();
 	}
 
-	private TimelineConfig getDutyPeriodGroupedBySiteConfig() {
+	private TimelineConfig getAttendencePeriodGroupedBySiteConfig() {
 
 		TimelineConfig dutyPeriodConfig = new TimelineConfig();
 
-		dutyPeriodConfig.setGroupIdFunction((DutyPeriod e) -> e.getSite().getSiteName());
-		dutyPeriodConfig.setParentGroupIdFunction((DutyPeriod e) -> {
-			if (e.getSite().getParentSite() != null) {
-				return e.getSite().getParentSite().getSiteName();
-			} else
-				return null;
-		});
+		dutyPeriodConfig.setGroupIdFunction((AttendencePeriod e) -> e.getOperationPeriod().getSite().getSiteName());
+//		dutyPeriodConfig.setParentGroupIdFunction((DutyPeriod e) -> {
+//			if (e.getSite().getParentSite() != null) {
+//				return e.getSite().getParentSite().getSiteName();
+//			} else
+//				return null;
+//		});
 		dutyPeriodConfig.setItemLabelFunction((DutyPeriod e) -> {
 			if (e.getFunctionCategory() == null) {
 				Log.info("Function Category is null: " + e.getUuid().toString());
@@ -256,8 +231,8 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 			} else
 				return e.getPersonOnDuty().getInstanceName() + " " + e.getFunctionCategory().getCategoryName();
 		});
-		dutyPeriodConfig.setStyleFunction((DutyPeriod e) -> {
-			String colorHex = userPreferenceSerivce.getSiteColorPreference(e.getSite().getUuid());
+		dutyPeriodConfig.setStyleFunction((AttendencePeriod e) -> {
+			String colorHex = userPreferenceSerivce.getSiteColorPreference(e.getOperationPeriod().getSite().getUuid());
 			if (colorHex != null) {
 				return "background-color: #" + colorHex + ";";
 			}
@@ -272,15 +247,15 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 		return dutyPeriodConfig;
 	}
 
-	private TimelineConfig getDutyPeriodGroupedByUserConfig() {
+	private TimelineConfig getAttendencePeriodGroupedByUserConfig() {
 		TimelineConfig dutyPeriodConfig = new TimelineConfig();
-		dutyPeriodConfig.setGroupIdFunction((DutyPeriod e) -> e.getPersonOnDuty().getUuid().toString());
-		dutyPeriodConfig.setGroupLabelFunction((DutyPeriod e) -> e.getPersonOnDuty().getInstanceName());
-		dutyPeriodConfig.setParentGroupIdFunction((DutyPeriod e) -> null);
-		dutyPeriodConfig.setItemLabelFunction((DutyPeriod e) -> {
+		dutyPeriodConfig.setGroupIdFunction((AttendencePeriod e) -> e.getPersonOnDuty().getUuid().toString());
+		dutyPeriodConfig.setGroupLabelFunction((AttendencePeriod e) -> e.getPersonOnDuty().getInstanceName());
+		dutyPeriodConfig.setParentGroupIdFunction((AttendencePeriod e) -> null);
+		dutyPeriodConfig.setItemLabelFunction((AttendencePeriod e) -> {
 			String result = "";
-			if (e.getSite() != null) {
-				result = e.getSite().getItemDesignation();
+			if (e.getOperationPeriod().getSite() != null) {
+				result = e.getOperationPeriod().getSite().getItemDesignation();
 			}
 			if (e.getFunctionCategory() != null) {
 				result = result + " - " + e.getFunctionCategory().getCategoryName();
@@ -290,9 +265,9 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 			}
 			return result;
 		});
-		dutyPeriodConfig.setStyleFunction((DutyPeriod e) -> {
-			if (null != e.getSite()) {
-				String colorHex = userPreferenceSerivce.getSiteColorPreference(e.getSite().getUuid());
+		dutyPeriodConfig.setStyleFunction((AttendencePeriod e) -> {
+			if (null != e.getOperationPeriod().getSite()) {
+				String colorHex = userPreferenceSerivce.getSiteColorPreference(e.getOperationPeriod().getSite().getUuid());
 				if (colorHex != null) {
 					Color c = Color.decode("0x"+colorHex);
 					String rgb =  c.getRed() + "," + c.getGreen() + "," + c.getBlue();
@@ -310,15 +285,15 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 		return dutyPeriodConfig;
 	}
 
-	private TimelineConfig getCampaignAsBackgroundConfig() {
+	private TimelineConfig getSitePeriodAsBackgroundConfig() {
 		TimelineConfig dutyPeriodConfig = new TimelineConfig();
-		dutyPeriodConfig.setGroupIdFunction((Campaign e) -> null);
-		dutyPeriodConfig.setGroupLabelFunction((Campaign e) -> null);
-		dutyPeriodConfig.setParentGroupIdFunction((Campaign e) -> null);
-		dutyPeriodConfig.setItemLabelFunction((Campaign e) -> {
-			return e.getSite().getItemDesignation() + " " + e.getCampaignNumber();
+		dutyPeriodConfig.setGroupIdFunction((SitePeriod e) -> null);
+		dutyPeriodConfig.setGroupLabelFunction((SitePeriod e) -> null);
+		dutyPeriodConfig.setParentGroupIdFunction((SitePeriod e) -> null);
+		dutyPeriodConfig.setItemLabelFunction((SitePeriod e) -> {
+			return e.getSite().getItemDesignation() + " " + e.getInstanceName();
 		});
-		dutyPeriodConfig.setStyleFunction((Campaign e) -> {
+		dutyPeriodConfig.setStyleFunction((SitePeriod e) -> {
 			if (null != e.getSite()) {
 				String colorHex = userPreferenceSerivce.getSiteBackgroundColorPreferrence(e.getSite().getUuid());
 				if (colorHex != null) {
@@ -330,32 +305,32 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 			}
 			return "";
 		});
-		dutyPeriodConfig.setEditableFunction((Campaign e) -> {
+		dutyPeriodConfig.setEditableFunction((SitePeriod e) -> {
 			return false;
 		});
-		dutyPeriodConfig.setTypeFunction((Campaign e) -> {
+		dutyPeriodConfig.setTypeFunction((SitePeriod e) -> {
 			return "background";
 		});
 		return dutyPeriodConfig;
 	}
 
-	private TimelineConfig getCampaignConfig() {
+	private TimelineConfig getSitePeriodConfig() {
 		if (true)
 			return null;
 		TimelineConfig campaignTimelineConfig = new TimelineConfig();
-		campaignTimelineConfig.setGroupIdFunction((Campaign e) -> {
+		campaignTimelineConfig.setGroupIdFunction((SitePeriod e) -> {
 			return e.getSite().getSiteName();
 		});
-		campaignTimelineConfig.setParentGroupIdFunction((Campaign e) -> {
+		campaignTimelineConfig.setParentGroupIdFunction((SitePeriod e) -> {
 			if (e.getSite().getParentSite() != null) {
 				return e.getSite().getParentSite().getSiteName();
 			} else
 				return null;
 		});
-		campaignTimelineConfig.setItemLabelFunction((Campaign e) -> {
-			return e.getCampaignNumber();
+		campaignTimelineConfig.setItemLabelFunction((SitePeriod e) -> {
+			return e.getInstanceName();
 		});
-		campaignTimelineConfig.setStyleFunction((Campaign e) -> {
+		campaignTimelineConfig.setStyleFunction((SitePeriod e) -> {
 			String colorHex = userPreferenceSerivce.getSiteColorPreference(e.getSite().getUuid());
 			if (colorHex != null) {
 				String rgb = String.valueOf(Color.decode("0x"+colorHex).getRGB());
@@ -408,14 +383,14 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 		return dutyPeriods;
 	}
 
-	private List<Campaign> getCampaigns(List<Site> siteList, List<FunctionCategory> preferredFunctionCategories) {
-		List<Campaign> campaigns;
+	private List<MaintenanceCampaign> getCampaigns(List<Site> siteList, List<FunctionCategory> preferredFunctionCategories) {
+		List<MaintenanceCampaign> campaigns;
 
 		// String queryString = "select e from paxbase$Campaign e where
 		// e.site.id in :idList AND e.functionCategory.id in :catIdList";
 		String queryString = "select e from paxbase$Campaign e where e.site.id in :idList";
 
-		TypedQuery<Campaign> query = persistence.getEntityManager().createQuery(queryString, Campaign.class);
+		TypedQuery<MaintenanceCampaign> query = persistence.getEntityManager().createQuery(queryString, MaintenanceCampaign.class);
 
 		query.setParameter("idList", getUUIDList(siteList));
 		// query.setParameter("catIdList",
@@ -486,10 +461,10 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 		TimelineConfig timelineConfig = null;
 		TimelineItem item = null;
 		if (context.equals(UserPreferencesContext.CampaignBrowse)) {
-			timelineConfig = getCampaignConfig();
+			timelineConfig = getSitePeriodConfig();
 
 		} else if (context.equals(UserPreferencesContext.Rotaplan)) {
-			timelineConfig = getDutyPeriodGroupedByUserConfig();
+			timelineConfig = getAttendencePeriodGroupedByUserConfig();
 		}
 
 		try (Transaction tx = persistence.createTransaction()) {
@@ -541,7 +516,7 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 	private int getPobForDate(UUID siteId, Date date) {
 		//select period where siteId, periodType = "Anwesend" and start <= date and end <= date
 		return persistence.getEntityManager()
-		.createNativeQuery("SELECT e from paxbase$DutyPeriod e where e.site.id = :siteId and e.functionCategory.periodSubClass = :periodType")
+		.createQuery("SELECT e from paxbase$DutyPeriod e where e.site.id = :siteId and e.functionCategory.periodSubClass = :periodType")
 		.setParameter("siteId", siteId)
 		.setParameter("periodType", PeriodSubClass.DutyPeriod).getResultList().size();
 	}
@@ -555,4 +530,15 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 		.getResultList()
 		.stream().max(Comparator.comparing(DutyPeriod::getEnd)).get();
 	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public List<DutyPeriod> getCommingPeriods(UUID siteId) {
+		return (List<DutyPeriod>)persistence.getEntityManager()
+		.createQuery("SELECT e from paxbase$DutyPeriod e where e.site.id = :siteId")
+		.setParameter("siteId", siteId)
+		.getResultList();
+	}
+
+
 }

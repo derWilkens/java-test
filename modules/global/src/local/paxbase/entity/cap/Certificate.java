@@ -1,30 +1,33 @@
 package local.paxbase.entity.cap;
 
+import java.util.Date;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.haulmont.chile.core.annotations.NamePattern;
+import com.haulmont.cuba.core.entity.FileDescriptor;
 import com.haulmont.cuba.core.entity.annotation.Lookup;
 import com.haulmont.cuba.core.entity.annotation.LookupType;
 import com.haulmont.cuba.core.entity.annotation.OnDelete;
 import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
 import com.haulmont.cuba.core.global.DeletePolicy;
 import com.haulmont.cuba.security.entity.User;
-import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import com.haulmont.cuba.core.entity.StandardEntity;
-import com.haulmont.chile.core.annotations.NamePattern;
-import local.paxbase.entity.OffshoreUser;
+
 import local.paxbase.entity.cap.coredata.QualificationType;
-import com.haulmont.cuba.core.entity.FileDescriptor;
+import local.paxbase.entity.coredata.AppUser;
+import local.paxbase.entity.coredata.StandardClientEntity;
 
 @NamePattern("%s %s|certificateType,issuingDate")
 @Table(name = "PAXBASE_CERTIFICATE")
 @Entity(name = "paxbase$Certificate")
-public class Certificate extends StandardEntity {
+public class Certificate extends StandardClientEntity {
     private static final long serialVersionUID = 1013601858224666292L;
 
     @Temporal(TemporalType.DATE)
@@ -49,12 +52,13 @@ public class Certificate extends StandardEntity {
     @JoinColumn(name = "QUALIFICATION_TYPE_ID")
     protected QualificationType qualificationType;
 
+
     @Lookup(type = LookupType.SCREEN, actions = {"lookup", "clear"})
     @OnDeleteInverse(DeletePolicy.UNLINK)
     @OnDelete(DeletePolicy.UNLINK)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "OFFSHORE_USER_ID")
-    protected OffshoreUser offshoreUser;
+    @JoinColumn(name = "APP_USER_ID")
+    protected AppUser appUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FILE_DATA_ID")
@@ -67,6 +71,15 @@ public class Certificate extends StandardEntity {
 
     @Column(name = "STATE")
     protected String state;
+
+    public void setAppUser(AppUser appUser) {
+        this.appUser = appUser;
+    }
+
+    public AppUser getAppUser() {
+        return appUser;
+    }
+
 
     public void setState(String state) {
         this.state = state;
@@ -95,13 +108,7 @@ public class Certificate extends StandardEntity {
         return qualificationType;
     }
 
-    public void setOffshoreUser(OffshoreUser offshoreUser) {
-        this.offshoreUser = offshoreUser;
-    }
 
-    public OffshoreUser getOffshoreUser() {
-        return offshoreUser;
-    }
 
 
     public QualificationType getCertificateType() {

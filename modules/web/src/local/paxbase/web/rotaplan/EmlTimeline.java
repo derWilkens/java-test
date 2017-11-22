@@ -1,4 +1,16 @@
 package local.paxbase.web.rotaplan;
+/**
+ * Fachliche Funktion
+ * In einem Zeitraum verfügbare Mitarbeiter mit ihren Rollen werden im oberen Bereich der Timeline angezeigt
+ * Die maximal notwendigen Rollen werden in der Timeline als "Group" dargestellt
+ * Aus den Bemannungszeiträumen (und der POB im Zeitraum ergeben sich Dummy-EML-DutyPeriods
+ * Werden nun die verfügbaren Rollen der MA auf die Dummy-Periods gezogen, erfolgt die Verknüpfung
+ * von User zu Period und die entsprechende Period wird farbig dargestellt (in der Farbe der Rolle)
+ * Beim Löschen der Period wird nicht die Period sondern nur die Zuordnung gelöscht.
+ * 
+ * Timeline wird angezeigt
+ * 
+ */
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -20,7 +32,6 @@ import com.haulmont.cuba.gui.components.AbstractWindow;
 import com.haulmont.cuba.gui.components.OptionsGroup;
 import com.haulmont.cuba.gui.components.ScrollBoxLayout;
 import com.haulmont.cuba.gui.components.Window;
-import com.haulmont.cuba.gui.components.Component.ValueChangeEvent;
 import com.haulmont.cuba.gui.data.CollectionDatasource;
 import com.haulmont.cuba.gui.data.DataSupplier;
 import com.haulmont.cuba.gui.data.Datasource;
@@ -29,15 +40,16 @@ import com.vaadin.ui.Layout;
 
 import elemental.json.JsonObject;
 import local.paxbase.Utils;
-import local.paxbase.entity.DutyPeriod;
-import local.paxbase.entity.OffshoreUser;
 import local.paxbase.entity.UserPreference;
 import local.paxbase.entity.UserPreferencesContext;
 import local.paxbase.entity.coredata.FunctionCategory;
+import local.paxbase.entity.coredata.OffshoreUser;
 import local.paxbase.entity.coredata.Site;
 import local.paxbase.entity.dto.TimelineConfig;
 import local.paxbase.entity.dto.TimelineDTO;
 import local.paxbase.entity.dto.TimelineItem;
+import local.paxbase.entity.period.AttendencePeriod;
+import local.paxbase.entity.period.DutyPeriod;
 import local.paxbase.service.TimelineService;
 import local.paxbase.service.UserpreferencesService;
 import local.paxbase.web.toolkit.ui.timelinecomponent.RotaplanComponent;
@@ -65,31 +77,34 @@ public class EmlTimeline extends AbstractWindow {
 
 	/* Datasources */
 	@Inject
-	private Datasource<DutyPeriod> dutyPeriodDs;
+	private Datasource<AttendencePeriod> attendencePeriodDs;
 	@Inject
-	private CollectionDatasource<DutyPeriod, UUID> dutyPeriodsDs;
+	private CollectionDatasource<AttendencePeriod, UUID> attendencePeriodsDs;
 	@Inject
 	private CollectionDatasource<FunctionCategory, UUID> functionCategoriesDs;
 	@Inject
 	private CollectionDatasource<Site, UUID> sitesDs;
 
 	private Site displayedSite = null;
-	
+
 	@Override
 	public void init(Map<String, Object> params) {
 
 		super.init(params);
-		dutyPeriodsDs.refresh();
+		attendencePeriodsDs.refresh();
 		rotaplan = new RotaplanComponent();
-		loadEmlDto();
+
 		com.vaadin.ui.Layout box = (Layout) WebComponentsHelper.unwrap(timelineBox);
 		box.addComponent(rotaplan);
 		rotaplan.setListener(new InnerListener());
 		initSiteChooser();
+		if (displayedSite != null) {
+			loadEmlDto();
+		}
 	}
 
 	private void loadEmlDto() {
-		dto = timelineDTOService.getEmlDto();
+		//dto = timelineDTOService.getEmlDto();
 		if (dto != null) {
 			rotaplan.addDTO("rotaplan", dto);
 		}
@@ -97,55 +112,57 @@ public class EmlTimeline extends AbstractWindow {
 
 	private void initSiteChooser() {
 		List<Site> preferredSites = preferencesService.getSites(UserPreferencesContext.SiteEml);
-		List<UserPreference> displayedSitePreference = preferencesService.getPreferences(UserPreferencesContext.EmlDisplaySite);
-		
+		List<UserPreference> displayedSitePreference = preferencesService
+				.getPreferences(UserPreferencesContext.EmlDisplaySite);
+
 		if (!displayedSitePreference.isEmpty()) {
 			try {
-				displayedSite = preferredSites.stream()
-						.filter(s -> displayedSitePreference.get(0).getEntityUuid().toString().equals(s.getUuid().toString()))
+				displayedSite = preferredSites.stream().filter(
+						s -> displayedSitePreference.get(0).getEntityUuid().toString().equals(s.getUuid().toString()))
 						.findFirst().get();
 			} catch (Exception e1) {
-				// die displayed Site ist nicht bei den prefered Sites, macht aber nix. 
+				// die displayed Site ist nicht bei den prefered Sites, macht
+				// aber nix. Wir machen weiter
 			}
 		}
-		
+
 		Map<String, UUID> map = new LinkedHashMap<>();
-		for(Site site:preferredSites){
+		for (Site site : preferredSites) {
 			map.put(site.getItemDesignation(), site.getId());
 		}
 		siteChooser.setOptionsMap(map);
-		if(displayedSite != null ){
+		if (displayedSite != null) {
 			siteChooser.setValue(displayedSite.getId());
 		}
 		siteChooser.addValueChangeListener(new ValueChangeListener() {
-			
+
 			@Override
 			public void valueChanged(ValueChangeEvent e) {
 				preferencesService.deletePreferenceByEntity(UserPreferencesContext.EmlDisplaySite, null);
-				preferencesService.createPreference(UserPreferencesContext.EmlDisplaySite, (UUID)e.getValue(), null);
-				
+				preferencesService.createPreference(UserPreferencesContext.EmlDisplaySite, (UUID) e.getValue(), null);
+				loadEmlDto();
 			}
 		});
 	}
 
 	public TimelineConfig getDutyPeriodGroupedByUserConfig() {
 		TimelineConfig dutyPeriodConfig = new TimelineConfig();
-		dutyPeriodConfig.setGroupIdFunction((DutyPeriod e) -> e.getPersonOnDuty().getUuid().toString());
-		dutyPeriodConfig.setGroupLabelFunction((DutyPeriod e) -> e.getPersonOnDuty().getInstanceName());
-		dutyPeriodConfig.setParentGroupIdFunction((DutyPeriod e) -> null);
-		dutyPeriodConfig.setItemLabelFunction((DutyPeriod e) -> {
+		dutyPeriodConfig.setGroupIdFunction((AttendencePeriod e) -> e.getPersonOnDuty().getUuid().toString());
+		dutyPeriodConfig.setGroupLabelFunction((AttendencePeriod e) -> e.getPersonOnDuty().getInstanceName());
+		dutyPeriodConfig.setParentGroupIdFunction((AttendencePeriod e) -> null);
+		dutyPeriodConfig.setItemLabelFunction((AttendencePeriod e) -> {
 			String result = "";
-			if (e.getSite() != null) {
-				result = e.getSite().getItemDesignation();
+			if (e.getOperationPeriod().getSite() != null) {
+				result = e.getOperationPeriod().getSite().getItemDesignation();
 			}
 			if (e.getFunctionCategory() != null) {
 				result = result + " " + e.getFunctionCategory().getCategoryName();
 			}
 			return result;
 		});
-		dutyPeriodConfig.setStyleFunction((DutyPeriod e) -> {
-			if (null != e.getSite()) {
-				String colorHex = preferencesService.getSiteColorPreference(e.getSite().getUuid());
+		dutyPeriodConfig.setStyleFunction((AttendencePeriod e) -> {
+			if (null != e.getOperationPeriod().getSite()) {
+				String colorHex = preferencesService.getSiteColorPreference(e.getOperationPeriod().getSite().getUuid());
 				if (colorHex != null) {
 					return "background-color: #" + colorHex + ";";
 				}
@@ -178,8 +195,8 @@ public class EmlTimeline extends AbstractWindow {
 			boolean itemIncomplete = false;
 
 			// Neues Objekt erzeugen im dem DS hinzufügen
-			DataSupplier dataservice = dutyPeriodDs.getDataSupplier();
-			DutyPeriod newItem = dataservice.newInstance(dutyPeriodDs.getMetaClass());
+			DataSupplier dataservice = attendencePeriodDs.getDataSupplier();
+			AttendencePeriod newItem = dataservice.newInstance(attendencePeriodDs.getMetaClass());
 
 			// Datum
 			try {
@@ -220,7 +237,7 @@ public class EmlTimeline extends AbstractWindow {
 			// Site über dataManager laden
 			if (jsonItem.hasKey("siteId") && !jsonItem.getString("siteId").equals("null")) {
 				sitesDs.refresh();
-				newItem.setSite(sitesDs.getItem(UUID.fromString(jsonItem.getString("siteId"))));
+				newItem.getOperationPeriod().setSite(sitesDs.getItem(UUID.fromString(jsonItem.getString("siteId"))));
 			} else {
 				// itemIncomplete = true; nicht jeder Dienst braucht eine Site,
 				// wenn doch kann manuell nachgepflegt werden.
@@ -249,8 +266,8 @@ public class EmlTimeline extends AbstractWindow {
 				;
 			} else {
 
-				dutyPeriodDs.setItem((DutyPeriod) newItem);
-				dutyPeriodsDs.updateItem(newItem);
+				attendencePeriodDs.setItem((AttendencePeriod) newItem);
+				attendencePeriodsDs.updateItem(newItem);
 				getDsContext().commit();
 				TimelineItem timelineItem = timelineDTOService.periodToTimelineItem(newItem,
 						UserPreferencesContext.Rotaplan);
@@ -267,8 +284,8 @@ public class EmlTimeline extends AbstractWindow {
 
 		@Override
 		public void itemMoved(JsonObject jsonItem) {
-			dutyPeriodsDs.refresh();
-			DutyPeriod dutyPeriod = dutyPeriodsDs.getItem(UUID.fromString(jsonItem.getString("id")));
+			attendencePeriodsDs.refresh();
+			AttendencePeriod dutyPeriod = attendencePeriodsDs.getItem(UUID.fromString(jsonItem.getString("id")));
 			if (jsonItem.hasKey("group")) {
 				// wenn die Person geändert wurde
 				if (!dutyPeriod.getPersonOnDuty().getId().toString().equals(jsonItem.getString("group"))) {
@@ -285,10 +302,10 @@ public class EmlTimeline extends AbstractWindow {
 
 			// getDsContext().commit();//den Context vorher committen, sonst
 			// wird beim schließen gefragt.
-			dutyPeriodDs.setItem(dutyPeriod);
+			attendencePeriodDs.setItem(dutyPeriod);
 			// dutyPeriodDs.commit();
 			getDsContext().commit();
-			dutyPeriod = dutyPeriodsDs.getItem(dutyPeriod.getId());
+			dutyPeriod = attendencePeriodsDs.getItem(dutyPeriod.getId());
 			TimelineItem timelineItem = timelineDTOService.periodToTimelineItem(dutyPeriod,
 					UserPreferencesContext.Rotaplan);
 			rotaplan.addTimelineItem(timelineItem);
@@ -297,7 +314,7 @@ public class EmlTimeline extends AbstractWindow {
 		@Override
 		public void editItem(String id) {
 
-			DutyPeriod dutyPeriod = dutyPeriodsDs.getItem(UUID.fromString(id));
+			DutyPeriod dutyPeriod = attendencePeriodsDs.getItem(UUID.fromString(id));
 
 			if (dutyPeriod != null) {
 				Window openEditor = openEditor(dutyPeriod, WindowManager.OpenType.DIALOG);
@@ -305,8 +322,8 @@ public class EmlTimeline extends AbstractWindow {
 
 					@Override
 					public void windowClosed(String actionId) {
-						dutyPeriodsDs.refresh();
-						DutyPeriod editedDutyPeriod = dutyPeriodsDs.getItem(UUID.fromString(id));
+						attendencePeriodsDs.refresh();
+						DutyPeriod editedDutyPeriod = attendencePeriodsDs.getItem(UUID.fromString(id));
 						TimelineItem timelineItem = timelineDTOService.periodToTimelineItem(editedDutyPeriod,
 								UserPreferencesContext.Rotaplan);
 						rotaplan.addTimelineItem(timelineItem);
@@ -317,10 +334,10 @@ public class EmlTimeline extends AbstractWindow {
 
 		@Override
 		public void itemDeleted(JsonObject jsonItem) {
-			dutyPeriodsDs.refresh();
-			DutyPeriod dutyPeriod = dutyPeriodsDs.getItem(UUID.fromString(jsonItem.getString("id")));
+			attendencePeriodsDs.refresh();
+			AttendencePeriod dutyPeriod = attendencePeriodsDs.getItem(UUID.fromString(jsonItem.getString("id")));
 			if (dutyPeriod != null) {
-				dutyPeriodsDs.removeItem(dutyPeriod);
+				attendencePeriodsDs.removeItem(dutyPeriod);
 				getDsContext().commit();
 				// Das Item ist im Frontend schon entfernt worden. Aber was ist,
 				// wenn das programmatisch gemacht wird?

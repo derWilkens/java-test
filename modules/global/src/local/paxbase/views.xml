@@ -44,11 +44,9 @@
                       view="_minimal"/>
         </property>
     </view>
-    <view class="local.paxbase.entity.DutyPeriod"
+    <view class="local.paxbase.entity.period.DutyPeriod"
           extends="_local"
           name="dutyPeriod-edit-view">
-        <property name="site"
-                  view="_minimal"/>
         <property name="personOnDuty"
                   view="_minimal"/>
         <property name="functionCategory"
@@ -60,23 +58,17 @@
         <property name="site"
                   view="_minimal"/>
     </view>
-    <view class="local.paxbase.entity.Campaign"
+    <view class="local.paxbase.entity.period.MaintenanceCampaign"
           extends="_local"
           name="campaign-view">
-        <property name="functionCategory"
-                  view="_minimal"/>
-        <property name="site"
-                  view="_minimal"/>
     </view>
     <view class="local.paxbase.entity.coredata.Site"
           extends="_local"
           name="siteCampaignsView">
     </view>
-    <view class="local.paxbase.entity.Campaign"
+    <view class="local.paxbase.entity.period.MaintenanceCampaign"
           extends="_local"
           name="campaignOverview">
-        <property name="functionCategory"
-                  view="_minimal"/>
     </view>
     <view class="local.paxbase.entity.coredata.Site"
           extends="_local"
@@ -121,15 +113,13 @@
             <property name="type"/>
         </property>
     </view>
-    <view class="local.paxbase.entity.ContractorDutyPeriod"
+    <view class="local.paxbase.entity.period.ContractorDutyPeriod"
           extends="_local"
           name="contractorDutyPeriod-view">
         <property name="contractor"
                   view="_minimal"/>
-        <property name="functionCategory"
-                  view="_minimal"/>
     </view>
-    <view class="local.paxbase.entity.Campaign"
+    <view class="local.paxbase.entity.period.Campaign"
           name="campaign-templateView"
           overwrite="true">
         <property name="shutdown"/>
@@ -153,11 +143,11 @@
           name="certificate-view">
         <property name="qualificationType"
                   view="_minimal"/>
-        <property name="offshoreUser"
-                  view="_minimal"/>
         <property name="fileData"
                   view="_minimal"/>
         <property name="certificateType"
+                  view="_minimal"/>
+        <property name="appUser"
                   view="_minimal"/>
     </view>
     <view class="local.paxbase.entity.coredata.Department"
@@ -190,15 +180,11 @@
         <property name="modeOfTransfer"
                   view="_minimal"/>
     </view>
-    <view class="local.paxbase.entity.DutyPeriod"
+    <view class="local.paxbase.entity.period.DutyPeriod"
           extends="_local"
           name="dutyPeriod-view">
         <property name="personOnDuty"
                   view="_minimal"/>
-        <property name="site"
-                  view="_minimal">
-            <property name="itemDesignation"/>
-        </property>
         <property name="functionCategory"
                   view="_minimal"/>
     </view>
@@ -287,6 +273,8 @@
                   view="_local"/>
         <property name="role"
                   view="_minimal"/>
+        <property name="functionCategory"
+                  view="_minimal"/>
     </view>
     <view class="local.paxbase.entity.coredata.NumberRangeRule"
           extends="_local"
@@ -308,7 +296,7 @@
         <property name="email"/>
         <property name="department"/>
     </view>
-    <view class="local.paxbase.entity.OffshoreUser"
+    <view class="local.paxbase.entity.coredata.OffshoreUser"
           extends="_local"
           name="offshoreUser-view">
         <property name="jobfunction"
@@ -317,5 +305,22 @@
                   view="_minimal"/>
         <property name="department"
                   view="_minimal"/>
+    </view>
+    <view class="local.paxbase.entity.period.Campaign"
+          name="campaign-templateView"
+          overwrite="true">
+        <property name="site">
+            <property name="itemDesignation"/>
+            <property name="siteName"/>
+        </property>
+        <property name="start"/>
+        <property name="end"/>
+        <property name="campaignNumber"/>
+        <property name="remark"/>
+    </view>
+    <view class="local.paxbase.entity.period.MaintenanceCampaign"
+          name="campaign-templateView"
+          overwrite="true">
+        <property name="campaignNumber"/>
     </view>
 </views>

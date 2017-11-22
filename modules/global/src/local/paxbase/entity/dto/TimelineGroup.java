@@ -2,15 +2,13 @@ package local.paxbase.entity.dto;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.function.Function;
 
 import com.haulmont.chile.core.annotations.MetaClass;
 import com.haulmont.chile.core.annotations.MetaProperty;
 
 import local.paxbase.entity.AbstractNotPersistentStringIdEntity;
-import local.paxbase.entity.OffshoreUser;
-import local.paxbase.entity.Period;
+import local.paxbase.entity.period.Period;
 
 @MetaClass(name = "paxbase$TimelineGroup")
 public class TimelineGroup extends AbstractNotPersistentStringIdEntity {
@@ -20,7 +18,7 @@ public class TimelineGroup extends AbstractNotPersistentStringIdEntity {
 	protected String content;
 	
 	@MetaProperty
-	protected String opsData;
+	protected String opsData; //wenn nach nicht sichtbaren Eigenschaften sortiert werden soll
 	
 	@MetaProperty
 	protected String subgroupOrder;
