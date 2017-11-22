@@ -116,27 +116,7 @@ create table PAXBASE_WAYPOINT (
     primary key (ID)
 )^
 -- end PAXBASE_PAYLOAD
--- begin PAXBASE_DUTY_PERIODcreate table PAXBASE_DUTY_PERIOD (
-    ID varchar(32),
-    VERSION integer not null,
-    CREATE_TS datetime(3),
-    CREATED_BY varchar(50),
-    UPDATE_TS datetime(3),
-    UPDATED_BY varchar(50),
-    DELETE_TS datetime(3),
-    DELETED_BY varchar(50),
-    CLIENT integer not null,
-    START_ datetime(3),
-    END_ datetime(3),
-    FUNCTION_CATEGORY_ID varchar(32),
-    REMARK varchar(255),
-    --
-    PERSON_ON_DUTY_ID varchar(32),
-    SITE_ID varchar(32),
-    --
-    primary key (ID)
-)^
--- end PAXBASE_DUTY_PERIOD
+
 -- begin PAXBASE_CRAFT_TYPE
 create table PAXBASE_CRAFT_TYPE (
     ID varchar(32),
@@ -190,30 +170,6 @@ create table PAXBASE_CRAFT_TYPE (
     primary key (ID)
 )^
 -- end PAXBASE_SITE_TYPE
-
--- begin PAXBASE_CAMPAIGN
-create table PAXBASE_CAMPAIGN (
-    ID varchar(32),
-    VERSION integer not null,
-    CREATE_TS datetime(3),
-    CREATED_BY varchar(50),
-    UPDATE_TS datetime(3),
-    UPDATED_BY varchar(50),
-    DELETE_TS datetime(3),
-    DELETED_BY varchar(50),
-    CLIENT integer not null,
-    START_ datetime(3),
-    END_ datetime(3),
-    FUNCTION_CATEGORY_ID varchar(32),
-    REMARK varchar(255),
-    --
-    CAMPAIGN_NUMBER varchar(10),
-    SHUTDOWN_ boolean,
-    SITE_ID varchar(32),
-    --
-    primary key (ID)
-)^
--- end PAXBASE_CAMPAIGN
 
 -- begin PAXBASE_USER_PREFERENCE
 create table PAXBASE_USER_PREFERENCE (
@@ -289,6 +245,7 @@ create table PAXBASE_CONTRACTOR_DUTY_PERIOD (
     END_ datetime(3),
     FUNCTION_CATEGORY_ID varchar(32),
     REMARK varchar(255),
+    PERSON_ON_DUTY_ID varchar(32),
     DTYPE varchar(31),
     --
     CONTRACTOR_ID varchar(32),
@@ -565,3 +522,89 @@ create table PAXBASE_APP_USER (
     primary key (ID)
 )^
 -- end PAXBASE_APP_USER
+-- begin PAXBASE_MAINTENANCE_CAMPAIGN
+create table PAXBASE_MAINTENANCE_CAMPAIGN (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    CLIENT integer not null,
+    START_ datetime(3),
+    END_ datetime(3),
+    FUNCTION_CATEGORY_ID varchar(32),
+    REMARK varchar(255),
+    SITE_ID varchar(32),
+    --
+    CAMPAIGN_NUMBER varchar(10),
+    --
+    primary key (ID)
+)^
+-- end PAXBASE_MAINTENANCE_CAMPAIGN
+-- begin PAXBASE_OPERATION_PERIOD
+create table PAXBASE_OPERATION_PERIOD (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    CLIENT integer not null,
+    START_ datetime(3),
+    END_ datetime(3),
+    FUNCTION_CATEGORY_ID varchar(32),
+    REMARK varchar(255),
+    SITE_ID varchar(32),
+    --
+    PARENT_PERIOD_ID varchar(32),
+    --
+    primary key (ID)
+)^
+-- end PAXBASE_OPERATION_PERIOD
+-- begin PAXBASE_ATTENDENCE_PERIOD
+create table PAXBASE_ATTENDENCE_PERIOD (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    CLIENT integer not null,
+    START_ datetime(3),
+    END_ datetime(3),
+    FUNCTION_CATEGORY_ID varchar(32),
+    REMARK varchar(255),
+    PERSON_ON_DUTY_ID varchar(32),
+    --
+    OPERATION_PERIOD_ID varchar(32),
+    --
+    primary key (ID)
+)^
+-- end PAXBASE_ATTENDENCE_PERIOD
+-- begin PAXBASE_ABSENCE_PERIOD
+create table PAXBASE_ABSENCE_PERIOD (
+    ID varchar(32),
+    VERSION integer not null,
+    CREATE_TS datetime(3),
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime(3),
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime(3),
+    DELETED_BY varchar(50),
+    CLIENT integer not null,
+    START_ datetime(3),
+    END_ datetime(3),
+    FUNCTION_CATEGORY_ID varchar(32),
+    REMARK varchar(255),
+    PERSON_ON_DUTY_ID varchar(32),
+    --
+    primary key (ID)
+)^
+-- end PAXBASE_ABSENCE_PERIOD
