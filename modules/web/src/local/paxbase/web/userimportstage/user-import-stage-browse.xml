@@ -7,7 +7,7 @@
         messagesPack="local.paxbase.web.userimportstage">
     <dsContext>
         <collectionDatasource id="userImportStagesDs"
-                              class="local.paxbase.entity.UserImportStage"
+                              class="local.paxbase.entity.batchimport.UserImportStage"
                               view="_local">
             <query>
                 <![CDATA[select e from paxbase$UserImportStage e]]>

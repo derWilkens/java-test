@@ -289,7 +289,7 @@
         <property name="department"
                   view="_minimal"/>
     </view>
-    <view class="local.paxbase.entity.UserImportStage"
+    <view class="local.paxbase.entity.batchimport.UserImportStage"
           name="userImportStage-view">
         <property name="firstname"/>
         <property name="lastname"/>

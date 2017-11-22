@@ -1,4 +1,4 @@
-package local.paxbase.entity.period;
+package local.paxbase.entity.batchimport;
 
 import java.util.Date;
 

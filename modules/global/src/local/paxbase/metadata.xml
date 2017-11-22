@@ -4,7 +4,7 @@
                     root-package="local.paxbase">
         <class>local.paxbase.entity.dto.TimelineItem</class>
         <class>local.paxbase.entity.dto.TimelineGroup</class>
-        <class>local.paxbase.entity.period.PeriodImportRecord</class>
+        <class>local.paxbase.entity.batchimport.PeriodImportRecord</class>
         <class>local.paxbase.entity.dto.TimelineDTO</class>
         <class>local.paxbase.entity.dto.DutyPeriodDTO</class>
     </metadata-model>

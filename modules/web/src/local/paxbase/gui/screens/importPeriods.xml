@@ -13,7 +13,7 @@ order by e.site.itemDesignation, e.campaignNumber]]>
             </query>
         </collectionDatasource>
         <collectionDatasource id="periodImportStagesDs"
-                              class="local.paxbase.entity.period.PeriodImportStage"
+                              class="local.paxbase.entity.batchimport.PeriodImportStage"
                               view="_local">
             <query>
                 <![CDATA[select e from paxbase$PeriodImportStage e]]>

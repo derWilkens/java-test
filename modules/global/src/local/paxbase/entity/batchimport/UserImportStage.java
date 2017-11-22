@@ -1,4 +1,4 @@
-package local.paxbase.entity;
+package local.paxbase.entity.batchimport;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

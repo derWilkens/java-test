@@ -7,7 +7,7 @@
         messagesPack="local.paxbase.web.periodimportstage">
     <dsContext>
         <groupDatasource id="periodImportStagesDs"
-                         class="local.paxbase.entity.period.PeriodImportStage"
+                         class="local.paxbase.entity.batchimport.PeriodImportStage"
                          view="_local">
             <query>
                 <![CDATA[select e from paxbase$PeriodImportStage e]]>

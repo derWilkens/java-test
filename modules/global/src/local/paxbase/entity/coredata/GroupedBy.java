@@ -1,4 +1,4 @@
-package local.paxbase.entity;
+package local.paxbase.entity.coredata;
 
 import com.haulmont.chile.core.datatypes.impl.EnumClass;
 

@@ -5,7 +5,7 @@
         messagesPack="local.paxbase.gui.screens">
     <dsContext>
         <collectionDatasource id="userImportTemplateDs"
-                              class="local.paxbase.entity.UserImportStage"
+                              class="local.paxbase.entity.batchimport.UserImportStage"
                               maxResults="01"
                               view="userImportStage-view">
             <query>
@@ -13,7 +13,7 @@
             </query>
         </collectionDatasource>
         <collectionDatasource id="userImportStagesDs"
-                              class="local.paxbase.entity.UserImportStage"
+                              class="local.paxbase.entity.batchimport.UserImportStage"
                               view="_local">
             <query>
                 <![CDATA[select e from paxbase$UserImportStage e]]>

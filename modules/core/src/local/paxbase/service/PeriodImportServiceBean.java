@@ -16,10 +16,10 @@ import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.TypedQuery;
 import com.haulmont.cuba.core.global.Metadata;
 
+import local.paxbase.entity.batchimport.PeriodImportStage;
 import local.paxbase.entity.coredata.FunctionCategory;
 import local.paxbase.entity.coredata.Site;
 import local.paxbase.entity.period.MaintenanceCampaign;
-import local.paxbase.entity.period.PeriodImportStage;
 
 @Service(PeriodImportService.NAME)
 public class PeriodImportServiceBean implements PeriodImportService {

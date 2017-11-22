@@ -9,7 +9,7 @@ import com.haulmont.cuba.gui.components.Component;
 import com.haulmont.cuba.gui.components.TextArea;
 import com.haulmont.cuba.gui.data.CollectionDatasource;
 
-import local.paxbase.entity.period.PeriodImportStage;
+import local.paxbase.entity.batchimport.PeriodImportStage;
 import local.paxbase.service.PeriodImportService;
 
 public class Importperiods extends AbstractWindow {

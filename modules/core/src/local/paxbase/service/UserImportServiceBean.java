@@ -11,7 +11,7 @@ import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.TypedQuery;
 import com.haulmont.cuba.core.global.Metadata;
 
-import local.paxbase.entity.UserImportStage;
+import local.paxbase.entity.batchimport.UserImportStage;
 import local.paxbase.entity.coredata.AppUser;
 import local.paxbase.entity.coredata.Department;
 

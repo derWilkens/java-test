@@ -23,12 +23,12 @@
         <class>local.paxbase.entity.coredata.FunctionCategory</class>
         <class>local.paxbase.entity.period.ContractorDutyPeriod</class>
         <class>local.paxbase.entity.coredata.Department</class>
-        <class>local.paxbase.entity.period.PeriodImportStage</class>
+        <class>local.paxbase.entity.batchimport.PeriodImportStage</class>
         <class>local.paxbase.entity.cap.coredata.QualificationType</class>
         <class>local.paxbase.entity.cap.coredata.Role</class>
         <class>local.paxbase.entity.cap.coredata.Jobfunction</class>
         <class>local.paxbase.entity.cap.Certificate</class>
-        <class>local.paxbase.entity.UserImportStage</class>
+        <class>local.paxbase.entity.batchimport.UserImportStage</class>
         <class>local.paxbase.entity.coredata.DutyPeriodTemplate</class>
         <class>local.paxbase.entity.cap.coredata.RoleQualificationType</class>
         <class>local.paxbase.entity.coredata.SiteCategory</class>
