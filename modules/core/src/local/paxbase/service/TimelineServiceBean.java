@@ -39,7 +39,6 @@ import local.paxbase.entity.dto.TimelineDTO;
 import local.paxbase.entity.dto.TimelineGroup;
 import local.paxbase.entity.dto.TimelineItem;
 import local.paxbase.entity.period.AttendencePeriod;
-import local.paxbase.entity.period.DutyPeriod;
 import local.paxbase.entity.period.MaintenanceCampaign;
 import local.paxbase.entity.period.Period;
 import local.paxbase.entity.period.SitePeriod;
@@ -88,7 +87,7 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 
 				} else if (periodSubClass.equals(PeriodSubClass.Administration)) {
 					List<AppUser> personsOnDuty = loadPreferredPersonsOnDuty(userPreferenceList);
-					List<DutyPeriod> dutyPeriods = getDutyPeriods(personsOnDuty, preferredSites,
+					List<AttendencePeriod> dutyPeriods = getDutyPeriods(personsOnDuty, preferredSites,
 							preferredFunctionCategories);
 					dto.addItems(dutyPeriods, dutyPeriodConfig);
 				}
@@ -114,7 +113,7 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 			// Periods der preferred User holen
 			List<AppUser> preferredPersons = getPersonsByPreferredDepartment(persistence.getEntityManager(),
 					UserPreferencesContext.RotaplanDepartments);
-			List<DutyPeriod> dutyPeriods = getDutyPeriods(preferredPersons, null, null);
+			List<AttendencePeriod> dutyPeriods = getDutyPeriods(preferredPersons, null, null);
 			dto.addItems(dutyPeriods, rotaplanConfig);
 
 			if (!getUserPreferences(persistence.getEntityManager(), UserPreferencesContext.RotaplanDisplayCampaigns)
@@ -170,6 +169,7 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 
 	private List<TimelineGroup> getTimelineGroups() {
 		List<TimelineGroup> groups = new ArrayList<TimelineGroup>();
+		
 		// Alle preferred Departments holen
 		List<Department> preferredDepartments = getPreferredDepartments(persistence.getEntityManager(),
 				UserPreferencesContext.RotaplanDepartments);
@@ -224,7 +224,7 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 //			} else
 //				return null;
 //		});
-		dutyPeriodConfig.setItemLabelFunction((DutyPeriod e) -> {
+		dutyPeriodConfig.setItemLabelFunction((AttendencePeriod e) -> {
 			if (e.getFunctionCategory() == null) {
 				Log.info("Function Category is null: " + e.getUuid().toString());
 				return null;
@@ -238,10 +238,10 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 			}
 			return "";
 		});
-		dutyPeriodConfig.setEditableFunction((DutyPeriod e) -> {
+		dutyPeriodConfig.setEditableFunction((AttendencePeriod e) -> {
 			return true;
 		});
-		dutyPeriodConfig.setTypeFunction((DutyPeriod e) -> {
+		dutyPeriodConfig.setTypeFunction((AttendencePeriod e) -> {
 			return "range";
 		});
 		return dutyPeriodConfig;
@@ -276,10 +276,10 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 			}
 			return "";
 		});
-		dutyPeriodConfig.setEditableFunction((DutyPeriod e) -> {
+		dutyPeriodConfig.setEditableFunction((AttendencePeriod e) -> {
 			return true;
 		});
-		dutyPeriodConfig.setTypeFunction((DutyPeriod e) -> {
+		dutyPeriodConfig.setTypeFunction((AttendencePeriod e) -> {
 			return "range";
 		});
 		return dutyPeriodConfig;
@@ -338,21 +338,21 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 			}
 			return "";
 		});
-		campaignTimelineConfig.setTypeFunction((DutyPeriod e) -> {
+		campaignTimelineConfig.setTypeFunction((AttendencePeriod e) -> {
 			return "range";
 		});
 		return campaignTimelineConfig;
 	}
 
 	// drei Kriterien: (implizit Type), Site, ServiceUser;
-	private List<DutyPeriod> getDutyPeriods(List<AppUser> personOnDutyList, List<Site> siteList,
+	private List<AttendencePeriod> getDutyPeriods(List<AppUser> personOnDutyList, List<Site> siteList,
 			List<FunctionCategory> preferredFunctionCategories) {
-		List<DutyPeriod> dutyPeriods;
+		List<AttendencePeriod> dutyPeriods;
 
 		String queryString;
 		String queryConcatenator = "where ";
 
-		queryString = "select e from paxbase$DutyPeriod e ";
+		queryString = "select e from paxbase$AttendencePeriod e ";
 
 		if (personOnDutyList != null && personOnDutyList.size() > 0) {
 			queryString = queryString + queryConcatenator + "e.personOnDuty.id IN :personsIdList ";
@@ -367,7 +367,7 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 			queryConcatenator = "AND ";
 		}
 
-		TypedQuery<DutyPeriod> query = persistence.getEntityManager().createQuery(queryString, DutyPeriod.class);
+		TypedQuery<AttendencePeriod> query = persistence.getEntityManager().createQuery(queryString, AttendencePeriod.class);
 		if (personOnDutyList != null && personOnDutyList.size() > 0) {
 			query.setParameter("personsIdList", getUUIDList(personOnDutyList));
 		}
@@ -468,7 +468,7 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 		}
 
 		try (Transaction tx = persistence.createTransaction()) {
-			period = persistence.getEntityManager().find(DutyPeriod.class, period.getId()); // war
+			period = persistence.getEntityManager().find(AttendencePeriod.class, period.getId()); // war
 			// mal
 			// merge,
 			// aber
@@ -522,20 +522,20 @@ public class TimelineServiceBean extends PreferencesService implements TimelineS
 	}
 	
 	@SuppressWarnings("unchecked")
-	public DutyPeriod getLastPeriod(UUID siteId){
+	public AttendencePeriod getLastPeriod(UUID siteId){
 		
-		return (DutyPeriod)persistence.getEntityManager()
-		.createNativeQuery("SELECT e from paxbase$DutyPeriod e where e.site.id = :siteId")
+		return (AttendencePeriod)persistence.getEntityManager()
+		.createNativeQuery("SELECT e from paxbase$AttendencePeriod e where e.site.id = :siteId")
 		.setParameter("siteId", siteId)
 		.getResultList()
-		.stream().max(Comparator.comparing(DutyPeriod::getEnd)).get();
+		.stream().max(Comparator.comparing(AttendencePeriod::getEnd)).get();
 	}
 	
 	
 	@SuppressWarnings("unchecked")
-	public List<DutyPeriod> getCommingPeriods(UUID siteId) {
-		return (List<DutyPeriod>)persistence.getEntityManager()
-		.createQuery("SELECT e from paxbase$DutyPeriod e where e.site.id = :siteId")
+	public List<AttendencePeriod> getCommingPeriods(UUID siteId) {
+		return (List<AttendencePeriod>)persistence.getEntityManager()
+		.createQuery("SELECT e from paxbase$AttendencePeriod e where e.site.id = :siteId")
 		.setParameter("siteId", siteId)
 		.getResultList();
 	}

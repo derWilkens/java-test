@@ -27,7 +27,6 @@ import local.paxbase.entity.cap.coredata.RoleQualificationType;
 import local.paxbase.entity.coredata.AppUser;
 import local.paxbase.entity.coredata.Site;
 import local.paxbase.entity.period.AttendencePeriod;
-import local.paxbase.entity.period.DutyPeriod;
 import local.paxbase.service.CapService;
 import local.paxbase.service.UserpreferencesService;
 
@@ -43,8 +42,8 @@ public class CapServiceBeanTest extends StandardTestContainer {
 	private Metadata metadata;
 
 	private Site site;
-	private List<DutyPeriod> periodList;
-	private DutyPeriod dutyPeriod;
+	private List<AttendencePeriod> periodList;
+	private AttendencePeriod dutyPeriod;
 	
 	private Logger log = LoggerFactory.getLogger(TimelineDTOServiceTest.class);
 
@@ -159,7 +158,7 @@ public class CapServiceBeanTest extends StandardTestContainer {
 
 			preferenceService.createPreference(UserPreferencesContext.EmlDisplaySite, site.getUuid(), null);
 
-			periodList = new ArrayList<DutyPeriod>();
+			periodList = new ArrayList<AttendencePeriod>();
 			periodList.add(persistence.createTransaction().execute(em -> {
 				AttendencePeriod p = new AttendencePeriod();
 				p.setClient(1);

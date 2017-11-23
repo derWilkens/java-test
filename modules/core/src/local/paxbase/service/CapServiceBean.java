@@ -15,7 +15,7 @@ import local.paxbase.entity.cap.coredata.QualificationType;
 import local.paxbase.entity.cap.coredata.Role;
 import local.paxbase.entity.cap.coredata.RoleQualificationType;
 import local.paxbase.entity.coredata.AppUser;
-import local.paxbase.entity.period.DutyPeriod;
+import local.paxbase.entity.period.AttendencePeriod;
 
 @Service(CapService.NAME)
 public class CapServiceBean implements CapService {
@@ -24,7 +24,7 @@ public class CapServiceBean implements CapService {
 	private Persistence persistence;
 
 	@Override
-	public List<Role> getAvailableUserRoles(DutyPeriod dutyPeriod) {
+	public List<Role> getAvailableUserRoles(AttendencePeriod dutyPeriod) {
 		List<Role> validRoles = new ArrayList<Role>();
 
 		try (Transaction tx = persistence.createTransaction()) {
@@ -79,7 +79,7 @@ public class CapServiceBean implements CapService {
 	// eigentlich nicht notwendig
 	@SuppressWarnings("unchecked")
 	private List<Certificate> getCertificateForQualificationType(QualificationType qualificationType,
-			DutyPeriod dutyPeriod) {
+			AttendencePeriod dutyPeriod) {
 		return persistence.getEntityManager()
 				.createQuery(
 						"SELECT c from paxbase$Certificate c where c.expirationDate >= :endDate and c.appUser = :appUser and c.qualificationType = :qualificationType")
@@ -88,7 +88,7 @@ public class CapServiceBean implements CapService {
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<Certificate> getValidUserCertificates(DutyPeriod dutyPeriod) {
+	private List<Certificate> getValidUserCertificates(AttendencePeriod dutyPeriod) {
 		return persistence.getEntityManager()
 				.createQuery(
 						"SELECT c from paxbase$Certificate c where c.expirationDate >= :endDate and c.appUser.id = :appUser")
@@ -97,7 +97,7 @@ public class CapServiceBean implements CapService {
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<QualificationType> getValidUserQualificationTypes(DutyPeriod dutyPeriod) {
+	private List<QualificationType> getValidUserQualificationTypes(AttendencePeriod dutyPeriod) {
 		AppUser userOnDuty = dutyPeriod.getPersonOnDuty();
 		return persistence.getEntityManager()
 				.createQuery("SELECT c.qualificationType from paxbase$Certificate c where c.appUser.id = :appUser")

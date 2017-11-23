@@ -10,6 +10,8 @@ import org.junit.ClassRule;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
@@ -22,9 +24,11 @@ import com.haulmont.cuba.core.global.UserSessionSource;
 import local.paxbase.entity.UserPreference;
 import local.paxbase.entity.UserPreferencesContext;
 import local.paxbase.entity.coredata.AppUser;
+import local.paxbase.entity.coredata.Department;
 import local.paxbase.entity.coredata.Site;
+import local.paxbase.entity.dto.TimelineDTO;
 import local.paxbase.entity.period.AttendencePeriod;
-import local.paxbase.entity.period.DutyPeriod;
+import local.paxbase.entity.period.OperationPeriod;
 import local.paxbase.service.TimelineService;
 import local.paxbase.service.UserpreferencesService;
 public class TimelineDTOServiceTest extends StandardTestContainer {
@@ -38,10 +42,13 @@ public class TimelineDTOServiceTest extends StandardTestContainer {
 	private Metadata metadata;
 
 	private Site site;
-	private List<DutyPeriod> periodList;
+	private List<AttendencePeriod> periodList;
 	
 	private Logger log = LoggerFactory.getLogger(TimelineDTOServiceTest.class);
-
+	
+	private Department department;
+	private AppUser personOnDuty;
+	private OperationPeriod op;
 	@Before
 	public void setUp() throws Exception {
 		dataManager = AppBeans.get(DataManager.class);
@@ -51,10 +58,16 @@ public class TimelineDTOServiceTest extends StandardTestContainer {
 
 		AppBeans.get(UserSessionSource.class).getUserSession().setAttribute("client_id", 1);
 		try (Transaction tx = cont.persistence().createTransaction()) {
-
-			AppUser personOnDuty = persistence.createTransaction().execute(em -> {
+			department = persistence.createTransaction().execute(em -> {
+				Department d = new Department();
+				d.setAcronym("AB");
+				em.persist(d);
+				return d;
+			});
+			personOnDuty = persistence.createTransaction().execute(em -> {
 				AppUser u = new AppUser();
 				u.setLastname("Lastname");
+				u.setDepartment(department);
 				em.persist(u);
 				return u;
 			});
@@ -69,10 +82,18 @@ public class TimelineDTOServiceTest extends StandardTestContainer {
 			});
 
 			preferenceService.createPreference(UserPreferencesContext.EmlDisplaySite, site.getUuid(), null);
-
-			periodList = new ArrayList<DutyPeriod>();
+			op = persistence.createTransaction().execute(em ->{
+				OperationPeriod o = new OperationPeriod();
+				o.setSite(site);
+				o.setStart(new Date());
+				o.setEnd(new Date());
+				
+				return o;
+			});
+			periodList = new ArrayList<AttendencePeriod>();
 			periodList.add(persistence.createTransaction().execute(em -> {
 				AttendencePeriod p = new AttendencePeriod();
+				p.setOperationPeriod(op);
 				p.setClient(1);
 				p.setStart(new Date());
 				p.setEnd(new Date());
@@ -93,6 +114,7 @@ public class TimelineDTOServiceTest extends StandardTestContainer {
 	            .setView("userPreference-view");
 	    List<UserPreference> upList = dataManager.loadList(loadContext);
 	    log.info("UPref vorhanden:"+upList.size());
+	    
 	    for (UserPreference userPreference : upList) {
 	    	if(userPreference.getContextId().equals(UserPreferencesContext.EmlDisplaySite)){
 			dataManager.remove(userPreference);
@@ -121,6 +143,14 @@ public class TimelineDTOServiceTest extends StandardTestContainer {
 
 	@After
 	public void tearDown() throws Exception {
+		
+		for(AttendencePeriod period:periodList){
+			dataManager.remove(period);
+		}
+		dataManager.remove(op);
+		dataManager.remove(site);
+		dataManager.remove(personOnDuty);
+		dataManager.remove(department);
 	}
 
 	@Test
@@ -130,6 +160,9 @@ public class TimelineDTOServiceTest extends StandardTestContainer {
 			UserpreferencesService prefService = AppBeans.get(UserpreferencesService.NAME);
 			prefService.getPreference(UserPreferencesContext.EmlDisplaySite, null);
 			//service.getEmlDto();
+			TimelineDTO rotoplanDto = service.getRotoplanDto();
+			assertEquals(1, rotoplanDto.getGroupList().size());
+			assertEquals("", rotoplanDto.getGroupList().get(0).getContent());
 			tx.commit();
 		}
 	}

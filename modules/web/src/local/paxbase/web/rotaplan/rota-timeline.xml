@@ -4,16 +4,11 @@
         class="local.paxbase.web.rotaplan.RotaTimeline"
         messagesPack="local.paxbase.web.rotaplan">
     <dsContext>
-        <datasource id="dutyPeriodDs"
-                    class="local.paxbase.entity.period.DutyPeriod"
-                    view="dutyPeriod-edit-view"/>
-        <collectionDatasource id="dutyPeriodsDs"
-                              class="local.paxbase.entity.period.DutyPeriod"
-                              view="dutyPeriod-edit-view">
-            <query>
-                <![CDATA[select e from paxbase$DutyPeriod e]]>
-            </query>
-        </collectionDatasource>
+        <datasource id="shiftPeriodDs"
+                    class="local.paxbase.entity.period.ShiftPeriod"/>
+        <collectionDatasource id="shiftPeriodsDs"
+                              class="local.paxbase.entity.period.ShiftPeriod"
+                              refreshMode="NEVER"/>
         <collectionDatasource id="functionCategoriesDs"
                               class="local.paxbase.entity.coredata.FunctionCategory"
                               view="_minimal">

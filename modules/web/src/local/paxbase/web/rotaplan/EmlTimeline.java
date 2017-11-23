@@ -49,7 +49,6 @@ import local.paxbase.entity.dto.TimelineConfig;
 import local.paxbase.entity.dto.TimelineDTO;
 import local.paxbase.entity.dto.TimelineItem;
 import local.paxbase.entity.period.AttendencePeriod;
-import local.paxbase.entity.period.DutyPeriod;
 import local.paxbase.service.TimelineService;
 import local.paxbase.service.UserpreferencesService;
 import local.paxbase.web.toolkit.ui.timelinecomponent.RotaplanComponent;
@@ -169,10 +168,10 @@ public class EmlTimeline extends AbstractWindow {
 			}
 			return "";
 		});
-		dutyPeriodConfig.setEditableFunction((DutyPeriod e) -> {
+		dutyPeriodConfig.setEditableFunction((AttendencePeriod e) -> {
 			return true;
 		});
-		dutyPeriodConfig.setTypeFunction((DutyPeriod e) -> {
+		dutyPeriodConfig.setTypeFunction((AttendencePeriod e) -> {
 			return "range";
 		});
 		return dutyPeriodConfig;
@@ -314,7 +313,7 @@ public class EmlTimeline extends AbstractWindow {
 		@Override
 		public void editItem(String id) {
 
-			DutyPeriod dutyPeriod = attendencePeriodsDs.getItem(UUID.fromString(id));
+			AttendencePeriod dutyPeriod = attendencePeriodsDs.getItem(UUID.fromString(id));
 
 			if (dutyPeriod != null) {
 				Window openEditor = openEditor(dutyPeriod, WindowManager.OpenType.DIALOG);
@@ -323,7 +322,7 @@ public class EmlTimeline extends AbstractWindow {
 					@Override
 					public void windowClosed(String actionId) {
 						attendencePeriodsDs.refresh();
-						DutyPeriod editedDutyPeriod = attendencePeriodsDs.getItem(UUID.fromString(id));
+						AttendencePeriod editedDutyPeriod = attendencePeriodsDs.getItem(UUID.fromString(id));
 						TimelineItem timelineItem = timelineDTOService.periodToTimelineItem(editedDutyPeriod,
 								UserPreferencesContext.Rotaplan);
 						rotaplan.addTimelineItem(timelineItem);

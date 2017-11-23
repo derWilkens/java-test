@@ -1,6 +1,7 @@
 package local.paxbase.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -11,7 +12,9 @@ import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.TypedQuery;
 
 import local.paxbase.entity.UserPreferencesContext;
+import local.paxbase.entity.coredata.Department;
 import local.paxbase.entity.coredata.Site;
+import local.paxbase.entity.dto.TimelineDTO;
 
 @Service(RotaplanService.NAME)
 public class RotaplanServiceBean extends PreferencesService implements RotaplanService {
@@ -36,6 +39,7 @@ public class RotaplanServiceBean extends PreferencesService implements RotaplanS
 	public Collection<Site> getPreferredSites(){
 		return super.getPreferredSites(persistence.getEntityManager(), UserPreferencesContext.Rotaplan);
 	}
+	
 	
 
 }

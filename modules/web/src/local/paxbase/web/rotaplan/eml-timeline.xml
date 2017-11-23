@@ -11,7 +11,7 @@
                               class="local.paxbase.entity.period.AttendencePeriod"
                               view="attendencePeriod-edit-view">
             <query>
-                <![CDATA[select e from paxbase$DutyPeriod e]]>
+                <![CDATA[select e from paxbase$AttendencePeriod e]]>
             </query>
         </collectionDatasource>
         <collectionDatasource id="functionCategoriesDs"

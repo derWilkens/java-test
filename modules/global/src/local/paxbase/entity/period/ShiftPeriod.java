@@ -12,26 +12,26 @@ import com.haulmont.cuba.core.entity.annotation.OnDelete;
 import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
 import com.haulmont.cuba.core.global.DeletePolicy;
 
-import local.paxbase.entity.coredata.Site;
+import local.paxbase.entity.coredata.AppUser;
 
 @MappedSuperclass
-@NamePattern(" - , %s|site")
-public class SitePeriod extends Period {
+@NamePattern(" - , |")
+public class ShiftPeriod extends Period {
 	private static final long serialVersionUID = 848103393103367871L;
 
-	@Lookup(type = LookupType.DROPDOWN)
-	@OnDeleteInverse(DeletePolicy.UNLINK)
+	@Lookup(type = LookupType.SCREEN)
+	@OnDeleteInverse(DeletePolicy.CASCADE)
 	@OnDelete(DeletePolicy.UNLINK)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SITE_ID")
-	protected Site site;
+	@JoinColumn(name = "PERSON_ON_DUTY_ID")
+	protected AppUser personOnDuty;
 
-	public Site getSite() {
-		return site;
+	public AppUser getPersonOnDuty() {
+		return personOnDuty;
 	}
 
-	public void setSite(Site site) {
-		this.site = site;
+	public void setPersonOnDuty(AppUser personOnDuty) {
+		this.personOnDuty = personOnDuty;
 	}
 
 }

@@ -5,7 +5,7 @@
         messagesPack="local.paxbase.gui.screens">
     <dsContext>
         <collectionDatasource id="campaignTemplateDs"
-                              class="local.paxbase.entity.period.Campaign"
+                              class="local.paxbase.entity.period.MaintenanceCampaign"
                               view="campaign-templateView">
             <query>
                 <![CDATA[select e from paxbase$Campaign e 
