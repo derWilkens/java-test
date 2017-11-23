@@ -2,4 +2,13 @@
 <studio>
     <screenDesigner>
     </screenDesigner>
+    <dbScripts>
+        <excludes>
+            <mysql>
+                <item name="171123-0-dropContractorDutyPeriod.sql">
+                    <![CDATA[drop table if exists paxbase_contractor_duty_period cascade ;]]>
+                </item>
+            </mysql>
+        </excludes>
+    </dbScripts>
 </studio>

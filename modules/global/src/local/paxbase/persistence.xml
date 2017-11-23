@@ -21,7 +21,6 @@
         <class>local.paxbase.entity.UserPreference</class>
         <class>local.paxbase.entity.coredata.PeriodType</class>
         <class>local.paxbase.entity.coredata.FunctionCategory</class>
-        <class>local.paxbase.entity.period.ContractorDutyPeriod</class>
         <class>local.paxbase.entity.coredata.Department</class>
         <class>local.paxbase.entity.batchimport.PeriodImportStage</class>
         <class>local.paxbase.entity.cap.coredata.QualificationType</class>

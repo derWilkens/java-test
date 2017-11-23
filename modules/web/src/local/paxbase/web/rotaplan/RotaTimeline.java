@@ -32,7 +32,6 @@ import local.paxbase.entity.coredata.Site;
 import local.paxbase.entity.dto.TimelineDTO;
 import local.paxbase.entity.dto.TimelineItem;
 import local.paxbase.entity.period.AttendencePeriod;
-import local.paxbase.entity.period.DutyPeriod;
 import local.paxbase.service.EntityService;
 import local.paxbase.service.TimelineService;
 import local.paxbase.service.UserpreferencesService;
@@ -60,9 +59,9 @@ public class RotaTimeline extends AbstractWindow {
 
 	/* Datasources */
 	@Inject
-	private Datasource<DutyPeriod> dutyPeriodDs;
+	private Datasource<AttendencePeriod> dutyPeriodDs;
 	@Inject
-	private CollectionDatasource<DutyPeriod, UUID> dutyPeriodsDs;
+	private CollectionDatasource<AttendencePeriod, UUID> dutyPeriodsDs;
 	@Inject
 	private CollectionDatasource<FunctionCategory, UUID> functionCategoriesDs;
 	@Inject
@@ -217,7 +216,7 @@ public class RotaTimeline extends AbstractWindow {
 				;
 			} else {
 
-				dutyPeriodDs.setItem((DutyPeriod) newItem);
+				dutyPeriodDs.setItem((AttendencePeriod) newItem);
 				dutyPeriodsDs.updateItem(newItem);
 				getDsContext().commit();
 				TimelineItem timelineItem = timelineDTOService.periodToTimelineItem(newItem,
@@ -231,7 +230,7 @@ public class RotaTimeline extends AbstractWindow {
 		@Override
 		public void itemMoved(JsonObject jsonItem) {
 			dutyPeriodsDs.refresh();
-			DutyPeriod dutyPeriod = dutyPeriodsDs.getItem(UUID.fromString(jsonItem.getString("id")));
+			AttendencePeriod dutyPeriod = dutyPeriodsDs.getItem(UUID.fromString(jsonItem.getString("id")));
 			if (jsonItem.hasKey("group")) {
 				// wenn die Person geändert wurde
 				if (!dutyPeriod.getPersonOnDuty().getId().toString().equals(jsonItem.getString("group"))) {
@@ -260,7 +259,7 @@ public class RotaTimeline extends AbstractWindow {
 		@Override
 		public void editItem(String id) {
 
-			DutyPeriod dutyPeriod = dutyPeriodsDs.getItem(UUID.fromString(id));
+			AttendencePeriod dutyPeriod = dutyPeriodsDs.getItem(UUID.fromString(id));
 
 			if (dutyPeriod != null) {
 				Window openEditor = openEditor(dutyPeriod, WindowManager.OpenType.DIALOG);
@@ -269,7 +268,7 @@ public class RotaTimeline extends AbstractWindow {
 					@Override
 					public void windowClosed(String actionId) {
 						dutyPeriodsDs.refresh();
-						DutyPeriod editedDutyPeriod = dutyPeriodsDs.getItem(UUID.fromString(id));
+						AttendencePeriod editedDutyPeriod = dutyPeriodsDs.getItem(UUID.fromString(id));
 						TimelineItem timelineItem = timelineDTOService.periodToTimelineItem(editedDutyPeriod,
 								UserPreferencesContext.Rotaplan);
 						rotaplan.addTimelineItem(timelineItem);
@@ -281,7 +280,7 @@ public class RotaTimeline extends AbstractWindow {
 		@Override
 		public void itemDeleted(JsonObject jsonItem) {
 			dutyPeriodsDs.refresh();
-			DutyPeriod dutyPeriod = dutyPeriodsDs.getItem(UUID.fromString(jsonItem.getString("id")));
+			AttendencePeriod dutyPeriod = dutyPeriodsDs.getItem(UUID.fromString(jsonItem.getString("id")));
 			if (dutyPeriod != null) {
 				dutyPeriodsDs.removeItem(dutyPeriod);
 				getDsContext().commit();

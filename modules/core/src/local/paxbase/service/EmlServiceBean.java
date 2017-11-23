@@ -21,7 +21,6 @@ import local.paxbase.entity.dto.TimelineConfig;
 import local.paxbase.entity.dto.TimelineDTO;
 import local.paxbase.entity.dto.TimelineGroup;
 import local.paxbase.entity.period.AttendencePeriod;
-import local.paxbase.entity.period.DutyPeriod;
 
 @Service(EmlService.NAME)
 public class EmlServiceBean extends PreferencesService implements EmlService {
@@ -55,8 +54,8 @@ public class EmlServiceBean extends PreferencesService implements EmlService {
 				TimelineGroup availableRoles = new TimelineGroup("avail", "Verfügbar", null);
 				TimelineGroup requiredRoles = new TimelineGroup("req", "Erforderlich", null);
 
-				List<DutyPeriod> requiredRoleDutyPeriods = getRequiredRoleDutyPeriods(site);
-				List<DutyPeriod> availableRoleDutyPeriods = getAvailableRoleDutyPeriods(site);
+				List<AttendencePeriod> requiredRoleDutyPeriods = getRequiredRoleDutyPeriods(site);
+				List<AttendencePeriod> availableRoleDutyPeriods = getAvailableRoleDutyPeriods(site);
 						
 				dto.addItems(requiredRoleDutyPeriods, getEmlRoleDutyConfig("Erforderlich"));
 				dto.addItems(availableRoleDutyPeriods, getEmlRoleDutyConfig("Verfügbar"));
@@ -94,20 +93,20 @@ public class EmlServiceBean extends PreferencesService implements EmlService {
 
 
 
-	private List<DutyPeriod> getRequiredRoleDutyPeriods(Site site) {
-		List<DutyPeriod> comingModeOfOperationPeriods = getComingModeOfOperationPeriods(site);
+	private List<AttendencePeriod> getRequiredRoleDutyPeriods(Site site) {
+		List<AttendencePeriod> comingModeOfOperationPeriods = getComingModeOfOperationPeriods(site);
 		if (comingModeOfOperationPeriods.size() == 0) {
 			throw new RuntimeException("Bitte zuerst die Bemannungsphasen eintragen. (Stammdaten - Bemannung");
 		}
 		
-		List<DutyPeriod> requiredRoleDutyPeriods = new ArrayList<DutyPeriod>();
+		List<AttendencePeriod> requiredRoleDutyPeriods = new ArrayList<AttendencePeriod>();
 
 		int maxPob = 1;
 		List<SiteRoleRule> siteRoleRules = site.getSiteRoleRules();
-		for (DutyPeriod dutyPeriod : comingModeOfOperationPeriods) {
+		for (AttendencePeriod dutyPeriod : comingModeOfOperationPeriods) {
 			for (SiteRoleRule siteRoleRule : siteRoleRules) {
 				for (int i = 0; i < siteRoleRule.getRequiredNumberOfRoles(maxPob); i++) {
-					DutyPeriod dummy = new DutyPeriod();
+					AttendencePeriod dummy = new AttendencePeriod();
 					//dummy.setSite(dutyPeriod.getSite());
 					dummy.setStart(dutyPeriod.getStart());
 					dummy.setEnd(dutyPeriod.getEnd());
@@ -119,18 +118,18 @@ public class EmlServiceBean extends PreferencesService implements EmlService {
 		return requiredRoleDutyPeriods;
 	}
 
-	private List<DutyPeriod> getComingModeOfOperationPeriods(Site site) {
+	private List<AttendencePeriod> getComingModeOfOperationPeriods(Site site) {
 		return getComingPeriods(site, PeriodSubClass.ModeOfOperation);
 	}
 
-	private List<DutyPeriod> getAvailableRoleDutyPeriods(Site site) {
+	private List<AttendencePeriod> getAvailableRoleDutyPeriods(Site site) {
 		return getComingPeriods(site, PeriodSubClass.DutyPeriod);
 	}
 	
 	@SuppressWarnings("unchecked")
-	private List<DutyPeriod> getComingPeriods(Site site, PeriodSubClass subClass) {
-		return (List<DutyPeriod>) persistence.getEntityManager()
-				.createQuery("SELECT e from paxbase$DutyPeriod e "
+	private List<AttendencePeriod> getComingPeriods(Site site, PeriodSubClass subClass) {
+		return (List<AttendencePeriod>) persistence.getEntityManager()
+				.createQuery("SELECT e from paxbase$AttendencePeriod e "
 						+ "where e.site.id = :siteId and e.functionCategory.periodSubClass = :subClass "
 						+ "and e.end >= :today")
 				.setParameter("siteId", site.getId()).setParameter("subClass", subClass)
@@ -159,10 +158,10 @@ public class EmlServiceBean extends PreferencesService implements EmlService {
 			}
 			return "";
 		});
-		config.setEditableFunction((DutyPeriod e) -> {
+		config.setEditableFunction((AttendencePeriod e) -> {
 			return false;
 		});
-		config.setTypeFunction((DutyPeriod e) -> {
+		config.setTypeFunction((AttendencePeriod e) -> {
 			return "range";
 		});
 		return config;

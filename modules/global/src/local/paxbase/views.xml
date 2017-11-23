@@ -44,7 +44,7 @@
                       view="_minimal"/>
         </property>
     </view>
-    <view class="local.paxbase.entity.period.DutyPeriod"
+    <view class="local.paxbase.entity.period.ShiftPeriod"
           extends="_local"
           name="dutyPeriod-edit-view">
         <property name="personOnDuty"
@@ -113,19 +113,11 @@
             <property name="type"/>
         </property>
     </view>
-    <view class="local.paxbase.entity.period.ContractorDutyPeriod"
-          extends="_local"
-          name="contractorDutyPeriod-view">
-        <property name="contractor"
-                  view="_minimal"/>
-    </view>
-    <view class="local.paxbase.entity.period.Campaign"
+    <view class="local.paxbase.entity.period.MaintenanceCampaign"
           name="campaign-templateView"
           overwrite="true">
-        <property name="shutdown"/>
         <property name="site">
             <property name="itemDesignation"/>
-            <property name="siteName"/>
         </property>
         <property name="start"/>
         <property name="end"/>
@@ -180,7 +172,7 @@
         <property name="modeOfTransfer"
                   view="_minimal"/>
     </view>
-    <view class="local.paxbase.entity.period.DutyPeriod"
+    <view class="local.paxbase.entity.period.ShiftPeriod"
           extends="_local"
           name="dutyPeriod-view">
         <property name="personOnDuty"
@@ -305,22 +297,5 @@
                   view="_minimal"/>
         <property name="department"
                   view="_minimal"/>
-    </view>
-    <view class="local.paxbase.entity.period.Campaign"
-          name="campaign-templateView"
-          overwrite="true">
-        <property name="site">
-            <property name="itemDesignation"/>
-            <property name="siteName"/>
-        </property>
-        <property name="start"/>
-        <property name="end"/>
-        <property name="campaignNumber"/>
-        <property name="remark"/>
-    </view>
-    <view class="local.paxbase.entity.period.MaintenanceCampaign"
-          name="campaign-templateView"
-          overwrite="true">
-        <property name="campaignNumber"/>
     </view>
 </views>
